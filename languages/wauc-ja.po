@@ -1,0 +1,144 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0.0\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2012-12-25 13:28+0900\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Poedit-Language: Japanese\n"
+"X-Poedit-Country: JAPAN\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"Last-Translator: \n"
+
+msgid "It is an excellent plug-in to customize the management screen."
+msgstr "管理画面のカスタマイズに優れたプラグインです。"
+
+msgid "Customize the UI of the management screen for all users."
+msgstr "全てのユーザーの管理画面UIをカスタマイズします。"
+
+msgid "Please select the user role you want to apply the settings."
+msgstr "設定を適用する権限を選んでください。"
+
+msgid "Would initialize?"
+msgstr "初期化しますか?"
+
+msgid "Site Settings"
+msgstr "サイトの設定"
+
+msgid "Tag to be output"
+msgstr "出力されるタグ"
+
+msgid "Please display when using the Windows Live Writer."
+msgstr "Windows Live Writer を使う場合は表示させてください。"
+
+msgid "Information of XML-rpc"
+msgstr "XML-RPC投稿プロトコル(外部からの投稿)情報"
+
+msgid "Sitewide feed"
+msgstr "サイト全体のフィードリンク"
+
+msgid "Extra feed"
+msgstr "その他のフィードリンク"
+
+msgid "Admin bar Customize"
+msgstr "管理画面バーのカスタマイズ"
+
+msgid "Account Title"
+msgstr "アカウント表記"
+
+msgid "Upper left menu"
+msgstr "左上メニュー"
+
+msgid "Upper right menu"
+msgstr "右上メニュー"
+
+msgid "Wordpress Logo"
+msgstr "Wordpress のロゴ"
+
+msgid "Add New"
+msgstr "新規追加"
+
+msgid "Update Menu"
+msgstr "アップデート表示"
+
+msgid "Profile Edit"
+msgstr "プロフィール編集"
+
+msgid "Admin screen setting"
+msgstr "管理画面設定"
+
+msgid "Notice"
+msgstr "通知"
+
+msgid "Not notified"
+msgstr "通知しない"
+
+msgid "Wordpress core update notice"
+msgstr "Wordpress コアアップデート通知"
+
+msgid "Plugin update notice"
+msgstr "プラグイン アップデート通知"
+
+msgid "Theme update notice"
+msgstr "テーマ アップデート通知"
+
+msgid "Footer text"
+msgstr "フッターテキスト"
+
+msgid "Screen Options and Help tab"
+msgstr "表示オプションとヘルプタブ"
+
+msgid "Welcome Panel"
+msgstr "ウェルカムパネル"
+
+msgid "Side Menu"
+msgstr "サイドメニュー"
+
+msgid "Please change the menu by drag and drop."
+msgstr "ドラッグ&ドロップでメニューを変更してください。"
+
+msgid "The current menu"
+msgstr "現在のメニュー"
+
+msgid "Menu that can be added"
+msgstr "追加できるメニュー一覧"
+
+msgid "Sepalator"
+msgstr "区切り線"
+
+msgid "Menu Title"
+msgstr "メニュータイトル"
+
+msgid "Sub Menus"
+msgstr "サブメニュー"
+
+msgid "Remove meta box"
+msgstr "メタボックス削除"
+
+msgid "Login Screen"
+msgstr "ログイン画面"
+
+msgid "Login Screen Settings"
+msgstr "ログイン画面の設定"
+
+msgid "Show Login Screen"
+msgstr "ログイン画面を表示"
+
+msgid "Login Form"
+msgstr "ログインフォーム"
+
+msgid "The link after clicking on the logo"
+msgstr "ロゴをクリック後のリンク"
+
+msgid "Logo title"
+msgstr "ロゴタイトル"
+
+msgid "Logo Image path"
+msgstr "ロゴ画像のパス"
+
+msgid "Css file to load"
+msgstr "CSSファイルを読み込む"
+

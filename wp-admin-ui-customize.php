@@ -3,7 +3,7 @@
 Plugin Name: WP Admin UI Customize
 Description: Customize the management screen UI.
 Plugin URI: http://gqevu6bsiz.chicappa.jp
-Version: 1.0
+Version: 1.0.1
 Author: gqevu6bsiz
 Author URI: http://gqevu6bsiz.chicappa.jp/author/admin/
 Text Domain: wauc
@@ -44,7 +44,7 @@ class WP_Admin_UI_Customize
 
 
 	function __construct() {
-		$this->Ver = '1.0';
+		$this->Ver = '1.0.1';
 		$this->Name = 'WP Admin UI Customize';
 		$this->Dir = WP_PLUGIN_URL . '/' . dirname( plugin_basename( __FILE__ ) ) . '/';
 		$this->ltd = 'wauc';

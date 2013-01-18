@@ -2,9 +2,9 @@
 Contributors: gqevu6bsiz
 Donate link: 
 Tags: admin, post, posts, page, option, sitemenu, menu, custom, customize, dashboard, admin_bar
-Requires at least: 3.3.2
+Requires at least: 3.4.2
 Tested up to: 3.5
-Stable tag: 1.0
+Stable tag: 1.0.1
 License: GPL2
 
 Customize the management screen UI.
@@ -45,9 +45,12 @@ These to Customization is possible.
 8. Admin Menu Customized
 9. Metabox Settings
 10. Login Screen Settings
-10. Login Screen Customized
+11. Login Screen Customized
 
 == Changelog ==
+
+= 1.0.1 =
+bug that did not contain the separator line to the initial value of the side menu.
 
 = 1.0 =
 This is the initial release.

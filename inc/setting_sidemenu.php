@@ -37,14 +37,22 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 						<?php if( empty( $Data ) ) : ?>
 
 							<?php foreach($menu as $mm) : ?>
-	
-								<?php if( !empty( $mm[0] ) ) : ?>
+
+								<?php if( isset( $mm[2] ) && strstr( $mm[2] , 'separator' ) ) : ?>
+
+									<?php $menu_title = '-'; ?>
+									<?php $mm[2] = 'separator'; ?>
+									<?php $mwsm = array(); ?>
+
+								<?php elseif( !empty( $mm[0] ) ) : ?>
 	
 									<?php $menu_title = $mm[0]; ?>
-									<?php if( $mm[5] == 'menu-comments' ) : ?>
-										<?php $menu_title = __( 'Comments' ); ?>
-									<?php elseif( $mm[5] == 'menu-plugins' ) : ?>
-										<?php $menu_title = __( 'Plugins' ); ?>
+									<?php if( !empty( $mm[5] ) ) : ?>
+										<?php if( $mm[5] == 'menu-comments' ) : ?>
+											<?php $menu_title = __( 'Comments' ); ?>
+										<?php elseif( $mm[5] == 'menu-plugins' ) : ?>
+											<?php $menu_title = __( 'Plugins' ); ?>
+										<?php endif; ?>
 									<?php endif; ?>
 
 									<?php $mwsm = array(); ?>
@@ -64,10 +72,10 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 										<?php endforeach; ?>
 									<?php endforeach; ?>
 
-									<?php $menu_widget = array( 'title' => $menu_title , 'slug' => $mm[2] , 'parent_slug' => '' , 'new' => false , 'submenu' => $mwsm ); ?>
-									<?php $this->menu_widget( $menu_widget ); ?>
-	
 								<?php endif; ?>
+
+								<?php $menu_widget = array( 'title' => $menu_title , 'slug' => $mm[2] , 'parent_slug' => '' , 'new' => false , 'submenu' => $mwsm ); ?>
+								<?php $this->menu_widget( $menu_widget ); ?>
 	
 							<?php endforeach; ?>
 

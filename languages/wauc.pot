@@ -1,0 +1,144 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0.0\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2012-12-25 13:28+0900\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Poedit-Language: Japanese\n"
+"X-Poedit-Country: JAPAN\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"Last-Translator: \n"
+
+msgid "It is an excellent plug-in to customize the management screen."
+msgstr ""
+
+msgid "Customize the UI of the management screen for all users."
+msgstr ""
+
+msgid "Please select the user role you want to apply the settings."
+msgstr ""
+
+msgid "Would initialize?"
+msgstr ""
+
+msgid "Site Settings"
+msgstr ""
+
+msgid "Tag to be output"
+msgstr ""
+
+msgid "Please display when using the Windows Live Writer."
+msgstr ""
+
+msgid "Information of XML-rpc"
+msgstr ""
+
+msgid "Sitewide feed"
+msgstr ""
+
+msgid "Extra feed"
+msgstr ""
+
+msgid "Admin bar Customize"
+msgstr ""
+
+msgid "Account Title"
+msgstr ""
+
+msgid "Upper left menu"
+msgstr ""
+
+msgid "Upper right menu"
+msgstr ""
+
+msgid "Wordpress Logo"
+msgstr ""
+
+msgid "Add New"
+msgstr ""
+
+msgid "Update Menu"
+msgstr ""
+
+msgid "Profile Edit"
+msgstr ""
+
+msgid "Admin screen setting"
+msgstr ""
+
+msgid "Notice"
+msgstr ""
+
+msgid "Not notified"
+msgstr ""
+
+msgid "Wordpress core update notice"
+msgstr ""
+
+msgid "Plugin update notice"
+msgstr ""
+
+msgid "Theme update notice"
+msgstr ""
+
+msgid "Footer text"
+msgstr ""
+
+msgid "Screen Options and Help tab"
+msgstr ""
+
+msgid "Welcome Panel"
+msgstr ""
+
+msgid "Side Menu"
+msgstr ""
+
+msgid "Please change the menu by drag and drop."
+msgstr ""
+
+msgid "The current menu"
+msgstr ""
+
+msgid "Menu that can be added"
+msgstr ""
+
+msgid "Sepalator"
+msgstr ""
+
+msgid "Menu Title"
+msgstr ""
+
+msgid "Sub Menus"
+msgstr ""
+
+msgid "Remove meta box"
+msgstr ""
+
+msgid "Login Screen"
+msgstr ""
+
+msgid "Login Screen Settings"
+msgstr ""
+
+msgid "Show Login Screen"
+msgstr ""
+
+msgid "Login Form"
+msgstr ""
+
+msgid "The link after clicking on the logo"
+msgstr ""
+
+msgid "Logo title"
+msgstr ""
+
+msgid "Logo Image path"
+msgstr ""
+
+msgid "Css file to load"
+msgstr ""
+

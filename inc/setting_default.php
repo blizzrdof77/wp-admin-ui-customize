@@ -26,25 +26,39 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 		<input type="hidden" name="<?php echo $this->UPFN; ?>" value="Y" />
 		<?php wp_nonce_field(); ?>
 
-		<div class="metabox-holder columns-1">
+		<div class="metabox-holder columns-2">
 
-			<div class="postbox">
-				<div class="handlediv" title="Click to toggle"><br></div>
-				<h3 class="hndle"><span><?php _e( 'Role' ); ?></span></h3>
-				<div class="inside">
-					<?php $field = 'user_role'; ?>
-					<?php foreach($UserRoles as $key => $val) : ?>
-						<?php $Checked = ''; ?>
-						<?php if( !empty( $Data[$key] ) ) : $Checked = 'checked="checked"'; endif; ?>
-						<p>
-							<label>
-								<input type="checkbox" name="data[<?php echo $field; ?>][<?php echo $key; ?>]" value="1" <?php echo $Checked; ?> />
-								<?php echo $val; ?>
-							</label>
-						</p>
-					<?php endforeach; ?>
+			<div id="postbox-container-1" class="postbox-container">
+				<div class="postbox">
+					<h3 class="hndle"><span><?php _e( 'Role' ); ?></span></h3>
+					<div class="inside">
+						<?php $field = 'user_role'; ?>
+						<?php foreach($UserRoles as $key => $val) : ?>
+							<?php $Checked = ''; ?>
+							<?php if( !empty( $Data[$key] ) ) : $Checked = 'checked="checked"'; endif; ?>
+							<p>
+								<label>
+									<input type="checkbox" name="data[<?php echo $field; ?>][<?php echo $key; ?>]" value="1" <?php echo $Checked; ?> />
+									<?php echo $val; ?>
+								</label>
+							</p>
+						<?php endforeach; ?>
+					</div>
 				</div>
 			</div>
+
+			<div id="postbox-container-2" class="postbox-container">
+				<div class="postbox">
+					<h3 class="hndle"><span><?php _e( 'Please Donation' , $this->ltd ); ?></span></h3>
+					<div class="inside">
+						<p><?php _e( 'When you are satisfied with my plugin,<br />I\'m want a gift card.<br />Thanks!' , $this->ltd ); ?></p>
+						<p><img src="http://gqevu6bsiz.chicappa.jp/wp-content/uploads/2013/01/email.gif"  /></p>
+						<p><a href="<?php _e( 'http://www.amazon.com/gp/gc' , $this->ltd ); ?>" target="_blank">Amazon Gift Card</a></p>
+					</div>
+				</div>
+			</div>
+
+			<div class="clear"></div>
 
 		</div>
 

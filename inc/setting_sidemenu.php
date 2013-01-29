@@ -251,8 +251,8 @@ jQuery(document).ready(function($) {
 		return false;
 	});
 
-	var $EemoveAction = $('#postbox-container-1 .postbox .inside .widget .widget-inside .widget-control-actions .alignleft a[href=#remove]', $Form);
-	$EemoveAction.live( 'click', function() {
+	var $RemoveAction = $('#postbox-container-1 .postbox .inside .widget .widget-inside .widget-control-actions .alignleft a[href=#remove]', $Form);
+	$RemoveAction.live( 'click', function() {
 		$(this).parent().parent().parent().parent().slideUp("normal", function() { $(this).remove(); } );
 		return false;
 	});

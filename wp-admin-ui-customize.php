@@ -3,7 +3,7 @@
 Plugin Name: WP Admin UI Customize
 Description: Customize the management screen UI.
 Plugin URI: http://gqevu6bsiz.chicappa.jp
-Version: 1.0.1
+Version: 1.1
 Author: gqevu6bsiz
 Author URI: http://gqevu6bsiz.chicappa.jp/author/admin/
 Text Domain: wauc
@@ -40,11 +40,12 @@ class WP_Admin_UI_Customize
 		$UPFN,
 		$Menu,
 		$SubMenu,
+		$Admin_bar,
 		$Msg;
 
 
 	function __construct() {
-		$this->Ver = '1.0.1';
+		$this->Ver = '1.1';
 		$this->Name = 'WP Admin UI Customize';
 		$this->Dir = WP_PLUGIN_URL . '/' . dirname( plugin_basename( __FILE__ ) ) . '/';
 		$this->ltd = 'wauc';
@@ -53,6 +54,7 @@ class WP_Admin_UI_Customize
 			"site" => $this->ltd . '_site_setting',
 			"admin_general" => $this->ltd . '_admin_general_setting',
 			"dashboard" => $this->ltd . '_dashboard_setting',
+			"admin_bar_menu" => $this->ltd . '_admin_bar_menu_setting',
 			"sidemenu" => $this->ltd . '_sidemenu_setting',
 			"removemetabox" => $this->ltd . '_removemetabox_setting',
 			"loginscreen" => $this->ltd . '_loginscreen_setting',
@@ -95,6 +97,7 @@ class WP_Admin_UI_Customize
 		add_submenu_page( $this->PageSlug , __( 'Site Settings' , $this->ltd ) , __( 'Site Settings' , $this->ltd ) , 'administrator' , $this->PageSlug . '_setting_site' , array( $this , 'setting_site' ) );
 		add_submenu_page( $this->PageSlug , __( 'Admin screen setting' , $this->ltd ) , __( 'Admin screen setting' , $this->ltd ) , 'administrator' , $this->PageSlug . '_admin_general_setting' , array( $this , 'setting_admin_general' ) );
 		add_submenu_page( $this->PageSlug , __( 'Dashboard' ) , __( 'Dashboard' ) , 'administrator' , $this->PageSlug . '_dashboard' , array( $this , 'setting_dashboard' ) );
+		add_submenu_page( $this->PageSlug , __( 'Admin bar Menu' , $this->ltd ) , __( 'Admin bar Menu' , $this->ltd ) , 'administrator' , $this->PageSlug . '_admin_bar' , array( $this , 'setting_admin_bar_menu' ) );
 		add_submenu_page( $this->PageSlug , __( 'Side Menu' , $this->ltd ) , __( 'Side Menu' , $this->ltd ) , 'administrator' , $this->PageSlug . '_sidemenu' , array( $this , 'setting_sidemenu' ) );
 		add_submenu_page( $this->PageSlug , __( 'Remove meta box' , $this->ltd ) , __( 'Remove meta box' , $this->ltd ) , 'administrator' , $this->PageSlug . '_removemtabox' , array( $this , 'setting_removemtabox' ) );
 		add_submenu_page( $this->PageSlug , __( 'Login Screen' , $this->ltd ) , __( 'Login Screen' , $this->ltd ) , 'administrator' , $this->PageSlug . '_loginscreen' , array( $this , 'setting_loginscreen' ) );
@@ -116,26 +119,37 @@ class WP_Admin_UI_Customize
 
 	// SettingPage
 	function setting_admin_general() {
+		$this->settingCheck();
 		include_once 'inc/setting_admin_general.php';
 	}
 
 	// SettingPage
 	function setting_dashboard() {
+		$this->settingCheck();
 		include_once 'inc/setting_dashboard.php';
 	}
 
 	// SettingPage
+	function setting_admin_bar_menu() {
+		$this->settingCheck();
+		include_once 'inc/setting_admin_bar_menu.php';
+	}
+
+	// SettingPage
 	function setting_sidemenu() {
+		$this->settingCheck();
 		include_once 'inc/setting_sidemenu.php';
 	}
 
 	// SettingPage
 	function setting_removemtabox() {
+		$this->settingCheck();
 		include_once 'inc/setting_removemtabox.php';
 	}
 
 	// SettingPage
 	function setting_loginscreen() {
+		$this->settingCheck();
 		include_once 'inc/setting_loginscreen.php';
 	}
 
@@ -156,6 +170,17 @@ class WP_Admin_UI_Customize
 	}
 
 
+
+	// Settingcheck
+	function settingCheck() {
+		$Data = $this->get_data( 'user_role' );
+		if( !empty( $Data["UPFN"] ) ) {
+			unset( $Data["UPFN"] );
+		}
+		if( empty( $Data ) ) {
+			$this->Msg = '<div class="error"><p><strong>' . sprintf( __( 'Authority to apply the setting is not selected. <a href="%s">From here</a>, please select the permissions you want to set.' , $this->ltd ) , self_admin_url( 'admin.php?page=' . $this->PageSlug ) ) . '</strong></p></div>';
+		}
+	}
 
 
 
@@ -178,17 +203,20 @@ class WP_Admin_UI_Customize
 	}
 
 	// SetList
+	function admin_bar_default_load( $wp_admin_bar ) {
+		global $wp_admin_bar;
+		$this->Admin_bar = $wp_admin_bar->get_nodes();
+
+	}
+
+	// SetList
 	function menu_widget( $menu_widget ) {
-		 $sepalator_widget = '';
-		 if( $menu_widget["slug"] == 'separator' ) {
-			  $sepalator_widget = $menu_widget["slug"];
-		 }
 		 $new_widget = '';
 		 if( !empty( $menu_widget["new"] ) ) {
 			  $new_widget = 'new';
 		 }
 ?>
-		<div class="widget <?php echo $sepalator_widget; ?> <?php echo $new_widget; ?>">
+		<div class="widget <?php echo $menu_widget["slug"]; ?> <?php echo $new_widget; ?>">
 
 			<div class="widget-top">
 				<div class="widget-title-action">
@@ -205,8 +233,13 @@ class WP_Admin_UI_Customize
 			<div class="widget-inside">
 				<div class="settings">
 					<p class="description">
-						<?php _e( 'Slug' ); ?>: <?php echo $menu_widget["slug"]; ?>
-						<input type="hidden" class="slugtext" value="<?php echo $menu_widget["slug"]; ?>" name="data[][slug]">
+						<?php if( $menu_widget["slug"] == 'custom_menu' ) : ?>
+							<?php _e( 'Url' ); ?>:
+							<input type="text" class="slugtext" value="" name="data[][slug]">
+						<?php else : ?>
+							<?php _e( 'Slug' ); ?>: <?php echo $menu_widget["slug"]; ?>
+							<input type="hidden" class="slugtext" value="<?php echo $menu_widget["slug"]; ?>" name="data[][slug]">
+						<?php endif; ?>
 					</p>
 					<label>
 						<?php _e( 'Title' ); ?> : <input type="text" class="regular-text titletext" value="<?php echo $menu_widget["title"]; ?>" name="data[][title]">
@@ -273,6 +306,100 @@ class WP_Admin_UI_Customize
 <?php
 	}
 
+	// SetList
+	function admin_bar_menu_widget( $menu_widget ) {
+		 $new_widget = '';
+		 if( !empty( $menu_widget["new"] ) ) {
+			  $new_widget = 'new';
+		 }
+?>
+		<div class="widget <?php echo $new_widget; ?> <?php echo $menu_widget["id"]; ?>">
+
+			<div class="widget-top">
+				<div class="widget-title-action">
+					<a class="widget-action" href="#available"></a>
+				</div>
+				<div class="widget-title">
+					<h4>
+						<?php echo $menu_widget["title"]; ?>
+						: <span class="in-widget-title"><?php echo $menu_widget["id"]; ?></span>
+					</h4>
+				</div>
+			</div>
+
+			<div class="widget-inside">
+				<div class="settings">
+					<p class="description">
+						ID: <?php echo $menu_widget["id"]; ?>
+						<input type="hidden" class="idtext" value="<?php echo $menu_widget["id"]; ?>" name="data[][id]"><br />
+						<?php if( $menu_widget["id"] == 'custom_node' ) : ?>
+							link: <input type="text" class="linktext" value="" name="data[][href]">
+						<?php else:  ?>
+							link: <a href="<?php echo $menu_widget["href"]; ?>" target="_blank"><?php echo $menu_widget["href"]; ?></a>
+							<input type="hidden" class="linktext" value="<?php echo $menu_widget["href"]; ?>" name="data[][href]">
+						<?php endif; ?>
+					</p>
+					<label>
+						<?php _e( 'Title' ); ?> : <input type="text" class="regular-text titletext" value="<?php echo esc_html( $menu_widget["title"] ); ?>" name="data[][title]">
+					</label>
+					<input type="hidden" class="parent" value="<?php echo $menu_widget["parent"]; ?>" name="data[][parent]">
+				</div>
+
+				<div class="submenu">
+					<p class="description"><?php _e( 'Sub Menus' , $this->ltd ); ?></p>
+					<?php if( empty( $menu_widget["new"] ) && !empty( $menu_widget["subnode"] ) ) : ?>
+						<?php foreach($menu_widget["subnode"] as $sm) : ?>
+
+							<div class="widget">
+
+								<div class="widget-top">
+									<div class="widget-title-action">
+										<a class="widget-action" href="#available"></a>
+									</div>
+									<div class="widget-title">
+										<h4>
+											<?php echo $sm["title"]; ?>
+											: <span class="in-widget-title"><?php echo $sm["id"]; ?></span>
+										</h4>
+									</div>
+								</div>
+
+								<div class="widget-inside">
+									<div class="settings">
+										<p class="description">
+											ID: <?php echo $sm["id"]; ?>
+											<input type="hidden" class="idtext" value="<?php echo $sm["id"]; ?>" name="data[][id]"><br />
+											link: <a href="<?php echo $sm["href"]; ?>" target="_blank"><?php echo $sm["href"]; ?></a>
+											<input type="hidden" class="linktext" value="<?php echo $sm["href"]; ?>" name="data[][href]">
+										</p>
+										<label>
+											<?php _e( 'Title' ); ?> : <input type="text" class="regular-text titletext" value="<?php echo $sm["title"]; ?>" name="data[][title]">
+										</label>
+										<input type="hidden" class="parent" value="<?php echo $sm["parent"]; ?>" name="data[][parent]">
+									</div>
+									<div class="widget-control-actions">
+										<div class="alignleft">
+											<a href="#remove"><?php _e( 'Remove' ); ?></a>
+										</div>
+										<div class="clear"></div>
+									</div>
+								</div>
+							</div>
+
+						<?php endforeach; ?>
+					<?php endif; ?>
+				</div>
+				<div class="widget-control-actions">
+					<div class="alignleft">
+						<a href="#remove"><?php _e( 'Remove' ); ?></a>
+					</div>
+					<div class="clear"></div>
+				</div>
+			</div>
+
+		</div>
+<?php
+	}
 
 
 
@@ -295,7 +422,7 @@ class WP_Admin_UI_Customize
 		$Update = $this->update_validate();
 		if( !empty( $Update ) ) {
 			delete_option( $this->Record[$record] );
-			$this->Msg = '<div class="updated"><p><strong>' . __('Settings saved.') . '</strong></p></div>';
+			$this->Msg .= '<div class="updated"><p><strong>' . __('Settings saved.') . '</strong></p></div>';
 		}
 	}
 
@@ -313,7 +440,7 @@ class WP_Admin_UI_Customize
 			}
 
 			update_option( $this->Record["user_role"] , $Update );
-			$this->Msg = '<div class="updated"><p><strong>' . __('Settings saved.') . '</strong></p></div>';
+			$this->Msg .= '<div class="updated"><p><strong>' . __('Settings saved.') . '</strong></p></div>';
 		}
 	}
 
@@ -331,7 +458,7 @@ class WP_Admin_UI_Customize
 			}
 
 			update_option( $this->Record["site"] , $Update );
-			$this->Msg = '<div class="updated"><p><strong>' . __('Settings saved.') . '</strong></p></div>';
+			$this->Msg .= '<div class="updated"><p><strong>' . __('Settings saved.') . '</strong></p></div>';
 		}
 	}
 
@@ -349,7 +476,7 @@ class WP_Admin_UI_Customize
 			}
 
 			update_option( $this->Record["admin_general"] , $Update );
-			$this->Msg = '<div class="updated"><p><strong>' . __('Settings saved.') . '</strong></p></div>';
+			$this->Msg .= '<div class="updated"><p><strong>' . __('Settings saved.') . '</strong></p></div>';
 		}
 	}
 
@@ -367,7 +494,44 @@ class WP_Admin_UI_Customize
 			}
 
 			update_option( $this->Record["dashboard"] , $Update );
-			$this->Msg = '<div class="updated"><p><strong>' . __('Settings saved.') . '</strong></p></div>';
+			$this->Msg .= '<div class="updated"><p><strong>' . __('Settings saved.') . '</strong></p></div>';
+		}
+	}
+
+	// DataUpdate
+	function update_admin_bar_menu() {
+		$Update = $this->update_validate();
+		if( !empty( $Update ) ) {
+
+			if( !empty( $_POST["data"] ) ) {
+				foreach($_POST["data"] as $boxtype => $nodes) {
+					foreach($nodes as $key => $node) {
+						$id = "";
+						if( !empty( $node["id"] ) ) {
+							$id = strip_tags( $node["id"] );
+						}
+						$title = "";
+						if( !empty( $node["title"] ) ) {
+							$title = $node["title"];
+						}
+						$href = "";
+						if( !empty( $node["href"] ) ) {
+							$href = strip_tags( $node["href"] );
+						}
+						$parent = "";
+						$depth = "main";
+						if( !empty( $node["parent"] ) ) {
+							$parent = strip_tags( $node["parent"] );
+							$depth = 'sub';
+						}
+	
+						$Update[$boxtype][$depth][] = array( "id" => $id , "title" => $title , "href" => $href , "parent" => $parent );
+					}
+				}
+			}
+
+			update_option( $this->Record["admin_bar_menu"] , $Update );
+			$this->Msg .= '<div class="updated"><p><strong>' . __('Settings saved.') . '</strong></p></div>';
 		}
 	}
 
@@ -395,7 +559,7 @@ class WP_Admin_UI_Customize
 			}
 
 			update_option( $this->Record["sidemenu"] , $Update );
-			$this->Msg = '<div class="updated"><p><strong>' . __('Settings saved.') . '</strong></p></div>';
+			$this->Msg .= '<div class="updated"><p><strong>' . __('Settings saved.') . '</strong></p></div>';
 		}
 	}
 
@@ -419,7 +583,7 @@ class WP_Admin_UI_Customize
 			}
 
 			update_option( $this->Record["removemetabox"] , $Update );
-			$this->Msg = '<div class="updated"><p><strong>' . __('Settings saved.') . '</strong></p></div>';
+			$this->Msg .= '<div class="updated"><p><strong>' . __('Settings saved.') . '</strong></p></div>';
 		}
 	}
 
@@ -437,11 +601,10 @@ class WP_Admin_UI_Customize
 			}
 
 			update_option( $this->Record["loginscreen"] , $Update );
-			$this->Msg = '<div class="updated"><p><strong>' . __('Settings saved.') . '</strong></p></div>';
+			$this->Msg .= '<div class="updated"><p><strong>' . __('Settings saved.') . '</strong></p></div>';
 
 		}
 	}
-
 
 
 
@@ -461,6 +624,8 @@ class WP_Admin_UI_Customize
 		if ( is_admin() ) {
 			// default side menu load.
 			add_action( 'admin_menu' , array( $this , 'sidemenu_default_load' ) );
+			// default admin bar menu load.
+			add_action( 'wp_before_admin_bar_render' , array( $this , 'admin_bar_default_load' ) , 1 );
 
 			$SettingRole = $this->get_data( 'user_role' );
 			if( !empty( $SettingRole ) ) {
@@ -481,7 +646,7 @@ class WP_Admin_UI_Customize
 		$UserRole = $User->roles[0];
 
 		if( array_key_exists( $UserRole , $SettingRole ) ){
-			add_filter( 'admin_bar_menu' , array( $this , 'admin_bar_menu') , 25 );
+			add_action( 'wp_before_admin_bar_render' , array( $this , 'admin_bar_menu') , 25 );
 			add_action( 'init' , array( $this , 'notice_dismiss' ) , 2 );
 			add_action( 'admin_head' , array( $this , 'remove_tab' ) );
 			add_filter( 'admin_footer_text' , array( $this , 'admin_footer_text' ) );
@@ -593,35 +758,43 @@ class WP_Admin_UI_Customize
 	}
 
 	// FilterStart
-	function admin_bar_menu( $wp_admin_bar ) {
-		$GetData = $this->get_data( 'admin_general' );
+	function admin_bar_menu() {
+		global $wp_admin_bar;
+
+		$GetData = $this->get_data( 'admin_bar_menu' );
 		
 		if( !empty( $GetData["UPFN"] ) ) {
 			unset( $GetData["UPFN"] );
+			if( !empty( $GetData ) ) {
 
-			$remove_menu = array( 'wp-logo');
-			foreach($GetData as $id => $val) {
-				if( in_array( $id , $remove_menu ) ) {
-					$wp_admin_bar->remove_menu( $id );
-				} else {
-					if( $id == 'comment' ) {
-						remove_action( 'admin_bar_menu', 'wp_admin_bar_comments_menu', 60 );
-					} elseif( $id == 'new_content' ) {
-						remove_action( 'admin_bar_menu', 'wp_admin_bar_new_content_menu', 70 );
-					} elseif( $id == 'update_menu' ) {
-						remove_action( 'admin_bar_menu', 'wp_admin_bar_updates_menu', 40 );
-					} elseif( $id == 'edit-profile' ) {
-						$wp_admin_bar->remove_menu( $id );
-						$wp_admin_bar->remove_menu( 'user-info' );
-						$wp_admin_bar->add_node( array( 'id' => 'my-account' , 'href' => '' , 'meta' => array() ) );
+				$remove_menu = array( 'wp-logo' , 'site-name' , 'user-actions' , 'user-info' , 'edit-profile' , 'logout' , 'my-account' , 'about' , 'wporg' , 'documentation' , 'support-forums' , 'feedback' , 'comments' , 'updates' , 'new-content' , 'new-post' , 'new-media' , 'new-link' , 'new-page' , 'new-user' , 'view-site' );
+
+				$cpts = (array) get_post_types( array( 'show_in_admin_bar' => true , '_builtin' => false ), 'names' );
+				foreach($cpts as $cpt) {
+					$remove_menu[] = 'new-' . $cpt;
+				}
+
+				// remove all nodes
+				foreach( $remove_menu as $nid ) {
+					$wp_admin_bar->remove_menu( $nid );
+				}
+
+				foreach($GetData as $Boxtype => $allnodes) {
+					foreach($allnodes as $depth => $nodes) {
+						foreach($nodes as $node) {
+							$args = array( "id" => $node["id"] , "title" => stripslashes( $node["title"] ) , "href" => $node["href"] , "parent" => "" );
+							if( $depth == 'sub' ) {
+								$args["parent"] = $node["parent"];
+							}
+							if( $Boxtype == 'right' && $depth == 'main' ) {
+								$args["parent"] = "top-secondary";
+							}
+							$wp_admin_bar->add_menu( $args );
+						}
 					}
 				}
-			}
 
-			$User = wp_get_current_user();
-			$title = strip_tags( $GetData["my-account-title"] );
-			$title = str_replace( '[AcountName]' , $User->data->display_name , $title );
-			$wp_admin_bar->add_node( array( 'id' => 'my-account' , 'title' => $title , 'meta' => array() ) );
+			}
 		}
 	}
 
@@ -818,6 +991,7 @@ class WP_Admin_UI_Customize
 										
 										$submenu[$gsm_parent_slug][$gsm_pos][0] = $mm["title"];
 										$SetMain_menu[] = $submenu[$gsm_parent_slug][$gsm_pos];
+
 									}
 								}
 							}

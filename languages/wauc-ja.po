@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0.0\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2012-12-25 13:28+0900\n"
+"PO-Revision-Date: 2013-01-29 22:16+0900\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -16,8 +16,17 @@ msgstr ""
 msgid "It is an excellent plug-in to customize the management screen."
 msgstr "管理画面のカスタマイズに優れたプラグインです。"
 
+msgid "When you are satisfied with my plugin,<br />I'm want a gift card.<br />Thanks!"
+msgstr "あなたがこのプラグインに満足できたら、私にギフトカードをプレゼントして欲しいです。<br />よろしくお願いします。"
+
+msgid "http://www.amazon.com/gp/gc"
+msgstr "http://www.amazon.co.jp/gp/gc/"
+
 msgid "Customize the UI of the management screen for all users."
 msgstr "全てのユーザーの管理画面UIをカスタマイズします。"
+
+msgid "Authority to apply the setting is not selected. <a href=\"%s\">From here</a>, please select the permissions you want to set."
+msgstr "設定を適用する権限が選択されていません。<a href=\"%s\">こちら</a>から設定する権限を選んでください。"
 
 msgid "Please select the user role you want to apply the settings."
 msgstr "設定を適用する権限を選んでください。"
@@ -43,17 +52,8 @@ msgstr "サイト全体のフィードリンク"
 msgid "Extra feed"
 msgstr "その他のフィードリンク"
 
-msgid "Admin bar Customize"
-msgstr "管理画面バーのカスタマイズ"
-
 msgid "Account Title"
 msgstr "アカウント表記"
-
-msgid "Upper left menu"
-msgstr "左上メニュー"
-
-msgid "Upper right menu"
-msgstr "右上メニュー"
 
 msgid "Wordpress Logo"
 msgstr "Wordpress のロゴ"
@@ -91,8 +91,26 @@ msgstr "フッターテキスト"
 msgid "Screen Options and Help tab"
 msgstr "表示オプションとヘルプタブ"
 
-msgid "Welcome Panel"
-msgstr "ウェルカムパネル"
+msgid "Admin bar Menu"
+msgstr "管理バー"
+
+msgid "Notice: When you set up the same menu more, you will not display properly."
+msgstr "同じメニューを複数設置すると、うまく表示されません。"
+
+msgid "can be more than one custom menu."
+msgstr "カスタムメニューは複数できます。"
+
+msgid "Left"
+msgstr "左"
+
+msgid "Right"
+msgstr "右"
+
+msgid "Menu that can be added"
+msgstr "追加できるメニュー一覧"
+
+msgid "Custom Menu"
+msgstr "カスタムメニュー"
 
 msgid "Side Menu"
 msgstr "サイドメニュー"
@@ -102,9 +120,6 @@ msgstr "ドラッグ&ドロップでメニューを変更してください。"
 
 msgid "The current menu"
 msgstr "現在のメニュー"
-
-msgid "Menu that can be added"
-msgstr "追加できるメニュー一覧"
 
 msgid "Sepalator"
 msgstr "区切り線"

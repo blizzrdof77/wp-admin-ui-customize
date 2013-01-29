@@ -3,8 +3,8 @@ Contributors: gqevu6bsiz
 Donate link: 
 Tags: admin, post, posts, page, option, sitemenu, menu, custom, customize, dashboard, admin_bar
 Requires at least: 3.4.2
-Tested up to: 3.5
-Stable tag: 1.0.1
+Tested up to: 3.5.1
+Stable tag: 1.1
 License: GPL2
 
 Customize the management screen UI.
@@ -48,6 +48,10 @@ These to Customization is possible.
 11. Login Screen Customized
 
 == Changelog ==
+
+= 1.1 =
+Possible to customize is the wp_admin_bar.
+will check whether the authority has been set.
 
 = 1.0.1 =
 bug that did not contain the separator line to the initial value of the side menu.

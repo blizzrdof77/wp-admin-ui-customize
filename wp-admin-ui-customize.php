@@ -3,7 +3,7 @@
 Plugin Name: WP Admin UI Customize
 Description: Customize the management screen UI.
 Plugin URI: http://gqevu6bsiz.chicappa.jp
-Version: 1.1.1
+Version: 1.1.2
 Author: gqevu6bsiz
 Author URI: http://gqevu6bsiz.chicappa.jp/author/admin/
 Text Domain: wauc
@@ -45,7 +45,7 @@ class WP_Admin_UI_Customize
 
 
 	function __construct() {
-		$this->Ver = '1.1.1';
+		$this->Ver = '1.1.2';
 		$this->Name = 'WP Admin UI Customize';
 		$this->Dir = WP_PLUGIN_URL . '/' . dirname( plugin_basename( __FILE__ ) ) . '/';
 		$this->ltd = 'wauc';
@@ -505,27 +505,29 @@ class WP_Admin_UI_Customize
 
 			if( !empty( $_POST["data"] ) ) {
 				foreach($_POST["data"] as $boxtype => $nodes) {
-					foreach($nodes as $key => $node) {
-						$id = "";
-						if( !empty( $node["id"] ) ) {
-							$id = strip_tags( $node["id"] );
+					if( $boxtype === 'left' or $boxtype === 'right' ) {
+						foreach($nodes as $key => $node) {
+							$id = "";
+							if( !empty( $node["id"] ) ) {
+								$id = strip_tags( $node["id"] );
+							}
+							$title = "";
+							if( !empty( $node["title"] ) ) {
+								$title = $node["title"];
+							}
+							$href = "";
+							if( !empty( $node["href"] ) ) {
+								$href = strip_tags( $node["href"] );
+							}
+							$parent = "";
+							$depth = "main";
+							if( !empty( $node["parent"] ) ) {
+								$parent = strip_tags( $node["parent"] );
+								$depth = 'sub';
+							}
+		
+							$Update[$boxtype][$depth][] = array( "id" => $id , "title" => $title , "href" => $href , "parent" => $parent );
 						}
-						$title = "";
-						if( !empty( $node["title"] ) ) {
-							$title = $node["title"];
-						}
-						$href = "";
-						if( !empty( $node["href"] ) ) {
-							$href = strip_tags( $node["href"] );
-						}
-						$parent = "";
-						$depth = "main";
-						if( !empty( $node["parent"] ) ) {
-							$parent = strip_tags( $node["parent"] );
-							$depth = 'sub';
-						}
-	
-						$Update[$boxtype][$depth][] = array( "id" => $id , "title" => $title , "href" => $href , "parent" => $parent );
 					}
 				}
 			}

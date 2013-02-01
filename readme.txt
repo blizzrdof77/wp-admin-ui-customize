@@ -4,7 +4,7 @@ Donate link:
 Tags: admin, post, posts, page, option, sitemenu, menu, custom, customize, dashboard, admin_bar
 Requires at least: 3.4.2
 Tested up to: 3.5.1
-Stable tag: 1.1.1
+Stable tag: 1.1.2
 License: GPL2
 
 Customize the management screen UI.
@@ -48,6 +48,10 @@ These to Customization is possible.
 11. Login Screen Customized
 
 == Changelog ==
+
+
+= 1.1.2 =
+I fixed bug the admin bar update.
 
 = 1.1.1 =
 I fixed bug the core update.

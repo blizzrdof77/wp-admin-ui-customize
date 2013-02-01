@@ -3,7 +3,7 @@
 Plugin Name: WP Admin UI Customize
 Description: Customize the management screen UI.
 Plugin URI: http://gqevu6bsiz.chicappa.jp
-Version: 1.1
+Version: 1.1.1
 Author: gqevu6bsiz
 Author URI: http://gqevu6bsiz.chicappa.jp/author/admin/
 Text Domain: wauc
@@ -45,7 +45,7 @@ class WP_Admin_UI_Customize
 
 
 	function __construct() {
-		$this->Ver = '1.1';
+		$this->Ver = '1.1.1';
 		$this->Name = 'WP Admin UI Customize';
 		$this->Dir = WP_PLUGIN_URL . '/' . dirname( plugin_basename( __FILE__ ) ) . '/';
 		$this->ltd = 'wauc';
@@ -807,7 +807,6 @@ class WP_Admin_UI_Customize
 			if( !empty( $GetData["notice_update_core"] ) ) {
 				add_filter( 'update_footer' , '__return_false' , 20) ;
 				add_filter( 'site_transient_update_core' , array( $this , 'notice_update_core' ) );
-				//add_filter( 'site_transient_update_core' , '__return_zero' );
 			}
 
 			if( !empty( $GetData["notice_update_plugin"] ) ) {
@@ -823,7 +822,7 @@ class WP_Admin_UI_Customize
 
 	// FilterStart
 	function notice_update_core( $site_transient_update_core ) {
-		$site_transient_update_core->updates = '';
+		$site_transient_update_core->updates[0]->response = 'latest';
 		
 		return $site_transient_update_core;
 	}

@@ -49,11 +49,25 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 
 			<div id="postbox-container-2" class="postbox-container">
 				<div class="postbox">
-					<h3 class="hndle"><span><?php _e( 'Please Donation' , $this->ltd ); ?></span></h3>
+					<h3 class="hndle"><span><?php _e( 'Plugin About' , $this->ltd ); ?></span></h3>
 					<div class="inside">
+						<?php $moFile = WP_PLUGIN_DIR . '/' . dirname( dirname( plugin_basename( __FILE__ ) ) ) . '/languages/' . $this->ltd . '-' . get_locale() . '.mo'; ?>
+						<?php if( file_exists($moFile ) ) : ?>
+							<p><strong>Please translate to your language.</strong><br />Looking for someone who will translate.</p>
+							<p><a href="http://gqevu6bsiz.chicappa.jp/please-translation/" target="_blank">To translate</a></p>
+						<?php endif; ?>
+						<p><strong><?php _e( 'Please donation.' , $this->ltd ); ?></strong></p>
 						<p><?php _e( 'When you are satisfied with my plugin,<br />I\'m want a gift card.<br />Thanks!' , $this->ltd ); ?></p>
 						<p><img src="http://gqevu6bsiz.chicappa.jp/wp-content/uploads/2013/01/email.gif"  /></p>
 						<p><a href="<?php _e( 'http://www.amazon.com/gp/gc' , $this->ltd ); ?>" target="_blank">Amazon Gift Card</a></p>
+						<p><strong><?php _e( 'Other' , $this->ltd ); ?></strong></p>
+						<p>
+							<span><a href="http://gqevu6bsiz.chicappa.jp/" target="_blank">blog</a></span> &nbsp; 
+							<span><a href="https://twitter.com/gqevu6bsiz" target="_blank">twitter</a></span> &nbsp; 
+							<span><a href="http://www.facebook.com/pages/Gqevu6bsiz/499584376749601" target="_blank">facebook</a></span> &nbsp; 
+							<span><a href="http://wordpress.org/support/plugin/wp-admin-ui-customize" target="_blank">support forum</a></span> &nbsp; 
+							<span><a href="http://wordpress.org/support/view/plugin-reviews/wp-admin-ui-customize" target="_blank">review</a></span>
+						</p>
 					</div>
 				</div>
 			</div>

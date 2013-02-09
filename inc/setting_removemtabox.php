@@ -165,17 +165,6 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 									<label><input type="checkbox" name="data[post][<?php echo $field; ?>]" value="1" <?php echo $Checked; ?> /> <?php _e ( 'Hide' ); ?></label>
 								</td>
 							</tr>
-							<?php $field = 'postexcerpt'; ?>
-							<tr>
-								<th>
-									<label><?php _e( 'Excerpt' ); ?></label>
-								</th>
-								<td>
-									<?php $Checked = ''; ?>
-									<?php if( !empty( $Data["post"][$field] ) ) : $Checked = 'checked="checked"'; endif; ?>
-									<label><input type="checkbox" name="data[post][<?php echo $field; ?>]" value="1" <?php echo $Checked; ?> /> <?php _e ( 'Hide' ); ?></label>
-								</td>
-							</tr>
 						</tbody>
 					</table>
 				</div>

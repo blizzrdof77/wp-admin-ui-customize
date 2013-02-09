@@ -4,7 +4,7 @@ Donate link:
 Tags: admin, post, posts, page, option, sitemenu, menu, custom, customize, dashboard, admin_bar
 Requires at least: 3.4.2
 Tested up to: 3.5.1
-Stable tag: 1.1.2
+Stable tag: 1.1.3
 License: GPL2
 
 Customize the management screen UI.
@@ -49,6 +49,10 @@ These to Customization is possible.
 
 == Changelog ==
 
+
+= 1.1.3 =
+I fixed bug the remove metabox excerpt.
+I added a plug-in information.
 
 = 1.1.2 =
 I fixed bug the admin bar update.

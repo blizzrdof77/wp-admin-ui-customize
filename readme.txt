@@ -1,6 +1,6 @@
 === WP Admin UI Customize ===
 Contributors: gqevu6bsiz
-Donate link: 
+Donate link: http://gqevu6bsiz.chicappa.jp/
 Tags: admin, post, posts, page, option, sitemenu, menu, custom, customize, dashboard, admin_bar
 Requires at least: 3.4.2
 Tested up to: 3.5.1

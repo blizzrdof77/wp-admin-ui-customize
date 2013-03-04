@@ -52,7 +52,7 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 					<h3 class="hndle"><span><?php _e( 'Plugin About' , $this->ltd ); ?></span></h3>
 					<div class="inside">
 						<?php $moFile = WP_PLUGIN_DIR . '/' . dirname( dirname( plugin_basename( __FILE__ ) ) ) . '/languages/' . $this->ltd . '-' . get_locale() . '.mo'; ?>
-						<?php if( file_exists($moFile ) ) : ?>
+						<?php if( !file_exists($moFile ) ) : ?>
 							<p><strong>Please translate to your language.</strong><br />Looking for someone who will translate.</p>
 							<p><a href="http://gqevu6bsiz.chicappa.jp/please-translation/" target="_blank">To translate</a></p>
 						<?php endif; ?>

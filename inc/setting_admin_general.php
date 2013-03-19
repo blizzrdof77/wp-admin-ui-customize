@@ -19,7 +19,7 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 <div class="wrap">
 	<div class="icon32" id="icon-tools"></div>
 	<?php echo $this->Msg; ?>
-	<h2><?php _e( 'Admin screen setting' , $this->ltd ); ?></h2>
+	<h2><?php _e( 'General screen setting' , $this->ltd ); ?></h2>
 	<p>&nbsp;</p>
 
 	<form id="waum_setting_admin_genelral" class="waum_form" method="post" action="">

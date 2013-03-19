@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0.0\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2013-02-09 11:49+0900\n"
+"PO-Revision-Date: 2013-03-19 17:31+0900\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -22,14 +22,14 @@ msgstr "プラグインについて"
 msgid "Please donation."
 msgstr "寄付のお願い"
 
+msgid "Donation"
+msgstr "寄付へ"
+
+msgid "Please donate for better development."
+msgstr "より良い開発のために寄付をお願いします。"
+
 msgid "Other"
 msgstr "その他"
-
-msgid "When you are satisfied with my plugin,<br />I'm want a gift card.<br />Thanks!"
-msgstr "あなたがこのプラグインに満足できたら、私にギフトカードをプレゼントして欲しいです。<br />よろしくお願いします。"
-
-msgid "http://www.amazon.com/gp/gc"
-msgstr "http://www.amazon.co.jp/gp/gc/"
 
 msgid "Customize the UI of the management screen for all users."
 msgstr "全てのユーザーの管理画面UIをカスタマイズします。"
@@ -39,6 +39,9 @@ msgstr "設定を適用する権限が選択されていません。<a href=\"%s
 
 msgid "Please select the user role you want to apply the settings."
 msgstr "設定を適用する権限を選んでください。"
+
+msgid "With this plugin, you can be more customized."
+msgstr "このプラグインを使うとよりカスタマイズができます。"
 
 msgid "Would initialize?"
 msgstr "初期化しますか?"
@@ -76,8 +79,8 @@ msgstr "アップデート表示"
 msgid "Profile Edit"
 msgstr "プロフィール編集"
 
-msgid "Admin screen setting"
-msgstr "管理画面設定"
+msgid "General screen setting"
+msgstr "一般設定"
 
 msgid "Notice"
 msgstr "通知"
@@ -141,6 +144,21 @@ msgstr "サブメニュー"
 
 msgid "Remove meta box"
 msgstr "メタボックス削除"
+
+msgid "Add New Post and Edit Post screen setting"
+msgstr "新規投稿と投稿編集の設定"
+
+msgid "Only appears when you have settings to the default permalink."
+msgstr "デフォルトのパーマリンクに設定している時のみ表示されます。"
+
+msgid "Appearance's Menus screen setting"
+msgstr "外観のメニュー画面の設定"
+
+msgid "Add a new menu"
+msgstr "メニューの新規作成"
+
+msgid "This is useful when you want to use only the menus have been created."
+msgstr "作成済みのメニューだけを使用する時に便利です。"
 
 msgid "Login Screen"
 msgstr "ログイン画面"

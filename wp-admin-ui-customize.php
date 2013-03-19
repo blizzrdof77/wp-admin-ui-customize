@@ -3,7 +3,7 @@
 Plugin Name: WP Admin UI Customize
 Description: Customize the management screen UI.
 Plugin URI: http://gqevu6bsiz.chicappa.jp
-Version: 1.1.4
+Version: 1.2
 Author: gqevu6bsiz
 Author URI: http://gqevu6bsiz.chicappa.jp/author/admin/
 Text Domain: wauc
@@ -45,7 +45,7 @@ class WP_Admin_UI_Customize
 
 
 	function __construct() {
-		$this->Ver = '1.1.4';
+		$this->Ver = '1.2';
 		$this->Name = 'WP Admin UI Customize';
 		$this->Dir = WP_PLUGIN_URL . '/' . dirname( plugin_basename( __FILE__ ) ) . '/';
 		$this->ltd = 'wauc';
@@ -57,6 +57,8 @@ class WP_Admin_UI_Customize
 			"admin_bar_menu" => $this->ltd . '_admin_bar_menu_setting',
 			"sidemenu" => $this->ltd . '_sidemenu_setting',
 			"removemetabox" => $this->ltd . '_removemetabox_setting',
+			"post_add_edit" => $this->ltd . '_post_add_edit_setting',
+			"appearance_menus" => $this->ltd . '_appearance_menus_setting',
 			"loginscreen" => $this->ltd . '_loginscreen_setting',
 		);
 		$this->PageSlug = 'wp_admin_ui_customize';
@@ -95,11 +97,13 @@ class WP_Admin_UI_Customize
 	function admin_menu() {
 		add_menu_page( $this->Name , $this->Name , 'administrator', $this->PageSlug , array( $this , 'setting_default') );
 		add_submenu_page( $this->PageSlug , __( 'Site Settings' , $this->ltd ) , __( 'Site Settings' , $this->ltd ) , 'administrator' , $this->PageSlug . '_setting_site' , array( $this , 'setting_site' ) );
-		add_submenu_page( $this->PageSlug , __( 'Admin screen setting' , $this->ltd ) , __( 'Admin screen setting' , $this->ltd ) , 'administrator' , $this->PageSlug . '_admin_general_setting' , array( $this , 'setting_admin_general' ) );
+		add_submenu_page( $this->PageSlug , __( 'General screen setting' , $this->ltd ) , __( 'General screen setting' , $this->ltd ) , 'administrator' , $this->PageSlug . '_admin_general_setting' , array( $this , 'setting_admin_general' ) );
 		add_submenu_page( $this->PageSlug , __( 'Dashboard' ) , __( 'Dashboard' ) , 'administrator' , $this->PageSlug . '_dashboard' , array( $this , 'setting_dashboard' ) );
 		add_submenu_page( $this->PageSlug , __( 'Admin bar Menu' , $this->ltd ) , __( 'Admin bar Menu' , $this->ltd ) , 'administrator' , $this->PageSlug . '_admin_bar' , array( $this , 'setting_admin_bar_menu' ) );
 		add_submenu_page( $this->PageSlug , __( 'Side Menu' , $this->ltd ) , __( 'Side Menu' , $this->ltd ) , 'administrator' , $this->PageSlug . '_sidemenu' , array( $this , 'setting_sidemenu' ) );
 		add_submenu_page( $this->PageSlug , __( 'Remove meta box' , $this->ltd ) , __( 'Remove meta box' , $this->ltd ) , 'administrator' , $this->PageSlug . '_removemtabox' , array( $this , 'setting_removemtabox' ) );
+		add_submenu_page( $this->PageSlug , __( 'Add New Post and Edit Post screen setting' , $this->ltd ) , __( 'Add New Post and Edit Post screen setting' , $this->ltd ) , 'administrator' , $this->PageSlug . '_post_add_edit_screen' , array( $this , 'setting_post_add_edit' ) );
+		add_submenu_page( $this->PageSlug , __( 'Appearance\'s Menus screen setting' , $this->ltd ) , __( 'Appearance\'s Menus screen setting' , $this->ltd ) , 'administrator' , $this->PageSlug . '_appearance_menus' , array( $this , 'setting_appearance_menus' ) );
 		add_submenu_page( $this->PageSlug , __( 'Login Screen' , $this->ltd ) , __( 'Login Screen' , $this->ltd ) , 'administrator' , $this->PageSlug . '_loginscreen' , array( $this , 'setting_loginscreen' ) );
 	}
 
@@ -145,6 +149,18 @@ class WP_Admin_UI_Customize
 	function setting_removemtabox() {
 		$this->settingCheck();
 		include_once 'inc/setting_removemtabox.php';
+	}
+
+	// SettingPage
+	function setting_post_add_edit() {
+		$this->settingCheck();
+		include_once 'inc/setting_post_add_edit.php';
+	}
+
+	// SettingPage
+	function setting_appearance_menus() {
+		$this->settingCheck();
+		include_once 'inc/setting_appearance_menus.php';
 	}
 
 	// SettingPage
@@ -590,6 +606,42 @@ class WP_Admin_UI_Customize
 	}
 
 	// DataUpdate
+	function update_post_add_edit() {
+		$Update = $this->update_validate();
+		if( !empty( $Update ) ) {
+
+			if( !empty( $_POST["data"] ) ) {
+				foreach($_POST["data"] as $edited => $val) {
+					$tmpK = strip_tags( $edited );
+					$tmpV = strip_tags ( $val );
+					$Update[$tmpK] = $tmpV;
+				}
+			}
+
+			update_option( $this->Record["post_add_edit"] , $Update );
+			$this->Msg .= '<div class="updated"><p><strong>' . __('Settings saved.') . '</strong></p></div>';
+		}
+	}
+
+	// DataUpdate
+	function update_appearance_menus() {
+		$Update = $this->update_validate();
+		if( !empty( $Update ) ) {
+
+			if( !empty( $_POST["data"] ) ) {
+				foreach($_POST["data"] as $edited => $val) {
+					$tmpK = strip_tags( $edited );
+					$tmpV = strip_tags ( $val );
+					$Update[$tmpK] = $tmpV;
+				}
+			}
+
+			update_option( $this->Record["appearance_menus"] , $Update );
+			$this->Msg .= '<div class="updated"><p><strong>' . __('Settings saved.') . '</strong></p></div>';
+		}
+	}
+
+	// DataUpdate
 	function update_loginscreen() {
 		$Update = $this->update_validate();
 		if( !empty( $Update ) ) {
@@ -656,6 +708,8 @@ class WP_Admin_UI_Customize
 			add_action( 'wp_dashboard_setup' , array( $this , 'wp_dashboard_setup' ) );
 			add_action( 'admin_menu' , array( $this , 'removemetabox' ) );
 			add_filter( 'admin_menu', array( $this , 'sidemenu' ) );
+			add_filter( 'get_sample_permalink_html' , array( $this , 'add_edit_post_change_permalink' ) );
+			add_action( 'admin_print_styles-nav-menus.php', array( $this , 'nav_menus' ) );
 		}
 	}
 
@@ -1031,6 +1085,45 @@ class WP_Admin_UI_Customize
 				
 			}
 		}
+	}
+
+	// FilterStart
+	function add_edit_post_change_permalink( $permalink_html ) {
+		$GetData = get_option( $this->Record["post_add_edit"] );
+
+		if( !empty( $GetData["UPFN"] ) ) {
+			unset( $GetData["UPFN"] );
+
+			if( !empty( $GetData ) && is_array( $GetData ) ) {
+				if( !empty( $GetData["default_permalink"] ) ) {
+					if( strpos( $permalink_html , 'change-permalinks' ) ) {
+
+						$permalink_html = preg_replace( "/<span id=\"change-permalinks\">(.*)<\/span>/" , "" , $permalink_html );
+
+					}
+				}
+			}
+		}
+		
+		return $permalink_html;
+	}
+
+	// FilterStart
+	function nav_menus() {
+		$GetData = get_option( $this->Record["appearance_menus"] );
+		if( !empty( $GetData["UPFN"] ) ) {
+			unset( $GetData["UPFN"] );
+
+			if( !empty( $GetData["add_new_menu"] ) ) {
+				echo '<style>.nav-tabs .menu-add-new { display: none; }</style>';
+			}
+			if( !empty( $GetData["delete_menu"] ) ) {
+				echo '<style>.major-publishing-actions .delete-action { display: none; }</style>';
+			}
+
+		}
+		
+		wp_enqueue_style( $this->PageSlug , $this->Dir . 'css/nav-menus.css' , array() , $this->Ver );
 	}
 
 }

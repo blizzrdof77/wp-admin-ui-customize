@@ -20,7 +20,8 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 	<?php echo $this->Msg; ?>
 	<h2><?php echo $this->Name; ?></h2>
 	<p><?php _e( 'Customize the UI of the management screen for all users.' , $this->ltd ); ?>
-	<p><?php _e ('Please select the user role you want to apply the settings.' , $this->ltd ); ?></p>
+	<p><?php _e ( 'Please select the user role you want to apply the settings.' , $this->ltd ); ?></p>
+	<p><strong><?php _e( 'With this plugin, you can be more customized.' , $this->ltd ); ?></strong> &gt;&gt; Wordpress Plugin <a href="http://wordpress.org/extend/plugins/post-lists-view-custom/" target="_blank">Post Lists View Custom</a></p>
 
 	<form id="waum_setting_site" class="waum_form" method="post" action="">
 		<input type="hidden" name="<?php echo $this->UPFN; ?>" value="Y" />
@@ -57,9 +58,8 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 							<p><a href="http://gqevu6bsiz.chicappa.jp/please-translation/" target="_blank">To translate</a></p>
 						<?php endif; ?>
 						<p><strong><?php _e( 'Please donation.' , $this->ltd ); ?></strong></p>
-						<p><?php _e( 'When you are satisfied with my plugin,<br />I\'m want a gift card.<br />Thanks!' , $this->ltd ); ?></p>
-						<p><img src="http://gqevu6bsiz.chicappa.jp/wp-content/uploads/2013/01/email.gif"  /></p>
-						<p><a href="<?php _e( 'http://www.amazon.com/gp/gc' , $this->ltd ); ?>" target="_blank">Amazon Gift Card</a></p>
+						<p><?php _e( 'Please donate for better development.' , $this->ltd ); ?></p>
+						<p>&gt;&gt; <a href="http://gqevu6bsiz.chicappa.jp/please-donation/" target="_blank"><?php _e( 'Donation' , $this->ltd ); ?></a></p>
 						<p><strong><?php _e( 'Other' , $this->ltd ); ?></strong></p>
 						<p>
 							<span><a href="http://gqevu6bsiz.chicappa.jp/" target="_blank">blog</a></span> &nbsp; 

@@ -4,7 +4,7 @@ Donate link: http://gqevu6bsiz.chicappa.jp/please-donation/
 Tags: admin, post, posts, page, option, sitemenu, menu, custom, customize, dashboard, admin_bar
 Requires at least: 3.4.2
 Tested up to: 3.5.1
-Stable tag: 1.1.4
+Stable tag: 1.2
 License: GPL2
 
 Customize the management screen UI.
@@ -49,6 +49,8 @@ These to Customization is possible.
 
 == Changelog ==
 
+= 1.2 =
+was be able to hide the menu add, and the delete menu, and the change permalink.
 
 = 1.1.3 =
 I fixed bug the remove metabox excerpt.

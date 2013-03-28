@@ -1,10 +1,10 @@
 === WP Admin UI Customize ===
 Contributors: gqevu6bsiz
-Donate link: http://gqevu6bsiz.chicappa.jp/please-donation/
+Donate link: http://gqevu6bsiz.chicappa.jp/please-donation/?utm_source=wporg&utm_medium=donate&utm_content=wauc&utm_campaign=1_2_1
 Tags: admin, post, posts, page, option, sitemenu, menu, custom, customize, dashboard, admin_bar
 Requires at least: 3.4.2
 Tested up to: 3.5.1
-Stable tag: 1.2
+Stable tag: 1.2.1
 License: GPL2
 
 Customize the management screen UI.
@@ -48,6 +48,11 @@ These to Customization is possible.
 11. Login Screen Customized
 
 == Changelog ==
+
+= 1.2.1 =
+fixed because there was a mistake in the notation.
+Changed the layout.
+Priority of the side menu, and how to save slug was changed.
 
 = 1.2 =
 was be able to hide the menu add, and the delete menu, and the change permalink.

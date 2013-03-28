@@ -29,7 +29,7 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 
 			<div class="postbox">
 				<div class="handlediv" title="Click to toggle"><br></div>
-				<h3 class="hndle"><span><?php _e( 'Add New Post' ); ?> &amp; <?php _e( 'Edit Post' ); ?></span></h3>
+				<h3 class="hndle"><span><?php _e( 'Menus' ); ?></span></h3>
 				<div class="inside">
 					<table class="form-table">
 						<tbody>

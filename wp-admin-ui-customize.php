@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: WP Admin UI Customize
-Description: Customize the management screen UI.
-Plugin URI: http://gqevu6bsiz.chicappa.jp
-Version: 1.2
+Description: It is an excellent plugin to customize the management screen.
+Plugin URI: http://wordpress.org/extend/plugins/wp-admin-ui-customize/
+Version: 1.2.1
 Author: gqevu6bsiz
-Author URI: http://gqevu6bsiz.chicappa.jp/author/admin/
+Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_2_1
 Text Domain: wauc
 Domain Path: /languages
 */
@@ -45,7 +45,7 @@ class WP_Admin_UI_Customize
 
 
 	function __construct() {
-		$this->Ver = '1.2';
+		$this->Ver = '1.2.1';
 		$this->Name = 'WP Admin UI Customize';
 		$this->Dir = WP_PLUGIN_URL . '/' . dirname( plugin_basename( __FILE__ ) ) . '/';
 		$this->ltd = 'wauc';
@@ -88,7 +88,8 @@ class WP_Admin_UI_Customize
 	function plugin_action_links( $links , $file ) {
 		if( plugin_basename(__FILE__) == $file ) {
 			$link = '<a href="' . 'admin.php?page=' . $this->PageSlug . '">' . __('Settings') . '</a>';
-			array_unshift( $links, $link );
+			$support_link = '<a href="http://wordpress.org/support/plugin/wp-admin-ui-customize" target="_blank">' . __( 'Support Forums' ) . '</a>';
+			array_unshift( $links, $link , $support_link );
 		}
 		return $links;
 	}
@@ -113,59 +114,78 @@ class WP_Admin_UI_Customize
 
 	// SettingPage
 	function setting_default() {
+		add_filter( 'admin_footer_text' , array( $this , 'layout_footer' ) );
 		include_once 'inc/setting_default.php';
 	}
 
 	// SettingPage
 	function setting_site() {
+		add_filter( 'admin_footer_text' , array( $this , 'layout_footer' ) );
+		$this->DisplayDonation();
 		include_once 'inc/setting_site.php';
 	}
 
 	// SettingPage
 	function setting_admin_general() {
+		add_filter( 'admin_footer_text' , array( $this , 'layout_footer' ) );
 		$this->settingCheck();
+		$this->DisplayDonation();
 		include_once 'inc/setting_admin_general.php';
 	}
 
 	// SettingPage
 	function setting_dashboard() {
+		add_filter( 'admin_footer_text' , array( $this , 'layout_footer' ) );
 		$this->settingCheck();
+		$this->DisplayDonation();
 		include_once 'inc/setting_dashboard.php';
 	}
 
 	// SettingPage
 	function setting_admin_bar_menu() {
+		add_filter( 'admin_footer_text' , array( $this , 'layout_footer' ) );
 		$this->settingCheck();
+		$this->DisplayDonation();
 		include_once 'inc/setting_admin_bar_menu.php';
 	}
 
 	// SettingPage
 	function setting_sidemenu() {
+		add_filter( 'admin_footer_text' , array( $this , 'layout_footer' ) );
 		$this->settingCheck();
+		$this->DisplayDonation();
 		include_once 'inc/setting_sidemenu.php';
 	}
 
 	// SettingPage
 	function setting_removemtabox() {
+		add_filter( 'admin_footer_text' , array( $this , 'layout_footer' ) );
 		$this->settingCheck();
+		$this->DisplayDonation();
 		include_once 'inc/setting_removemtabox.php';
 	}
 
 	// SettingPage
 	function setting_post_add_edit() {
+		add_filter( 'admin_footer_text' , array( $this , 'layout_footer' ) );
 		$this->settingCheck();
+		$this->DisplayDonation();
 		include_once 'inc/setting_post_add_edit.php';
 	}
 
 	// SettingPage
 	function setting_appearance_menus() {
+		add_filter( 'admin_footer_text' , array( $this , 'layout_footer' ) );
 		$this->settingCheck();
+		$this->DisplayDonation();
 		include_once 'inc/setting_appearance_menus.php';
 	}
 
 	// SettingPage
 	function setting_loginscreen() {
+		add_filter( 'admin_footer_text' , array( $this , 'layout_footer' ) );
 		$this->settingCheck();
+		$this->DisplayDonation();
 		include_once 'inc/setting_loginscreen.php';
 	}
 
@@ -194,7 +214,7 @@ class WP_Admin_UI_Customize
 			unset( $Data["UPFN"] );
 		}
 		if( empty( $Data ) ) {
-			$this->Msg = '<div class="error"><p><strong>' . sprintf( __( 'Authority to apply the setting is not selected. <a href="%s">From here</a>, please select the permissions you want to set.' , $this->ltd ) , self_admin_url( 'admin.php?page=' . $this->PageSlug ) ) . '</strong></p></div>';
+			$this->Msg .= '<div class="error"><p><strong>' . sprintf( __( 'Authority to apply the setting is not selected. <a href="%s">From here</a>, please select the permissions you want to set.' , $this->ltd ) , self_admin_url( 'admin.php?page=' . $this->PageSlug ) ) . '</strong></p></div>';
 		}
 	}
 
@@ -258,7 +278,7 @@ class WP_Admin_UI_Customize
 						<?php endif; ?>
 					</p>
 					<label>
-						<?php _e( 'Title' ); ?> : <input type="text" class="regular-text titletext" value="<?php echo $menu_widget["title"]; ?>" name="data[][title]">
+						<?php _e( 'Title' ); ?> : <input type="text" class="regular-text titletext" value="<?php echo esc_attr( $menu_widget["title"] ); ?>" name="data[][title]">
 					</label>
 					<input type="hidden" class="parent_slugtext" value="<?php echo $menu_widget["parent_slug"]; ?>" name="data[][parent_slug]">
 				</div>
@@ -292,7 +312,7 @@ class WP_Admin_UI_Customize
 												<input type="hidden" class="slugtext" value="<?php echo $sm["slug"]; ?>" name="data[][slug]">
 											</p>
 											<label>
-												<?php _e( 'Title' ); ?> : <input type="text" class="regular-text titletext" value="<?php echo $sm["title"]; ?>" name="data[][title]">
+												<?php _e( 'Title' ); ?> : <input type="text" class="regular-text titletext" value="<?php echo esc_attr( $sm["title"] ); ?>" name="data[][title]">
 											</label>
 											<input type="hidden" class="parent_slugtext" value="<?php echo $sm["parent_slug"]; ?>" name="data[][parent_slug]">
 										</div>
@@ -561,8 +581,8 @@ class WP_Admin_UI_Customize
 			if( !empty( $_POST["data"] ) ) {
 				foreach($_POST["data"] as $menu) {
 					if( !empty( $menu["title"] ) && !empty( $menu["slug"] ) ) {
-						$slug = strip_tags( $menu["slug"] );
-						$title = strip_tags( $menu["title"] );
+						$slug = htmlspecialchars( $menu["slug"] );
+						$title = stripslashes( $menu["title"] );
 						$parent_slug = '';
 						$depth = 'main';
 
@@ -677,7 +697,7 @@ class WP_Admin_UI_Customize
 		// admin UI
 		if ( is_admin() ) {
 			// default side menu load.
-			add_action( 'admin_menu' , array( $this , 'sidemenu_default_load' ) );
+			add_action( 'admin_menu' , array( $this , 'sidemenu_default_load' ) , 10000 );
 			// default admin bar menu load.
 			add_action( 'wp_before_admin_bar_render' , array( $this , 'admin_bar_default_load' ) , 1 );
 
@@ -707,7 +727,7 @@ class WP_Admin_UI_Customize
 			add_action( 'admin_print_styles' , array( $this , 'load_css' ) );
 			add_action( 'wp_dashboard_setup' , array( $this , 'wp_dashboard_setup' ) );
 			add_action( 'admin_menu' , array( $this , 'removemetabox' ) );
-			add_filter( 'admin_menu', array( $this , 'sidemenu' ) );
+			add_filter( 'admin_menu', array( $this , 'sidemenu' ) , 10001 );
 			add_filter( 'get_sample_permalink_html' , array( $this , 'add_edit_post_change_permalink' ) );
 			add_action( 'admin_print_styles-nav-menus.php', array( $this , 'nav_menus' ) );
 		}
@@ -1124,6 +1144,17 @@ class WP_Admin_UI_Customize
 		}
 		
 		wp_enqueue_style( $this->PageSlug , $this->Dir . 'css/nav-menus.css' , array() , $this->Ver );
+	}
+
+	// FilterStart
+	function layout_footer( $text ) {
+		$text = '<img src="' . $this->Dir . 'images/gqevu6bsiz.png" width="18" /> Plugin developer : <a href="http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=footer&utm_content=' . $this->ltd . '&utm_campaign=' . str_replace( '.' , '_' , $this->Ver ) . '" target="_blank">gqevu6bsiz</a>';
+		return $text;
+	}
+
+	// FilterStart
+	function DisplayDonation() {
+		$this->Msg .= '<div class="error"><p><strong>' . __( 'Please consider a donation if you are satisfied with this plugin.' , $this->ltd ) . '</strong> <a href="' . self_admin_url( 'admin.php?page=' . $this->PageSlug ) . '">' . __( 'Please donation.' , $this->ltd ) . '</a></p></div>';
 	}
 
 }

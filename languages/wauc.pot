@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0.0\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2013-03-19 17:05+0900\n"
+"PO-Revision-Date: 2013-03-28 16:34+0900\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -13,22 +13,61 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "Last-Translator: \n"
 
-msgid "It is an excellent plug-in to customize the management screen."
+msgid "It is an excellent plugin to customize the management screen."
 msgstr ""
 
-msgid "Plugin About"
+msgid "Please consider a donation if you are satisfied with this plugin."
 msgstr ""
 
 msgid "Please donation."
 msgstr ""
 
-msgid "Donation"
+msgid "You are contented with this plugin?<br />By the laws of Japan, Japan's new paypal user can not make a donation button.<br />So i would like you to buy this plugin as the replacement for the donation."
 msgstr ""
 
-msgid "Please donate for better development."
+msgid "Features"
 msgstr ""
 
-msgid "Other"
+msgid "Line Break First and End plugin is In the visual editor TinyMCE, It is a plugin that will help when you will not be able to enter a line break."
+msgstr ""
+
+msgid "The primary use of donations"
+msgstr ""
+
+msgid "Liquidation of time and value"
+msgstr ""
+
+msgid "Additional suggestions feature"
+msgstr ""
+
+msgid "Maintain motivation"
+msgstr ""
+
+msgid "Ensure time as the father of Sunday"
+msgstr ""
+
+msgid "About plugin"
+msgstr ""
+
+msgid "Version check"
+msgstr ""
+
+msgid "Developer's site"
+msgstr ""
+
+msgid "Reviews"
+msgstr ""
+
+msgid "Useful plugins"
+msgstr ""
+
+msgid "Customize the list of the post and page. custom post type page, too. You can customize the column display items freely."
+msgstr ""
+
+msgid "Announce to display the dashboard. Change the display to a different user role."
+msgstr ""
+
+msgid "The plugin that allows you to add the value of the options. Option value that you have created, can be used in addition to the template tag, Short code can be used in the body of the article."
 msgstr ""
 
 msgid "Customize the UI of the management screen for all users."
@@ -38,9 +77,6 @@ msgid "Authority to apply the setting is not selected. <a href=\"%s\">From here<
 msgstr ""
 
 msgid "Please select the user role you want to apply the settings."
-msgstr ""
-
-msgid "With this plugin, you can be more customized."
 msgstr ""
 
 msgid "Would initialize?"

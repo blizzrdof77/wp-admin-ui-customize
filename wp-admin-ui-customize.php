@@ -3,9 +3,9 @@
 Plugin Name: WP Admin UI Customize
 Description: It is an excellent plugin to customize the management screen.
 Plugin URI: http://wordpress.org/extend/plugins/wp-admin-ui-customize/
-Version: 1.2.1
+Version: 1.2.2
 Author: gqevu6bsiz
-Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_2_1
+Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_2_2
 Text Domain: wauc
 Domain Path: /languages
 */
@@ -45,7 +45,7 @@ class WP_Admin_UI_Customize
 
 
 	function __construct() {
-		$this->Ver = '1.2.1';
+		$this->Ver = '1.2.2';
 		$this->Name = 'WP Admin UI Customize';
 		$this->Dir = WP_PLUGIN_URL . '/' . dirname( plugin_basename( __FILE__ ) ) . '/';
 		$this->ltd = 'wauc';
@@ -241,6 +241,7 @@ class WP_Admin_UI_Customize
 	// SetList
 	function admin_bar_default_load( $wp_admin_bar ) {
 		global $wp_admin_bar;
+
 		$this->Admin_bar = $wp_admin_bar->get_nodes();
 
 	}
@@ -549,7 +550,7 @@ class WP_Admin_UI_Customize
 							}
 							$title = "";
 							if( !empty( $node["title"] ) ) {
-								$title = $node["title"];
+								$title = stripslashes( $node["title"] );
 							}
 							$href = "";
 							if( !empty( $node["href"] ) ) {
@@ -843,18 +844,15 @@ class WP_Admin_UI_Customize
 			unset( $GetData["UPFN"] );
 			if( !empty( $GetData ) ) {
 
-				$remove_menu = array( 'wp-logo' , 'site-name' , 'user-actions' , 'user-info' , 'edit-profile' , 'logout' , 'my-account' , 'about' , 'wporg' , 'documentation' , 'support-forums' , 'feedback' , 'comments' , 'updates' , 'new-content' , 'new-post' , 'new-media' , 'new-link' , 'new-page' , 'new-user' , 'view-site' );
-
-				$cpts = (array) get_post_types( array( 'show_in_admin_bar' => true , '_builtin' => false ), 'names' );
-				foreach($cpts as $cpt) {
-					$remove_menu[] = 'new-' . $cpt;
-				}
-
 				// remove all nodes
-				foreach( $remove_menu as $nid ) {
-					$wp_admin_bar->remove_menu( $nid );
+				$All_Nodes = $wp_admin_bar->get_nodes();
+				foreach( $All_Nodes as $node ) {
+					if( $node->id != 'top-secondary' ) {
+						$wp_admin_bar->remove_node( $node->id );
+					}
 				}
 
+				// add nodes
 				foreach($GetData as $Boxtype => $allnodes) {
 					foreach($allnodes as $depth => $nodes) {
 						foreach($nodes as $node) {

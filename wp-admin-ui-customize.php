@@ -3,9 +3,9 @@
 Plugin Name: WP Admin UI Customize
 Description: It is an excellent plugin to customize the management screen.
 Plugin URI: http://wordpress.org/extend/plugins/wp-admin-ui-customize/
-Version: 1.2.2
+Version: 1.2.2.1
 Author: gqevu6bsiz
-Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_2_2
+Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_2_2_1
 Text Domain: wauc
 Domain Path: /languages
 */
@@ -38,6 +38,7 @@ class WP_Admin_UI_Customize
 		$Record,
 		$PageSlug,
 		$UPFN,
+		$DonateKey,
 		$Menu,
 		$SubMenu,
 		$Admin_bar,
@@ -45,7 +46,7 @@ class WP_Admin_UI_Customize
 
 
 	function __construct() {
-		$this->Ver = '1.2.2';
+		$this->Ver = '1.2.2.1';
 		$this->Name = 'WP Admin UI Customize';
 		$this->Dir = WP_PLUGIN_URL . '/' . dirname( plugin_basename( __FILE__ ) ) . '/';
 		$this->ltd = 'wauc';
@@ -60,9 +61,11 @@ class WP_Admin_UI_Customize
 			"post_add_edit" => $this->ltd . '_post_add_edit_setting',
 			"appearance_menus" => $this->ltd . '_appearance_menus_setting',
 			"loginscreen" => $this->ltd . '_loginscreen_setting',
+			"donate" => $this->ltd . '_donated',
 		);
 		$this->PageSlug = 'wp_admin_ui_customize';
 		$this->UPFN = 'Y';
+		$this->DonateKey = 'd77aec9bc89d445fd54b4c988d090f03';
 		
 		$this->PluginSetup();
 		$this->FilterStart();
@@ -217,6 +220,8 @@ class WP_Admin_UI_Customize
 			$this->Msg .= '<div class="error"><p><strong>' . sprintf( __( 'Authority to apply the setting is not selected. <a href="%s">From here</a>, please select the permissions you want to set.' , $this->ltd ) , self_admin_url( 'admin.php?page=' . $this->PageSlug ) ) . '</strong></p></div>';
 		}
 	}
+
+
 
 
 
@@ -461,6 +466,22 @@ class WP_Admin_UI_Customize
 			delete_option( $this->Record[$record] );
 			$this->Msg .= '<div class="updated"><p><strong>' . __('Settings saved.') . '</strong></p></div>';
 		}
+	}
+
+	// DataUpdate
+	function DonatingCheck() {
+		$Update = $this->update_validate();
+
+		if( !empty( $Update ) ) {
+			if( !empty( $_POST["donate_key"] ) ) {
+				$SubmitKey = md5( strip_tags( $_POST["donate_key"] ) );
+				if( $this->DonateKey == $SubmitKey ) {
+					update_option( $this->Record["donate"] , $SubmitKey );
+					$this->Msg .= '<div class="updated"><p><strong>' . __( 'Thank you for your donation.' , $this->ltd ) . '</strong></p></div>';
+				}
+			}
+		}
+
 	}
 
 	// DataUpdate
@@ -1152,7 +1173,10 @@ class WP_Admin_UI_Customize
 
 	// FilterStart
 	function DisplayDonation() {
-		$this->Msg .= '<div class="error"><p><strong>' . __( 'Please consider a donation if you are satisfied with this plugin.' , $this->ltd ) . '</strong> <a href="' . self_admin_url( 'admin.php?page=' . $this->PageSlug ) . '">' . __( 'Please donation.' , $this->ltd ) . '</a></p></div>';
+		$donation = get_option( $this->Record["donate"] );
+		if( $this->DonateKey != $donation ) {
+			$this->Msg .= '<div class="error"><p><strong>' . __( 'Please consider a donation if you are satisfied with this plugin.' , $this->ltd ) . '</strong> <a href="' . self_admin_url( 'admin.php?page=' . $this->PageSlug ) . '">' . __( 'Please donation.' , $this->ltd ) . '</a></p></div>';
+		}
 	}
 
 }

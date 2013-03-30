@@ -1,6 +1,8 @@
 <?php
 
-if( !empty( $_POST["update"] ) ) {
+if( !empty( $_POST["donate_key"] ) ) {
+	$this->DonatingCheck();
+} elseif( !empty( $_POST["update"] ) ) {
 	$this->update_userrole();
 } elseif( !empty( $_POST["reset"] ) ) {
 	$this->update_reset( 'user_role' );
@@ -56,6 +58,18 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 					<input type="submit" class="button-secondary" name="reset" value="<?php _e('Reset'); ?>" />
 				</p>
 
+				<p>&nbsp;</p>
+				
+			</form>
+
+			<form id="donation_form" class="waum_form" method="post" action="">
+				<h3><?php _e( 'If you have already donated to.' , $this->ltd ); ?></h3>
+				<p><?php _e( 'Please enter the \'Donation delete key\' that have been described in the \'Line Break First and End download page\'.' , $this->ltd ); ?></p>
+				<input type="hidden" name="<?php echo $this->UPFN; ?>" value="Y" />
+				<?php wp_nonce_field(); ?>
+				<label for="donate_key"><?php _e( 'Donation delete key' , $this->ltd ); ?></label>
+				<input type="text" name="donate_key" id="donate_key" value="" class="regular-text" />
+				<input type="submit" class="button-primary" name="update" value="<?php _e( 'Submit' ); ?>" />
 			</form>
 
 		</div>
@@ -121,3 +135,17 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 	</div>
 
 </div>
+
+<script type="text/javascript">
+jQuery(document).ready(function($) {
+	
+	var $RDonated = '<?php echo get_option( $this->Record["donate"] ); ?>';
+	var $TDonated = '<?php echo $this->DonateKey; ?>';
+
+	if( $RDonated == $TDonated ) {
+		$("#donationbox").hide();
+		$("#donation_form").html( '<p>&nbsp;</p><p>&nbsp;</p><span class="description"><?php _e( 'Thank you for your donation.' , $this->ltd ); ?></span>' );
+	}
+		
+});
+</script>

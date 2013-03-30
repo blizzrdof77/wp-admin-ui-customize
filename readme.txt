@@ -1,23 +1,23 @@
 === WP Admin UI Customize ===
 Contributors: gqevu6bsiz
-Donate link: http://gqevu6bsiz.chicappa.jp/please-donation/?utm_source=wporg&utm_medium=donate&utm_content=wauc&utm_campaign=1_2_2
+Donate link: http://gqevu6bsiz.chicappa.jp/please-donation/?utm_source=wporg&utm_medium=donate&utm_content=wauc&utm_campaign=1_2_2_1
 Tags: admin, post, posts, page, option, sitemenu, menu, custom, customize, dashboard, admin_bar
 Requires at least: 3.4.2
 Tested up to: 3.5.1
-Stable tag: 1.2.2
+Stable tag: 1.2.2.1
 License: GPL2
 
 Customize the management screen UI.
 
 == Description ==
 
-Dashboard
-Display options tab
-Output-meta site
-Admin bar
-Admin menu (Side menu)
-Management of meta box
-Login screen
+* Dashboard
+* Display options tab
+* Output-meta site
+* Admin bar
+* Admin menu (Side menu)
+* Management of meta box
+* Login screen
 
 These to Customization is possible.
 
@@ -48,6 +48,9 @@ These to Customization is possible.
 11. Login Screen Customized
 
 == Changelog ==
+
+= 1.2.2.1 =
+I've added about donation.
 
 = 1.2.2 =
 Be able to changed more for the WP admin bar.

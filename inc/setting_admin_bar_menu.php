@@ -53,16 +53,6 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 								<?php if( !empty( $node->parent ) && $node->parent != 'top-secondary' ) : ?>
 
 									<?php $ChildNode[$node->parent][] = $node; ?>
-<?php
-/*
-
-									<?php if( $node->parent == 'wp-logo-external' ) : ?>
-										<?php $ChildNode["wp-logo"][] = $node; ?>
-									<?php else: ?>
-										<?php $ChildNode[$node->parent][] = $node; ?>
-									<?php endif; ?>
-*/
-?>
 
 								<?php endif; ?>
 

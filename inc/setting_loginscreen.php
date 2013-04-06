@@ -26,7 +26,10 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 		<input type="hidden" name="<?php echo $this->UPFN; ?>" value="Y" />
 		<?php wp_nonce_field(); ?>
 
-		<a title="<?php _e( 'Login Screen' , $this->ltd ); ?>" href="<?php echo get_option( 'siteurl' ); ?>/wp-login.php?TB_iframe=1&width=520&height=520" class="thickbox"><?php _e( 'Show Login Screen' , $this->ltd ); ?></a>
+		<?php if( is_multisite() ) : ?>
+			<p class="description"><?php _e( 'Is not possible to check the login form if you do not log out in the case of MultiSite.' , $this->ltd ); ?></p>
+		<?php endif; ?>
+		<p><a title="<?php _e( 'Login Screen' , $this->ltd ); ?>" href="<?php echo get_option( 'siteurl' ); ?>/wp-login.php?TB_iframe=1&width=520&height=520" class="thickbox"><?php _e( 'Show Login Screen' , $this->ltd ); ?></a></p>
 
 		<div class="metabox-holder columns-1">
 

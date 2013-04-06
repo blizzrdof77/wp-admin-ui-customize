@@ -3,9 +3,9 @@
 Plugin Name: WP Admin UI Customize
 Description: It is an excellent plugin to customize the management screen.
 Plugin URI: http://wordpress.org/extend/plugins/wp-admin-ui-customize/
-Version: 1.2.2.1
+Version: 1.2.2.2
 Author: gqevu6bsiz
-Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_2_2_1
+Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_2_2_2
 Text Domain: wauc
 Domain Path: /languages
 */
@@ -46,10 +46,11 @@ class WP_Admin_UI_Customize
 
 
 	function __construct() {
-		$this->Ver = '1.2.2.1';
+		$this->Ver = '1.2.2.2';
 		$this->Name = 'WP Admin UI Customize';
 		$this->Dir = WP_PLUGIN_URL . '/' . dirname( plugin_basename( __FILE__ ) ) . '/';
 		$this->ltd = 'wauc';
+		$this->ltd_p = $this->ltd . '_plugin';
 		$this->Record = array(
 			"user_role" => $this->ltd . '_user_role_setting',
 			"site" => $this->ltd . '_site_setting',
@@ -79,6 +80,7 @@ class WP_Admin_UI_Customize
 	function PluginSetup() {
 		// load text domain
 		load_plugin_textdomain( $this->ltd , false , basename( dirname( __FILE__ ) ) . '/languages' );
+		load_plugin_textdomain( $this->ltd_p , false , basename( dirname( __FILE__ ) ) . '/languages' );
 
 		// plugin links
 		add_filter( 'plugin_action_links' , array( $this , 'plugin_action_links' ) , 10 , 2 );
@@ -415,7 +417,7 @@ class WP_Admin_UI_Customize
 											<input type="hidden" class="linktext" value="<?php echo $sm["href"]; ?>" name="data[][href]">
 										</p>
 										<label>
-											<?php _e( 'Title' ); ?> : <input type="text" class="regular-text titletext" value="<?php echo $sm["title"]; ?>" name="data[][title]">
+											<?php _e( 'Title' ); ?> : <input type="text" class="regular-text titletext" value="<?php echo esc_html( $sm["title"] ); ?>" name="data[][title]">
 										</label>
 										<input type="hidden" class="parent" value="<?php echo $sm["parent"]; ?>" name="data[][parent]">
 									</div>
@@ -710,7 +712,7 @@ class WP_Admin_UI_Customize
 	function FilterStart() {
 		// site
 		if( !is_admin() ) {
-			$this->remove_action_front();
+			add_action( 'setup_theme' , array( $this , 'remove_action_front' ) ) ;
 			add_filter( 'login_headerurl' , array( $this , 'login_headerurl' ) );
 			add_filter( 'login_headertitle' , array( $this , 'login_headertitle' ) );
 			add_action( 'login_head' , array( $this , 'login_head' ) );
@@ -722,36 +724,38 @@ class WP_Admin_UI_Customize
 			add_action( 'admin_menu' , array( $this , 'sidemenu_default_load' ) , 10000 );
 			// default admin bar menu load.
 			add_action( 'wp_before_admin_bar_render' , array( $this , 'admin_bar_default_load' ) , 1 );
-
-			$SettingRole = $this->get_data( 'user_role' );
-			if( !empty( $SettingRole ) ) {
-				unset($SettingRole["UPFN"]);
-				if( !empty( $SettingRole ) ) {
-					add_action( 'init' , array( $this , 'admin_init' ) );
-				}
-			}
+			// admin init
+			add_action( 'init' , array( $this , 'admin_init' ) );
 		}
 	}
 
 	// FilterStart
 	function admin_init() {
+
 		$SettingRole = $this->get_data( 'user_role' );
-		unset($SettingRole["UPFN"]);
+		if( !empty( $SettingRole ) ) {
+			unset($SettingRole["UPFN"]);
 
-		$User = wp_get_current_user();
-		$UserRole = $User->roles[0];
+			$UserRole = '';
+			$User = wp_get_current_user();
+			if( !empty( $User->roles[0] ) ) {
+				$UserRole = $User->roles[0];
+			}
 
-		if( array_key_exists( $UserRole , $SettingRole ) ){
-			add_action( 'wp_before_admin_bar_render' , array( $this , 'admin_bar_menu') , 25 );
-			add_action( 'init' , array( $this , 'notice_dismiss' ) , 2 );
-			add_action( 'admin_head' , array( $this , 'remove_tab' ) );
-			add_filter( 'admin_footer_text' , array( $this , 'admin_footer_text' ) );
-			add_action( 'admin_print_styles' , array( $this , 'load_css' ) );
-			add_action( 'wp_dashboard_setup' , array( $this , 'wp_dashboard_setup' ) );
-			add_action( 'admin_menu' , array( $this , 'removemetabox' ) );
-			add_filter( 'admin_menu', array( $this , 'sidemenu' ) , 10001 );
-			add_filter( 'get_sample_permalink_html' , array( $this , 'add_edit_post_change_permalink' ) );
-			add_action( 'admin_print_styles-nav-menus.php', array( $this , 'nav_menus' ) );
+			if( !is_network_admin() ) {
+				if( array_key_exists( $UserRole , $SettingRole ) ){
+					add_action( 'wp_before_admin_bar_render' , array( $this , 'admin_bar_menu') , 25 );
+					add_action( 'init' , array( $this , 'notice_dismiss' ) , 2 );
+					add_action( 'admin_head' , array( $this , 'remove_tab' ) );
+					add_filter( 'admin_footer_text' , array( $this , 'admin_footer_text' ) );
+					add_action( 'admin_print_styles' , array( $this , 'load_css' ) );
+					add_action( 'wp_dashboard_setup' , array( $this , 'wp_dashboard_setup' ) );
+					add_action( 'admin_menu' , array( $this , 'removemetabox' ) );
+					add_filter( 'admin_menu', array( $this , 'sidemenu' ) , 10001 );
+					add_filter( 'get_sample_permalink_html' , array( $this , 'add_edit_post_change_permalink' ) );
+					add_action( 'admin_print_styles-nav-menus.php', array( $this , 'nav_menus' ) );
+				}
+			}
 		}
 	}
 
@@ -994,9 +998,9 @@ class WP_Admin_UI_Customize
 		global $wp_meta_boxes;
 
 		$GetData = get_option( $this->Record["dashboard"] );
-		unset($GetData["f"]);
 
 		if( !empty( $GetData ) && is_array( $GetData ) ) {
+			unset($GetData["UPFN"]);
 			$dashboard_widgets = array();
 			foreach($wp_meta_boxes["dashboard"] as $ns => $core) {
 				foreach($core["core"] as $id => $val) {
@@ -1161,13 +1165,11 @@ class WP_Admin_UI_Customize
 			}
 
 		}
-		
-		wp_enqueue_style( $this->PageSlug , $this->Dir . 'css/nav-menus.css' , array() , $this->Ver );
 	}
 
 	// FilterStart
 	function layout_footer( $text ) {
-		$text = '<img src="' . $this->Dir . 'images/gqevu6bsiz.png" width="18" /> Plugin developer : <a href="http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=footer&utm_content=' . $this->ltd . '&utm_campaign=' . str_replace( '.' , '_' , $this->Ver ) . '" target="_blank">gqevu6bsiz</a>';
+		$text = '<img src="http://www.gravatar.com/avatar/7e05137c5a859aa987a809190b979ed4?s=18" width="18" /> Plugin developer : <a href="http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=footer&utm_content=' . $this->ltd . '&utm_campaign=' . str_replace( '.' , '_' , $this->Ver ) . '" target="_blank">gqevu6bsiz</a>';
 		return $text;
 	}
 
@@ -1175,7 +1177,7 @@ class WP_Admin_UI_Customize
 	function DisplayDonation() {
 		$donation = get_option( $this->Record["donate"] );
 		if( $this->DonateKey != $donation ) {
-			$this->Msg .= '<div class="error"><p><strong>' . __( 'Please consider a donation if you are satisfied with this plugin.' , $this->ltd ) . '</strong> <a href="' . self_admin_url( 'admin.php?page=' . $this->PageSlug ) . '">' . __( 'Please donation.' , $this->ltd ) . '</a></p></div>';
+			$this->Msg .= '<div class="error"><p><strong>' . __( 'Please consider a donation if you are satisfied with this plugin.' , $this->ltd_p ) . '</strong> <a href="' . self_admin_url( 'admin.php?page=' . $this->PageSlug ) . '">' . __( 'Please donation.' , $this->ltd_p ) . '</a></p></div>';
 		}
 	}
 

@@ -29,7 +29,7 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 
 			<div class="postbox">
 				<div class="handlediv" title="Click to toggle"><br></div>
-				<h3 class="hndle"><span>Meta boxes</span></h3>
+				<h3 class="hndle"><span><?php _e( 'Meta boxes' , $this->ltd ); ?></span></h3>
 				<div class="inside">
 					<table class="form-table">
 						<tbody>
@@ -130,6 +130,28 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 									<?php $Checked = ''; ?>
 									<?php if( !empty( $Data[$field] ) ) : $Checked = 'checked="checked"'; endif; ?>
 									<label><input type="checkbox" name="data[<?php echo $field; ?>]" value="1" <?php echo $Checked; ?> /> <?php _e ( 'Hide' ); ?></label>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+			<div class="postbox">
+				<div class="handlediv" title="Click to toggle"><br></div>
+				<h3 class="hndle"><span><?php _e( 'Other' , $this->ltd ); ?></span></h3>
+				<div class="inside">
+					<table class="form-table">
+						<tbody>
+							<?php $field = 'metabox_move'; ?>
+							<tr>
+								<th>
+									<label><?php _e( 'Movement restriction meta box' , $this->ltd ); ?></label>
+								</th>
+								<td>
+									<?php $Checked = ''; ?>
+									<?php if( !empty( $Data[$field] ) ) : $Checked = 'checked="checked"'; endif; ?>
+									<label><input type="checkbox" name="data[<?php echo $field; ?>]" value="1" <?php echo $Checked; ?> /> <?php _e( "Don't move the meta box." , $this->ltd ); ?></label>
 								</td>
 							</tr>
 						</tbody>

@@ -2,10 +2,10 @@
 /*
 Plugin Name: WP Admin UI Customize
 Description: It is an excellent plugin to customize the management screen.
-Plugin URI: http://wordpress.org/extend/plugins/wp-admin-ui-customize/
-Version: 1.2.2.2
+Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_2_3
+Version: 1.2.3
 Author: gqevu6bsiz
-Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_2_2_2
+Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_2_3
 Text Domain: wauc
 Domain Path: /languages
 */
@@ -34,6 +34,7 @@ class WP_Admin_UI_Customize
 	var $Ver,
 		$Name,
 		$Dir,
+		$Site,
 		$ltd,
 		$Record,
 		$PageSlug,
@@ -46,9 +47,10 @@ class WP_Admin_UI_Customize
 
 
 	function __construct() {
-		$this->Ver = '1.2.2.2';
+		$this->Ver = '1.2.3';
 		$this->Name = 'WP Admin UI Customize';
 		$this->Dir = WP_PLUGIN_URL . '/' . dirname( plugin_basename( __FILE__ ) ) . '/';
+		$this->Site = 'http://wpadminuicustomize.com/';
 		$this->ltd = 'wauc';
 		$this->ltd_p = $this->ltd . '_plugin';
 		$this->Record = array(
@@ -743,7 +745,7 @@ class WP_Admin_UI_Customize
 			}
 
 			if( !is_network_admin() ) {
-				if( array_key_exists( $UserRole , $SettingRole ) ){
+				if( array_key_exists( $UserRole , $SettingRole ) ) {
 					add_action( 'wp_before_admin_bar_render' , array( $this , 'admin_bar_menu') , 25 );
 					add_action( 'init' , array( $this , 'notice_dismiss' ) , 2 );
 					add_action( 'admin_head' , array( $this , 'remove_tab' ) );
@@ -754,6 +756,7 @@ class WP_Admin_UI_Customize
 					add_filter( 'admin_menu', array( $this , 'sidemenu' ) , 10001 );
 					add_filter( 'get_sample_permalink_html' , array( $this , 'add_edit_post_change_permalink' ) );
 					add_action( 'admin_print_styles-nav-menus.php', array( $this , 'nav_menus' ) );
+					add_filter( 'admin_title', array( $this, 'admin_title' ) );
 				}
 			}
 		}
@@ -1016,6 +1019,8 @@ class WP_Admin_UI_Customize
 					}
 				} elseif( array_key_exists( $id , $dashboard_widgets ) ){
 					remove_meta_box( $id , 'dashboard' , $dashboard_widgets[$id] );
+				} elseif( $id == 'metabox_move' ) {
+					wp_enqueue_script( 'not-move' , $this->Dir . 'js/dashboard/not_move.js' , array( 'jquery' , 'jquery-ui-sortable' ) , $this->Ver , true );
 				}
 			}
 		}
@@ -1149,6 +1154,23 @@ class WP_Admin_UI_Customize
 		}
 		
 		return $permalink_html;
+	}
+
+	// FilterStart
+	function admin_title( $title ) {
+		$GetData = get_option( $this->Record["admin_general"] );
+
+		if( !empty( $GetData["UPFN"] ) ) {
+			unset( $GetData["UPFN"] );
+
+			if( !empty( $GetData["title_tag"] ) ) {
+				if( strpos( $title , ' WordPress' ) ) {
+					$title = str_replace( " &#8212; WordPress" , "" , $title );
+				}
+			}
+		}
+		
+		return $title;
 	}
 
 	// FilterStart

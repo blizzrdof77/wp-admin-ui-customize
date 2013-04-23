@@ -146,6 +146,18 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 									<code>[blog_url] [template_directory_uri]</code>
 								</td>
 							</tr>
+
+							<?php $field = 'title_tag'; ?>
+							<tr>
+								<th>
+									<label><?php _e( 'Title tag for Admin screen' , $this->ltd ); ?></label>
+								</th>
+								<td>
+									<?php $Checked = ''; ?>
+									<?php if( !empty( $Data[$field] ) ) : $Checked = 'checked="checked"'; endif; ?>
+									<label><input type="checkbox" name="data[<?php echo $field; ?>]" value="1" <?php echo $Checked; ?> /> <?php _e ( 'Remove the "Wordpress" from the title tag of the Admin screen' , $this->ltd ); ?></label>
+								</td>
+							</tr>
 						</tbody>
 					</table>
 				</div>

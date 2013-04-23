@@ -106,9 +106,10 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 				<div class="inside">
 					<p><?php _e( 'Version check' , $this->ltd_p ); ?> : 3.4.2 - 3.5.1</p>
 					<ul>
+						<li><a href="<?php echo $this->Site; ?>?utm_source=use_plugin&utm_medium=side&utm_content=utm_content=<?php echo $this->ltd; ?>&utm_campaign=<?php echo str_replace( '.' , '_' , $this->Ver ); ?>" target="_blank"><?php _e( 'Plugin\'s site' , $this->ltd_p ); ?></a></li>
 						<li><a href="http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=side&utm_content=utm_content=<?php echo $this->ltd; ?>&utm_campaign=<?php echo str_replace( '.' , '_' , $this->Ver ); ?>" target="_blank"><?php _e( 'Developer\'s site' , $this->ltd_p ); ?></a></li>
 						<li><a href="http://wordpress.org/support/plugin/wp-admin-ui-customize" target="_blank"><?php _e( 'Support Forums' ); ?></a></li>
-						<li><a href="http://wordpress.org/support/view/plugin-reviews/wp-admin-ui-customize" target="_blank"><?php _e( 'Reviews' , $this->ltd ); ?></a></li>
+						<li><a href="http://wordpress.org/support/view/plugin-reviews/wp-admin-ui-customize" target="_blank"><?php _e( 'Reviews' , $this->ltd_p ); ?></a></li>
 						<li><a href="https://twitter.com/gqevu6bsiz" target="_blank">twitter</a></li>
 						<li><a href="http://www.facebook.com/pages/Gqevu6bsiz/499584376749601" target="_blank">facebook</a></li>
 					</ul>

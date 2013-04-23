@@ -82,7 +82,25 @@ msgstr ""
 msgid "Footer text"
 msgstr ""
 
+msgid "Title tag for Admin screen"
+msgstr ""
+
+msgid "Remove the \"Wordpress\" from the title tag of the Admin screen"
+msgstr ""
+
 msgid "Screen Options and Help tab"
+msgstr ""
+
+msgid "Meta boxes"
+msgstr ""
+
+msgid "Other"
+msgstr ""
+
+msgid "Movement restriction meta box"
+msgstr ""
+
+msgid "Don't move the meta box."
 msgstr ""
 
 msgid "Admin bar Menu"

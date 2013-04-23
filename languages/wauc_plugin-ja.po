@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP Admin UI Customize\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2013-04-06 19:53+0900\n"
+"PO-Revision-Date: 2013-04-23 15:35+0900\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -60,6 +60,9 @@ msgstr "プラグインについて"
 
 msgid "Version check"
 msgstr "動作確認済み"
+
+msgid "Plugin's site"
+msgstr "プラグインのサイト"
 
 msgid "Developer's site"
 msgstr "開発者のサイト"

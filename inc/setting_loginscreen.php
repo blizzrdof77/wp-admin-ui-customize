@@ -73,6 +73,11 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 									<?php if( !empty( $Data[$field] ) ) : $Val = strip_tags( $Data[$field] ); endif; ?>
 									<input type="text" name="data[<?php echo $field; ?>]" value="<?php echo $Val; ?>" class="regular-text" id="<?php echo $field; ?>">
 									<code>[blog_url] [template_directory_uri]</code>
+									<?php if( !empty( $Val ) ) : ?>
+										<?php $img = str_replace( '[blog_url]' , get_bloginfo( 'url' ) , $Val ); ?>
+										<?php $img = str_replace( '[template_directory_uri]' , get_bloginfo( 'url' ) , $img ); ?>
+										<p><img src="<?php echo $img; ?>" alt="Login Logo" /></p>
+									<?php endif; ?>
 								</td>
 							</tr>
 						</tbody>

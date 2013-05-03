@@ -23,6 +23,7 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 	<h2><?php echo $this->Name; ?></h2>
 	<p><?php _e( 'Customize the UI of the management screen for all users.' , $this->ltd ); ?>
 	<p><?php _e ( 'Please select the user role you want to apply the settings.' , $this->ltd ); ?></p>
+	<p><strong><span style="color: orange;">new</span> <a href="<?php echo $this->Site; ?>multisite_about/?utm_source=use_plugin&utm_medium=side&utm_content=utm_content=<?php echo $this->ltd; ?>&utm_campaign=<?php echo str_replace( '.' , '_' , $this->Ver ); ?>" target="_blank">WP Admin UI Customize for Multisite</a></strong></p>
 
 	<div class="metabox-holder columns-2">
 
@@ -119,6 +120,8 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 			<div class="stuffbox" id="usefulbox">
 				<h3><span class="hndle"><?php _e( 'Useful plugins' , $this->ltd_p ); ?></span></h3>
 				<div class="inside">
+					<p><strong><span style="color: orange;">new</span> <a href="<?php echo $this->Site; ?>multisite_about/?utm_source=use_plugin&utm_medium=side&utm_content=utm_content=<?php echo $this->ltd; ?>&utm_campaign=<?php echo str_replace( '.' , '_' , $this->Ver ); ?>" target="_blank">WP Admin UI Customize for Multisite</a></strong></p>
+					<p class="description"><?php _e( 'This add-on is an add-on to unify the management screen of all sites.' , $this->ltd_p ); ?></p>
 					<p><strong><a href="http://wordpress.org/extend/plugins/post-lists-view-custom/" target="_blank">Post Lists View Custom</a></strong></p>
 					<p class="description"><?php _e( 'Customize the list of the post and page. custom post type page, too. You can customize the column display items freely.' , $this->ltd_p ); ?></p>
 					<p><strong><a href="http://wordpress.org/extend/plugins/announce-from-the-dashboard/" target="_blank">Announce from the Dashboard</a></strong></p>

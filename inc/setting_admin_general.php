@@ -10,8 +10,9 @@ $Data = $this->get_data( 'admin_general' );
 $User = wp_get_current_user();
 
 // include js css
-$ReadedJs = array( 'jquery' , 'jquery-ui-sortable' );
+$ReadedJs = array( 'jquery' , 'jquery-ui-sortable' , 'thickbox' );
 wp_enqueue_script( $this->PageSlug ,  $this->Dir . dirname( dirname( plugin_basename( __FILE__ ) ) ) . '.js', $ReadedJs , $this->Ver );
+wp_enqueue_style('thickbox');
 wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basename( __FILE__ ) ) ) . '.css', array() , $this->Ver );
 
 ?>
@@ -143,7 +144,7 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 									<?php $Val = ''; ?>
 									<?php if( !empty( $Data[$field] ) ) : $Val = strip_tags( $Data[$field] ); endif; ?>
 									<input type="text" name="data[<?php echo $field; ?>]" value="<?php echo $Val; ?>" class="regular-text" id="<?php echo $field; ?>">
-									<code>[blog_url] [template_directory_uri]</code>
+									<a href="#TB_inline?height=300&width=600&inlineId=list_variables&modal=false" title="<?php _e( 'Variables' , $this->ltd ); ?>" class="thickbox"><?php _e( 'Available Shortcodes' , $this->ltd ); ?></a>
 								</td>
 							</tr>
 
@@ -177,3 +178,5 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 	</form>
 
 </div>
+
+<?php require_once( dirname( __FILE__ ) . '/list_variables.php' ); ?>

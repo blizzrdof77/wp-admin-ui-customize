@@ -9,8 +9,9 @@ if( !empty( $_POST["update"] ) ) {
 $Data = $this->get_data( 'admin_bar_menu' );
 
 // include js css
-$ReadedJs = array( 'jquery' , 'jquery-ui-draggable' , 'jquery-ui-droppable' , 'jquery-ui-sortable' );
+$ReadedJs = array( 'jquery' , 'jquery-ui-draggable' , 'jquery-ui-droppable' , 'jquery-ui-sortable' , 'thickbox' );
 wp_enqueue_script( $this->PageSlug ,  $this->Dir . dirname( dirname( plugin_basename( __FILE__ ) ) ) . '.js', $ReadedJs , $this->Ver );
+wp_enqueue_style( 'thickbox' );
 wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basename( __FILE__ ) ) ) . '.css', array() , $this->Ver );
 
 ?>
@@ -20,8 +21,10 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 	<?php echo $this->Msg; ?>
 	<h2><?php _e( 'Admin bar Menu' , $this->ltd ); ?></h2>
 	<p><?php _e( 'Please change the menu by drag and drop.' , $this->ltd ); ?></p>
-	<p><strong><?php _e( 'Notice: When you set up the same menu more, you will not display properly.' , $this->ltd ); ?></strong></p>
+	<p><strong><?php _e( 'Notice: Please do not place the same multiple menu slug.' , $this->ltd ); ?></strong></p>
 	<p class="description"><?php _e( 'can be more than one custom menu.' , $this->ltd ); ?></p>
+
+	<p><a href="#TB_inline?height=300&width=600&inlineId=list_variables&modal=false" title="<?php _e( 'Shortcodes' , $this->ltd ); ?>" class="thickbox"><?php _e( 'Available Shortcodes' , $this->ltd ); ?></a></p>
 
 	<form id="waum_setting_admin_bar_menu" class="waum_form" method="post" action="">
 		<input type="hidden" name="<?php echo $this->UPFN; ?>" value="Y" />
@@ -42,17 +45,37 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 
 								<?php if( empty( $node->parent ) && $node_id != 'top-secondary' ) : ?>
 
+									<?php if( !empty( $node->id ) ) : ?>
+										<?php if( $node->id == 'site-name' ) : ?>
+											<?php $node->title = '[blog_name]'; ?>
+										<?php elseif( $node->id == 'updates' ) : ?>
+											<?php $node->title = '[update_total]'; ?>
+										<?php elseif( $node->id == 'comments' ) : ?>
+											<?php $node->title = '[comment_count]'; ?>
+										<?php endif; ?>
+									<?php endif; ?>
 									<?php $ParentNode[$node_id] = $node; ?>
 
 								<?php endif; ?>
 
 							<?php endforeach; ?>
-
+							
 							<?php foreach( $this->Admin_bar as $node_id => $node ) : ?>
 
 								<?php if( !empty( $node->parent ) && $node->parent != 'top-secondary' ) : ?>
 
-									<?php $ChildNode[$node->parent][] = $node; ?>
+									<?php if( $node->id != 'wp-logo-external' ) : ?>
+										<?php if( $node->parent == 'wp-logo-external' ) : ?>
+											<?php $node->parent = 'wp-logo'; ?>
+										<?php endif; ?>
+										<?php if( $node->id == 'my-sites-super-admin' or $node->id == 'my-sites-list' or preg_match( "/blog-[0-9]/" , $node->parent ) ) : ?>
+											<?php continue; ?>
+										<?php endif; ?>
+										<?php if( $node->parent == 'my-sites-list' ) : ?>
+											<?php $node->parent = 'my-sites'; ?>
+										<?php endif; ?>
+										<?php $ChildNode[$node->parent][] = $node; ?>
+									<?php endif; ?>
 
 								<?php endif; ?>
 
@@ -140,6 +163,9 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 
 								<?php if( !empty( $node->parent ) && $node->parent == 'top-secondary' ) : ?>
 
+									<?php if( $node->id == 'my-account' ) : ?>
+										<?php $node->title = sprintf( __('Howdy, %1$s'), '[user_name]' ); ?>
+									<?php endif; ?>
 									<?php $ParentNode[$node_id] = $node; ?>
 
 								<?php endif; ?>
@@ -150,6 +176,11 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 
 								<?php if( !empty( $node->parent ) && $node->parent == 'user-actions' ) : ?>
 
+									<?php if( $node->id == 'user-info' ) : ?>
+										<?php $node->title = '<span class="display-name">[user_name]</span>'; ?>
+									<?php elseif( $node->id == 'logout' ) : ?>
+										<?php $node->href = preg_replace( '/&amp(.*)/' , '' , $node->href ); ?>
+									<?php endif; ?>
 									<?php $ChildNode["my-account"][] = $node; ?>
 
 								<?php endif; ?>
@@ -232,6 +263,15 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 						<?php if( empty( $node->parent ) && $node_id != 'top-secondary' ) : ?>
 
 							<?php // left parent menu ?>
+							<?php if( !empty( $node->id ) ) : ?>
+								<?php if( $node->id == 'site-name' ) : ?>
+									<?php $node->title = '[blog_name]'; ?>
+								<?php elseif( $node->id == 'updates' ) : ?>
+									<?php $node->title = '[update_total]'; ?>
+								<?php elseif( $node->id == 'comments' ) : ?>
+									<?php $node->title = '[comment_count]'; ?>
+								<?php endif; ?>
+							<?php endif; ?>
 							<?php $menu_widget = array( 'id' => $node->id , 'title' => $node->title , 'parent' => '' , 'href' => $node->href , 'group' => false , 'new' => true , 'subnode' => false ); ?>
 							<p class="description"><?php echo $node_id; ?></p>
 							<?php $this->admin_bar_menu_widget( $menu_widget ); ?>
@@ -252,6 +292,9 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 
 											<?php // left child sub menu ?>
 											<?php if( !empty( $child_sub_node->href ) ) : ?>
+												<?php if( preg_match( "/blog-[0-9]/" , $child_sub_node->parent ) ) : ?>
+													<?php continue; ?>
+												<?php endif; ?>
 												<?php $menu_widget = array( 'id' => $child_sub_node->id , 'title' => $child_sub_node->title , 'parent' => '' , 'href' => $child_sub_node->href , 'group' => false , 'new' => true , 'subnode' => false ); ?>
 												<?php $this->admin_bar_menu_widget( $menu_widget ); ?>
 											<?php endif; ?>
@@ -279,12 +322,20 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 						<?php if( $node->parent == 'top-secondary' ) : ?>
 
 							<p class="description"><?php echo $node_id; ?></p>
+							<?php if( $node->id == 'my-account' ) : ?>
+								<?php $node->title = sprintf( __('Howdy, %1$s'), '[user_name]' ); ?>
+							<?php endif; ?>
 							<?php $menu_widget = array( 'id' => $node->id , 'title' => $node->title , 'parent' => '' , 'href' => $node->href , 'group' => false , 'new' => true , 'subnode' => false ); ?>
 							<?php $this->admin_bar_menu_widget( $menu_widget ); ?>
 							
 							<?php foreach( $this->Admin_bar as $child_node_id => $child_node ) : ?>
 
 								<?php if( $child_node->parent == 'user-actions' ) : ?>
+									<?php if( $child_node->id == 'user-info' ) : ?>
+										<?php $child_node->title = '<span class="display-name">[user_name]</span>'; ?>
+									<?php elseif( $child_node->id == 'logout' ) : ?>
+										<?php $child_node->href = preg_replace( '/&amp(.*)/' , '' , $child_node->href ); ?>
+									<?php endif; ?>
 									<?php $menu_widget = array( 'id' => $child_node->id , 'title' => $child_node->title , 'parent' => '' , 'href' => $child_node->href , 'group' => false , 'new' => true , 'subnode' => false ); ?>
 									<?php $this->admin_bar_menu_widget( $menu_widget ); ?>
 								<?php endif; ?>
@@ -298,19 +349,22 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 					<?php endforeach; ?>
 					
 					<div class="clear"></div>
-					
+
+<?php
+/*
 					<?php foreach( $this->Admin_bar as $node_id => $node ) : ?>
 
 						<?php if( !empty( $node->parent ) && $node->parent != 'top-secondary' && $node->id != 'user-info' && $node->id != 'user-actions' && $node->id != 'wp-logo-external' ) : ?>
 
 							<?php $menu_widget = array( 'id' => $node->id , 'title' => $node->title , 'parent' => '' , 'href' => $node->href , 'group' => false , 'new' => true , 'subnode' => false ); ?>
-							<?php //$this->admin_bar_menu_widget( $menu_widget ); ?>
+							<?php $this->admin_bar_menu_widget( $menu_widget ); ?>
 
 						<?php endif; ?>
 
 					<?php endforeach; ?>
-					
 					<div class="clear"></div>
+*/
+?>
 
 				</div>
 			</div>
@@ -329,6 +383,8 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 	</form>
 
 </div>
+
+<?php require_once( dirname( __FILE__ ) . '/list_variables.php' ); ?>
 
 <style>
 #admin_bar-holder .item-edit { background-image: url(<?php echo admin_url(); ?>images/arrows.png); }

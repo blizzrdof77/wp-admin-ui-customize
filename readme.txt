@@ -1,10 +1,10 @@
 === WP Admin UI Customize ===
 Contributors: gqevu6bsiz
-Donate link: http://gqevu6bsiz.chicappa.jp/please-donation/?utm_source=wporg&utm_medium=donate&utm_content=wauc&utm_campaign=1_2_3
+Donate link: http://gqevu6bsiz.chicappa.jp/please-donation/?utm_source=wporg&utm_medium=donate&utm_content=wauc&utm_campaign=1_3
 Tags: admin, post, posts, page, option, sitemenu, menu, custom, customize, dashboard, admin_bar
 Requires at least: 3.4.2
 Tested up to: 3.5.1
-Stable tag: 1.2.3
+Stable tag: 1.3
 License: GPL2
 
 Customize the management screen UI.
@@ -48,6 +48,10 @@ These to Customization is possible.
 11. Login Screen Customized
 
 == Changelog ==
+
+= 1.3 =
+* Came to be able to use the various variables.
+* Removed the part menu from the Admin bar.
 
 = 1.2.3 =
 * Remove the "Wordpress" from the title tag of the Admin screen.

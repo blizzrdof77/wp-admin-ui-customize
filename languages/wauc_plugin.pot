@@ -73,6 +73,9 @@ msgstr ""
 msgid "Useful plugins"
 msgstr ""
 
+msgid "This add-on is an add-on to unify the management screen of all sites."
+msgstr ""
+
 msgid "Customize the list of the post and page. custom post type page, too. You can customize the column display items freely."
 msgstr ""
 

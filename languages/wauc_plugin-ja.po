@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP Admin UI Customize\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2013-04-23 15:35+0900\n"
+"PO-Revision-Date: 2013-05-04 02:58+0900\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -72,6 +72,9 @@ msgstr "レビュー"
 
 msgid "Useful plugins"
 msgstr "便利なプラグイン"
+
+msgid "This add-on is an add-on to unify the management screen of all sites."
+msgstr "このアドオンは、全てのサイトの管理画面を統一する為のアドオンです。"
 
 msgid "Customize the list of the post and page. custom post type page, too. You can customize the column display items freely."
 msgstr "投稿と固定ページ一覧をカスタマイズします。カスタム投稿タイプも。カラム一覧を自由にカスタマイズできます。"

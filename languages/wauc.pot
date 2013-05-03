@@ -106,7 +106,7 @@ msgstr ""
 msgid "Admin bar Menu"
 msgstr ""
 
-msgid "Notice: When you set up the same menu more, you will not display properly."
+msgid "Notice: Please do not place the same multiple menu slug."
 msgstr ""
 
 msgid "can be more than one custom menu."
@@ -187,3 +187,14 @@ msgstr ""
 msgid "Css file to load"
 msgstr ""
 
+msgid "Available Shortcodes"
+msgstr ""
+
+msgid "Shortcodes"
+msgstr ""
+
+msgid "Shortcode"
+msgstr ""
+
+msgid "In your case."
+msgstr ""

@@ -11,8 +11,9 @@ if( !empty( $_POST["update"] ) ) {
 $Data = $this->get_data( 'sidemenu' );
 
 // include js css
-$ReadedJs = array( 'jquery' , 'jquery-ui-draggable' , 'jquery-ui-droppable' , 'jquery-ui-sortable' );
+$ReadedJs = array( 'jquery' , 'jquery-ui-draggable' , 'jquery-ui-droppable' , 'jquery-ui-sortable' , 'thickbox' );
 wp_enqueue_script( $this->PageSlug ,  $this->Dir . dirname( dirname( plugin_basename( __FILE__ ) ) ) . '.js', $ReadedJs , $this->Ver );
+wp_enqueue_style( 'thickbox' );
 wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basename( __FILE__ ) ) ) . '.css', array() , $this->Ver );
 
 ?>
@@ -22,6 +23,9 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 	<?php echo $this->Msg; ?>
 	<h2><?php _e( 'Side Menu' , $this->ltd ); ?></h2>
 	<p><?php _e( 'Please change the menu by drag and drop.' , $this->ltd ); ?></p>
+	<p><strong><?php _e( 'Notice: Please do not place the same multiple menu slug.' , $this->ltd ); ?></strong></p>
+
+	<p><a href="#TB_inline?height=300&width=600&inlineId=list_variables&modal=false" title="<?php _e( 'Shortcodes' , $this->ltd ); ?>" class="thickbox"><?php _e( 'Available Shortcodes' , $this->ltd ); ?></a></p>
 
 	<form id="waum_setting_sidemenu" class="waum_form" method="post" action="">
 		<input type="hidden" name="<?php echo $this->UPFN; ?>" value="Y" />
@@ -30,6 +34,7 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 		<div class="metabox-holder columns-2" id="sidemenu-holder">
 
 			<div id="postbox-container-1" class="postbox-container">
+
 				<div class="postbox">
 					<h3 class="hndle"><span><?php _e( 'The current menu' , $this->ltd ); ?></span></h3>
 					<div class="inside">
@@ -49,9 +54,11 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 									<?php $menu_title = $mm[0]; ?>
 									<?php if( !empty( $mm[5] ) ) : ?>
 										<?php if( $mm[5] == 'menu-comments' ) : ?>
-											<?php $menu_title = __( 'Comments' ); ?>
+											<?php $menu_title = __( 'Comments' ) . ' [comment_count]'; ?>
+										<?php elseif( $mm[5] == 'menu-appearance' ) : ?>
+											<?php $menu_title = __( 'Appearance' ) . ' [update_themes]'; ?>
 										<?php elseif( $mm[5] == 'menu-plugins' ) : ?>
-											<?php $menu_title = __( 'Plugins' ); ?>
+											<?php $menu_title = __( 'Plugins' ) . ' [update_plugins]'; ?>
 										<?php endif; ?>
 									<?php endif; ?>
 
@@ -60,12 +67,9 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 										<?php foreach($sub as $sm) : ?>
 											<?php if( $mm[2] == $parent_slug ) : ?>
 												<?php $submenu_title = $sm[0]; ?>
-												<?php if( $sm[1] == 'menu-comments' ) : ?>
-													<?php $submenu_title = __( 'Comments' ); ?>
-												<?php elseif( $sm[1] == 'menu-plugins' ) : ?>
-													<?php $submenu_title = __( 'Plugins' ); ?>
-												<?php elseif( $sm[1] == 'update_core' ) : ?>
-													<?php $submenu_title = __( 'Update' ); ?>
+												
+												<?php if( $sm[1] == 'update_core' ) : ?>
+													<?php $submenu_title = __( 'Update' ) . ' [update_total]'; ?>
 												<?php endif; ?>
 												<?php $mwsm[] = array( 'title' => $submenu_title , 'slug' => $sm[2] , 'parent_slug' => $parent_slug ); ?>
 											<?php endif; ?>
@@ -110,6 +114,7 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 			</div>
 
 			<div id="postbox-container-2" class="postbox-container">
+
 				<div class="postbox">
 					<h3 class="hndle"><span><?php _e( 'Menu that can be added' , $this->ltd ); ?></span></h3>
 					<div class="inside">
@@ -126,6 +131,8 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 								<?php $menu_title = $mm[0]; ?>
 								<?php if( $mm[5] == 'menu-comments' ) : ?>
 									<?php $menu_title = __( 'Comments' ); ?>
+								<?php elseif( $mm[5] == 'menu-appearance' ) : ?>
+									<?php $menu_title = __( 'Appearance' ); ?>
 								<?php elseif( $mm[5] == 'menu-plugins' ) : ?>
 									<?php $menu_title = __( 'Plugins' ); ?>
 								<?php endif; ?>
@@ -137,12 +144,14 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 
 										<?php if( $mm[2] == $parent_slug ) : ?>
 											<?php $menu_title = $sm[0]; ?>
-											<?php if( $sm[1] == 'menu-comments' ) : ?>
-												<?php $menu_title = __( 'Comments' ); ?>
-											<?php elseif( $sm[1] == 'menu-plugins' ) : ?>
-												<?php $menu_title = __( 'Plugins' ); ?>
-											<?php elseif( $sm[1] == 'update_core' ) : ?>
-												<?php $menu_title = __( 'Update' ); ?>
+											<?php if( $sm[1] == 'update_core' ) : ?>
+												<?php $menu_title = __( 'Update' ) . ' [update_total]'; ?>
+											<?php elseif( $sm[2] == 'edit-comments.php' ) : ?>
+												<?php $menu_title .= ' [comment_count]'; ?>
+											<?php elseif( $sm[2] == 'themes.php' ) : ?>
+												<?php $menu_title .= ' [update_themes]'; ?>
+											<?php elseif( $sm[2] == 'plugins.php' ) : ?>
+												<?php $menu_title .= ' [update_plugins]'; ?>
 											<?php endif; ?>
 											<?php $menu_widget = array( 'title' => $menu_title , 'slug' => $sm[2] , 'parent_slug' => '' , 'new' => true , 'submenu' => '' ); ?>
 											<?php $this->menu_widget( $menu_widget ); ?>
@@ -179,6 +188,8 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 	</form>
 
 </div>
+
+<?php require_once( dirname( __FILE__ ) . '/list_variables.php' ); ?>
 
 <style>
 #sidemenu-holder #postbox-container-1 .item-edit { background-image: url(<?php echo admin_url(); ?>images/arrows.png); }

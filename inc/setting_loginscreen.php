@@ -48,7 +48,8 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 									<?php $Val = ''; ?>
 									<?php if( !empty( $Data[$field] ) ) : $Val = strip_tags( $Data[$field] ); endif; ?>
 									<input type="text" name="data[<?php echo $field; ?>]" value="<?php echo $Val; ?>" class="regular-text" id="<?php echo $field; ?>">
-									<code>[blog_url]</code>
+									<a href="#TB_inline?height=300&width=600&inlineId=list_variables&modal=false" title="<?php _e( 'Variables' , $this->ltd ); ?>" class="thickbox"><?php _e( 'Available Shortcodes' , $this->ltd ); ?></a>
+									
 								</td>
 							</tr>
 							<?php $field = 'login_headertitle'; ?>
@@ -60,7 +61,7 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 									<?php $Val = ''; ?>
 									<?php if( !empty( $Data[$field] ) ) : $Val = strip_tags( $Data[$field] ); endif; ?>
 									<input type="text" name="data[<?php echo $field; ?>]" value="<?php echo $Val; ?>" class="regular-text" id="<?php echo $field; ?>">
-									<code>[blog_name]</code>
+									<a href="#TB_inline?height=300&width=600&inlineId=list_variables&modal=false" title="<?php _e( 'Variables' , $this->ltd ); ?>" class="thickbox"><?php _e( 'Available Shortcodes' , $this->ltd ); ?></a>
 								</td>
 							</tr>
 							<?php $field = 'login_headerlogo'; ?>
@@ -72,7 +73,7 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 									<?php $Val = ''; ?>
 									<?php if( !empty( $Data[$field] ) ) : $Val = strip_tags( $Data[$field] ); endif; ?>
 									<input type="text" name="data[<?php echo $field; ?>]" value="<?php echo $Val; ?>" class="regular-text" id="<?php echo $field; ?>">
-									<code>[blog_url] [template_directory_uri]</code>
+									<a href="#TB_inline?height=300&width=600&inlineId=list_variables&modal=false" title="<?php _e( 'Variables' , $this->ltd ); ?>" class="thickbox"><?php _e( 'Available Shortcodes' , $this->ltd ); ?></a>
 									<?php if( !empty( $Val ) ) : ?>
 										<?php $img = str_replace( '[blog_url]' , get_bloginfo( 'url' ) , $Val ); ?>
 										<?php $img = str_replace( '[template_directory_uri]' , get_bloginfo( 'url' ) , $img ); ?>
@@ -100,7 +101,7 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 									<?php $Val = ''; ?>
 									<?php if( !empty( $Data[$field] ) ) : $Val = strip_tags( $Data[$field] ); endif; ?>
 									<input type="text" name="data[<?php echo $field; ?>]" value="<?php echo $Val; ?>" class="regular-text" id="<?php echo $field; ?>">
-									<code>[blog_url] [template_directory_uri]</code>
+									<a href="#TB_inline?height=300&width=600&inlineId=list_variables&modal=false" title="<?php _e( 'Variables' , $this->ltd ); ?>" class="thickbox"><?php _e( 'Available Shortcodes' , $this->ltd ); ?></a>
 								</td>
 							</tr>
 							<?php $field = 'login_footer'; ?>
@@ -133,3 +134,5 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 	</form>
 
 </div>
+
+<?php require_once( dirname( __FILE__ ) . '/list_variables.php' ); ?>

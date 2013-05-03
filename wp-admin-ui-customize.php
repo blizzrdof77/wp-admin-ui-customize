@@ -2,10 +2,10 @@
 /*
 Plugin Name: WP Admin UI Customize
 Description: It is an excellent plugin to customize the management screen.
-Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_2_3
-Version: 1.2.3
+Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_3
+Version: 1.3
 Author: gqevu6bsiz
-Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_2_3
+Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_3
 Text Domain: wauc
 Domain Path: /languages
 */
@@ -47,7 +47,7 @@ class WP_Admin_UI_Customize
 
 
 	function __construct() {
-		$this->Ver = '1.2.3';
+		$this->Ver = '1.3';
 		$this->Name = 'WP Admin UI Customize';
 		$this->Dir = WP_PLUGIN_URL . '/' . dirname( plugin_basename( __FILE__ ) ) . '/';
 		$this->Site = 'http://wpadminuicustomize.com/';
@@ -447,6 +447,58 @@ class WP_Admin_UI_Customize
 <?php
 	}
 
+	// SetList
+	function val_replace( $str ) {
+		
+		if( !empty( $str ) ) {
+
+			$update_data = wp_get_update_data();
+			$awaiting_mod = wp_count_comments();
+			$awaiting_mod = $awaiting_mod->moderated;
+			$current_user = wp_get_current_user();
+
+			if( strstr( $str , '[blog_url]') ) {
+				$str = str_replace( '[blog_url]' , get_bloginfo( 'url' ) , $str );
+			}
+			if( strstr( $str , '[template_directory_uri]') ) {
+				$str = str_replace( '[template_directory_uri]' , get_bloginfo( 'template_directory' ) , $str );
+			}
+			if( strstr( $str , '[blog_name]') ) {
+				$str = str_replace( '[blog_name]' , get_bloginfo( 'name' ) , $str );
+			}
+			if( strstr( $str , '[update_total]') ) {
+				$str = str_replace( '[update_total]' , $update_data["counts"]["total"] , $str );
+			}
+			if( strstr( $str , '[update_total_format]') ) {
+				$str = str_replace( '[update_total_format]' , number_format_i18n( $update_data["counts"]["total"] ) , $str );
+			}
+			if( strstr( $str , '[update_plugins]') ) {
+				$str = str_replace( '[update_plugins]' , $update_data["counts"]["plugins"] , $str );
+			}
+			if( strstr( $str , '[update_plugins_format]') ) {
+				$str = str_replace( '[update_plugins_format]' , number_format_i18n( $update_data["counts"]["plugins"] ) , $str );
+			}
+			if( strstr( $str , '[update_themes]') ) {
+				$str = str_replace( '[update_themes]' , $update_data["counts"]["themes"] , $str );
+			}
+			if( strstr( $str , '[update_themes_format]') ) {
+				$str = str_replace( '[update_themes_format]' , number_format_i18n( $update_data["counts"]["themes"] ) , $str );
+			}
+			if( strstr( $str , '[comment_count]') ) {
+				$str = str_replace( '[comment_count]' , $awaiting_mod , $str );
+			}
+			if( strstr( $str , '[comment_count_format]') ) {
+				$str = str_replace( '[comment_count_format]' , number_format_i18n( $awaiting_mod ) , $str );
+			}
+			if( strstr( $str , '[user_name]') ) {
+				$str = str_replace( '[user_name]' , '<span class="display-name">' . $current_user->display_name . '</span>' , $str );
+			}
+		}
+
+		return $str;
+	}
+
+
 
 
 	// DataUpdate
@@ -793,8 +845,7 @@ class WP_Admin_UI_Customize
 
 			if( !empty( $GetData["login_headerurl"] ) ) {
 				$url = strip_tags( $GetData["login_headerurl"] );
-				$url = str_replace( '[blog_url]' , get_bloginfo( 'url' ) , $url );
-				
+				$url = $this->val_replace( $url );
 			}
 		}
 
@@ -811,8 +862,7 @@ class WP_Admin_UI_Customize
 
 			if( !empty( $GetData["login_headertitle"] ) ) {
 				$title = strip_tags( $GetData["login_headertitle"] );
-				$title = str_replace( '[blog_name]' , get_bloginfo( 'name' ) , $title );
-				
+				$title = $this->val_replace( $title );
 			}
 		}
 
@@ -828,16 +878,14 @@ class WP_Admin_UI_Customize
 
 			if( !empty( $GetData["login_headerlogo"] ) ) {
 				$logo = strip_tags( $GetData["login_headerlogo"] );
-				$logo = str_replace( '[blog_url]' , get_bloginfo( 'url' ) , $logo );
-				$logo = str_replace( '[template_directory_uri]' , get_bloginfo( 'template_directory' ) , $logo );
+				$logo = $this->val_replace( $logo );
 
 				echo '<style type="text/css">.login h1 a { background-image: url(' . $logo . '); }</style>';
 			}
 
 			if( !empty( $GetData["login_css"] ) ) {
 				$css = strip_tags( $GetData["login_css"] );
-				$css = str_replace( '[blog_url]' , get_bloginfo( 'url' ) , $css );
-				$css = str_replace( '[template_directory_uri]' , get_bloginfo( 'template_directory' ) , $css );
+				$css = $this->val_replace( $css );
 
 				wp_enqueue_style( $this->PageSlug , $css , array() , $this->Ver );
 			}
@@ -872,6 +920,8 @@ class WP_Admin_UI_Customize
 			unset( $GetData["UPFN"] );
 			if( !empty( $GetData ) ) {
 
+				$update_data = wp_get_update_data();
+
 				// remove all nodes
 				$All_Nodes = $wp_admin_bar->get_nodes();
 				foreach( $All_Nodes as $node ) {
@@ -890,6 +940,39 @@ class WP_Admin_UI_Customize
 							}
 							if( $Boxtype == 'right' && $depth == 'main' ) {
 								$args["parent"] = "top-secondary";
+							}
+							if( strstr( $args["title"] , '[comment_count]') ) {
+								if ( !current_user_can('edit_posts') ) {
+									continue;
+								} else {
+									$args["title"] = str_replace( '[comment_count]' , '<span class="ab-icon"></span><span id="ab-awaiting-mod" class="ab-label awaiting-mod pending-count count-[comment_count]">[comment_count_format]</span>' , $args["title"] );
+								}
+							}
+							if( strstr( $args["title"] , '[update_total]') ) {
+								if ( !$update_data['counts']['total'] ) {
+									continue;
+								} else {
+									$args["title"] = str_replace( '[update_total]' , '<span class="ab-icon"></span><span class="ab-label">[update_total_format]</span>' , $args["title"] );
+								}
+							}
+							if( strstr( $args["title"] , '[update_plugins]') ) {
+								if ( !$update_data['counts']['plugins'] ) {
+									continue;
+								} else {
+									$args["title"] = str_replace( '[update_plugins]' , '[update_plugins_format]' , $args["title"] );
+								}
+							}
+							if( strstr( $args["title"] , '[update_themes]') ) {
+								if ( !$update_data['counts']['themes'] ) {
+									continue;
+								} else {
+									$args["title"] = str_replace( '[update_themes]' , '[update_themes_format]' , $args["title"] );
+								}
+							}
+							$args["title"] = $this->val_replace( $args["title"] );
+							
+							if( $args["id"] == 'logout' ) {
+								$args["href"] = wp_logout_url();
 							}
 							$wp_admin_bar->add_menu( $args );
 						}
@@ -986,8 +1069,7 @@ class WP_Admin_UI_Customize
 			if( !empty( $GetData["css"] ) ) {
 
 				$css = strip_tags( $GetData["css"] );
-				$css = str_replace( '[blog_url]' , get_bloginfo( 'url' ) , $css );
-				$css = str_replace( '[template_directory_uri]' , get_bloginfo( 'template_directory' ) , $css );
+				$css = $this->val_replace( $css );
 
 				wp_enqueue_style( $this->PageSlug , strip_tags( $css ) , array() , $this->Ver );
 			}
@@ -1074,7 +1156,19 @@ class WP_Admin_UI_Customize
 						$gm_search = false;
 						foreach($menu as $gm_pos => $gm) {
 							if($mm["slug"] == $gm[2]) {
-								$menu[$gm_pos][0] = $mm["title"];
+								if( strstr( $mm["title"] , '[comment_count]') ) {
+									$mm["title"] = str_replace( '[comment_count]' , '<span class="update-plugins count-[comment_count]"><span class="theme-count">[comment_count_format]</span></span>' , $mm["title"] );
+								}
+								if( strstr( $mm["title"] , '[update_total]') ) {
+									$mm["title"] = str_replace( '[update_total]' , '<span class="update-plugins count-[update_total]"><span class="update-count">[update_total_format]</span></span>' , $mm["title"] );
+								}
+								if( strstr( $mm["title"] , '[update_plugins]') ) {
+									$mm["title"] = str_replace( '[update_plugins]' , '<span class="update-plugins count-[update_plugins]"><span class="plugin-count">[update_plugins_format]</span></span>' , $mm["title"] );
+								}
+								if( strstr( $mm["title"] , '[update_themes]') ) {
+									$mm["title"] = str_replace( '[update_themes]' , '<span class="update-plugins count-[update_themes]"><span class="theme-count">[update_themes_format]</span></span>' , $mm["title"] );
+								}
+								$menu[$gm_pos][0] = $this->val_replace( $mm["title"] );
 								$SetMain_menu[] = $menu[$gm_pos];
 								$gm_search = true;
 								break;
@@ -1091,8 +1185,19 @@ class WP_Admin_UI_Customize
 												break;
 											}
 										}
-										
-										$submenu[$gsm_parent_slug][$gsm_pos][0] = $mm["title"];
+										if( strstr( $mm["title"] , '[comment_count]') ) {
+											$mm["title"] = str_replace( '[comment_count]' , '<span class="update-plugins count-[comment_count]"><span class="theme-count">[comment_count_format]</span></span>' , $mm["title"] );
+										}
+										if( strstr( $mm["title"] , '[update_total]') ) {
+											$mm["title"] = str_replace( '[update_total]' , '<span class="update-plugins count-[update_total]"><span class="update-count">[update_total_format]</span></span>' , $mm["title"] );
+										}
+										if( strstr( $mm["title"] , '[update_plugins]') ) {
+											$mm["title"] = str_replace( '[update_plugins]' , '<span class="update-plugins count-[update_plugins]"><span class="plugin-count">[update_plugins_format]</span></span>' , $mm["title"] );
+										}
+										if( strstr( $mm["title"] , '[update_themes]') ) {
+											$mm["title"] = str_replace( '[update_themes]' , '<span class="update-plugins count-[update_themes]"><span class="theme-count">[update_themes_format]</span></span>' , $mm["title"] );
+										}
+										$submenu[$gsm_parent_slug][$gsm_pos][0] = $this->val_replace( $mm["title"] );
 										$SetMain_menu[] = $submenu[$gsm_parent_slug][$gsm_pos];
 
 									}
@@ -1109,7 +1214,19 @@ class WP_Admin_UI_Customize
 						$gm_search = false;
 						foreach($menu as $gm_pos => $gm) {
 							if($sm["slug"] == $gm[2]) {
-								$menu[$gm_pos][0] = $sm["title"];
+								if( strstr( $sm["title"] , '[comment_count]') ) {
+									$sm["title"] = str_replace( '[comment_count]' , '<span class="update-plugins count-[comment_count]"><span class="theme-count">[comment_count_format]</span></span>' , $sm["title"] );
+								}
+								if( strstr( $sm["title"] , '[update_total]') ) {
+									$sm["title"] = str_replace( '[update_total]' , '<span class="update-plugins count-[update_total]"><span class="update-count">[update_total_format]</span></span>' , $sm["title"] );
+								}
+								if( strstr( $sm["title"] , '[update_plugins]') ) {
+									$sm["title"] = str_replace( '[update_plugins]' , '<span class="update-plugins count-[update_plugins]"><span class="plugin-count">[update_plugins_format]</span></span>' , $sm["title"] );
+								}
+								if( strstr( $sm["title"] , '[update_themes]') ) {
+									$sm["title"] = str_replace( '[update_themes]' , '<span class="update-plugins count-[update_themes]"><span class="theme-count">[update_themes_format]</span></span>' , $sm["title"] );
+								}
+								$menu[$gm_pos][0] = $this->val_replace( $sm["title"] );
 								$SetMain_submenu[$sm["parent_slug"]][] = $menu[$gm_pos];
 								$gm_search = true;
 								break;
@@ -1119,7 +1236,20 @@ class WP_Admin_UI_Customize
 							foreach($submenu as $gsm_parent_slug => $v) {
 								foreach($v as $gsm_pos => $gsm) {
 									if($sm["slug"] == $gsm[2]) {
-										$submenu[$gsm_parent_slug][$gsm_pos][0] = $sm["title"];
+
+										if( strstr( $sm["title"] , '[comment_count]') ) {
+											$sm["title"] = str_replace( '[comment_count]' , '<span class="update-plugins count-[comment_count]"><span class="theme-count">[comment_count_format]</span></span>' , $sm["title"] );
+										}
+										if( strstr( $sm["title"] , '[update_total]') ) {
+											$sm["title"] = str_replace( '[update_total]' , '<span class="update-plugins count-[update_total]"><span class="update-count">[update_total_format]</span></span>' , $sm["title"] );
+										}
+										if( strstr( $sm["title"] , '[update_plugins]') ) {
+											$sm["title"] = str_replace( '[update_plugins]' , '<span class="update-plugins count-[update_plugins]"><span class="plugin-count">[update_plugins_format]</span></span>' , $sm["title"] );
+										}
+										if( strstr( $sm["title"] , '[update_themes]') ) {
+											$sm["title"] = str_replace( '[update_themes]' , '<span class="update-plugins count-[update_themes]"><span class="theme-count">[update_themes_format]</span></span>' , $sm["title"] );
+										}
+										$submenu[$gsm_parent_slug][$gsm_pos][0] = $this->val_replace( $sm["title"] );
 										$SetMain_submenu[$sm["parent_slug"]][] = $submenu[$gsm_parent_slug][$gsm_pos];
 									}
 								}
@@ -1192,6 +1322,7 @@ class WP_Admin_UI_Customize
 	// FilterStart
 	function layout_footer( $text ) {
 		$text = '<img src="http://www.gravatar.com/avatar/7e05137c5a859aa987a809190b979ed4?s=18" width="18" /> Plugin developer : <a href="http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=footer&utm_content=' . $this->ltd . '&utm_campaign=' . str_replace( '.' , '_' , $this->Ver ) . '" target="_blank">gqevu6bsiz</a>';
+		$text .= '<br /><strong><span style="color: orange;">new</span> <a href="' . $this->Site . 'multisite_about/?utm_source=use_plugin&utm_medium=side&utm_content=utm_content=' . $this->ltd . '&utm_campaign=' . str_replace( '.' , '_' , $this->Ver ) . '" target="_blank">WP Admin UI Customize for Multisite Add-on</a></strong>';
 		return $text;
 	}
 

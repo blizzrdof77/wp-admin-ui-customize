@@ -22,6 +22,13 @@
 	padding: 2px 10px;
 }
 
+#list_variables {
+	display: none;
+}
+.list_variables_wrap {
+	padding: 16px 0 0 0;
+}
+
 
 
 /* sidemenu */
@@ -51,6 +58,9 @@
 #sidemenu-holder .postbox .inside .widget .widget-top .widget-title .in-widget-title {
 	opacity: 0.7;
 	font-weight: normal;
+}
+#sidemenu-holder .postbox .inside .widget .widget-inside .settings {
+	margin-bottom: 12px;
 }
 #sidemenu-holder .postbox .inside .widget .widget-inside .submenu {
 	padding: 5px 5px 20px 5px;

@@ -3,6 +3,9 @@ $update_data = wp_get_update_data();
 $awaiting_mod = wp_count_comments();
 $awaiting_mod = $awaiting_mod->moderated;
 $current_user = wp_get_current_user();
+if( is_multisite() ) {
+	$current_site = get_current_site();
+}
 ?>
 
 <div id="list_variables">
@@ -16,6 +19,21 @@ $current_user = wp_get_current_user();
 				</tr>
 			</thead>
 			<tbody>
+				<?php if( is_multisite() ) : ?>
+					<tr>
+						<th><strong>[site_name]</strong></th>
+						<td>
+							<code><?php echo esc_attr( $current_site->site_name ); ?></code>
+						</td>
+					</tr>
+					<tr>
+						<th><strong>[site_url]</strong></th>
+						<td>
+							<?php $protocol = is_ssl() ? 'https://' : 'http://'; ?>
+							<code><?php echo $protocol . esc_attr( $current_site->domain );?></code>
+						</td>
+					</tr>
+				<?php endif; ?>
 				<tr>
 					<th><strong>[blog_name]</strong></th>
 					<td>
@@ -32,6 +50,12 @@ $current_user = wp_get_current_user();
 					<th><strong>[template_directory_uri]</strong></th>
 					<td>
 						<code><?php echo get_bloginfo( 'template_directory' ); ?></code>
+					</td>
+				</tr>
+				<tr>
+					<th><strong>[stylesheet_directory_uri]</strong></th>
+					<td>
+						<code><?php echo get_stylesheet_directory_uri(); ?></code>
 					</td>
 				</tr>
 				<tr>

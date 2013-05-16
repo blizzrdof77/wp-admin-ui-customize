@@ -90,15 +90,17 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 								<?php if( !empty( $mm["title"] ) ) : ?>
 
 									<?php $mwsm = array(); ?>
-									<?php foreach($Data["sub"] as $sm) : ?>
-
-										<?php if( $mm["slug"] == $sm["parent_slug"] ) : ?>
-
-											<?php $mwsm[] = array( 'title' => $sm["title"] , 'slug' => $sm["slug"] , 'parent_slug' => $sm["parent_slug"] ); ?>
-
-										<?php endif; ?>
-
-									<?php endforeach; ?>
+									<?php if( !empty( $Data["sub"] ) ) : ?>
+										<?php foreach($Data["sub"] as $sm) : ?>
+	
+											<?php if( $mm["slug"] == $sm["parent_slug"] ) : ?>
+	
+												<?php $mwsm[] = array( 'title' => $sm["title"] , 'slug' => $sm["slug"] , 'parent_slug' => $sm["parent_slug"] ); ?>
+	
+											<?php endif; ?>
+	
+										<?php endforeach; ?>
+									<?php endif; ?>
 
 									<?php $menu_widget = array( 'title' => $mm["title"] , 'slug' => $mm["slug"] , 'parent_slug' => '' , 'new' => false , 'submenu' => $mwsm ); ?>
 									<?php $this->menu_widget( $menu_widget ); ?>

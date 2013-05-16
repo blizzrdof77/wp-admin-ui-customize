@@ -42,8 +42,13 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 									<?php $Checked = ''; ?>
 									<?php if( !empty( $Data[$field] ) ) : $Checked = 'checked="checked"'; endif; ?>
 									<label><input type="checkbox" name="data[<?php echo $field; ?>]" value="1" <?php echo $Checked; ?> /> <?php _e ( 'Hide' ); ?></label>
-									<p class="description"><?php _e( 'This is useful when you want to use only the menus have been created.' , $this->ltd ); ?>
-									<p><img src="<?php echo $this->Dir; ?>images/appearance_menus_add_new_menu.png" /></p>
+									<p class="description"><?php _e( 'This is useful when you want to use only the menus have been created.' , $this->ltd ); ?></p>
+									<?php if( version_compare( $GLOBALS['wp_version'], '3.5.1', '>' ) ) : ?>
+										<p><img src="<?php echo $this->Dir; ?>images/appearance_menus_add_new_menu.png" /></p>
+										<p><img src="<?php echo $this->Dir; ?>images/appearance_menus_add_new_menu_of_location.png" /></p>
+									<?php else: ?>
+										<p><img src="<?php echo $this->Dir; ?>images/3.5.1/appearance_menus_add_new_menu.png" /></p>
+									<?php endif; ?>
 								</td>
 							</tr>
 							<?php $field = 'delete_menu'; ?>
@@ -55,8 +60,12 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 									<?php $Checked = ''; ?>
 									<?php if( !empty( $Data[$field] ) ) : $Checked = 'checked="checked"'; endif; ?>
 									<label><input type="checkbox" name="data[<?php echo $field; ?>]" value="1" <?php echo $Checked; ?> /> <?php _e ( 'Hide' ); ?></label>
-									<p class="description"><?php _e( 'This is useful when you want to use only the menus have been created.' , $this->ltd ); ?>
-									<p><img src="<?php echo $this->Dir; ?>images/appearance_menus_delete_menu.png" /></p>
+									<p class="description"><?php _e( 'This is useful when you want to use only the menus have been created.' , $this->ltd ); ?></p>
+									<?php if( version_compare( $GLOBALS['wp_version'], '3.5.1', '>' ) ) : ?>
+										<p><img src="<?php echo $this->Dir; ?>images/appearance_menus_delete_menu.png" /></p>
+									<?php else: ?>
+										<p><img src="<?php echo $this->Dir; ?>images/3.5.1/appearance_menus_delete_menu.png" /></p>
+									<?php endif; ?>
 								</td>
 							</tr>
 						</tbody>

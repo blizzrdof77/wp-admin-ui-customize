@@ -1,10 +1,10 @@
 === WP Admin UI Customize ===
 Contributors: gqevu6bsiz
-Donate link: http://gqevu6bsiz.chicappa.jp/please-donation/?utm_source=wporg&utm_medium=donate&utm_content=wauc&utm_campaign=1_3_1
+Donate link: http://gqevu6bsiz.chicappa.jp/please-donation/?utm_source=wporg&utm_medium=donate&utm_content=wauc&utm_campaign=1_3_2
 Tags: admin, post, posts, page, option, sitemenu, menu, custom, customize, dashboard, admin_bar
 Requires at least: 3.4.2
 Tested up to: 3.6
-Stable tag: 1.3.1
+Stable tag: 1.3.2
 License: GPL2
 
 Customize the management screen UI.
@@ -49,11 +49,13 @@ These to Customization is possible.
 
 == Changelog ==
 
+= 1.3.2 =
+* Added meta box other than the default.
+
 = 1.3.1 =
 * Added some variables.
 * Fixed bug : Error to does not exist sub menu in the side menu settings.
 * WordPress 3.6 compatibility
-* Added meta box other than the default.
 
 = 1.3 =
 * Came to be able to use the various variables.

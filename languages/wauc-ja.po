@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP Admin UI Customize\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2013-05-04 01:16+0900\n"
+"PO-Revision-Date: 2013-05-21 01:42+0900\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -144,6 +144,18 @@ msgstr "サブメニュー"
 
 msgid "Remove meta box"
 msgstr "メタボックス削除"
+
+msgid "Could not read the meta box."
+msgstr "メタボックスの読み込みができませんでした。"
+
+msgid "Meta boxes will be loaded automatically when you view once the post editing screen."
+msgstr "投稿編集画面を一度表示すると自動でメタボックスが読み込まれます。"
+
+msgid "Meta boxes will be loaded automatically when you view once the page editing screen."
+msgstr "固定ページ編集画面を一度表示すると自動でメタボックスが読み込まれます。"
+
+msgid "Please once access the \"post\" or \"page\" edit screen to load the meta box for the new plugin."
+msgstr "新しいプラグインのメタボックスを読み込むには編集画面に一度アクセスしてください。"
 
 msgid "Add New Post and Edit Post screen setting"
 msgstr "新規投稿と投稿編集の設定"

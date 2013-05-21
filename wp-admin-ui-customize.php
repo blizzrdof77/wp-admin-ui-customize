@@ -61,6 +61,7 @@ class WP_Admin_UI_Customize
 			"admin_bar_menu" => $this->ltd . '_admin_bar_menu_setting',
 			"sidemenu" => $this->ltd . '_sidemenu_setting',
 			"removemetabox" => $this->ltd . '_removemetabox_setting',
+			"regist_metabox" => $this->ltd . '_regist_metabox',
 			"post_add_edit" => $this->ltd . '_post_add_edit_setting',
 			"appearance_menus" => $this->ltd . '_appearance_menus_setting',
 			"loginscreen" => $this->ltd . '_loginscreen_setting',
@@ -245,6 +246,7 @@ class WP_Admin_UI_Customize
 
 		$this->Menu = $menu;
 		$this->SubMenu = $submenu;
+		
 	}
 
 	// SetList
@@ -254,6 +256,60 @@ class WP_Admin_UI_Customize
 		$this->Admin_bar = $wp_admin_bar->get_nodes();
 
 	}
+
+	// SetList
+	function post_meta_boxes_load() {
+		global $current_screen;
+
+		if( $current_screen->base == 'post' && $current_screen->action != 'add' ) {
+			if( $current_screen->post_type == 'post' or $current_screen->post_type == 'page' ) {
+				
+				global $wp_meta_boxes;
+				global $post_type;
+
+				$GetData = $this->get_data( "regist_metabox" );
+				$Metaboxes = $wp_meta_boxes[$post_type];
+				
+				$Update = array();
+				if( empty( $GetData ) ) {
+
+					$Update["UPFN"] = $this->UPFN;
+					foreach( $Metaboxes as $context => $meta_box ) {
+						foreach( $meta_box as $priority => $box ) {
+							foreach( $box as $metabox_id => $b ) {
+								$Update["metaboxes"][$post_type][$context][$priority][$b["id"]] = strip_tags( $b["title"] );
+							}
+						}
+					}
+					
+				} else {
+					
+					unset( $GetData["metaboxes"][$post_type] );
+					$Update = $GetData;
+					foreach( $Metaboxes as $context => $meta_box ) {
+						foreach( $meta_box as $priority => $box ) {
+							foreach( $box as $metabox_id => $b ) {
+								if( !empty( $GetData["metaboxes"][$post_type][$context][$priority][$b["id"]] ) ) {
+									$Update["metaboxes"][$post_type][$context][$priority][$b["id"]] = strip_tags( $b["title"] );
+									unset( $Metaboxes[$context][$priority][$b["id"]] );
+								} else {
+									$Update["metaboxes"][$post_type][$context][$priority][$b["id"]] = strip_tags( $b["title"] );
+								}
+							}
+						}
+					}
+					
+				}
+
+				if( !empty( $Update ) ) {
+					update_option( $this->Record["regist_metabox"] , $Update );
+				}
+
+			}
+		}
+
+	}
+
 
 	// SetList
 	function menu_widget( $menu_widget ) {
@@ -791,15 +847,22 @@ class WP_Admin_UI_Customize
 		}
 		// admin UI
 		if ( is_admin() ) {
+
 			// default side menu load.
 			add_action( 'admin_menu' , array( $this , 'sidemenu_default_load' ) , 10000 );
+
 			// default admin bar menu load.
 			add_action( 'wp_before_admin_bar_render' , array( $this , 'admin_bar_default_load' ) , 1 );
+
+			// default post metabox load.
+			add_action( 'admin_head' , array( $this , 'post_meta_boxes_load' ) , 10 );
+
 			// admin init
 			add_action( 'init' , array( $this , 'admin_init' ) );
+			
 		}
 	}
-
+	
 	// FilterStart
 	function admin_init() {
 
@@ -821,7 +884,8 @@ class WP_Admin_UI_Customize
 					add_filter( 'admin_footer_text' , array( $this , 'admin_footer_text' ) );
 					add_action( 'admin_print_styles' , array( $this , 'load_css' ) );
 					add_action( 'wp_dashboard_setup' , array( $this , 'wp_dashboard_setup' ) );
-					add_action( 'admin_menu' , array( $this , 'removemetabox' ) );
+					add_action( 'admin_head' , array( $this , 'removemetabox' ) , 11 );
+					add_action( 'admin_init' , array( $this , 'remove_postformats' ) );
 					add_filter( 'admin_menu', array( $this , 'sidemenu' ) , 10001 );
 					add_filter( 'get_sample_permalink_html' , array( $this , 'add_edit_post_change_permalink' ) );
 					add_action( 'admin_print_styles-nav-menus.php', array( $this , 'nav_menus' ) );
@@ -1128,28 +1192,70 @@ class WP_Admin_UI_Customize
 
 	// FilterStart
 	function removemetabox() {
-		$GetData = get_option( $this->Record["removemetabox"] );
+		global $wp_meta_boxes;
+		global $current_screen;
 
+		$GetData = get_option( $this->Record["removemetabox"] );
+		
 		if( !empty( $GetData["UPFN"] ) ) {
 			unset( $GetData["UPFN"] );
 
 			if( !empty( $GetData ) && is_array( $GetData ) ) {
-				foreach($GetData as $post_type => $val) {
-					foreach($val as $id => $v) {
-						if( $id == 'postimagediv' ) {
-							if( current_theme_supports( 'post-thumbnails' ) ) {
-								remove_post_type_support( $post_type , 'thumbnail' );
+
+				if( $current_screen->base == 'post' ) {
+					if( $current_screen->post_type == 'post' or $current_screen->post_type == 'page' ) {
+
+						global $post_type;
+
+						if( !empty( $GetData[$post_type] ) ) {
+
+							$Metaboxes = $wp_meta_boxes[$post_type];
+							$Data = $GetData[$post_type];
+	
+							$Remove_metaboxes = array();
+							foreach( $Metaboxes as $context => $meta_box ) {
+								foreach( $meta_box as $priority => $box ) {
+									foreach( $box as $metabox_id => $b ) {
+										if( array_key_exists( $metabox_id , $Data ) ) {
+											$Remove_metaboxes[$metabox_id] = array( "context" => $context , "priority" => $priority );
+										}
+									}
+								}
 							}
-						} elseif( $id == 'formatdiv' && version_compare( $GLOBALS['wp_version'], '3.5.1', '>' ) ) {
-							remove_post_type_support( "post" , "post-formats" );
-						} else {
-							remove_meta_box( $id , $post_type , 'normal' );
+
 						}
+						
+						if( !empty( $Remove_metaboxes ) ) {
+							foreach( $Remove_metaboxes as $metabox_id => $box ) {
+								remove_meta_box( $metabox_id , $post_type , $box["context"] );
+							}
+						}
+						
 					}
 				}
 			}
 		}
 
+	}
+
+	// FilterStart
+	function remove_postformats() {
+		if( version_compare( $GLOBALS['wp_version'], '3.5.1', '>' ) ) {
+			$GetData = get_option( $this->Record["removemetabox"] );
+			
+			if( !empty( $GetData["UPFN"] ) ) {
+				unset( $GetData["UPFN"] );
+	
+				if( !empty( $GetData ) && is_array( $GetData ) ) {
+	
+					if( !empty( $GetData["post"]["postformat"] ) ) {
+						remove_post_type_support( "post" , "post-formats" );
+					}
+
+				}
+
+			}
+		}
 	}
 
 	// FilterStart

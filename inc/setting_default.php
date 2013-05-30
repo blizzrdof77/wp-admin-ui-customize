@@ -23,7 +23,7 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 	<h2><?php echo $this->Name; ?></h2>
 	<p><?php _e( 'Customize the UI of the management screen for all users.' , $this->ltd ); ?>
 	<p><?php _e ( 'Please select the user role you want to apply the settings.' , $this->ltd ); ?></p>
-	<p><strong><span style="color: orange;">new</span> <a href="<?php echo $this->Site; ?>multisite_about/?utm_source=use_plugin&utm_medium=side&utm_content=utm_content=<?php echo $this->ltd; ?>&utm_campaign=<?php echo str_replace( '.' , '_' , $this->Ver ); ?>" target="_blank">WP Admin UI Customize for Multisite</a></strong></p>
+	<p><strong><span style="color: orange;">new</span> <a href="<?php echo $this->Site; ?>import_export_about/?utm_source=use_plugin&utm_medium=side&utm_content=utm_content=<?php echo $this->ltd; ?>&utm_campaign=<?php echo str_replace( '.' , '_' , $this->Ver ); ?>" target="_blank">WP Admin UI Customize Import &amp; Export Add-on</a></strong></p>
 
 	<div class="metabox-holder columns-2">
 
@@ -79,11 +79,11 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 
 			<div class="stuffbox" id="donationbox">
 				<div class="inside">
-					<p style="color: #FFFFFF; font-size: 20px;"><?php _e( 'Please donation.' , $this->ltd_p ); ?></p>
+					<p style="color: #FFFFFF; font-size: 20px;"><?php _e( 'Donate' , $this->ltd_p ); ?></p>
 					<p style="color: #FFFFFF;"><?php _e( 'You are contented with this plugin?<br />By the laws of Japan, Japan\'s new paypal user can not make a donation button.<br />So i would like you to buy this plugin as the replacement for the donation.' , $this->ltd_p ); ?></p>
 					<p>&nbsp;</p>
 					<p style="text-align: center;">
-						<a href="http://gqevu6bsiz.chicappa.jp/line-break-first-and-end/?utm_source=use_plugin&utm_medium=donate&utm_content=<?php echo $this->ltd; ?>&utm_campaign=<?php echo str_replace( '.' , '_' , $this->Ver ); ?>" class="button-primary" target="_blank">Line Break First and End</a>
+						<a href="<?php echo $this->AuthorUrl; ?>line-break-first-and-end/?utm_source=use_plugin&utm_medium=donate&utm_content=<?php echo $this->ltd; ?>&utm_campaign=<?php echo str_replace( '.' , '_' , $this->Ver ); ?>" class="button-primary" target="_blank">Line Break First and End</a>
 					</p>
 					<p>&nbsp;</p>
 					<div class="donation_memo">
@@ -108,7 +108,7 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 					<p><?php _e( 'Version check' , $this->ltd_p ); ?> : 3.4.2 - 3.6 beta3</p>
 					<ul>
 						<li><a href="<?php echo $this->Site; ?>?utm_source=use_plugin&utm_medium=side&utm_content=utm_content=<?php echo $this->ltd; ?>&utm_campaign=<?php echo str_replace( '.' , '_' , $this->Ver ); ?>" target="_blank"><?php _e( 'Plugin\'s site' , $this->ltd_p ); ?></a></li>
-						<li><a href="http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=side&utm_content<?php echo $this->ltd; ?>&utm_campaign=<?php echo str_replace( '.' , '_' , $this->Ver ); ?>" target="_blank"><?php _e( 'Developer\'s site' , $this->ltd_p ); ?></a></li>
+						<li><a href="<?php echo $this->AuthorUrl; ?>?utm_source=use_plugin&utm_medium=side&utm_content<?php echo $this->ltd; ?>&utm_campaign=<?php echo str_replace( '.' , '_' , $this->Ver ); ?>" target="_blank"><?php _e( 'Developer\'s site' , $this->ltd_p ); ?></a></li>
 						<li><a href="http://wordpress.org/support/plugin/wp-admin-ui-customize" target="_blank"><?php _e( 'Support Forums' ); ?></a></li>
 						<li><a href="http://wordpress.org/support/view/plugin-reviews/wp-admin-ui-customize" target="_blank"><?php _e( 'Reviews' , $this->ltd_p ); ?></a></li>
 						<li><a href="https://twitter.com/gqevu6bsiz" target="_blank">twitter</a></li>
@@ -120,7 +120,9 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 			<div class="stuffbox" id="usefulbox">
 				<h3><span class="hndle"><?php _e( 'Useful plugins' , $this->ltd_p ); ?></span></h3>
 				<div class="inside">
-					<p><strong><span style="color: orange;">new</span> <a href="<?php echo $this->Site; ?>multisite_about/?utm_source=use_plugin&utm_medium=side&utm_content=utm_content=<?php echo $this->ltd; ?>&utm_campaign=<?php echo str_replace( '.' , '_' , $this->Ver ); ?>" target="_blank">WP Admin UI Customize for Multisite</a></strong></p>
+					<p><strong><span style="color: orange;">new</span> <a href="<?php echo $this->Site; ?>import_export_about/?utm_source=use_plugin&utm_medium=side&utm_content=utm_content=<?php echo $this->ltd; ?>&utm_campaign=<?php echo str_replace( '.' , '_' , $this->Ver ); ?>" target="_blank">WP Admin UI Customize Import &amp; Export Add-on</a></strong></p>
+					<p class="description"><?php _e( 'This add-on is import & export of settings data of WP Admin UI Customize.' , $this->ltd_p ); ?></p>
+					<p><strong><a href="<?php echo $this->Site; ?>multisite_about/?utm_source=use_plugin&utm_medium=side&utm_content=utm_content=<?php echo $this->ltd; ?>&utm_campaign=<?php echo str_replace( '.' , '_' , $this->Ver ); ?>" target="_blank">WP Admin UI Customize for Multisite</a></strong></p>
 					<p class="description"><?php _e( 'This add-on is an add-on to unify the management screen of all sites.' , $this->ltd_p ); ?></p>
 					<p><strong><a href="http://wordpress.org/extend/plugins/post-lists-view-custom/" target="_blank">Post Lists View Custom</a></strong></p>
 					<p class="description"><?php _e( 'Customize the list of the post and page. custom post type page, too. You can customize the column display items freely.' , $this->ltd_p ); ?></p>

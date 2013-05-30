@@ -2,10 +2,10 @@
 /*
 Plugin Name: WP Admin UI Customize
 Description: It is an excellent plugin to customize the management screen.
-Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_3_2
-Version: 1.3.2
+Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_3_3
+Version: 1.3.3
 Author: gqevu6bsiz
-Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_3_2
+Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_3_3
 Text Domain: wauc
 Domain Path: /languages
 */
@@ -35,6 +35,7 @@ class WP_Admin_UI_Customize
 		$Name,
 		$Dir,
 		$Site,
+		$AuthorUrl,
 		$ltd,
 		$Record,
 		$PageSlug,
@@ -47,10 +48,11 @@ class WP_Admin_UI_Customize
 
 
 	function __construct() {
-		$this->Ver = '1.3.2';
+		$this->Ver = '1.3.3';
 		$this->Name = 'WP Admin UI Customize';
 		$this->Dir = WP_PLUGIN_URL . '/' . dirname( plugin_basename( __FILE__ ) ) . '/';
 		$this->Site = 'http://wpadminuicustomize.com/';
+		$this->AuthorUrl = 'http://gqevu6bsiz.chicappa.jp/';
 		$this->ltd = 'wauc';
 		$this->ltd_p = $this->ltd . '_plugin';
 		$this->Record = array(
@@ -88,6 +90,9 @@ class WP_Admin_UI_Customize
 		// plugin links
 		add_filter( 'plugin_action_links' , array( $this , 'plugin_action_links' ) , 10 , 2 );
 
+		// plugin links
+		add_filter( 'network_admin_plugin_action_links' , array( $this , 'network_admin_plugin_action_links' ) , 10 , 2 );
+
 		// add menu
 		add_action( 'admin_menu' , array( $this , 'admin_menu' ) , 2 );
 	}
@@ -99,6 +104,16 @@ class WP_Admin_UI_Customize
 			$support_link = '<a href="http://wordpress.org/support/plugin/wp-admin-ui-customize" target="_blank">' . __( 'Support Forums' ) . '</a>';
 			array_unshift( $links, $link , $support_link );
 		}
+		return $links;
+	}
+
+	// PluginSetup
+	function network_admin_plugin_action_links( $links , $file ) {
+		if( plugin_basename(__FILE__) == $file ) {
+			$support_link = '<a href="' . $this->Site . 'multisite_about/?utm_source=use_plugin&utm_medium=list&utm_content=' . $this->ltd . '&utm_campaign=' . str_replace( '.' , '_' , $this->Ver ) . '" target="_blank">Multisite Add-on</a>';
+			array_unshift( $links, $support_link );
+		}
+
 		return $links;
 	}
 
@@ -1095,14 +1110,14 @@ class WP_Admin_UI_Customize
 
 	// FilterStart
 	function notice_update_plugin( $site_transient_update_plugins ) {
-		$site_transient_update_plugins->response = '';
+		unset( $site_transient_update_plugins->response );
 		
 		return $site_transient_update_plugins;
 	}
 
 	// FilterStart
 	function notice_update_theme( $site_transient_update_themes ) {
-		$site_transient_update_themes->response = '';
+		unset( $site_transient_update_themes->response );
 		
 		return $site_transient_update_themes;
 	}
@@ -1452,8 +1467,7 @@ class WP_Admin_UI_Customize
 
 	// FilterStart
 	function layout_footer( $text ) {
-		$text = '<img src="http://www.gravatar.com/avatar/7e05137c5a859aa987a809190b979ed4?s=18" width="18" /> Plugin developer : <a href="http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=footer&utm_content=' . $this->ltd . '&utm_campaign=' . str_replace( '.' , '_' , $this->Ver ) . '" target="_blank">gqevu6bsiz</a>';
-		$text .= '<br /><strong><span style="color: orange;">new</span> <a href="' . $this->Site . 'multisite_about/?utm_source=use_plugin&utm_medium=side&utm_content=utm_content=' . $this->ltd . '&utm_campaign=' . str_replace( '.' , '_' , $this->Ver ) . '" target="_blank">WP Admin UI Customize for Multisite Add-on</a></strong>';
+		$text = '<img src="http://www.gravatar.com/avatar/7e05137c5a859aa987a809190b979ed4?s=18" width="18" /> Plugin developer : <a href="' . $this->AuthorUrl . '?utm_source=use_plugin&utm_medium=footer&utm_content=' . $this->ltd . '&utm_campaign=' . str_replace( '.' , '_' , $this->Ver ) . '" target="_blank">gqevu6bsiz</a>';
 		return $text;
 	}
 
@@ -1461,7 +1475,7 @@ class WP_Admin_UI_Customize
 	function DisplayDonation() {
 		$donation = get_option( $this->Record["donate"] );
 		if( $this->DonateKey != $donation ) {
-			$this->Msg .= '<div class="error"><p><strong>' . __( 'Please consider a donation if you are satisfied with this plugin.' , $this->ltd_p ) . '</strong> <a href="' . self_admin_url( 'admin.php?page=' . $this->PageSlug ) . '">' . __( 'Please donation.' , $this->ltd_p ) . '</a></p></div>';
+			$this->Msg .= '<div class="error"><p><strong>' . __( 'Thank you for considering donate.' , $this->ltd_p ) . '</strong> <a href="' . self_admin_url( 'admin.php?page=' . $this->PageSlug ) . '">' . __( 'Donate' , $this->ltd_p ) . '</a></p></div>';
 		}
 	}
 

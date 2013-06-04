@@ -273,6 +273,84 @@ class WP_Admin_UI_Customize
 	}
 
 	// SetList
+	function admin_bar_filter_load() {
+		$Default_bar = $this->Admin_bar;
+		
+		$Delete_bar = array( "user-actions" , "wp-logo-external" , "top-secondary" , "my-sites-super-admin" , "my-sites-list" );
+		foreach( $Delete_bar as $del_name ) {
+			if( !empty( $Default_bar[$del_name] ) ) {
+				unset( $Default_bar[$del_name] );
+			}
+		}
+		foreach( $Default_bar as $node_id => $node ) {
+			if( preg_match( "/blog-[0-9]/" , $node->parent ) ) {
+				unset( $Default_bar[$node_id] );
+			}
+		}
+		
+		foreach( $Default_bar as $node_id => $node ) {
+			if( $node->id == 'my-account' ) {
+				$Default_bar[$node_id]->title = sprintf( __( 'Howdy, %1$s' ) , '[user_name]' );
+			} elseif( $node->id == 'user-info' ) {
+				$Default_bar[$node_id]->title = '<span class="display-name">[user_name]</span>';
+			} elseif( $node->id == 'logout' ) {
+				$Default_bar[$node_id]->href = preg_replace( '/&amp(.*)/' , '' , $node->href );
+			} elseif( $node->id == 'site-name' ) {
+				$Default_bar[$node_id]->title = '[blog_name]';
+			} elseif( $node->id == 'updates' ) {
+				$Default_bar[$node_id]->title = '[update_total]';
+			} elseif( $node->id == 'comments' ) {
+				$Default_bar[$node_id]->title = '[comment_count]';
+			}
+		}
+
+		$Filter_bar = array();
+		$MainMenuIDs = array();
+
+		foreach( $Default_bar as $node_id => $node ) {
+			if( empty( $node->parent ) ) {
+				$Filter_bar["left"]["main"][$node_id] = $node;
+				$MainMenuIDs[$node_id] = "left";
+				unset( $Default_bar[$node_id] );
+			} elseif( $node->parent == 'top-secondary' ) {
+				$Filter_bar["right"]["main"][$node_id] = $node;
+				$MainMenuIDs[$node_id] = "right";
+				unset( $Default_bar[$node_id] );
+			}
+		}
+		
+		foreach( $Default_bar as $node_id => $node ) {
+			if( $node->parent == 'wp-logo-external' ) {
+				$Default_bar[$node_id]->parent = 'wp-logo';
+			} elseif( $node->parent == 'user-actions' ) {
+				$Default_bar[$node_id]->parent = 'my-account';
+			} elseif( $node->parent == 'my-sites-list' ) {
+				$Default_bar[$node_id]->parent = 'my-sites';
+			} else{
+				if( !array_keys( $MainMenuIDs , $node->parent ) ) {
+					if( !empty( $Default_bar[$node->parent] ) ) {
+						$Default_bar[$node_id]->parent = $Default_bar[$node->parent]->parent;
+					}
+				}
+			}
+		}
+		
+		foreach( $MainMenuIDs as $parent_id => $menu_type ) {
+
+			foreach( $Default_bar as $node_id => $node ) {
+				if( $node->parent == $parent_id ) {
+					$Filter_bar[$menu_type]["sub"][$node_id] = $node;
+					unset( $Default_bar[$node_id] );
+				}
+				
+				
+			}
+		}
+		
+		return $Filter_bar;
+	}
+
+	// SetList
 	function post_meta_boxes_load() {
 		global $current_screen;
 

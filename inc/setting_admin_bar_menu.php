@@ -7,6 +7,7 @@ if( !empty( $_POST["update"] ) ) {
 }
 
 $Data = $this->get_data( 'admin_bar_menu' );
+$AllDefaultNodes = $this->admin_bar_filter_load();
 
 // include js css
 $ReadedJs = array( 'jquery' , 'jquery-ui-draggable' , 'jquery-ui-droppable' , 'jquery-ui-sortable' , 'thickbox' );
@@ -39,94 +40,35 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 					<div class="inside">
 						<?php if( empty( $Data ) ) : ?>
 
-							<?php $ParentNode = array(); ?>
-							<?php $ChildNode = array(); ?>
-							<?php foreach( $this->Admin_bar as $node_id => $node ) : ?>
-
-								<?php if( empty( $node->parent ) && $node_id != 'top-secondary' ) : ?>
-
-									<?php if( !empty( $node->id ) ) : ?>
-										<?php if( $node->id == 'site-name' ) : ?>
-											<?php $node->title = '[blog_name]'; ?>
-										<?php elseif( $node->id == 'updates' ) : ?>
-											<?php $node->title = '[update_total]'; ?>
-										<?php elseif( $node->id == 'comments' ) : ?>
-											<?php $node->title = '[comment_count]'; ?>
-										<?php endif; ?>
-									<?php endif; ?>
-									<?php $ParentNode[$node_id] = $node; ?>
-
-								<?php endif; ?>
-
-							<?php endforeach; ?>
-							
-							<?php foreach( $this->Admin_bar as $node_id => $node ) : ?>
-
-								<?php if( !empty( $node->parent ) && $node->parent != 'top-secondary' ) : ?>
-
-									<?php if( $node->id != 'wp-logo-external' ) : ?>
-										<?php if( $node->parent == 'wp-logo-external' ) : ?>
-											<?php $node->parent = 'wp-logo'; ?>
-										<?php endif; ?>
-										<?php if( $node->id == 'my-sites-super-admin' or $node->id == 'my-sites-list' or preg_match( "/blog-[0-9]/" , $node->parent ) ) : ?>
-											<?php continue; ?>
-										<?php endif; ?>
-										<?php if( $node->parent == 'my-sites-list' ) : ?>
-											<?php $node->parent = 'my-sites'; ?>
-										<?php endif; ?>
-										<?php $ChildNode[$node->parent][] = $node; ?>
-									<?php endif; ?>
-
-								<?php endif; ?>
-
-							<?php endforeach; ?>
-
-							<?php foreach( $ParentNode as $p_node_id => $p_node ) : ?>
-
-								<?php $pnsn = array(); ?>
-								<?php if( !empty( $ChildNode[$p_node_id] ) ) : ?>
-
-									<?php foreach( $ChildNode[$p_node_id] as $key => $c_node ) : ?>
-
-										<?php $pnsn[] = array( 'id' => $c_node->id , 'title' => $c_node->title , 'parent' => $p_node_id , 'href' => $c_node->href , 'group' => false , 'new' => false ); ?>
+							<?php foreach( $AllDefaultNodes["left"]["main"] as $main_node) : ?>
 	
-									<?php endforeach; ?>
-
-								<?php endif; ?>
-
-								<?php if( !empty( $pnsn ) ) : ?>
-
-									<?php foreach( $pnsn as $key => $pnsn_node ) : ?>
-
-										<?php if( !empty( $ChildNode[$pnsn_node["id"]] ) ) : ?>
-
-											<?php foreach( $ChildNode[$pnsn_node["id"]] as $cs_node ) : ?>
-
-												<?php $pnsn[] = array( 'id' => $cs_node->id , 'title' => $cs_node->title , 'parent' => $p_node_id , 'href' => $cs_node->href , 'group' => false , 'new' => false ); ?>
-
-											<?php endforeach; ?>
-										
+								<?php $pnsn = array(); ?>
+								<?php if( !empty( $AllDefaultNodes["left"]["sub"] ) ) : ?>
+									<?php foreach( $AllDefaultNodes["left"]["sub"] as $sub_node) : ?>
+		
+										<?php if( $main_node->id == $sub_node->parent ) : ?>
+		
+											<?php $pnsn[] = array( 'id' => $sub_node->id , 'title' => stripslashes( $sub_node->title ) , 'parent' => $main_node->id , 'href' => $sub_node->href , 'group' => false , 'new' => false ); ?>
+		
 										<?php endif; ?>
-									
+		
 									<?php endforeach; ?>
-
 								<?php endif; ?>
-
-								<?php $menu_widget = array( 'id' => $p_node->id , 'title' => $p_node->title , 'parent' => '' , 'href' => $p_node->href , 'group' => false , 'new' => false , 'subnode' => $pnsn ); ?>
-
+	
+								<?php $menu_widget = array( 'id' => $main_node->id , 'title' => stripslashes( $main_node->title ) , 'parent' => '' , 'href' => $main_node->href , 'group' => false , 'new' => false , 'subnode' => $pnsn ); ?>
 								<?php $this->admin_bar_menu_widget( $menu_widget ); ?>
-
+	
 							<?php endforeach; ?>
 
 						<?php else : ?>
 
 							<?php if( !empty( $Data["left"]["main"] ) ) : ?>
 
-								<?php foreach($Data["left"]["main"] as $main_node) : ?>
+								<?php foreach( $Data["left"]["main"] as $main_node) : ?>
 	
 									<?php $pnsn = array(); ?>
 									<?php if( !empty( $Data["left"]["sub"] ) ) : ?>
-										<?php foreach($Data["left"]["sub"] as $sub_node) : ?>
+										<?php foreach( $Data["left"]["sub"] as $sub_node) : ?>
 		
 											<?php if( $main_node["id"] == $sub_node["parent"] ) : ?>
 		
@@ -157,65 +99,37 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 
 						<?php if( empty( $Data ) ) : ?>
 
-							<?php $ParentNode = array(); ?>
-							<?php $ChildNode = array(); ?>
-							<?php foreach( $this->Admin_bar as $node_id => $node ) : ?>
-
-								<?php if( !empty( $node->parent ) && $node->parent == 'top-secondary' ) : ?>
-
-									<?php if( $node->id == 'my-account' ) : ?>
-										<?php $node->title = sprintf( __('Howdy, %1$s'), '[user_name]' ); ?>
-									<?php endif; ?>
-									<?php $ParentNode[$node_id] = $node; ?>
-
-								<?php endif; ?>
-
-							<?php endforeach; ?>
-
-							<?php foreach( $this->Admin_bar as $node_id => $node ) : ?>
-
-								<?php if( !empty( $node->parent ) && $node->parent == 'user-actions' ) : ?>
-
-									<?php if( $node->id == 'user-info' ) : ?>
-										<?php $node->title = '<span class="display-name">[user_name]</span>'; ?>
-									<?php elseif( $node->id == 'logout' ) : ?>
-										<?php $node->href = preg_replace( '/&amp(.*)/' , '' , $node->href ); ?>
-									<?php endif; ?>
-									<?php $ChildNode["my-account"][] = $node; ?>
-
-								<?php endif; ?>
-
-							<?php endforeach; ?>
-
-							<?php foreach( $ParentNode as $p_node_id => $p_node ) : ?>
-
+							<?php foreach( $AllDefaultNodes["right"]["main"] as $main_node) : ?>
+	
 								<?php $pnsn = array(); ?>
-								<?php if( !empty( $ChildNode[$p_node_id] ) ) : ?>
+								<?php if( !empty( $AllDefaultNodes["right"]["sub"] ) ) : ?>
 
-									<?php foreach( $ChildNode[$p_node_id] as $key => $c_node ) : ?>
-
-										<?php $pnsn[] = array( 'id' => $c_node->id , 'title' => $c_node->title , 'parent' => $p_node_id , 'href' => $c_node->href , 'group' => false , 'new' => false ); ?>
-	
+									<?php foreach( $AllDefaultNodes["right"]["sub"] as $sub_node) : ?>
+		
+										<?php if( $main_node->id == $sub_node->parent ) : ?>
+		
+											<?php $pnsn[] = array( 'id' => $sub_node->id , 'title' => stripslashes( $sub_node->title ) , 'parent' => $main_node->id , 'href' => $sub_node->href , 'group' => false , 'new' => false ); ?>
+		
+										<?php endif; ?>
+		
 									<?php endforeach; ?>
-	
 								<?php endif; ?>
-
-								<?php $menu_widget = array( 'id' => $p_node->id , 'title' => $p_node->title , 'parent' => '' , 'href' => $p_node->href , 'group' => false , 'new' => false , 'subnode' => $pnsn ); ?>
-
+	
+								<?php $menu_widget = array( 'id' => $main_node->id , 'title' => stripslashes( $main_node->title ) , 'parent' => '' , 'href' => $main_node->href , 'group' => false , 'new' => false , 'subnode' => $pnsn ); ?>
 								<?php $this->admin_bar_menu_widget( $menu_widget ); ?>
-
+	
 							<?php endforeach; ?>
 
 						<?php else : ?>
 
 							<?php if( !empty( $Data["right"]["main"] ) ) : ?>
 
-								<?php foreach($Data["right"]["main"] as $main_node) : ?>
+								<?php foreach( $Data["right"]["main"] as $main_node) : ?>
 	
 									<?php $pnsn = array(); ?>
 									<?php if( !empty( $Data["right"]["sub"] ) ) : ?>
 
-										<?php foreach($Data["right"]["sub"] as $sub_node) : ?>
+										<?php foreach( $Data["right"]["sub"] as $sub_node) : ?>
 		
 											<?php if( $main_node["id"] == $sub_node["parent"] ) : ?>
 		
@@ -246,7 +160,7 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 		<div class="metabox-holder columns-1">
 
 			<div class="postbox">
-				<h3 class="hndle"><span><?php _e ( 'Menu that can be added' , $this->ltd ); ?></span></h3>
+				<h3 class="hndle"><span><?php _e ( 'Menu items that can be added' , $this->ltd ); ?></span></h3>
 				<div class="inside">
 
 					<p class="description">Custom Menu</p>
@@ -258,50 +172,18 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 
 					<h4><?php _e( 'Left' , $this->ltd ); ?><?php _e( 'Menus' ); ?></h4>
 
-					<?php foreach( $this->Admin_bar as $node_id => $node ) : ?>
+					<?php foreach( $AllDefaultNodes["left"]["main"] as $node_id => $node ) : ?>
 
-						<?php if( empty( $node->parent ) && $node_id != 'top-secondary' ) : ?>
+						<p class="description"><?php echo $node_id; ?></p>
+						<?php $menu_widget = array( 'id' => $node->id , 'title' => $node->title , 'parent' => '' , 'href' => $node->href , 'group' => false , 'new' => true , 'subnode' => false ); ?>
+						<?php $this->admin_bar_menu_widget( $menu_widget ); ?>
 
-							<?php // left parent menu ?>
-							<?php if( !empty( $node->id ) ) : ?>
-								<?php if( $node->id == 'site-name' ) : ?>
-									<?php $node->title = '[blog_name]'; ?>
-								<?php elseif( $node->id == 'updates' ) : ?>
-									<?php $node->title = '[update_total]'; ?>
-								<?php elseif( $node->id == 'comments' ) : ?>
-									<?php $node->title = '[comment_count]'; ?>
-								<?php endif; ?>
-							<?php endif; ?>
-							<?php $menu_widget = array( 'id' => $node->id , 'title' => $node->title , 'parent' => '' , 'href' => $node->href , 'group' => false , 'new' => true , 'subnode' => false ); ?>
-							<p class="description"><?php echo $node_id; ?></p>
-							<?php $this->admin_bar_menu_widget( $menu_widget ); ?>
-
-							<?php foreach( $this->Admin_bar as $child_node_id => $child_node ) : ?>
+							<?php foreach( $AllDefaultNodes["left"]["sub"] as $child_node_id => $child_node ) : ?>
 
 								<?php if( $child_node->parent == $node_id ) : ?>
 
-									<?php // left child menu ?>
-									<?php if( !empty( $child_node->href ) ) : ?>
-										<?php $menu_widget = array( 'id' => $child_node->id , 'title' => $child_node->title , 'parent' => '' , 'href' => $child_node->href , 'group' => false , 'new' => true , 'subnode' => false ); ?>
-										<?php $this->admin_bar_menu_widget( $menu_widget ); ?>
-									<?php endif; ?>
-
-									<?php foreach( $this->Admin_bar as $child_sub_node_id => $child_sub_node ) : ?>
-		
-										<?php if( $child_sub_node->parent == $child_node_id ) : ?>
-
-											<?php // left child sub menu ?>
-											<?php if( !empty( $child_sub_node->href ) ) : ?>
-												<?php if( preg_match( "/blog-[0-9]/" , $child_sub_node->parent ) ) : ?>
-													<?php continue; ?>
-												<?php endif; ?>
-												<?php $menu_widget = array( 'id' => $child_sub_node->id , 'title' => $child_sub_node->title , 'parent' => '' , 'href' => $child_sub_node->href , 'group' => false , 'new' => true , 'subnode' => false ); ?>
-												<?php $this->admin_bar_menu_widget( $menu_widget ); ?>
-											<?php endif; ?>
-
-										<?php endif; ?>
-		
-									<?php endforeach; ?>
+									<?php $menu_widget = array( 'id' => $child_node->id , 'title' => $child_node->title , 'parent' => '' , 'href' => $child_node->href , 'group' => false , 'new' => true , 'subnode' => false ); ?>
+									<?php $this->admin_bar_menu_widget( $menu_widget ); ?>
 
 								<?php endif; ?>
 
@@ -309,7 +191,6 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 
 							<div class="clear"></div>
 
-						<?php endif; ?>
 
 					<?php endforeach; ?>
 					
@@ -317,54 +198,28 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 
 					<h4><?php _e( 'Right' , $this->ltd ); ?><?php _e( 'Menus' ); ?></h4>
 
-					<?php foreach( $this->Admin_bar as $node_id => $node ) : ?>
+					<?php foreach( $AllDefaultNodes["right"]["main"] as $node_id => $node ) : ?>
 
-						<?php if( $node->parent == 'top-secondary' ) : ?>
-
-							<p class="description"><?php echo $node_id; ?></p>
-							<?php if( $node->id == 'my-account' ) : ?>
-								<?php $node->title = sprintf( __('Howdy, %1$s'), '[user_name]' ); ?>
-							<?php endif; ?>
-							<?php $menu_widget = array( 'id' => $node->id , 'title' => $node->title , 'parent' => '' , 'href' => $node->href , 'group' => false , 'new' => true , 'subnode' => false ); ?>
-							<?php $this->admin_bar_menu_widget( $menu_widget ); ?>
+						<p class="description"><?php echo $node_id; ?></p>
+						<?php $menu_widget = array( 'id' => $node->id , 'title' => $node->title , 'parent' => '' , 'href' => $node->href , 'group' => false , 'new' => true , 'subnode' => false ); ?>
+						<?php $this->admin_bar_menu_widget( $menu_widget ); ?>
 							
-							<?php foreach( $this->Admin_bar as $child_node_id => $child_node ) : ?>
+						<?php foreach( $AllDefaultNodes["right"]["sub"] as $child_node_id => $child_node ) : ?>
 
-								<?php if( $child_node->parent == 'user-actions' ) : ?>
-									<?php if( $child_node->id == 'user-info' ) : ?>
-										<?php $child_node->title = '<span class="display-name">[user_name]</span>'; ?>
-									<?php elseif( $child_node->id == 'logout' ) : ?>
-										<?php $child_node->href = preg_replace( '/&amp(.*)/' , '' , $child_node->href ); ?>
-									<?php endif; ?>
-									<?php $menu_widget = array( 'id' => $child_node->id , 'title' => $child_node->title , 'parent' => '' , 'href' => $child_node->href , 'group' => false , 'new' => true , 'subnode' => false ); ?>
-									<?php $this->admin_bar_menu_widget( $menu_widget ); ?>
-								<?php endif; ?>
+							<?php if( $child_node->parent == $node_id ) : ?>
 
-							<?php endforeach; ?>
+								<?php $menu_widget = array( 'id' => $child_node->id , 'title' => $child_node->title , 'parent' => '' , 'href' => $child_node->href , 'group' => false , 'new' => true , 'subnode' => false ); ?>
+								<?php $this->admin_bar_menu_widget( $menu_widget ); ?>
 
-							<div class="clear"></div>
+							<?php endif; ?>
 
-						<?php endif; ?>
+						<?php endforeach; ?>
+							
+						<div class="clear"></div>
 
 					<?php endforeach; ?>
 					
 					<div class="clear"></div>
-
-<?php
-/*
-					<?php foreach( $this->Admin_bar as $node_id => $node ) : ?>
-
-						<?php if( !empty( $node->parent ) && $node->parent != 'top-secondary' && $node->id != 'user-info' && $node->id != 'user-actions' && $node->id != 'wp-logo-external' ) : ?>
-
-							<?php $menu_widget = array( 'id' => $node->id , 'title' => $node->title , 'parent' => '' , 'href' => $node->href , 'group' => false , 'new' => true , 'subnode' => false ); ?>
-							<?php $this->admin_bar_menu_widget( $menu_widget ); ?>
-
-						<?php endif; ?>
-
-					<?php endforeach; ?>
-					<div class="clear"></div>
-*/
-?>
 
 				</div>
 			</div>

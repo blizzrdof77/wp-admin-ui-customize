@@ -52,6 +52,7 @@ These to Customization is possible.
 = 1.3.3-beta =
 * Apply to admin bar on the front end also.
 * Edited the translation files.
+* Updated the Admin Bar.
 
 = 1.3.3 =
 * Fixed bug : Error when deleting plugins and themes.

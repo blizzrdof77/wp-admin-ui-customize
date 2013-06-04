@@ -115,9 +115,20 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 									<?php echo $field; ?>
 								</th>
 								<td>
-									<?php $Checked = ''; ?>
-									<?php if( !empty( $Data[$field] ) ) : $Checked = 'checked="checked"'; endif; ?>
-									<label><input type="checkbox" name="data[<?php echo $field; ?>]" value="1" <?php echo $Checked; ?> /> <?php _e ( 'Hide' ); ?></label>
+									<?php $arr = array( "hide" => __( 'Hide' ) , "front" => __( 'Apply to the settings to WP Admin UI Customize on the front end also' , $this->ltd ) ); ?>
+									<ul>
+										<?php foreach( $arr as $key => $label ) : ?>
+											<?php $Checked = ''; ?>
+											<?php if( !empty( $Data[$field] ) ) : ?>
+												<?php if( $Data[$field] == $key ) : $Checked = 'checked="checked"'; endif; ?>
+												<?php if( $key == "hide" && $Data[$field] == "1" ) : $Checked = 'checked="checked"'; endif; ?>
+											<?php endif; ?>
+											
+											<li>
+												<label><input type="radio" name="data[<?php echo $field; ?>]" value="<?php echo $key; ?>" <?php echo $Checked; ?> /> <?php echo $label; ?></label>
+											</li>
+										<?php endforeach; ?>
+									</ul>
 								</td>
 							</tr>
 						</tbody>

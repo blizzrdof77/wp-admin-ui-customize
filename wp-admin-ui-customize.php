@@ -2,10 +2,10 @@
 /*
 Plugin Name: WP Admin UI Customize
 Description: It is an excellent plugin to customize the management screen.
-Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_3_3
-Version: 1.3.3
+Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_3_3_beta
+Version: 1.3.3-beta
 Author: gqevu6bsiz
-Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_3_3
+Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_3_3_beta
 Text Domain: wauc
 Domain Path: /languages
 */
@@ -48,7 +48,7 @@ class WP_Admin_UI_Customize
 
 
 	function __construct() {
-		$this->Ver = '1.3.3';
+		$this->Ver = '1.3.3-beta';
 		$this->Name = 'WP Admin UI Customize';
 		$this->Dir = WP_PLUGIN_URL . '/' . dirname( plugin_basename( __FILE__ ) ) . '/';
 		$this->Site = 'http://wpadminuicustomize.com/';
@@ -859,6 +859,9 @@ class WP_Admin_UI_Customize
 			add_filter( 'login_headertitle' , array( $this , 'login_headertitle' ) );
 			add_action( 'login_head' , array( $this , 'login_head' ) );
 			add_action( 'login_footer' , array( $this , 'login_footer' ) );
+
+			// front init
+			add_action( 'init' , array( $this , 'front_init' ) );
 		}
 		// admin UI
 		if ( is_admin() ) {
@@ -911,6 +914,33 @@ class WP_Admin_UI_Customize
 	}
 
 	// FilterStart
+	function front_init() {
+
+		$SettingRole = $this->get_data( 'user_role' );
+		if( !empty( $SettingRole ) ) {
+			unset($SettingRole["UPFN"]);
+
+			$UserRole = '';
+			$User = wp_get_current_user();
+			if( !empty( $User->roles[0] ) ) {
+				$UserRole = $User->roles[0];
+			}
+
+			if( !is_network_admin() && !empty( $UserRole ) ) {
+				if( array_key_exists( $UserRole , $SettingRole ) ) {
+
+					$GetData = $this->get_data( 'site' );
+					
+					if( !empty( $GetData["admin_bar"] ) && $GetData["admin_bar"] == "front" ) {
+						add_action( 'init' , array( $this , 'notice_dismiss' ) , 2 );
+						add_action( 'wp_before_admin_bar_render' , array( $this , 'admin_bar_menu') , 25 );
+					}
+				}
+			}
+		}
+	}
+
+	// FilterStart
 	function remove_action_front() {
 		$GetData = $this->get_data( 'site' );
 		
@@ -922,12 +952,15 @@ class WP_Admin_UI_Customize
 				} elseif( $key == 'feed_links_extra' ) {
 					remove_action( 'wp_head', $key , 3 );
 				} elseif( $key == 'admin_bar' ) {
-					add_filter( 'show_admin_bar' , '__return_false' );  
+					if( $val != "front" ) {
+						add_filter( 'show_admin_bar' , '__return_false' );
+					}
 				} else {
 					remove_action( 'wp_head', $key );
 				}
 			}
 		}
+		
 
 	}
 
@@ -1009,7 +1042,7 @@ class WP_Admin_UI_Customize
 	// FilterStart
 	function admin_bar_menu() {
 		global $wp_admin_bar;
-
+		
 		$GetData = $this->get_data( 'admin_bar_menu' );
 		
 		if( !empty( $GetData["UPFN"] ) ) {

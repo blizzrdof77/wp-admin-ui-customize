@@ -146,12 +146,12 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 							<?php $field = 'metabox_move'; ?>
 							<tr>
 								<th>
-									<label><?php _e( 'Movement restriction meta box' , $this->ltd ); ?></label>
+									<label><?php _e( 'Meta box movement restriction' , $this->ltd ); ?></label>
 								</th>
 								<td>
 									<?php $Checked = ''; ?>
 									<?php if( !empty( $Data[$field] ) ) : $Checked = 'checked="checked"'; endif; ?>
-									<label><input type="checkbox" name="data[<?php echo $field; ?>]" value="1" <?php echo $Checked; ?> /> <?php _e( "Don't move the meta box." , $this->ltd ); ?></label>
+									<label><input type="checkbox" name="data[<?php echo $field; ?>]" value="1" <?php echo $Checked; ?> /> <?php _e( "Lock meta box positions" , $this->ltd ); ?></label>
 								</td>
 							</tr>
 						</tbody>
@@ -166,7 +166,7 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 		</p>
 
 		<p class="submit reset">
-			<span class="description"><?php _e( 'Would initialize?' , $this->ltd ); ?></span>
+			<span class="description"><?php _e( 'Reset all settings?' , $this->ltd ); ?></span>
 			<input type="submit" class="button-secondary" name="reset" value="<?php _e('Reset'); ?>" />
 		</p>
 

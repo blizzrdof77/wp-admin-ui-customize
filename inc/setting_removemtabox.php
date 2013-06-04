@@ -20,7 +20,7 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 	<div class="icon32" id="icon-tools"></div>
 	<?php echo $this->Msg; ?>
 	<h2><?php _e( 'Remove meta box' , $this->ltd ); ?></h2>
-	<p><?php _e( 'Please once access the "post" or "page" edit screen to load the meta box for the new plugin.' , $this->ltd ); ?></p>
+	<p><?php _e( 'Please update or add a "post" and a "page" to load the available meta boxes.' , $this->ltd ); ?></p>
 
 	<form id="waum_setting_removemtabox" class="waum_form" method="post" action="">
 		<input type="hidden" name="<?php echo $this->UPFN; ?>" value="Y" />
@@ -36,7 +36,7 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 					<?php if( empty( $Metaboxes["metaboxes"]["post"] ) ) : ?>
 
 						<p><?php _e( 'Could not read the meta box.' , $this->ltd ); ?></p>
-						<p><?php _e( 'Meta boxes will be loaded automatically when you view once the post editing screen.' , $this->ltd ); ?></p>
+						<p><?php _e( 'Meta boxes will be loaded automatically when you update or add a post.' , $this->ltd ); ?></p>
 					
 					<?php else: ?>
 					
@@ -86,7 +86,7 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 					<?php if( empty( $Metaboxes["metaboxes"]["page"] ) ) : ?>
 
 						<p><?php _e( 'Could not read the meta box.' , $this->ltd ); ?></p>
-						<p><?php _e( 'Meta boxes will be loaded automatically when you view once the page editing screen.' , $this->ltd ); ?></p>
+						<p><?php _e( 'Meta boxes will be loaded automatically when you update or add a page.' , $this->ltd ); ?></p>
 					
 					<?php else: ?>
 
@@ -123,7 +123,7 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 		</p>
 
 		<p class="submit reset">
-			<span class="description"><?php _e( 'Would initialize?' , $this->ltd ); ?></span>
+			<span class="description"><?php _e( 'Reset all settings?' , $this->ltd ); ?></span>
 			<input type="submit" class="button-secondary" name="reset" value="<?php _e('Reset'); ?>" />
 		</p>
 

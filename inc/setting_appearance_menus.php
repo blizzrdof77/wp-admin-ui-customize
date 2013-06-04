@@ -18,7 +18,7 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 <div class="wrap">
 	<div class="icon32" id="icon-tools"></div>
 	<?php echo $this->Msg; ?>
-	<h2><?php _e( 'Appearance\'s Menus screen setting' , $this->ltd ); ?></h2>
+	<h2><?php _e( 'Appearance Menus Screen Setting' , $this->ltd ); ?></h2>
 	<p>&nbsp;</p>
 
 	<form id="waum_setting_removemtabox" class="waum_form" method="post" action="">
@@ -80,7 +80,7 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 		</p>
 
 		<p class="submit reset">
-			<span class="description"><?php _e( 'Would initialize?' , $this->ltd ); ?></span>
+			<span class="description"><?php _e( 'Reset all settings?' , $this->ltd ); ?></span>
 			<input type="submit" class="button-secondary" name="reset" value="<?php _e('Reset'); ?>" />
 		</p>
 

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP Admin UI Customize\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2013-06-04 10:57+0900\n"
+"PO-Revision-Date: 2013-06-04 14:51+0900\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -10,10 +10,11 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Poedit-Language: Japanese\n"
 "X-Poedit-Country: JAPAN\n"
+"Language: ja_JP\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "Last-Translator: Gqevu6bsiz <gqevu6bsiz@gmail.com>\n"
 
-msgid "It is an excellent plugin to customize the management screen."
+msgid "An excellent plugin to customize the management screens."
 msgstr "管理画面のカスタマイズに優れたプラグインです。"
 
 msgid "Customize the UI of the management screen for all users."
@@ -22,11 +23,11 @@ msgstr "全てのユーザーの管理画面UIをカスタマイズします。"
 msgid "Authority to apply the setting is not selected. <a href=\"%s\">From here</a>, please select the permissions you want to set."
 msgstr "設定を適用する権限が選択されていません。<a href=\"%s\">こちら</a>から設定する権限を選んでください。"
 
-msgid "Please select the user role you want to apply the settings."
+msgid "Please select the user roles that all settings will apply to."
 msgstr "設定を適用する権限を選んでください。"
 
-msgid "Would initialize?"
-msgstr "初期化しますか?"
+msgid "Reset all settings?"
+msgstr "リセットしますか?"
 
 msgid "Site Settings"
 msgstr "サイトの設定"
@@ -46,14 +47,14 @@ msgstr "サイト全体のフィードリンク"
 msgid "Extra feed"
 msgstr "その他のフィードリンク"
 
-msgid "Apply to the settings to WP Admin UI Customize on the front end also"
+msgid "Apply WP Admin UI Customize settings on the front end admin bar also"
 msgstr "WP Admin UI Customize の管理バーの設定をフロントにも適用"
 
 msgid "Account Title"
 msgstr "アカウント表記"
 
-msgid "Wordpress Logo"
-msgstr "Wordpress のロゴ"
+msgid "WordPress Logo"
+msgstr "WordPress のロゴ"
 
 msgid "Add New"
 msgstr "新規追加"
@@ -64,17 +65,17 @@ msgstr "アップデート表示"
 msgid "Profile Edit"
 msgstr "プロフィール編集"
 
-msgid "General screen setting"
+msgid "General Screen Settings"
 msgstr "一般設定"
 
-msgid "Notice"
+msgid "Notifications"
 msgstr "通知"
 
 msgid "Not notified"
 msgstr "通知しない"
 
-msgid "Wordpress core update notice"
-msgstr "Wordpress コアアップデート通知"
+msgid "WordPress core update notice"
+msgstr "WordPress コアアップデート通知"
 
 msgid "Plugin update notice"
 msgstr "プラグイン アップデート通知"
@@ -88,10 +89,10 @@ msgstr "フッターテキスト"
 msgid "Title tag for Admin screen"
 msgstr "管理画面のタイトルタグ"
 
-msgid "Remove the \"Wordpress\" from the title tag of the Admin screen"
-msgstr "管理画面のタイトルタグから\"Wordpress\"を削除"
+msgid "Remove \"Wordpress\" from the title tag of the Admin screen"
+msgstr "管理画面のタイトルタグから\"WordPress\"を削除"
 
-msgid "Screen Options and Help tab"
+msgid "Screen Options and Help Tab"
 msgstr "表示オプションとヘルプタブ"
 
 msgid "Meta boxes"
@@ -100,19 +101,19 @@ msgstr "メタボックス"
 msgid "Other"
 msgstr "その他"
 
-msgid "Movement restriction meta box"
+msgid "Meta box movement restriction"
 msgstr "メタボックスの移動制限"
 
-msgid "Don't move the meta box."
+msgid "Lock meta box positions"
 msgstr "メタボックスを移動させない"
 
-msgid "Admin bar Menu"
+msgid "Admin Bar Menu"
 msgstr "管理バー"
 
 msgid "Notice: Please do not place the same multiple menu slug."
 msgstr "注意: 複数同じメニュースラッグを設置しないでください。"
 
-msgid "can be more than one custom menu."
+msgid "Can be more than one custom menu."
 msgstr "カスタムメニューは複数設置できます。"
 
 msgid "Left"
@@ -121,7 +122,7 @@ msgstr "左"
 msgid "Right"
 msgstr "右"
 
-msgid "Menu that can be added"
+msgid "Menu items that can be added"
 msgstr "追加できるメニュー一覧"
 
 msgid "Custom Menu"
@@ -133,7 +134,7 @@ msgstr "サイドメニュー"
 msgid "Please change the menu by drag and drop."
 msgstr "ドラッグ&ドロップでメニューを変更してください。"
 
-msgid "The current menu"
+msgid "Current menu"
 msgstr "現在のメニュー"
 
 msgid "Sepalator"
@@ -151,23 +152,23 @@ msgstr "メタボックス削除"
 msgid "Could not read the meta box."
 msgstr "メタボックスの読み込みができませんでした。"
 
-msgid "Meta boxes will be loaded automatically when you view once the post editing screen."
+msgid "Meta boxes will be loaded automatically when you update or add a post."
 msgstr "投稿編集画面を一度表示すると自動でメタボックスが読み込まれます。"
 
-msgid "Meta boxes will be loaded automatically when you view once the page editing screen."
+msgid "Meta boxes will be loaded automatically when you update or add a page."
 msgstr "固定ページ編集画面を一度表示すると自動でメタボックスが読み込まれます。"
 
-msgid "Please once access the \"post\" or \"page\" edit screen to load the meta box for the new plugin."
+msgid "Please update or add a \"post\" and a \"page\" to load the available meta boxes."
 msgstr "新しいプラグインのメタボックスを読み込むには編集画面に一度アクセスしてください。"
 
-msgid "Add New Post and Edit Post screen setting"
+msgid "Add New Post and Edit Post Screen Setting"
 msgstr "新規投稿と投稿編集の設定"
 
 msgid "Only appears when you have settings to the default permalink."
 msgstr "デフォルトのパーマリンクに設定している時のみ表示されます。"
 
-msgid "Appearance's Menus screen setting"
-msgstr "外観のメニュー画面の設定"
+msgid "Appearance Menus Screen Setting"
+msgstr "外観メニュー画面の設定"
 
 msgid "Add a new menu"
 msgstr "メニューの新規作成"
@@ -193,13 +194,13 @@ msgstr "ログインフォーム"
 msgid "The link after clicking on the logo"
 msgstr "ロゴをクリック後のリンク"
 
-msgid "Logo title"
+msgid "Logo Title"
 msgstr "ロゴタイトル"
 
 msgid "Logo Image path"
 msgstr "ロゴ画像のパス"
 
-msgid "Css file to load"
+msgid "CSS file to load"
 msgstr "CSSファイルを読み込む"
 
 msgid "Available Shortcodes"

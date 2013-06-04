@@ -115,7 +115,7 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 									<?php echo $field; ?>
 								</th>
 								<td>
-									<?php $arr = array( "hide" => __( 'Hide' ) , "front" => __( 'Apply to the settings to WP Admin UI Customize on the front end also' , $this->ltd ) ); ?>
+									<?php $arr = array( "hide" => __( 'Hide' ) , "front" => __( 'Apply WP Admin UI Customize settings on the front end admin bar also' , $this->ltd ) ); ?>
 									<ul>
 										<?php foreach( $arr as $key => $label ) : ?>
 											<?php $Checked = ''; ?>
@@ -143,7 +143,7 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 		</p>
 
 		<p class="submit reset">
-			<span class="description"><?php _e( 'Would initialize?' , $this->ltd ); ?></span>
+			<span class="description"><?php _e( 'Reset all settings?' , $this->ltd ); ?></span>
 			<input type="submit" class="button-secondary" name="reset" value="<?php _e('Reset'); ?>" />
 		</p>
 

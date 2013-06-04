@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP Admin UI Customize\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2013-06-04 10:57+0900\n"
+"PO-Revision-Date: 2013-06-04 14:39+0900\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -10,10 +10,11 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Poedit-Language: Japanese\n"
 "X-Poedit-Country: JAPAN\n"
+"Language: ja_JP\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"Last-Translator: Gqevu6bsiz <gqevu6bsiz@gmail.com>\n"
+"Last-Translator: CedarPoint <mike@cedarpointconcepts.com>\n"
 
-msgid "It is an excellent plugin to customize the management screen."
+msgid "An excellent plugin to customize the management screens."
 msgstr ""
 
 msgid "Customize the UI of the management screen for all users."
@@ -22,10 +23,10 @@ msgstr ""
 msgid "Authority to apply the setting is not selected. <a href=\"%s\">From here</a>, please select the permissions you want to set."
 msgstr ""
 
-msgid "Please select the user role you want to apply the settings."
+msgid "Please select the user roles that all settings will apply to."
 msgstr ""
 
-msgid "Would initialize?"
+msgid "Reset all settings?"
 msgstr ""
 
 msgid "Site Settings"
@@ -46,13 +47,13 @@ msgstr ""
 msgid "Extra feed"
 msgstr ""
 
-msgid "Apply to the settings to WP Admin UI Customize on the front end also"
+msgid "Apply WP Admin UI Customize settings on the front end admin bar also"
 msgstr ""
 
 msgid "Account Title"
 msgstr ""
 
-msgid "Wordpress Logo"
+msgid "WordPress Logo"
 msgstr ""
 
 msgid "Add New"
@@ -64,16 +65,16 @@ msgstr ""
 msgid "Profile Edit"
 msgstr ""
 
-msgid "General screen setting"
+msgid "General Screen Settings"
 msgstr ""
 
-msgid "Notice"
+msgid "Notifications"
 msgstr ""
 
 msgid "Not notified"
 msgstr ""
 
-msgid "Wordpress core update notice"
+msgid "WordPress core update notice"
 msgstr ""
 
 msgid "Plugin update notice"
@@ -88,10 +89,10 @@ msgstr ""
 msgid "Title tag for Admin screen"
 msgstr ""
 
-msgid "Remove the \"Wordpress\" from the title tag of the Admin screen"
+msgid "Remove \"Wordpress\" from the title tag of the Admin screen"
 msgstr ""
 
-msgid "Screen Options and Help tab"
+msgid "Screen Options and Help Tab"
 msgstr ""
 
 msgid "Meta boxes"
@@ -100,19 +101,19 @@ msgstr ""
 msgid "Other"
 msgstr ""
 
-msgid "Movement restriction meta box"
+msgid "Meta box movement restriction"
 msgstr ""
 
-msgid "Don't move the meta box."
+msgid "Lock meta box positions"
 msgstr ""
 
-msgid "Admin bar Menu"
+msgid "Admin Bar Menu"
 msgstr ""
 
 msgid "Notice: Please do not place the same multiple menu slug."
 msgstr ""
 
-msgid "can be more than one custom menu."
+msgid "Can be more than one custom menu."
 msgstr ""
 
 msgid "Left"
@@ -121,7 +122,7 @@ msgstr ""
 msgid "Right"
 msgstr ""
 
-msgid "Menu that can be added"
+msgid "Menu items that can be added"
 msgstr ""
 
 msgid "Custom Menu"
@@ -133,7 +134,7 @@ msgstr ""
 msgid "Please change the menu by drag and drop."
 msgstr ""
 
-msgid "The current menu"
+msgid "Current menu"
 msgstr ""
 
 msgid "Sepalator"
@@ -151,22 +152,22 @@ msgstr ""
 msgid "Could not read the meta box."
 msgstr ""
 
-msgid "Meta boxes will be loaded automatically when you view once the post editing screen."
+msgid "Meta boxes will be loaded automatically when you update or add a post."
 msgstr ""
 
-msgid "Meta boxes will be loaded automatically when you view once the page editing screen."
+msgid "Meta boxes will be loaded automatically when you update or add a page."
 msgstr ""
 
-msgid "Please once access the \"post\" or \"page\" edit screen to load the meta box for the new plugin."
+msgid "Please update or add a \"post\" and a \"page\" to load the available meta boxes."
 msgstr ""
 
-msgid "Add New Post and Edit Post screen setting"
+msgid "Add New Post and Edit Post Screen Setting"
 msgstr ""
 
 msgid "Only appears when you have settings to the default permalink."
 msgstr ""
 
-msgid "Appearance's Menus screen setting"
+msgid "Appearance Menus Screen Setting"
 msgstr ""
 
 msgid "Add a new menu"
@@ -193,13 +194,13 @@ msgstr ""
 msgid "The link after clicking on the logo"
 msgstr ""
 
-msgid "Logo title"
+msgid "Logo Title"
 msgstr ""
 
 msgid "Logo Image path"
 msgstr ""
 
-msgid "Css file to load"
+msgid "CSS file to load"
 msgstr ""
 
 msgid "Available Shortcodes"

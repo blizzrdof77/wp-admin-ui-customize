@@ -20,7 +20,7 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 <div class="wrap">
 	<div class="icon32" id="icon-tools"></div>
 	<?php echo $this->Msg; ?>
-	<h2><?php _e( 'General screen setting' , $this->ltd ); ?></h2>
+	<h2><?php _e( 'General Screen Settings' , $this->ltd ); ?></h2>
 	<p>&nbsp;</p>
 
 	<form id="waum_setting_admin_genelral" class="waum_form" method="post" action="">
@@ -31,13 +31,13 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 
 			<div class="postbox">
 				<div class="handlediv" title="Click to toggle"><br></div>
-				<h3 class="hndle"><span><?php echo _e( 'Notice' , $this->ltd ); ?></span></h3>
+				<h3 class="hndle"><span><?php echo _e( 'Notifications' , $this->ltd ); ?></span></h3>
 				<div class="inside">
 					<table class="form-table">
 						<tbody>
 							<tr>
 								<th>
-									<label><?php _e( 'Wordpress core update notice' , $this->ltd ); ?></label>
+									<label><?php _e( 'WordPress core update notice' , $this->ltd ); ?></label>
 								</th>
 								<td>
 									<?php $field = 'notice_update_core'; ?>
@@ -75,7 +75,7 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 
 			<div class="postbox">
 				<div class="handlediv" title="Click to toggle"><br></div>
-				<h3 class="hndle"><span><?php echo _e( 'Screen Options and Help tab' , $this->ltd ); ?></span></h3>
+				<h3 class="hndle"><span><?php echo _e( 'Screen Options and Help Tab' , $this->ltd ); ?></span></h3>
 				<div class="inside">
 					<table class="form-table">
 						<tbody>
@@ -138,7 +138,7 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 							<?php $field = 'css'; ?>
 							<tr>
 								<th>
-									<label><?php _e( 'Css file to load' , $this->ltd ); ?></label>
+									<label><?php _e( 'CSS file to load' , $this->ltd ); ?></label>
 								</th>
 								<td>
 									<?php $Val = ''; ?>
@@ -156,7 +156,7 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 								<td>
 									<?php $Checked = ''; ?>
 									<?php if( !empty( $Data[$field] ) ) : $Checked = 'checked="checked"'; endif; ?>
-									<label><input type="checkbox" name="data[<?php echo $field; ?>]" value="1" <?php echo $Checked; ?> /> <?php _e ( 'Remove the "Wordpress" from the title tag of the Admin screen' , $this->ltd ); ?></label>
+									<label><input type="checkbox" name="data[<?php echo $field; ?>]" value="1" <?php echo $Checked; ?> /> <?php _e ( 'Remove "Wordpress" from the title tag of the Admin screen' , $this->ltd ); ?></label>
 								</td>
 							</tr>
 						</tbody>
@@ -171,7 +171,7 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 		</p>
 
 		<p class="submit reset">
-			<span class="description"><?php _e( 'Would initialize?' , $this->ltd ); ?></span>
+			<span class="description"><?php _e( 'Reset all settings?' , $this->ltd ); ?></span>
 			<input type="submit" class="button-secondary" name="reset" value="<?php _e('Reset'); ?>" />
 		</p>
 

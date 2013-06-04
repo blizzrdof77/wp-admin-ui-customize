@@ -19,10 +19,10 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 <div class="wrap">
 	<div class="icon32" id="icon-tools"></div>
 	<?php echo $this->Msg; ?>
-	<h2><?php _e( 'Admin bar Menu' , $this->ltd ); ?></h2>
+	<h2><?php _e( 'Admin Bar Menu' , $this->ltd ); ?></h2>
 	<p><?php _e( 'Please change the menu by drag and drop.' , $this->ltd ); ?></p>
 	<p><strong><?php _e( 'Notice: Please do not place the same multiple menu slug.' , $this->ltd ); ?></strong></p>
-	<p class="description"><?php _e( 'can be more than one custom menu.' , $this->ltd ); ?></p>
+	<p class="description"><?php _e( 'Can be more than one custom menu.' , $this->ltd ); ?></p>
 
 	<p><a href="#TB_inline?height=300&width=600&inlineId=list_variables&modal=false" title="<?php _e( 'Shortcodes' , $this->ltd ); ?>" class="thickbox"><?php _e( 'Available Shortcodes' , $this->ltd ); ?></a></p>
 
@@ -376,7 +376,7 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 		</p>
 
 		<p class="submit reset">
-			<span class="description"><?php _e( 'Would initialize?' , $this->ltd ); ?></span>
+			<span class="description"><?php _e( 'Reset all settings?' , $this->ltd ); ?></span>
 			<input type="submit" class="button-secondary" name="reset" value="<?php _e('Reset'); ?>" />
 		</p>
 

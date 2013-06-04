@@ -36,7 +36,7 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 			<div id="postbox-container-1" class="postbox-container">
 
 				<div class="postbox">
-					<h3 class="hndle"><span><?php _e( 'The current menu' , $this->ltd ); ?></span></h3>
+					<h3 class="hndle"><span><?php _e( 'Current menu' , $this->ltd ); ?></span></h3>
 					<div class="inside">
 
 						<?php if( empty( $Data ) ) : ?>
@@ -118,7 +118,7 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 			<div id="postbox-container-2" class="postbox-container">
 
 				<div class="postbox">
-					<h3 class="hndle"><span><?php _e( 'Menu that can be added' , $this->ltd ); ?></span></h3>
+					<h3 class="hndle"><span><?php _e( 'Menu items that can be added' , $this->ltd ); ?></span></h3>
 					<div class="inside">
 
 						<p class="description"><?php _e( 'Sepalator' , $this->ltd ); ?></p>
@@ -183,7 +183,7 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 		</p>
 
 		<p class="submit reset">
-			<span class="description"><?php _e( 'Would initialize?' , $this->ltd ); ?></span>
+			<span class="description"><?php _e( 'Reset all settings?' , $this->ltd ); ?></span>
 			<input type="submit" class="button-secondary" name="reset" value="<?php _e('Reset'); ?>" />
 		</p>
 

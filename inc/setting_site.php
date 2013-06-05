@@ -115,7 +115,7 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 									<?php echo $field; ?>
 								</th>
 								<td>
-									<?php $arr = array( "hide" => __( 'Hide' ) , "front" => __( 'Apply WP Admin UI Customize settings on the front end admin bar also' , $this->ltd ) ); ?>
+									<?php $arr = array( "hide" => __( 'Hide the Admin bar on the front end' , $this->ltd ) , "front" => __( 'Apply WP Admin UI Customize settings on the front end admin bar also' , $this->ltd ) ); ?>
 									<select name="data[<?php echo $field; ?>]">
 										<option value="">-</option>
 										<?php foreach( $arr as $key => $label ) : ?>

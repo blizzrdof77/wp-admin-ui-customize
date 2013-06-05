@@ -2,10 +2,10 @@
 /*
 Plugin Name: WP Admin UI Customize
 Description: An excellent plugin to customize the management screens.
-Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_3_3_beta
-Version: 1.3.3-beta
+Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_3_4
+Version: 1.3.4
 Author: gqevu6bsiz
-Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_3_3_beta
+Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_3_4
 Text Domain: wauc
 Domain Path: /languages
 */
@@ -48,7 +48,7 @@ class WP_Admin_UI_Customize
 
 
 	function __construct() {
-		$this->Ver = '1.3.3-beta';
+		$this->Ver = '1.3.4';
 		$this->Name = 'WP Admin UI Customize';
 		$this->Dir = WP_PLUGIN_URL . '/' . dirname( plugin_basename( __FILE__ ) ) . '/';
 		$this->Site = 'http://wpadminuicustomize.com/';
@@ -144,6 +144,7 @@ class WP_Admin_UI_Customize
 	// SettingPage
 	function setting_site() {
 		add_filter( 'admin_footer_text' , array( $this , 'layout_footer' ) );
+		$this->settingCheck();
 		$this->DisplayDonation();
 		include_once 'inc/setting_site.php';
 	}
@@ -357,7 +358,12 @@ class WP_Admin_UI_Customize
 	function post_meta_boxes_load() {
 		global $current_screen;
 
-		if( $current_screen->base == 'post' && $current_screen->action != 'add' ) {
+		$User = wp_get_current_user();
+		if( !empty( $User->roles[0] ) ) {
+			$UserRole = $User->roles[0];
+		}
+
+		if( $current_screen->base == 'post' && $current_screen->action != 'add' && $UserRole == 'administrator' ) {
 			if( $current_screen->post_type == 'post' or $current_screen->post_type == 'page' ) {
 				
 				global $wp_meta_boxes;
@@ -1012,9 +1018,13 @@ class WP_Admin_UI_Customize
 
 					$GetData = $this->get_data( 'site' );
 					
-					if( !empty( $GetData["admin_bar"] ) && $GetData["admin_bar"] == "front" ) {
-						add_action( 'init' , array( $this , 'notice_dismiss' ) , 2 );
-						add_action( 'wp_before_admin_bar_render' , array( $this , 'admin_bar_menu') , 25 );
+					if( !empty( $GetData["admin_bar"] ) ) {
+						if( $GetData["admin_bar"] == "1" or $GetData["admin_bar"] == "hide" ) {
+							add_filter( 'show_admin_bar' , '__return_false' );
+						} elseif( $GetData["admin_bar"] == "front" ) {
+							add_action( 'init' , array( $this , 'notice_dismiss' ) , 2 );
+							add_action( 'wp_before_admin_bar_render' , array( $this , 'admin_bar_menu') , 25 );
+						}
 					}
 				}
 			}
@@ -1032,17 +1042,11 @@ class WP_Admin_UI_Customize
 					remove_action( 'wp_head', $key , 2 );
 				} elseif( $key == 'feed_links_extra' ) {
 					remove_action( 'wp_head', $key , 3 );
-				} elseif( $key == 'admin_bar' ) {
-					if( !empty( $val ) && $val != "front" ) {
-						add_filter( 'show_admin_bar' , '__return_false' );
-					}
 				} else {
 					remove_action( 'wp_head', $key );
 				}
 			}
 		}
-		
-
 	}
 
 	// FilterStart

@@ -47,6 +47,9 @@ msgstr ""
 msgid "Extra feed"
 msgstr ""
 
+msgid "Hide the Admin bar on the front end"
+msgstr ""
+
 msgid "Apply WP Admin UI Customize settings on the front end admin bar also"
 msgstr ""
 

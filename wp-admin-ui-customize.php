@@ -1033,7 +1033,7 @@ class WP_Admin_UI_Customize
 				} elseif( $key == 'feed_links_extra' ) {
 					remove_action( 'wp_head', $key , 3 );
 				} elseif( $key == 'admin_bar' ) {
-					if( $val != "front" ) {
+					if( !empty( $val ) && $val != "front" ) {
 						add_filter( 'show_admin_bar' , '__return_false' );
 					}
 				} else {

@@ -116,19 +116,17 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 								</th>
 								<td>
 									<?php $arr = array( "hide" => __( 'Hide' ) , "front" => __( 'Apply WP Admin UI Customize settings on the front end admin bar also' , $this->ltd ) ); ?>
-									<ul>
+									<select name="data[<?php echo $field; ?>]">
+										<option value="">-</option>
 										<?php foreach( $arr as $key => $label ) : ?>
-											<?php $Checked = ''; ?>
+											<?php $Selected = ''; ?>
 											<?php if( !empty( $Data[$field] ) ) : ?>
-												<?php if( $Data[$field] == $key ) : $Checked = 'checked="checked"'; endif; ?>
-												<?php if( $key == "hide" && $Data[$field] == "1" ) : $Checked = 'checked="checked"'; endif; ?>
+												<?php if( $Data[$field] == $key ) : $Selected = 'selected="selected"'; endif; ?>
+												<?php if( $key == "hide" && $Data[$field] == "1" ) : $Selected = 'selected="selected"'; endif; ?>
 											<?php endif; ?>
-											
-											<li>
-												<label><input type="radio" name="data[<?php echo $field; ?>]" value="<?php echo $key; ?>" <?php echo $Checked; ?> /> <?php echo $label; ?></label>
-											</li>
+											<option value="<?php echo $key; ?>" <?php echo $Selected; ?>><?php echo $label; ?></option>
 										<?php endforeach; ?>
-									</ul>
+									</select>
 								</td>
 							</tr>
 						</tbody>

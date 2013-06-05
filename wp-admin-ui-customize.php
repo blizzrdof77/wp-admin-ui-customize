@@ -288,6 +288,9 @@ class WP_Admin_UI_Customize
 			}
 		}
 		
+		// front 
+		$Default_bar["dashboard"] = (object) array( "id" => "dashboard" , "title" => __( 'Dashboard' ) , "parent" => "site-name" , "href" => admin_url() );
+		
 		foreach( $Default_bar as $node_id => $node ) {
 			if( $node->id == 'my-account' ) {
 				$Default_bar[$node_id]->title = sprintf( __( 'Howdy, %1$s' ) , '[user_name]' );

@@ -1,10 +1,10 @@
 === WP Admin UI Customize ===
 Contributors: gqevu6bsiz
-Donate link: http://gqevu6bsiz.chicappa.jp/please-donation/?utm_source=wporg&utm_medium=donate&utm_content=wauc&utm_campaign=1_3_4
+Donate link: http://gqevu6bsiz.chicappa.jp/please-donation/?utm_source=wporg&utm_medium=donate&utm_content=wauc&utm_campaign=1_3_5
 Tags: admin, post, posts, page, option, sitemenu, menu, custom, customize, dashboard, admin_bar
 Requires at least: 3.4.2
-Tested up to: 3.6
-Stable tag: 1.3.4
+Tested up to: 3.6-beta3
+Stable tag: 1.3.5
 License: GPL2
 
 Customize the management screen UI.
@@ -48,6 +48,10 @@ These to Customization is possible.
 11. Login Screen Customized
 
 == Changelog ==
+
+= 1.3.5 =
+* Changed the action timing of the side menu apply.
+* Fixed bug : Can not be acquired rights group.
 
 = 1.3.4 =
 * Only administrator has to perform of the Meta boxes read.

@@ -2,10 +2,10 @@
 /*
 Plugin Name: WP Admin UI Customize
 Description: An excellent plugin to customize the management screens.
-Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_3_4
-Version: 1.3.4
+Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_3_5
+Version: 1.3.5
 Author: gqevu6bsiz
-Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_3_4
+Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_3_5
 Text Domain: wauc
 Domain Path: /languages
 */
@@ -48,7 +48,7 @@ class WP_Admin_UI_Customize
 
 
 	function __construct() {
-		$this->Ver = '1.3.4';
+		$this->Ver = '1.3.5';
 		$this->Name = 'WP Admin UI Customize';
 		$this->Dir = WP_PLUGIN_URL . '/' . dirname( plugin_basename( __FILE__ ) ) . '/';
 		$this->Site = 'http://wpadminuicustomize.com/';
@@ -673,6 +673,15 @@ class WP_Admin_UI_Customize
 		return $str;
 	}
 
+	// SetList
+	function get_user_role_group() {
+		$UserRole = '';
+		$User = wp_get_current_user();
+		if( !empty( $User->roles ) ) {
+			$UserRole = array_shift( $User->roles );
+		}
+		return $UserRole;
+	}
 
 
 
@@ -975,13 +984,9 @@ class WP_Admin_UI_Customize
 		if( !empty( $SettingRole ) ) {
 			unset($SettingRole["UPFN"]);
 
-			$UserRole = '';
-			$User = wp_get_current_user();
-			if( !empty( $User->roles[0] ) ) {
-				$UserRole = $User->roles[0];
-			}
+			$UserRole = $this->get_user_role_group();
 
-			if( !is_network_admin() ) {
+			if( !is_network_admin() && !empty( $UserRole) ) {
 				if( array_key_exists( $UserRole , $SettingRole ) ) {
 					add_action( 'wp_before_admin_bar_render' , array( $this , 'admin_bar_menu') , 25 );
 					add_action( 'init' , array( $this , 'notice_dismiss' ) , 2 );
@@ -991,7 +996,7 @@ class WP_Admin_UI_Customize
 					add_action( 'wp_dashboard_setup' , array( $this , 'wp_dashboard_setup' ) );
 					add_action( 'admin_head' , array( $this , 'removemetabox' ) , 11 );
 					add_action( 'admin_init' , array( $this , 'remove_postformats' ) );
-					add_filter( 'admin_menu', array( $this , 'sidemenu' ) , 10001 );
+					add_filter( 'admin_head', array( $this , 'sidemenu' ) );
 					add_filter( 'get_sample_permalink_html' , array( $this , 'add_edit_post_change_permalink' ) );
 					add_action( 'admin_print_styles-nav-menus.php', array( $this , 'nav_menus' ) );
 					add_filter( 'admin_title', array( $this, 'admin_title' ) );
@@ -1007,11 +1012,7 @@ class WP_Admin_UI_Customize
 		if( !empty( $SettingRole ) ) {
 			unset($SettingRole["UPFN"]);
 
-			$UserRole = '';
-			$User = wp_get_current_user();
-			if( !empty( $User->roles[0] ) ) {
-				$UserRole = $User->roles[0];
-			}
+			$UserRole = $this->get_user_role_group();
 
 			if( !is_network_admin() && !empty( $UserRole ) ) {
 				if( array_key_exists( $UserRole , $SettingRole ) ) {
@@ -1405,7 +1406,14 @@ class WP_Admin_UI_Customize
 			if( !empty( $GetData ) && is_array( $GetData ) && !empty( $GetData["main"] ) ) {
 				$SetMain_menu = array();
 				$SetMain_submenu = array();
-				$separator_menu = $menu[99];
+				
+				$separator_menu = array();
+				foreach( $menu as $key => $ms ) {
+					if(  strstr( $ms[2] , 'separator' ) ) {
+						$separator_menu = $ms;
+						break;
+					}
+				}
 				
 				foreach($GetData["main"] as $mm_pos => $mm) {
 					if($mm["slug"] == 'separator') {

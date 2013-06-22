@@ -122,6 +122,7 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 									<?php if( !empty( $Data[$field] ) ) : $Val = esc_html( stripslashes( $Data[$field] ) ); endif; ?>
 									<input type="text" name="data[<?php echo $field; ?>]" value="<?php echo $Val; ?>" class="large-text" />
 									<p class="description">Default: <?php _e( 'Thank you for creating with <a href="http://wordpress.org/">WordPress</a>.' ); ?></p>
+									<a href="#TB_inline?height=300&width=600&inlineId=list_variables&modal=false" title="<?php _e( 'Variables' , $this->ltd ); ?>" class="thickbox"><?php _e( 'Available Shortcodes' , $this->ltd ); ?></a>
 								</td>
 							</tr>
 						</tbody>

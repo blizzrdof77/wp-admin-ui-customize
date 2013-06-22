@@ -2,10 +2,10 @@
 /*
 Plugin Name: WP Admin UI Customize
 Description: An excellent plugin to customize the management screens.
-Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_3_5_1
-Version: 1.3.5.1
+Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_3_5_2
+Version: 1.3.5.2
 Author: gqevu6bsiz
-Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_3_5_1
+Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_3_5_2
 Text Domain: wauc
 Domain Path: /languages
 */
@@ -48,7 +48,7 @@ class WP_Admin_UI_Customize
 
 
 	function __construct() {
-		$this->Ver = '1.3.5.1';
+		$this->Ver = '1.3.5.2';
 		$this->Name = 'WP Admin UI Customize';
 		$this->Dir = WP_PLUGIN_URL . '/' . dirname( plugin_basename( __FILE__ ) ) . '/';
 		$this->Site = 'http://wpadminuicustomize.com/';
@@ -100,7 +100,7 @@ class WP_Admin_UI_Customize
 	// PluginSetup
 	function plugin_action_links( $links , $file ) {
 		if( plugin_basename(__FILE__) == $file ) {
-			$link = '<a href="' . 'admin.php?page=' . $this->PageSlug . '">' . __('Settings') . '</a>';
+			$link = '<a href="' .self_admin_url(). 'admin.php?page=' . $this->PageSlug . '">' . __('Settings') . '</a>';
 			$support_link = '<a href="http://wordpress.org/support/plugin/wp-admin-ui-customize" target="_blank">' . __( 'Support Forums' ) . '</a>';
 			array_unshift( $links, $link , $support_link );
 		}
@@ -1120,7 +1120,7 @@ class WP_Admin_UI_Customize
 			unset( $GetData["UPFN"] );
 
 			if( !empty( $GetData["login_footer"] ) ) {
-				$text = stripslashes( $GetData["login_footer"] );
+				$text = $this->val_replace( stripslashes( $GetData["login_footer"] ) );
 
 				echo $text;
 			}
@@ -1271,7 +1271,7 @@ class WP_Admin_UI_Customize
 		if( !empty( $GetData["UPFN"] ) ) {
 			unset( $GetData["UPFN"] );
 
-			$footer_text = stripslashes( $GetData["footer_text"] );
+			$footer_text = $this->val_replace( stripslashes( $GetData["footer_text"] ) );
 		}
 
 		return $footer_text;

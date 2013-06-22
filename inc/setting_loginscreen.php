@@ -113,6 +113,7 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 									<?php $Val = ''; ?>
 									<?php if( !empty( $Data[$field] ) ) : $Val = stripslashes( esc_html( $Data[$field] ) ); endif; ?>
 									<input type="text" name="data[<?php echo $field; ?>]" value="<?php echo $Val; ?>" class="large-text" id="<?php echo $field; ?>">
+									<a href="#TB_inline?height=300&width=600&inlineId=list_variables&modal=false" title="<?php _e( 'Variables' , $this->ltd ); ?>" class="thickbox"><?php _e( 'Available Shortcodes' , $this->ltd ); ?></a>
 								</td>
 							</tr>
 						</tbody>

@@ -2,19 +2,21 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP Admin UI Customize\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2013-06-04 14:39+0900\n"
+"PO-Revision-Date: 2013-07-01 15:45+0900\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
 "X-Poedit-Language: Japanese\n"
 "X-Poedit-Country: JAPAN\n"
 "Language: ja_JP\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"Last-Translator: CedarPoint <mike@cedarpointconcepts.com>\n"
+"Last-Translator: Gqevu6bsiz <gqevu6bsiz@gmail.com>\n"
 
 msgid "An excellent plugin to customize the management screens."
+msgstr ""
+
+msgid "Reset User Roles"
 msgstr ""
 
 msgid "Customize the UI of the management screen for all users."
@@ -24,6 +26,9 @@ msgid "Authority to apply the setting is not selected. <a href=\"%s\">From here<
 msgstr ""
 
 msgid "Please select the user roles that all settings will apply to."
+msgstr ""
+
+msgid "Multiple settings not supported."
 msgstr ""
 
 msgid "Reset all settings?"
@@ -216,5 +221,8 @@ msgid "Shortcode"
 msgstr ""
 
 msgid "In your case."
+msgstr ""
+
+msgid "You want to reset the user roles?"
 msgstr ""
 

@@ -21,8 +21,9 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 	<div class="icon32" id="icon-tools"></div>
 	<?php echo $this->Msg; ?>
 	<h2><?php echo $this->Name; ?></h2>
-	<p><?php _e( 'Customize the UI of the management screen for all users.' , $this->ltd ); ?>
+	<p><?php _e( 'Customize the UI of the management screen for all users.' , $this->ltd ); ?></p>
 	<p><?php _e ( 'Please select the user roles that all settings will apply to.' , $this->ltd ); ?></p>
+	<p class="description"><?php _e( 'Multiple settings not supported.' , $this->ltd ); ?></p>
 	<p><strong><span style="color: orange;">new</span> <a href="<?php echo $this->Site; ?>import_export_about/?utm_source=use_plugin&utm_medium=side&utm_content=<?php echo $this->ltd; ?>&utm_campaign=<?php echo str_replace( '.' , '_' , $this->Ver ); ?>" target="_blank">WP Admin UI Customize Import &amp; Export Add-on</a></strong></p>
 
 	<div class="metabox-holder columns-2">

@@ -2,10 +2,10 @@
 /*
 Plugin Name: WP Admin UI Customize
 Description: An excellent plugin to customize the management screens.
-Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_3_5_2
-Version: 1.3.5.2
+Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_3_6
+Version: 1.3.6
 Author: gqevu6bsiz
-Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_3_5_2
+Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_3_6
 Text Domain: wauc
 Domain Path: /languages
 */
@@ -44,11 +44,12 @@ class WP_Admin_UI_Customize
 		$Menu,
 		$SubMenu,
 		$Admin_bar,
+		$Roles,
 		$Msg;
 
 
 	function __construct() {
-		$this->Ver = '1.3.5.2';
+		$this->Ver = '1.3.6';
 		$this->Name = 'WP Admin UI Customize';
 		$this->Dir = WP_PLUGIN_URL . '/' . dirname( plugin_basename( __FILE__ ) ) . '/';
 		$this->Site = 'http://wpadminuicustomize.com/';
@@ -100,9 +101,10 @@ class WP_Admin_UI_Customize
 	// PluginSetup
 	function plugin_action_links( $links , $file ) {
 		if( plugin_basename(__FILE__) == $file ) {
-			$link = '<a href="' .self_admin_url(). 'admin.php?page=' . $this->PageSlug . '">' . __('Settings') . '</a>';
+			$link = '<a href="' . self_admin_url( 'admin.php?page=' . $this->PageSlug ) . '">' . __( 'Settings' ) . '</a>';
 			$support_link = '<a href="http://wordpress.org/support/plugin/wp-admin-ui-customize" target="_blank">' . __( 'Support Forums' ) . '</a>';
-			array_unshift( $links, $link , $support_link );
+			$delete_userrole_link = '<a href="' . self_admin_url( 'admin.php?page=' . $this->PageSlug . '_reset_userrole' ) . '">' . __( 'Reset User Roles' , $this->ltd ) . '</a>';
+			array_unshift( $links, $link , $delete_userrole_link , $support_link  );
 		}
 		return $links;
 	}
@@ -129,6 +131,7 @@ class WP_Admin_UI_Customize
 		add_submenu_page( $this->PageSlug , __( 'Add New Post and Edit Post Screen Setting' , $this->ltd ) , __( 'Add New Post and Edit Post Screen Setting' , $this->ltd ) , 'administrator' , $this->PageSlug . '_post_add_edit_screen' , array( $this , 'setting_post_add_edit' ) );
 		add_submenu_page( $this->PageSlug , __( 'Appearance Menus Screen Setting' , $this->ltd ) , __( 'Appearance Menus Screen Setting' , $this->ltd ) , 'administrator' , $this->PageSlug . '_appearance_menus' , array( $this , 'setting_appearance_menus' ) );
 		add_submenu_page( $this->PageSlug , __( 'Login Screen' , $this->ltd ) , __( 'Login Screen' , $this->ltd ) , 'administrator' , $this->PageSlug . '_loginscreen' , array( $this , 'setting_loginscreen' ) );
+		add_submenu_page( $this->PageSlug , __( 'Reset User Roles' , $this->ltd ) , '<div style="display: none";>' . __( 'Reset User Roles' , $this->ltd ) . '</div>' , 'administrator' , $this->PageSlug . '_reset_userrole' , array( $this , 'reset_userrole' ) );
 	}
 
 
@@ -213,6 +216,15 @@ class WP_Admin_UI_Customize
 		include_once 'inc/setting_loginscreen.php';
 	}
 
+	// SettingPage
+	function reset_userrole() {
+		if( !empty( $_POST["reset"] ) ) {
+			$this->update_reset( 'user_role' );
+		}
+		add_filter( 'admin_footer_text' , array( $this , 'layout_footer' ) );
+		include_once 'inc/reset_userrole.php';
+	}
+
 
 
 
@@ -254,6 +266,18 @@ class WP_Admin_UI_Customize
 		}
 
 		return $UserRole;
+	}
+
+	// SetList
+	function get_roles() {
+		$UserRoles = $this->get_user_role();
+		$Roles = array();
+		foreach( $UserRoles as $u_role => $u_name ) {
+			$Roles[$u_role] = get_role( $u_role );
+			$Roles[$u_role]->label = $u_name;
+		}
+		
+		$this->Roles = $Roles;
 	}
 
 	// SetList
@@ -415,10 +439,10 @@ class WP_Admin_UI_Customize
 
 	// SetList
 	function menu_widget( $menu_widget ) {
-		 $new_widget = '';
-		 if( !empty( $menu_widget["new"] ) ) {
-			  $new_widget = 'new';
-		 }
+		$new_widget = '';
+		if( !empty( $menu_widget["new"] ) ) {
+			$new_widget = 'new';
+		}
 ?>
 		<div class="widget <?php echo $menu_widget["slug"]; ?> <?php echo $new_widget; ?>">
 
@@ -445,6 +469,17 @@ class WP_Admin_UI_Customize
 							<input type="hidden" class="slugtext" value="<?php echo $menu_widget["slug"]; ?>" name="data[][slug]">
 						<?php endif; ?>
 					</p>
+					<ul class="display_roles">
+						<?php _e( 'User Roles' ); ?> : 
+						<?php foreach( $this->Roles as $user_roles ) : ?>
+							<?php $cap = $user_roles->capabilities; ?>
+							<?php $has_cap = false; ?>
+							<?php if( !empty( $cap[$menu_widget["cap"]] ) or $user_roles->name == $menu_widget["cap"] ) : ?>
+								<?php $has_cap = 'has_cap'; ?>
+							<?php endif; ?>
+							<li class="<?php echo $user_roles->name; ?> <?php echo $has_cap; ?>"><?php echo $user_roles->label; ?></li>
+						<?php endforeach ;?>
+					</ul>
 					<label>
 						<?php _e( 'Title' ); ?> : <input type="text" class="regular-text titletext" value="<?php echo esc_attr( $menu_widget["title"] ); ?>" name="data[][title]">
 					</label>
@@ -479,6 +514,17 @@ class WP_Admin_UI_Customize
 												<?php _e( 'Slug' ); ?>: <?php echo $sm["slug"]; ?>
 												<input type="hidden" class="slugtext" value="<?php echo $sm["slug"]; ?>" name="data[][slug]">
 											</p>
+											<ul class="display_roles">
+												<?php _e( 'User Roles' ); ?> : 
+												<?php foreach( $this->Roles as $user_roles ) : ?>
+													<?php $cap = $user_roles->capabilities; ?>
+													<?php $has_cap = false; ?>
+													<?php if( !empty( $cap[$sm["cap"]] ) or $user_roles->name == $sm["cap"] ) : ?>
+														<?php $has_cap = 'has_cap'; ?>
+													<?php endif; ?>
+													<li class="<?php echo $user_roles->name; ?> <?php echo $has_cap; ?>"><?php echo $user_roles->label; ?></li>
+												<?php endforeach ;?>
+											</ul>
 											<label>
 												<?php _e( 'Title' ); ?> : <input type="text" class="regular-text titletext" value="<?php echo esc_attr( $sm["title"] ); ?>" name="data[][title]">
 											</label>
@@ -1136,7 +1182,7 @@ class WP_Admin_UI_Customize
 		
 		if( !empty( $GetData["UPFN"] ) ) {
 			unset( $GetData["UPFN"] );
-			if( !empty( $GetData ) ) {
+			if( is_array( $GetData ) ) {
 
 				$update_data = wp_get_update_data();
 
@@ -1196,7 +1242,6 @@ class WP_Admin_UI_Customize
 						}
 					}
 				}
-
 			}
 		}
 	}
@@ -1532,6 +1577,9 @@ class WP_Admin_UI_Customize
 				$menu = $SetMain_menu;
 				$submenu = $SetMain_submenu;
 				
+			} else {
+				// empty menu
+				$menu = array();
 			}
 		}
 	}

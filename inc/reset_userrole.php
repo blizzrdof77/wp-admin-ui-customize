@@ -1,0 +1,40 @@
+<?php
+
+
+$Data = $this->get_data( 'user_role' );
+$UserRoles = $this->get_user_role();
+
+// include js css
+$ReadedJs = array( 'jquery' , 'jquery-ui-sortable' );
+wp_enqueue_script( $this->PageSlug ,  $this->Dir . dirname( dirname( plugin_basename( __FILE__ ) ) ) . '.js', $ReadedJs , $this->Ver );
+wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basename( __FILE__ ) ) ) . '.css', array() , $this->Ver );
+
+?>
+<div class="wrap">
+	<div class="icon32" id="icon-tools"></div>
+	<?php echo $this->Msg; ?>
+	<h2><?php _e( 'Reset User Roles' , $this->ltd ); ?></h2>
+	<p>&nbsp;</p>
+
+	<form id="waum_reset_userrole" class="waum_form" method="post" action="">
+		<input type="hidden" name="<?php echo $this->UPFN; ?>" value="Y" />
+		<?php wp_nonce_field(); ?>
+
+		<h3><?php _e( 'User Roles' ); ?></h3>
+		<ul>
+			<?php foreach( $Data as $key => $val ) : ?>
+				<?php if( !empty( $UserRoles[$key] ) ): ?>
+					<li><?php echo $UserRoles[$key]; ?></li>
+				<?php endif; ?>
+			<?php endforeach; ?>
+		</ul>
+		<br />
+
+		<p><?php _e( 'You want to reset the user roles?' , $this->ltd ); ?></p>
+		<p class="submit">
+			<input type="submit" class="button-secondary" name="reset" value="<?php _e('Reset'); ?>" />
+		</p>
+
+	</form>
+
+</div>

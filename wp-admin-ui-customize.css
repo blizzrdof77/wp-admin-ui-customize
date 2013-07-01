@@ -10,6 +10,7 @@
 }
 
 
+
 .postbox-container #donationbox {
 	background: #87BCE4;
 	border: 3px solid #227499;
@@ -93,6 +94,18 @@
 }
 
 
+#sidemenu-holder #postbox-container-1 .postbox .inside .settings ul.display_roles {
+	display: block;
+}
+#sidemenu-holder #postbox-container-1 .postbox .inside .settings ul.display_roles li {
+	display: inline-block;
+	color: #BBB;
+}
+#sidemenu-holder #postbox-container-1 .postbox .inside .settings ul.display_roles li.has_cap {
+	font-weight: bold;
+	background: #eaeaea;
+	color: #000;
+}
 
 
 

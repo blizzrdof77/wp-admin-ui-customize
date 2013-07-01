@@ -2,12 +2,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP Admin UI Customize\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2013-06-05 14:46+0900\n"
+"PO-Revision-Date: 2013-07-01 15:45+0900\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
 "X-Poedit-Language: Japanese\n"
 "X-Poedit-Country: JAPAN\n"
 "Language: ja_JP\n"
@@ -17,6 +16,9 @@ msgstr ""
 msgid "An excellent plugin to customize the management screens."
 msgstr "管理画面のカスタマイズに優れたプラグインです。"
 
+msgid "Reset User Roles"
+msgstr "ユーザー権限リセット"
+
 msgid "Customize the UI of the management screen for all users."
 msgstr "全てのユーザーの管理画面UIをカスタマイズします。"
 
@@ -25,6 +27,9 @@ msgstr "設定を適用する権限が選択されていません。<a href=\"%s
 
 msgid "Please select the user roles that all settings will apply to."
 msgstr "設定を適用する権限を選んでください。"
+
+msgid "Multiple settings not supported."
+msgstr "複数設定はサポートしておりません。"
 
 msgid "Reset all settings?"
 msgstr "リセットしますか?"
@@ -217,4 +222,7 @@ msgstr "ショートコード"
 
 msgid "In your case."
 msgstr "これはあなたの場合です。"
+
+msgid "You want to reset the user roles?"
+msgstr "ユーザー権限をリセットしてもよろしいですか？"
 

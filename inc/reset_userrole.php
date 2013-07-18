@@ -16,15 +16,15 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 	<h2><?php _e( 'Reset User Roles' , $this->ltd ); ?></h2>
 	<p>&nbsp;</p>
 
-	<form id="waum_reset_userrole" class="waum_form" method="post" action="">
+	<form id="wauc_reset_userrole" class="wauc_form" method="post" action="">
 		<input type="hidden" name="<?php echo $this->UPFN; ?>" value="Y" />
-		<?php wp_nonce_field(); ?>
+		<?php wp_nonce_field( $this->Nonces["value"] , $this->Nonces["field"] ); ?>
 
-		<h3><?php _e( 'User Roles' ); ?></h3>
+		<h3><?php _e( 'Applied user roles' , $this->ltd ); ?></h3>
 		<ul>
 			<?php foreach( $Data as $key => $val ) : ?>
 				<?php if( !empty( $UserRoles[$key] ) ): ?>
-					<li><?php echo $UserRoles[$key]; ?></li>
+					<li><?php echo $UserRoles[$key]["label"]; ?></li>
 				<?php endif; ?>
 			<?php endforeach; ?>
 		</ul>

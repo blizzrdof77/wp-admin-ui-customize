@@ -21,36 +21,23 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 	<h2><?php _e( 'Add New Post and Edit Post Screen Setting' , $this->ltd ); ?></h2>
 	<p>&nbsp;</p>
 
-	<form id="waum_setting_removemtabox" class="waum_form" method="post" action="">
+	<h3 id="wauc-apply-user-roles"><?php echo $this->get_apply_roles(); ?></h3>
+
+	<form id="wauc_setting_post_add_edit" class="wauc_form" method="post" action="">
 		<input type="hidden" name="<?php echo $this->UPFN; ?>" value="Y" />
-		<?php wp_nonce_field(); ?>
+		<?php wp_nonce_field( $this->Nonces["value"] , $this->Nonces["field"] ); ?>
 
-		<div class="metabox-holder columns-1">
+		<div id="poststuff">
+			<div id="post-body" class="metabox-holder columns-1">
 
-			<div class="postbox">
-				<div class="handlediv" title="Click to toggle"><br></div>
-				<h3 class="hndle"><span><?php _e( 'Add New Post' ); ?> &amp; <?php _e( 'Edit Post' ); ?></span></h3>
-				<div class="inside">
-					<table class="form-table">
-						<tbody>
-							<?php $field = 'default_permalink'; ?>
-							<tr>
-								<th>
-									<label><?php _e( 'Change Permalinks' ); ?></label>
-								</th>
-								<td>
-									<?php $Checked = ''; ?>
-									<?php if( !empty( $Data[$field] ) ) : $Checked = 'checked="checked"'; endif; ?>
-									<label><input type="checkbox" name="data[<?php echo $field; ?>]" value="1" <?php echo $Checked; ?> /> <?php _e ( 'Hide' ); ?></label>
-									<p class="description"><?php _e( 'Only appears when you have settings to the default permalink.' , $this->ltd ); ?></p>
-									<p><img src="<?php echo $this->Dir; ?>images/post_add_edit_screen__edit_ppermalink.png" /></p>
-								</td>
-							</tr>
-						</tbody>
-					</table>
+				<div id="postbox-container-1" class="postbox-container">
+					<div id="post_add_edit">
+						<?php echo $this->set_setting_post_add_edit( $Data ); ?>
+					</div>
 				</div>
+				
+				<br class="clear">
 			</div>
-
 		</div>
 
 		<p class="submit">

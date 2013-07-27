@@ -2,16 +2,30 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP Admin UI Customize\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2013-05-30 12:02+0900\n"
-"Language-Team: \n"
+"PO-Revision-Date: 2013-07-27 11:17+0900\n"
+"Language-Team: gqevu6bsiz <gqevu6bsiz@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
 "X-Poedit-Language: Japanese\n"
 "X-Poedit-Country: JAPAN\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "Last-Translator: Gqevu6bsiz <gqevu6bsiz@gmail.com>\n"
+
+msgid "Have you want to customize?"
+msgstr ""
+
+msgid "I am good at Admin Screen Customize."
+msgstr ""
+
+msgid "Please consider the request to me if it is good."
+msgstr ""
+
+msgid "Example Customize"
+msgstr ""
+
+msgid "Contact me"
+msgstr ""
 
 msgid "Thank you for your donation."
 msgstr ""
@@ -71,6 +85,9 @@ msgid "Reviews"
 msgstr ""
 
 msgid "Useful plugins"
+msgstr ""
+
+msgid "This add-on is simply settings of different user roles."
 msgstr ""
 
 msgid "This add-on is import & export of settings data of WP Admin UI Customize."

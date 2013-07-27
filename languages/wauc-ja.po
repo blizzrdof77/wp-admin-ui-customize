@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP Admin UI Customize\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2013-07-01 15:45+0900\n"
+"PO-Revision-Date: 2013-07-27 11:17+0900\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -27,6 +27,9 @@ msgstr "設定を適用する権限が選択されていません。<a href=\"%s
 
 msgid "Please select the user roles that all settings will apply to."
 msgstr "設定を適用する権限を選んでください。"
+
+msgid "Apply user roles"
+msgstr "適用されるユーザー権限"
 
 msgid "Multiple settings not supported."
 msgstr "複数設定はサポートしておりません。"
@@ -124,12 +127,6 @@ msgstr "注意: 複数同じメニュースラッグを設置しないでくだ�
 msgid "Can be more than one custom menu."
 msgstr "カスタムメニューは複数設置できます。"
 
-msgid "Left"
-msgstr "左"
-
-msgid "Right"
-msgstr "右"
-
 msgid "Menu items that can be added"
 msgstr "追加できるメニュー一覧"
 
@@ -160,11 +157,8 @@ msgstr "メタボックス削除"
 msgid "Could not read the meta box."
 msgstr "メタボックスの読み込みができませんでした。"
 
-msgid "Meta boxes will be loaded automatically when you update or add a post."
-msgstr "投稿編集画面を一度表示すると自動でメタボックスが読み込まれます。"
-
-msgid "Meta boxes will be loaded automatically when you update or add a page."
-msgstr "固定ページ編集画面を一度表示すると自動でメタボックスが読み込まれます。"
+msgid "Meta boxes will be loaded automatically when you Edit %s."
+msgstr "%s 編集画面を一度表示すると自動でメタボックスが読み込まれます。"
 
 msgid "Please update or add a \"post\" and a \"page\" to load the available meta boxes."
 msgstr "新しいプラグインのメタボックスを読み込むには編集画面に一度アクセスしてください。"
@@ -225,4 +219,7 @@ msgstr "これはあなたの場合です。"
 
 msgid "You want to reset the user roles?"
 msgstr "ユーザー権限をリセットしてもよろしいですか？"
+
+msgid "Applied user roles"
+msgstr "適用されたユーザー権限"
 

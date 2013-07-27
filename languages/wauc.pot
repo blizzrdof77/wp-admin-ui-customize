@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP Admin UI Customize\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2013-07-01 15:45+0900\n"
+"PO-Revision-Date: 2013-07-27 11:12+0900\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -26,6 +26,9 @@ msgid "Authority to apply the setting is not selected. <a href=\"%s\">From here<
 msgstr ""
 
 msgid "Please select the user roles that all settings will apply to."
+msgstr ""
+
+msgid "Apply user roles"
 msgstr ""
 
 msgid "Multiple settings not supported."
@@ -113,7 +116,7 @@ msgid "Meta box movement restriction"
 msgstr ""
 
 msgid "Lock meta box positions"
-msgstr ""
+msgstr "メタボックスを移動させない"
 
 msgid "Admin Bar Menu"
 msgstr ""
@@ -122,12 +125,6 @@ msgid "Notice: Please do not place the same multiple menu slug."
 msgstr ""
 
 msgid "Can be more than one custom menu."
-msgstr ""
-
-msgid "Left"
-msgstr ""
-
-msgid "Right"
 msgstr ""
 
 msgid "Menu items that can be added"
@@ -160,10 +157,7 @@ msgstr ""
 msgid "Could not read the meta box."
 msgstr ""
 
-msgid "Meta boxes will be loaded automatically when you update or add a post."
-msgstr ""
-
-msgid "Meta boxes will be loaded automatically when you update or add a page."
+msgid "Meta boxes will be loaded automatically when you Edit %s."
 msgstr ""
 
 msgid "Please update or add a \"post\" and a \"page\" to load the available meta boxes."
@@ -226,3 +220,5 @@ msgstr ""
 msgid "You want to reset the user roles?"
 msgstr ""
 
+msgid "Applied user roles"
+msgstr ""

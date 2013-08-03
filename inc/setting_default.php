@@ -13,8 +13,8 @@ $UserRoles = $this->get_user_role();
 
 // include js css
 $ReadedJs = array( 'jquery' , 'jquery-ui-sortable' );
-wp_enqueue_script( $this->PageSlug ,  $this->Dir . dirname( dirname( plugin_basename( __FILE__ ) ) ) . '.js', $ReadedJs , $this->Ver );
-wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basename( __FILE__ ) ) ) . '.css', array() , $this->Ver );
+wp_enqueue_script( $this->PageSlug ,  $this->Url . dirname( dirname( plugin_basename( __FILE__ ) ) ) . '.js', $ReadedJs , $this->Ver );
+wp_enqueue_style( $this->PageSlug , $this->Url . dirname( dirname( plugin_basename( __FILE__ ) ) ) . '.css', array() , $this->Ver );
 
 ?>
 <div class="wrap">
@@ -30,6 +30,7 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 		<div id="post-body" class="metabox-holder columns-2">
 
 			<div id="postbox-container-1" class="postbox-container">
+
 				<div id="about_plugin">
 
 					<div class="stuffbox" id="donationbox">
@@ -90,11 +91,15 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 							<p>&nbsp;</p>
 						</div>
 					</div>
+
 				</div>
+
 			</div>
-				
+
 			<div id="postbox-container-2" class="postbox-container">
+
 				<div id="user_role">
+
 					<form id="wauc_setting_default" class="wauc_form" method="post" action="">
 						<input type="hidden" name="<?php echo $this->UPFN; ?>" value="Y" />
 						<?php wp_nonce_field( $this->Nonces["value"] , $this->Nonces["field"] ); ?>
@@ -128,7 +133,7 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 						<p>&nbsp;</p>
 						
 					</form>
-		
+
 					<form id="donation_form" class="wauc_form" method="post" action="">
 						<h3><?php _e( 'If you have already donated to.' , $this->ltd_p ); ?></h3>
 						<p><?php _e( 'Please enter the \'Donation delete key\' that have been described in the \'Line Break First and End download page\'.' , $this->ltd_p ); ?></p>
@@ -145,7 +150,8 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 						<h3 style="background: #FFF2D0; border-color: #FFC426;"><span class="hndle"><?php _e( 'Have you want to customize?' , $this->ltd_p ); ?></span></h3>
 						<div class="inside">
 							<p style="float: right;">
-								<img src="http://www.gravatar.com/avatar/7e05137c5a859aa987a809190b979ed4?s=46" width="46" /><br />
+								<?php $schema = is_ssl() ? 'https://' : 'http://'; ?>
+								<img src="<?php echo $schema; ?>www.gravatar.com/avatar/7e05137c5a859aa987a809190b979ed4?s=46" width="46" /><br />
 								<a href="<?php echo $this->AuthorUrl; ?>contact-us/?utm_source=use_plugin&utm_medium=side&utm_content=<?php echo $this->ltd; ?>&utm_campaign=<?php echo str_replace( '.' , '_' , $this->Ver ); ?>" target="_blank">gqevu6bsiz</a>
 							</p>
 							<p><?php _e( 'I am good at Admin Screen Customize.' , $this->ltd_p ); ?></p>
@@ -157,10 +163,13 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 					</div>
 
 				</div>
+
 			</div>
-				
+
 			<br class="clear">
+
 		</div>
+
 	</div>
 
 </div>

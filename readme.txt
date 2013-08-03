@@ -1,10 +1,10 @@
 === WP Admin UI Customize ===
 Contributors: gqevu6bsiz
-Donate link: http://gqevu6bsiz.chicappa.jp/please-donation/?utm_source=wporg&utm_medium=donate&utm_content=wauc&utm_campaign=1_3_7.1
+Donate link: http://gqevu6bsiz.chicappa.jp/please-donation/?utm_source=wporg&utm_medium=donate&utm_content=wauc&utm_campaign=1_3_8
 Tags: admin, post, posts, page, option, sitemenu, menu, custom, customize, dashboard, admin_bar
 Requires at least: 3.4.2
 Tested up to: 3.5.2
-Stable tag: 1.3.7.1
+Stable tag: 1.3.8
 License: GPL2
 
 Customize the management screen UI.
@@ -48,6 +48,11 @@ These to Customization is possible.
 11. Login Screen Customized
 
 == Changelog ==
+
+= 1.3.8 =
+* Fixed bug : Sortables settings of Admin bar settings and Side menu settings.
+* Fixed bug : Get the directory URL on use SSL.
+* Modified the HTML of some settings screen.
 
 = 1.3.7.1 =
 * Fixed : Translate.

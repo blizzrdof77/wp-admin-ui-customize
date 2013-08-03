@@ -38,12 +38,18 @@ if( is_multisite() ) {
 					<th><strong>[blog_name]</strong></th>
 					<td>
 						<code><?php echo get_bloginfo( 'name' ); ?></code>
+						<?php if( is_multisite() ) : ?>
+							<span class="description"><?php _e( 'Blog name of logged in.' , $this->ltd ); ?></span>
+						<?php endif; ?>
 					</td>
 				</tr>
 				<tr>
 					<th><strong>[blog_url]</strong></th>
 					<td>
 						<code><?php echo get_bloginfo( 'url' ); ?></code>
+						<?php if( is_multisite() ) : ?>
+							<span class="description"><?php _e( 'Blog URL of logged in.' , $this->ltd ); ?></span>
+						<?php endif; ?>
 					</td>
 				</tr>
 				<tr>

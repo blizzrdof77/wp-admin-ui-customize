@@ -1,19 +1,21 @@
 <?php
 
+global $menu, $submenu;
+
 if( !empty( $_POST["update"] ) ) {
 	$this->update_sidemenu();
 } elseif( !empty( $_POST["reset"] ) ) {
 	$this->update_reset( 'sidemenu' );
 }
 
+$this->get_user_role();
 $Data = $this->get_data( 'sidemenu' );
-$Menus = $this->get_data( 'regist_sidemenu' );
 
 // include js css
 $ReadedJs = array( 'jquery' , 'jquery-ui-draggable' , 'jquery-ui-droppable' , 'jquery-ui-sortable' , 'thickbox' );
-wp_enqueue_script( $this->PageSlug ,  $this->Dir . dirname( dirname( plugin_basename( __FILE__ ) ) ) . '.js', $ReadedJs , $this->Ver );
+wp_enqueue_script( $this->PageSlug ,  $this->Url . dirname( dirname( plugin_basename( __FILE__ ) ) ) . '.js', $ReadedJs , $this->Ver );
 wp_enqueue_style( 'thickbox' );
-wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basename( __FILE__ ) ) ) . '.css', array() , $this->Ver );
+wp_enqueue_style( $this->PageSlug , $this->Url . dirname( dirname( plugin_basename( __FILE__ ) ) ) . '.css', array() , $this->Ver );
 
 ?>
 
@@ -33,9 +35,11 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 		<?php wp_nonce_field( $this->Nonces["value"] , $this->Nonces["field"] ); ?>
 
 		<div id="poststuff">
+
 			<div id="post-body" class="metabox-holder columns-2">
 
 				<div id="postbox-container-1" class="postbox-container">
+
 					<div id="can_menus">
 
 						<div class="postbox">
@@ -44,10 +48,10 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 		
 								<p class="description"><?php _e( 'Sepalator' , $this->ltd ); ?></p>
 								<?php $menu_widget = array( 'title' => '-' , 'slug' => 'separator' , 'parent_slug' => '' , 'new' => true , 'cap' => 'read' ); ?>
-								<?php echo $this->sidebar_menu_widget( $menu_widget ); ?>
+								<?php $this->sidebar_menu_widget( $menu_widget ); ?>
 								<div class="clear"></div>
 								
-								<?php foreach($Menus["menu"] as $mm) : ?>
+								<?php foreach($this->Menu as $mm) : ?>
 		
 									<?php if( !empty( $mm[0] ) ) : ?>
 		
@@ -61,7 +65,7 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 										<?php endif; ?>
 										<p class="description"><?php echo $menu_title; ?></p>
 		
-										<?php foreach($Menus["submenu"] as $parent_slug => $sub) : ?>
+										<?php foreach($this->SubMenu as $parent_slug => $sub) : ?>
 				
 											<?php foreach($sub as $sm) : ?>
 		
@@ -77,7 +81,7 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 														<?php $menu_title .= ' [update_plugins]'; ?>
 													<?php endif; ?>
 													<?php $menu_widget = array( 'title' => $menu_title , 'slug' => $sm[2] , 'parent_slug' => '' , 'new' => true , 'cap' => $sm[1] , 'submenu' => '' ); ?>
-													<?php echo $this->sidebar_menu_widget( $menu_widget ); ?>
+													<?php $this->sidebar_menu_widget( $menu_widget ); ?>
 												<?php endif; ?>
 				
 											<?php endforeach; ?>
@@ -94,21 +98,127 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 		
 						</div>
 
-
 					</div>
+					
 				</div>
 				
 				<div id="postbox-container-2" class="postbox-container">
+
 					<div id="setting_menus">
 
-						<?php echo $this->set_setting_sidemenu( $Data ); ?>
+						<div class="postbox">
+							<h3 class="hndle">
+								<span><?php _e( 'Current menu' , $this->ltd ); ?></span>
+							</h3>
+							<div class="inside">
+		
+								<?php if( empty( $Data ) ) : ?>
+		
+									<?php foreach($menu as $mm) : ?>
+		
+										<?php if( isset( $mm[2] ) && strstr( $mm[2] , 'separator' ) ) : ?>
+		
+											<?php $menu_title = '-'; ?>
+											<?php $mm[2] = 'separator'; ?>
+											<?php $mwsm = array(); ?>
+		
+										<?php elseif( !empty( $mm[0] ) ) : ?>
+			
+											<?php $menu_title = $mm[0]; ?>
+											<?php if( !empty( $mm[5] ) ) : ?>
+												<?php if( $mm[5] == 'menu-comments' ) : ?>
+													<?php $menu_title = __( 'Comments' ) . ' [comment_count]'; ?>
+												<?php elseif( $mm[5] == 'menu-appearance' ) : ?>
+													<?php $menu_title = __( 'Appearance' ) . ' [update_themes]'; ?>
+												<?php elseif( $mm[5] == 'menu-plugins' ) : ?>
+													<?php $menu_title = __( 'Plugins' ) . ' [update_plugins]'; ?>
+												<?php endif; ?>
+											<?php endif; ?>
+		
+											<?php $mwsm = array(); ?>
+											<?php foreach($submenu as $parent_slug => $sub) : ?>
+												<?php foreach($sub as $sm) : ?>
+													<?php if( $mm[2] == $parent_slug ) : ?>
+														<?php $submenu_title = $sm[0]; ?>
+														
+														<?php if( $sm[1] == 'update_core' ) : ?>
+															<?php $submenu_title = __( 'Update' ) . ' [update_total]'; ?>
+														<?php endif; ?>
+														<?php $mwsm[] = array( 'title' => $submenu_title , 'slug' => $sm[2] , 'parent_slug' => $parent_slug , 'cap' => $sm[1] ); ?>
+													<?php endif; ?>
+												<?php endforeach; ?>
+											<?php endforeach; ?>
+		
+										<?php endif; ?>
+		
+										<?php $menu_widget = array( 'title' => $menu_title , 'slug' => $mm[2] , 'parent_slug' => '' , 'new' => false , 'cap' => $mm[1] , 'submenu' => $mwsm ); ?>
+										<?php $this->sidebar_menu_widget( $menu_widget ); ?>
+			
+									<?php endforeach; ?>
+		
+								<?php else: ?>
+		
+									<?php if( !empty( $Data["main"] ) ) : ?>
+		
+										<?php foreach($Data["main"] as $mm) : ?>
+		
+											<?php if( !empty( $mm["title"] ) ) : ?>
+		
+												<?php $mwsm = array(); ?>
+												<?php if( !empty( $Data["sub"] ) ) : ?>
+													<?php foreach($Data["sub"] as $sm) : ?>
+				
+														<?php if( $mm["slug"] == $sm["parent_slug"] ) : ?>
+														
+															<?php $cap = ""; ?>
+															<?php if( !empty( $submenu[$mm["slug"]] ) ) : ?>
+																<?php foreach( $submenu[$mm["slug"]] as $k => $tmp_sm ) : ?>
+																	<?php if( $tmp_sm[2] == $sm["slug"] ) : ?>
+																		<?php $cap = $tmp_sm[1]; ?>
+																		<?php break; ?>
+																	<?php endif; ?>
+																<?php endforeach; ?>
+															<?php endif; ?>
+				
+															<?php $mwsm[] = array( 'title' => $sm["title"] , 'slug' => $sm["slug"] , 'parent_slug' => $sm["parent_slug"] , 'cap' => $cap ); ?>
+				
+														<?php endif; ?>
+				
+													<?php endforeach; ?>
+												<?php endif; ?>
+												
+												<?php $cap = ""; ?>
+												<?php foreach( $menu as $tmp_m ) : ?>
+													<?php if( $tmp_m[2] == $mm["slug"] ) : ?>
+														<?php $cap = $tmp_m[1]; ?>
+														<?php break; ?>
+													<?php endif; ?>
+												<?php endforeach; ?>
+		
+												<?php $menu_widget = array( 'title' => $mm["title"] , 'slug' => $mm["slug"] , 'parent_slug' => '' , 'new' => false , 'cap' =>$cap , 'submenu' => $mwsm ); ?>
+												<?php $this->sidebar_menu_widget( $menu_widget ); ?>
+		
+											<?php endif; ?>
+		
+										<?php endforeach; ?>
+		
+									<?php endif; ?>
+		
+								<?php endif; ?>
+		
+							</div>
+
+						</div>
+		
+						<p class="sidebar_setting_delete"><a href="#"><?php _e( 'Delete all' ); ?></a></p>
 
 					</div>
 				</div>
 				
 				<br class="clear">
-
+				
 			</div>
+			
 		</div>
 
 		<p class="submit">
@@ -127,6 +237,9 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 <?php require_once( dirname( __FILE__ ) . '/list_variables.php' ); ?>
 
 <script type="text/javascript">
+
+var wauc_widget_each, wauc_menu_sortable;
+
 jQuery(document).ready(function($) {
 
 	var $Form = $("#wauc_setting_sidemenu");
@@ -141,8 +254,8 @@ jQuery(document).ready(function($) {
 		zIndex: 5,
 		containment: 'document',
 		stop: function(e,ui) {
-			widget_each();
-			menu_sortable();
+			wauc_widget_each();
+			wauc_menu_sortable();
 		}
 	});
 
@@ -177,7 +290,7 @@ jQuery(document).ready(function($) {
 		return false;
 	});
 
-	var menu_sortable = function menu_sortable() {
+	wauc_menu_sortable = function menu_sortable() {
 
 		$('#wauc_setting_sidemenu #poststuff #post-body #postbox-container-2 #setting_menus .postbox .inside, #wauc_setting_sidemenu #poststuff #post-body #postbox-container-2 #setting_menus .postbox .inside .widget .widget-inside .submenu').sortable({
 			placeholder: "widget-placeholder",
@@ -195,17 +308,14 @@ jQuery(document).ready(function($) {
 				if ( ui.item.hasClass('deleting') ) {
 					ui.item.remove();
 				}
-				widget_each();
+				wauc_widget_each();
 			},
 		});
 
 	}
-	$('#poststuff #post-body').mouseenter(function() {
-		menu_sortable();
-	});
-	menu_sortable();
+	wauc_menu_sortable();
 
-	function widget_each() {
+	wauc_widget_each = function widget_each() {
 		var $Count = 0;
 		$('#wauc_setting_sidemenu #setting_menus .postbox .inside .widget').each(function() {
 			var $InputSlug = $(this).children(".widget-inside").children(".settings").children(".description").children(".slugtext");
@@ -229,7 +339,7 @@ jQuery(document).ready(function($) {
 			$Count++;
 		});
 	}
-	widget_each();
+	wauc_widget_each();
 
 	$('#wauc_setting_sidemenu #setting_menus .sidebar_setting_delete a').live('click', function() {
 		$('#wauc_setting_sidemenu #setting_menus .postbox .inside').html('');

@@ -11,8 +11,8 @@ $SiteSetting = get_option( $this->Record["site"] );
 
 // include js css
 $ReadedJs = array( 'jquery' , 'jquery-ui-sortable' );
-wp_enqueue_script( $this->PageSlug ,  $this->Dir . dirname( dirname( plugin_basename( __FILE__ ) ) ) . '.js', $ReadedJs , $this->Ver );
-wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basename( __FILE__ ) ) ) . '.css', array() , $this->Ver );
+wp_enqueue_script( $this->PageSlug ,  $this->Url . dirname( dirname( plugin_basename( __FILE__ ) ) ) . '.js', $ReadedJs , $this->Ver );
+wp_enqueue_style( $this->PageSlug , $this->Url . dirname( dirname( plugin_basename( __FILE__ ) ) ) . '.css', array() , $this->Ver );
 
 ?>
 
@@ -34,6 +34,7 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 				<div id="postbox-container-1" class="postbox-container">
 
 					<div id="meta_fields">
+
 						<div class="postbox">
 							<div class="handlediv" title="Click to toggle"><br></div>
 							<h3 class="hndle"><span>Meta Fields</span></h3>
@@ -108,6 +109,7 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 								</table>
 							</div>
 						</div>
+
 					</div>
 
 				</div>
@@ -115,13 +117,44 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 				<div id="postbox-container-2" class="postbox-container">
 
 					<div id="general">
-						<?php echo $this->set_setting_site_general( $Data ); ?>
+						<div class="postbox">
+							<div class="handlediv" title="Click to toggle"><br></div>
+							<h3 class="hndle"><span><?php _e( 'General' ); ?></span></h3>
+							<div class="inside">
+								<table class="form-table">
+									<tbody>
+										<?php $field = 'admin_bar'; ?>
+										<tr>
+											<th>
+												<?php echo $field; ?>
+											</th>
+											<td>
+												<?php $arr = array( "hide" => __( 'Hide the Admin bar on the front end' , $this->ltd ) , "front" => __( 'Apply WP Admin UI Customize settings on the front end admin bar also' , $this->ltd ) ); ?>
+												<select name="data[<?php echo $field; ?>]">
+													<option value="">-</option>
+													<?php foreach( $arr as $key => $label ) : ?>
+														<?php $Selected = ''; ?>
+														<?php if( !empty( $Data[$field] ) ) : ?>
+															<?php if( $Data[$field] == $key ) : $Selected = 'selected="selected"'; endif; ?>
+															<?php if( $key == "hide" && $Data[$field] == "1" ) : $Selected = 'selected="selected"'; endif; ?>
+														<?php endif; ?>
+														<option value="<?php echo $key; ?>" <?php echo $Selected; ?>><?php echo $label; ?></option>
+													<?php endforeach; ?>
+												</select>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
 					</div>
 
 				</div>
 
 				<br class="clear">
+
 			</div>
+
 		</div>
 
 		<p class="submit">

@@ -11,9 +11,9 @@ $AllDefaultNodes = $this->admin_bar_filter_load();
 
 // include js css
 $ReadedJs = array( 'jquery' , 'jquery-ui-draggable' , 'jquery-ui-droppable' , 'jquery-ui-sortable' , 'thickbox' );
-wp_enqueue_script( $this->PageSlug ,  $this->Dir . dirname( dirname( plugin_basename( __FILE__ ) ) ) . '.js', $ReadedJs , $this->Ver );
+wp_enqueue_script( $this->PageSlug ,  $this->Url . dirname( dirname( plugin_basename( __FILE__ ) ) ) . '.js', $ReadedJs , $this->Ver );
 wp_enqueue_style( 'thickbox' );
-wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basename( __FILE__ ) ) ) . '.css', array() , $this->Ver );
+wp_enqueue_style( $this->PageSlug , $this->Url . dirname( dirname( plugin_basename( __FILE__ ) ) ) . '.css', array() , $this->Ver );
 
 ?>
 
@@ -34,22 +34,143 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 		<?php wp_nonce_field( $this->Nonces["value"] , $this->Nonces["field"] ); ?>
 
 		<div id="poststuff">
+
 			<div id="post-body" class="metabox-holder columns-2">
 
 				<div id="postbox-container-1" class="postbox-container">
 					<div id="right_menus">
-						<?php echo $this->set_setting_admin_bar( 'right' , $Data ); ?>
+						<div class="postbox">
+							<div class="handlediv" title="Click to toggle"><br></div>
+							<h3 class="hndle"><span><?php _e( 'Right' , $this->ltd ); ?></span></h3>
+							<div class="inside">
+		
+								<?php if( empty( $Data ) ) : ?>
+		
+									<?php foreach( $AllDefaultNodes["right"]["main"] as $main_node) : ?>
+			
+										<?php $pnsn = array(); ?>
+										<?php if( !empty( $AllDefaultNodes["right"]["sub"] ) ) : ?>
+		
+											<?php foreach( $AllDefaultNodes["right"]["sub"] as $sub_node) : ?>
+				
+												<?php if( $main_node->id == $sub_node->parent ) : ?>
+				
+													<?php $pnsn[] = array( 'id' => $sub_node->id , 'title' => stripslashes( $sub_node->title ) , 'parent' => $main_node->id , 'href' => $sub_node->href , 'group' => false , 'new' => false ); ?>
+				
+												<?php endif; ?>
+				
+											<?php endforeach; ?>
+
+										<?php endif; ?>
+			
+										<?php $menu_widget = array( 'id' => $main_node->id , 'title' => stripslashes( $main_node->title ) , 'parent' => '' , 'href' => $main_node->href , 'group' => false , 'new' => false , 'subnode' => $pnsn ); ?>
+										<?php $this->admin_bar_menu_widget( $menu_widget ); ?>
+			
+									<?php endforeach; ?>
+		
+								<?php else : ?>
+		
+									<?php if( !empty( $Data["right"]["main"] ) ) : ?>
+		
+										<?php foreach( $Data["right"]["main"] as $main_node) : ?>
+			
+											<?php $pnsn = array(); ?>
+											<?php if( !empty( $Data["right"]["sub"] ) ) : ?>
+		
+												<?php foreach( $Data["right"]["sub"] as $sub_node) : ?>
+				
+													<?php if( $main_node["id"] == $sub_node["parent"] ) : ?>
+				
+														<?php $pnsn[] = array( 'id' => $sub_node["id"] , 'title' => stripslashes( $sub_node["title"] ) , 'parent' => $main_node["id"] , 'href' => $sub_node["href"] , 'group' => false , 'new' => false ); ?>
+				
+													<?php endif; ?>
+				
+												<?php endforeach; ?>
+
+											<?php endif; ?>
+			
+											<?php $menu_widget = array( 'id' => $main_node["id"] , 'title' => stripslashes( $main_node["title"] ) , 'parent' => '' , 'href' => $main_node["href"] , 'group' => false , 'new' => false , 'subnode' => $pnsn ); ?>
+											<?php $this->admin_bar_menu_widget( $menu_widget ); ?>
+			
+										<?php endforeach; ?>
+		
+									<?php endif; ?>
+								
+								<?php endif; ?>
+		
+							</div>
+						</div>
 					</div>
 				</div>
 				
 				<div id="postbox-container-2" class="postbox-container">
 					<div id="left_menus">
-						<?php echo $this->set_setting_admin_bar( 'left' , $Data ); ?>
+						<div class="postbox">
+							<div class="handlediv" title="Click to toggle"><br></div>
+							<h3 class="hndle"><span><?php _e( 'Left' , $this->ltd ); ?></span></h3>
+							<div class="inside">
+								<?php if( empty( $Data ) ) : ?>
+		
+									<?php foreach( $AllDefaultNodes["left"]["main"] as $main_node) : ?>
+			
+										<?php $pnsn = array(); ?>
+										<?php if( !empty( $AllDefaultNodes["left"]["sub"] ) ) : ?>
+
+											<?php foreach( $AllDefaultNodes["left"]["sub"] as $sub_node) : ?>
+				
+												<?php if( $main_node->id == $sub_node->parent ) : ?>
+				
+													<?php $pnsn[] = array( 'id' => $sub_node->id , 'title' => stripslashes( $sub_node->title ) , 'parent' => $main_node->id , 'href' => $sub_node->href , 'group' => false , 'new' => false ); ?>
+				
+												<?php endif; ?>
+				
+											<?php endforeach; ?>
+
+										<?php endif; ?>
+			
+										<?php $menu_widget = array( 'id' => $main_node->id , 'title' => stripslashes( $main_node->title ) , 'parent' => '' , 'href' => $main_node->href , 'group' => false , 'new' => false , 'subnode' => $pnsn ); ?>
+										<?php $this->admin_bar_menu_widget( $menu_widget ); ?>
+			
+									<?php endforeach; ?>
+		
+								<?php else : ?>
+		
+									<?php if( !empty( $Data["left"]["main"] ) ) : ?>
+		
+										<?php foreach( $Data["left"]["main"] as $main_node) : ?>
+			
+											<?php $pnsn = array(); ?>
+											<?php if( !empty( $Data["left"]["sub"] ) ) : ?>
+
+												<?php foreach( $Data["left"]["sub"] as $sub_node) : ?>
+				
+													<?php if( $main_node["id"] == $sub_node["parent"] ) : ?>
+				
+														<?php $pnsn[] = array( 'id' => $sub_node["id"] , 'title' => stripslashes( $sub_node["title"] ) , 'parent' => $main_node["id"] , 'href' => $sub_node["href"] , 'group' => false , 'new' => false ); ?>
+				
+													<?php endif; ?>
+				
+												<?php endforeach; ?>
+
+											<?php endif; ?>
+			
+											<?php $menu_widget = array( 'id' => $main_node["id"] , 'title' => stripslashes( $main_node["title"] ) , 'parent' => '' , 'href' => $main_node["href"] , 'group' => false , 'new' => false , 'subnode' => $pnsn ); ?>
+											<?php $this->admin_bar_menu_widget( $menu_widget ); ?>
+			
+										<?php endforeach; ?>
+										
+									<?php endif; ?>
+								
+								<?php endif; ?>
+							</div>
+						</div>
 					</div>
 				</div>
 				
 				<br class="clear">
+
 			</div>
+
 		</div>
 
 		<div id="can_menus" class="metabox-holder columns-1">
@@ -60,7 +181,7 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 
 					<h4><?php _e( 'Custom' ); ?> <?php _e( 'Menus' ); ?></h4>
 					<?php $menu_widget = array( 'id' => "custom_node" , 'title' => "" , 'parent' => '' , 'href' => "" , 'group' => false , 'new' => true , 'subnode' => false ); ?>
-					<?php echo $this->admin_bar_menu_widget( $menu_widget ); ?>
+					<?php $this->admin_bar_menu_widget( $menu_widget ); ?>
 					<div class="clear"></div>
 					
 					<h4><?php _e( 'Left' ); ?> <?php _e( 'Menus' ); ?></h4>
@@ -69,20 +190,20 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 
 						<p class="description"><?php echo $node_id; ?></p>
 						<?php $menu_widget = array( 'id' => $node->id , 'title' => $node->title , 'parent' => '' , 'href' => $node->href , 'group' => false , 'new' => true , 'subnode' => false ); ?>
-						<?php echo $this->admin_bar_menu_widget( $menu_widget ); ?>
+						<?php $this->admin_bar_menu_widget( $menu_widget ); ?>
 
-							<?php foreach( $AllDefaultNodes["left"]["sub"] as $child_node_id => $child_node ) : ?>
+						<?php foreach( $AllDefaultNodes["left"]["sub"] as $child_node_id => $child_node ) : ?>
 
-								<?php if( $child_node->parent == $node_id ) : ?>
+							<?php if( $child_node->parent == $node_id ) : ?>
 
-									<?php $menu_widget = array( 'id' => $child_node->id , 'title' => $child_node->title , 'parent' => '' , 'href' => $child_node->href , 'group' => false , 'new' => true , 'subnode' => false ); ?>
-									<?php echo $this->admin_bar_menu_widget( $menu_widget ); ?>
+								<?php $menu_widget = array( 'id' => $child_node->id , 'title' => $child_node->title , 'parent' => '' , 'href' => $child_node->href , 'group' => false , 'new' => true , 'subnode' => false ); ?>
+								<?php $this->admin_bar_menu_widget( $menu_widget ); ?>
 
-								<?php endif; ?>
+							<?php endif; ?>
 
-							<?php endforeach; ?>
+						<?php endforeach; ?>
 
-							<div class="clear"></div>
+						<div class="clear"></div>
 
 					<?php endforeach; ?>
 					
@@ -94,14 +215,14 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 
 						<p class="description"><?php echo $node_id; ?></p>
 						<?php $menu_widget = array( 'id' => $node->id , 'title' => $node->title , 'parent' => '' , 'href' => $node->href , 'group' => false , 'new' => true , 'subnode' => false ); ?>
-						<?php echo $this->admin_bar_menu_widget( $menu_widget ); ?>
+						<?php $this->admin_bar_menu_widget( $menu_widget ); ?>
 							
 						<?php foreach( $AllDefaultNodes["right"]["sub"] as $child_node_id => $child_node ) : ?>
 
 							<?php if( $child_node->parent == $node_id ) : ?>
 
 								<?php $menu_widget = array( 'id' => $child_node->id , 'title' => $child_node->title , 'parent' => '' , 'href' => $child_node->href , 'group' => false , 'new' => true , 'subnode' => false ); ?>
-								<?php echo $this->admin_bar_menu_widget( $menu_widget ); ?>
+								<?php $this->admin_bar_menu_widget( $menu_widget ); ?>
 
 							<?php endif; ?>
 
@@ -142,6 +263,9 @@ wp_enqueue_style( $this->PageSlug , $this->Dir . dirname( dirname( plugin_basena
 </style>
 
 <script type="text/javascript">
+
+var wauc_widget_each, wauc_menu_sortable;
+
 jQuery(document).ready(function($) {
 
 	var $Form = $("#wauc_setting_admin_bar_menu");
@@ -156,8 +280,8 @@ jQuery(document).ready(function($) {
 		zIndex: 5,
 		containment: 'document',
 		stop: function(e,ui) {
-			widget_each();
-			menu_sortable();
+			wauc_widget_each();
+			wauc_menu_sortable();
 		}
 	});
 
@@ -192,7 +316,7 @@ jQuery(document).ready(function($) {
 		return false;
 	});
 
-	var menu_sortable = function menu_sortable() {
+	wauc_menu_sortable = function menu_sortable() {
 
 		$('#wauc_setting_admin_bar_menu #poststuff #post-body .postbox-container .postbox .inside, #wauc_setting_admin_bar_menu #poststuff #post-body .postbox-container .postbox .inside .widget .widget-inside .submenu').sortable({
 			placeholder: "widget-placeholder",
@@ -210,17 +334,14 @@ jQuery(document).ready(function($) {
 				if ( ui.item.hasClass('deleting') ) {
 					ui.item.remove();
 				}
-				widget_each();
+				wauc_widget_each();
 			},
 		});
 
 	}
-	$('#poststuff #post-body').mouseenter(function() {
-		menu_sortable();
-	});
-	menu_sortable();
+	wauc_menu_sortable();
 
-	function widget_each() {
+	wauc_widget_each = function widget_each() {
 		var $Count = 0;
 		$('#wauc_setting_admin_bar_menu #poststuff #post-body .postbox-container .postbox .inside .widget').each(function() {
 			var $InputId = $(this).children(".widget-inside").children(".settings").children(".description").children(".idtext");
@@ -269,7 +390,7 @@ jQuery(document).ready(function($) {
 			$Count++;
 		});
 	}
-	widget_each();
+	wauc_widget_each();
 		
 });
 </script>

@@ -13,8 +13,8 @@ $UserRoles = $this->get_user_role();
 
 // include js css
 $ReadedJs = array( 'jquery' , 'jquery-ui-sortable' );
-wp_enqueue_script( $this->PageSlug ,  $this->Url . dirname( dirname( plugin_basename( __FILE__ ) ) ) . '.js', $ReadedJs , $this->Ver );
-wp_enqueue_style( $this->PageSlug , $this->Url . dirname( dirname( plugin_basename( __FILE__ ) ) ) . '.css', array() , $this->Ver );
+wp_enqueue_script( $this->PageSlug ,  $this->Url . $this->PluginSlug . '.js', $ReadedJs , $this->Ver );
+wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', array() , $this->Ver );
 
 ?>
 <div class="wrap">
@@ -61,12 +61,12 @@ wp_enqueue_style( $this->PageSlug , $this->Url . dirname( dirname( plugin_basena
 					<div class="stuffbox" id="aboutbox">
 						<h3><span class="hndle"><?php _e( 'About plugin' , $this->ltd_p ); ?></span></h3>
 						<div class="inside">
-							<p><?php _e( 'Version check' , $this->ltd_p ); ?> : 3.4.2 - 3.5.2</p>
+							<p><?php _e( 'Version check' , $this->ltd_p ); ?> : 3.5.2 - 3.6</p>
 							<ul>
 								<li><a href="<?php echo $this->Site; ?>?utm_source=use_plugin&utm_medium=side&utm_content=<?php echo $this->ltd; ?>&utm_campaign=<?php echo str_replace( '.' , '_' , $this->Ver ); ?>" target="_blank"><?php _e( 'Plugin\'s site' , $this->ltd_p ); ?></a></li>
 								<li><a href="<?php echo $this->AuthorUrl; ?>?utm_source=use_plugin&utm_medium=side&utm_content=<?php echo $this->ltd; ?>&utm_campaign=<?php echo str_replace( '.' , '_' , $this->Ver ); ?>" target="_blank"><?php _e( 'Developer\'s site' , $this->ltd_p ); ?></a></li>
-								<li><a href="http://wordpress.org/support/plugin/wp-admin-ui-customize" target="_blank"><?php _e( 'Support Forums' ); ?></a></li>
-								<li><a href="http://wordpress.org/support/view/plugin-reviews/wp-admin-ui-customize" target="_blank"><?php _e( 'Reviews' , $this->ltd_p ); ?></a></li>
+								<li><a href="http://wordpress.org/support/plugin/<?php echo $this->PluginSlug; ?>" target="_blank"><?php _e( 'Support Forums' ); ?></a></li>
+								<li><a href="http://wordpress.org/support/view/plugin-reviews/<?php echo $this->PluginSlug; ?>" target="_blank"><?php _e( 'Reviews' , $this->ltd_p ); ?></a></li>
 								<li><a href="https://twitter.com/gqevu6bsiz" target="_blank">twitter</a></li>
 								<li><a href="http://www.facebook.com/pages/Gqevu6bsiz/499584376749601" target="_blank">facebook</a></li>
 							</ul>
@@ -150,14 +150,13 @@ wp_enqueue_style( $this->PageSlug , $this->Url . dirname( dirname( plugin_basena
 						<h3 style="background: #FFF2D0; border-color: #FFC426;"><span class="hndle"><?php _e( 'Have you want to customize?' , $this->ltd_p ); ?></span></h3>
 						<div class="inside">
 							<p style="float: right;">
-								<?php $schema = is_ssl() ? 'https://' : 'http://'; ?>
-								<img src="<?php echo $schema; ?>www.gravatar.com/avatar/7e05137c5a859aa987a809190b979ed4?s=46" width="46" /><br />
+								<img src="<?php echo $this->Schema; ?>www.gravatar.com/avatar/7e05137c5a859aa987a809190b979ed4?s=46" width="46" /><br />
 								<a href="<?php echo $this->AuthorUrl; ?>contact-us/?utm_source=use_plugin&utm_medium=side&utm_content=<?php echo $this->ltd; ?>&utm_campaign=<?php echo str_replace( '.' , '_' , $this->Ver ); ?>" target="_blank">gqevu6bsiz</a>
 							</p>
 							<p><?php _e( 'I am good at Admin Screen Customize.' , $this->ltd_p ); ?></p>
 							<p><?php _e( 'Please consider the request to me if it is good.' , $this->ltd_p ); ?></p>
 							<p>
-								<a href="http://wpadminuicustomize.com/blog/category/example/?utm_source=use_plugin&utm_medium=side&utm_content=<?php echo $this->ltd; ?>&utm_campaign=<?php echo str_replace( '.' , '_' , $this->Ver ); ?>" target="_blank"><?php _e ( 'Example Customize' , $this->ltd_p ); ?></a> :
+								<a href="<?php echo $this->Site; ?>blog/category/example/?utm_source=use_plugin&utm_medium=side&utm_content=<?php echo $this->ltd; ?>&utm_campaign=<?php echo str_replace( '.' , '_' , $this->Ver ); ?>" target="_blank"><?php _e ( 'Example Customize' , $this->ltd_p ); ?></a> :
 								<a href="<?php echo $this->AuthorUrl; ?>contact-us/?utm_source=use_plugin&utm_medium=side&utm_content=<?php echo $this->ltd; ?>&utm_campaign=<?php echo str_replace( '.' , '_' , $this->Ver ); ?>" target="_blank"><?php _e( 'Contact me' , $this->ltd_p ); ?></a></p>
 						</div>
 					</div>

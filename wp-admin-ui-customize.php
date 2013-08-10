@@ -2,10 +2,10 @@
 /*
 Plugin Name: WP Admin UI Customize
 Description: An excellent plugin to customize the management screens.
-Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_3_8
-Version: 1.3.8
+Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_3_8_1
+Version: 1.3.8.1
 Author: gqevu6bsiz
-Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_3_8
+Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_3_8_1
 Text Domain: wauc
 Domain Path: /languages
 */
@@ -34,12 +34,15 @@ class WP_Admin_UI_Customize
 	var $Ver,
 		$Name,
 		$Dir,
+		$Url,
 		$Site,
 		$AuthorUrl,
 		$ltd,
 		$Record,
 		$PageSlug,
+		$PluginSlug,
 		$Nonces,
+		$Schema,
 		$UPFN,
 		$DonateKey,
 		$Menu,
@@ -49,10 +52,10 @@ class WP_Admin_UI_Customize
 
 
 	function __construct() {
-		$this->Ver = '1.3.8';
+		$this->Ver = '1.3.8.1';
 		$this->Name = 'WP Admin UI Customize';
-		$this->Url = plugin_dir_url( __FILE__ );
 		$this->Dir = plugin_dir_path( __FILE__ );
+		$this->Url = plugin_dir_url( __FILE__ );
 		$this->Site = 'http://wpadminuicustomize.com/';
 		$this->AuthorUrl = 'http://gqevu6bsiz.chicappa.jp/';
 		$this->ltd = 'wauc';
@@ -72,7 +75,9 @@ class WP_Admin_UI_Customize
 			"donate" => $this->ltd . '_donated',
 		);
 		$this->PageSlug = 'wp_admin_ui_customize';
+		$this->PluginSlug = dirname( plugin_basename( __FILE__ ) );
 		$this->Nonces = array( "field" => $this->ltd . '_field' , "value" => $this->ltd . '_value' );
+		$this->Schema = is_ssl() ? 'https://' : 'http://';
 		$this->UPFN = 'Y';
 		$this->DonateKey = 'd77aec9bc89d445fd54b4c988d090f03';
 		
@@ -87,8 +92,8 @@ class WP_Admin_UI_Customize
 	// PluginSetup
 	function PluginSetup() {
 		// load text domain
-		load_plugin_textdomain( $this->ltd , false , basename( dirname( __FILE__ ) ) . '/languages' );
-		load_plugin_textdomain( $this->ltd_p , false , basename( dirname( __FILE__ ) ) . '/languages' );
+		load_plugin_textdomain( $this->ltd , false , $this->PluginSlug . '/languages' );
+		load_plugin_textdomain( $this->ltd_p , false , $this->PluginSlug . '/languages' );
 
 		// plugin links
 		add_filter( 'plugin_action_links' , array( $this , 'plugin_action_links' ) , 10 , 2 );
@@ -107,7 +112,7 @@ class WP_Admin_UI_Customize
 	function plugin_action_links( $links , $file ) {
 		if( plugin_basename(__FILE__) == $file ) {
 			$link = '<a href="' . self_admin_url( 'admin.php?page=' . $this->PageSlug ) . '">' . __( 'Settings' ) . '</a>';
-			$support_link = '<a href="http://wordpress.org/support/plugin/wp-admin-ui-customize" target="_blank">' . __( 'Support Forums' ) . '</a>';
+			$support_link = '<a href="http://wordpress.org/support/plugin/' . $this->PluginSlug . '" target="_blank">' . __( 'Support Forums' ) . '</a>';
 			$delete_userrole_link = '<a href="' . self_admin_url( 'admin.php?page=' . $this->PageSlug . '_reset_userrole' ) . '">' . __( 'Reset User Roles' , $this->ltd ) . '</a>';
 			array_unshift( $links, $link , $delete_userrole_link , $support_link  );
 		}
@@ -126,6 +131,14 @@ class WP_Admin_UI_Customize
 
 	// PluginSetup
 	function admin_menu() {
+
+		if( !empty( $_GET["page"] ) ) {
+			$page = strip_tags( $_GET["page"] );
+			if( $page == $this->PageSlug . '_admin_bar' ) {
+				@header("X-XSS-Protection: 0");
+			}
+		}
+
 		add_menu_page( $this->Name , $this->Name , 'administrator', $this->PageSlug , array( $this , 'setting_default') );
 		add_submenu_page( $this->PageSlug , __( 'Site Settings' , $this->ltd ) , __( 'Site Settings' , $this->ltd ) , 'administrator' , $this->PageSlug . '_setting_site' , array( $this , 'setting_site' ) );
 		add_submenu_page( $this->PageSlug , __( 'General Screen Settings' , $this->ltd ) , __( 'General Screen Settings' , $this->ltd ) , 'administrator' , $this->PageSlug . '_admin_general_setting' , array( $this , 'setting_admin_general' ) );
@@ -577,10 +590,10 @@ class WP_Admin_UI_Customize
 
 	// SetList
 	function admin_bar_menu_widget( $menu_widget ) {
-		 $new_widget = '';
-		 if( !empty( $menu_widget["new"] ) ) {
-			  $new_widget = 'new';
-		 }
+		$new_widget = '';
+		if( !empty( $menu_widget["new"] ) ) {
+			$new_widget = 'new';
+		}
 ?>
 		<div class="widget <?php echo $new_widget; ?> <?php echo $menu_widget["id"]; ?>">
 
@@ -590,8 +603,12 @@ class WP_Admin_UI_Customize
 				</div>
 				<div class="widget-title">
 					<h4>
-						<?php echo $menu_widget["title"]; ?>
-						: <span class="in-widget-title"><?php echo $menu_widget["id"]; ?></span>
+						<?php if( preg_match( '/\<form/' , $menu_widget["title"] ) ) : ?>
+							<?php echo $menu_widget["id"]; ?>
+						<?php else: ?>
+							<?php echo $menu_widget["title"]; ?>
+							: <span class="in-widget-title"><?php echo $menu_widget["id"]; ?></span>
+						<?php endif; ?>
 					</h4>
 				</div>
 			</div>
@@ -626,8 +643,12 @@ class WP_Admin_UI_Customize
 									</div>
 									<div class="widget-title">
 										<h4>
-											<?php echo $sm["title"]; ?>
-											: <span class="in-widget-title"><?php echo $sm["id"]; ?></span>
+											<?php if( preg_match( '/\<form/' , $sm["title"] ) ) : ?>
+												<?php echo $sm["id"]; ?>
+											<?php else: ?>
+												<?php echo $sm["title"]; ?>
+												: <span class="in-widget-title"><?php echo $sm["id"]; ?></span>
+											<?php endif; ?>
 										</h4>
 									</div>
 								</div>
@@ -726,8 +747,7 @@ class WP_Admin_UI_Customize
 					$str = str_replace( '[site_name]' , esc_attr( $current_site->site_name ) , $str );
 				}
 				if( strstr( $str , '[site_url]') ) {
-					$protocol = is_ssl() ? 'https://' : 'http://';
-					$str = str_replace( '[site_url]' , $protocol . esc_attr( $current_site->domain ) , $str );
+					$str = str_replace( '[site_url]' , $this->Schema . esc_attr( $current_site->domain ) , $str );
 				}
 			}
 
@@ -1072,9 +1092,9 @@ class WP_Admin_UI_Customize
 					add_action( 'admin_print_styles' , array( $this , 'load_css' ) );
 					add_action( 'wp_dashboard_setup' , array( $this , 'wp_dashboard_setup' ) );
 					add_action( 'admin_head' , array( $this , 'removemetabox' ) , 11 );
-					add_action( 'admin_init' , array( $this , 'remove_postformats' ) );
 					add_filter( 'admin_head', array( $this , 'sidemenu' ) );
 					add_filter( 'get_sample_permalink_html' , array( $this , 'add_edit_post_change_permalink' ) );
+					add_filter( 'edit_form_after_title' , array( $this , 'allow_comments' ) );
 					add_action( 'admin_print_styles-nav-menus.php', array( $this , 'nav_menus' ) );
 					add_filter( 'admin_title', array( $this, 'admin_title' ) );
 				}
@@ -1456,27 +1476,6 @@ class WP_Admin_UI_Customize
 	}
 
 	// FilterStart
-	function remove_postformats() {
-		global $wp_version;
-		if ( version_compare( $wp_version , '3.6' , '>=' ) ) {
-			$GetData = $this->get_flit_data( 'removemetabox' );
-			
-			if( !empty( $GetData["UPFN"] ) ) {
-				unset( $GetData["UPFN"] );
-	
-				if( !empty( $GetData ) && is_array( $GetData ) ) {
-	
-					if( !empty( $GetData["post"]["postformat"] ) ) {
-						remove_post_type_support( "post" , "post-formats" );
-					}
-
-				}
-
-			}
-		}
-	}
-
-	// FilterStart
 	function sidemenu() {
 		global $menu;
 		global $submenu;
@@ -1642,6 +1641,28 @@ class WP_Admin_UI_Customize
 	}
 
 	// FilterStart
+	function allow_comments() {
+		global $current_screen;
+		
+		$PostAddEdit = $this->get_flit_data( 'post_add_edit' );
+		$RemoveMetaBox = $this->get_flit_data( 'removemetabox' );
+		
+		if( !empty( $PostAddEdit["UPFN"] ) && !empty( $RemoveMetaBox["UPFN"] ) ) {
+			if( $current_screen->action == 'add' ) {
+				if( !empty( $RemoveMetaBox[$current_screen->id]["commentstatusdiv"] ) && !empty( $PostAddEdit["allow_comments"] ) ) {
+					$comment_status = get_option( 'default_comment_status' );
+					$comment_status = apply_filters( 'wauc_pre_get_comment_status' , $comment_status );
+					if( $comment_status == 'open' ) {
+						echo '<input name="comment_status" type="hidden" id="comment_status" value="open" />';
+					}
+				}
+			}
+			
+		}
+
+	}
+
+	// FilterStart
 	function admin_title( $title ) {
 		$GetData = $this->get_flit_data( 'admin_general' );
 
@@ -1667,7 +1688,7 @@ class WP_Admin_UI_Customize
 			if( !empty( $GetData["add_new_menu"] ) ) {
 				global $wp_version;
 				if ( version_compare( $wp_version , '3.6' , '>=' ) ) {
-					echo '<style>.manage-menus .add-new-menu-action, .manage-menus .add-edit-menu-action, .locations-row-links .locations-add-menu-link { display: none; }</style>';
+					echo '<style>.wrap > .manage-menus, .locations-row-links .locations-add-menu-link { display: none; }</style>';
 				} else {
 					echo '<style>.nav-tabs .menu-add-new { display: none; }</style>';
 				}
@@ -1681,8 +1702,7 @@ class WP_Admin_UI_Customize
 
 	// FilterStart
 	function layout_footer( $text ) {
-		$schema = is_ssl() ? 'https://' : 'http://';
-		$text = '<img src="' . $schema . 'www.gravatar.com/avatar/7e05137c5a859aa987a809190b979ed4?s=18" width="18" /> Plugin developer : <a href="' . $this->AuthorUrl . '?utm_source=use_plugin&utm_medium=footer&utm_content=' . $this->ltd . '&utm_campaign=' . str_replace( '.' , '_' , $this->Ver ) . '" target="_blank">gqevu6bsiz</a>';
+		$text = '<img src="' . $this->Schema . 'www.gravatar.com/avatar/7e05137c5a859aa987a809190b979ed4?s=18" width="18" /> Plugin developer : <a href="' . $this->AuthorUrl . '?utm_source=use_plugin&utm_medium=footer&utm_content=' . $this->ltd . '&utm_campaign=' . str_replace( '.' , '_' , $this->Ver ) . '" target="_blank">gqevu6bsiz</a>';
 		return $text;
 	}
 

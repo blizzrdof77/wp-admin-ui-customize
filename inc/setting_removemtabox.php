@@ -11,8 +11,8 @@ $Metaboxes = $this->get_data( "regist_metabox" );
 
 // include js css
 $ReadedJs = array( 'jquery' , 'jquery-ui-sortable' );
-wp_enqueue_script( $this->PageSlug ,  $this->Url . dirname( dirname( plugin_basename( __FILE__ ) ) ) . '.js', $ReadedJs , $this->Ver );
-wp_enqueue_style( $this->PageSlug , $this->Url . dirname( dirname( plugin_basename( __FILE__ ) ) ) . '.css', array() , $this->Ver );
+wp_enqueue_script( $this->PageSlug ,  $this->Url . $this->PluginSlug . '.js', $ReadedJs , $this->Ver );
+wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', array() , $this->Ver );
 
 ?>
 
@@ -58,24 +58,17 @@ wp_enqueue_style( $this->PageSlug , $this->Url . dirname( dirname( plugin_basena
 																	<?php $Checked = ''; ?>
 																	<?php if( !empty( $Data["post"][$metabox_id] ) ) : $Checked = 'checked="checked"'; endif; ?>
 																	<label><input type="checkbox" name="data[post][<?php echo $metabox_id; ?>]" value="1" <?php echo $Checked; ?> /> <?php _e ( 'Hide' ); ?></label>
+																	<?php if( $metabox_id == 'commentstatusdiv' ) : ?>
+																		<p class="description"><?php _e( 'Notice: If hide the Discussion on metabox, comments does not display of Add New Post on apply user role.' , $this->ltd ); ?></p>
+																		<p><img src="<?php echo $this->Url; ?>images/discussion_allow_comments.png" /></p>
+																		<p><a href="<?php echo admin_url( 'admin.php?page=' . $this->PageSlug . '_post_add_edit_screen' ); ?>"><?php _e( 'Please set from here if you want to view the comments on screen.' , $this->ltd ); ?></a></p>
+																	<?php endif; ?>
 																</td>
 															</tr>
 														<?php endif; ?>
 													<?php endforeach; ?>
 												<?php endforeach; ?>
 											<?php endforeach; ?>
-			
-											<?php global $wp_version; ?>
-											<?php if ( version_compare( $wp_version , '3.6' , '>=' ) ) : ?>
-												<tr>
-													<th><?php _e( 'Post Formats' ); ?></th>
-													<td>
-														<?php $Checked = ''; ?>
-														<?php if( !empty( $Data["post"]["postformat"] ) ) : $Checked = 'checked="checked"'; endif; ?>
-														<label><input type="checkbox" name="data[post][postformat]" value="1" <?php echo $Checked; ?> /> <?php _e ( 'Hide' ); ?></label>
-													</td>
-												</tr>
-											<?php endif; ?>
 										</tbody>
 									</table>
 			
@@ -112,6 +105,11 @@ wp_enqueue_style( $this->PageSlug , $this->Url . dirname( dirname( plugin_basena
 																	<?php $Checked = ''; ?>
 																	<?php if( !empty( $Data["page"][$metabox_id] ) ) : $Checked = 'checked="checked"'; endif; ?>
 																	<label><input type="checkbox" name="data[page][<?php echo $metabox_id; ?>]" value="1" <?php echo $Checked; ?> /> <?php _e ( 'Hide' ); ?></label>
+																	<?php if( $metabox_id == 'commentstatusdiv' ) : ?>
+																		<p class="description"><?php _e( 'Notice: If hide the Discussion on metabox, comments does not display of Add New Post on apply user role.' , $this->ltd ); ?></p>
+																		<p><img src="<?php echo $this->Url; ?>images/discussion_allow_comments.png" /></p>
+																		<p><a href="<?php echo admin_url( 'admin.php?page=' . $this->PageSlug . '_post_add_edit_screen' ); ?>"><?php _e( 'Please set from here if you want to view the comments on screen.' , $this->ltd ); ?></a></p>
+																	<?php endif; ?>
 																</td>
 															</tr>
 														<?php endif; ?>

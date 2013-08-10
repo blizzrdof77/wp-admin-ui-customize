@@ -11,9 +11,9 @@ $AllDefaultNodes = $this->admin_bar_filter_load();
 
 // include js css
 $ReadedJs = array( 'jquery' , 'jquery-ui-draggable' , 'jquery-ui-droppable' , 'jquery-ui-sortable' , 'thickbox' );
-wp_enqueue_script( $this->PageSlug ,  $this->Url . dirname( dirname( plugin_basename( __FILE__ ) ) ) . '.js', $ReadedJs , $this->Ver );
-wp_enqueue_style( 'thickbox' );
-wp_enqueue_style( $this->PageSlug , $this->Url . dirname( dirname( plugin_basename( __FILE__ ) ) ) . '.css', array() , $this->Ver );
+wp_enqueue_script( $this->PageSlug ,  $this->Url . $this->PluginSlug . '.js', $ReadedJs , $this->Ver );
+wp_enqueue_style('thickbox');
+wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', array() , $this->Ver );
 
 ?>
 
@@ -41,7 +41,7 @@ wp_enqueue_style( $this->PageSlug , $this->Url . dirname( dirname( plugin_basena
 					<div id="right_menus">
 						<div class="postbox">
 							<div class="handlediv" title="Click to toggle"><br></div>
-							<h3 class="hndle"><span><?php _e( 'Right' , $this->ltd ); ?></span></h3>
+							<h3 class="hndle"><span><?php _e( 'Right' ); ?><?php _e( 'Menus' ); ?></span></h3>
 							<div class="inside">
 		
 								<?php if( empty( $Data ) ) : ?>
@@ -107,7 +107,7 @@ wp_enqueue_style( $this->PageSlug , $this->Url . dirname( dirname( plugin_basena
 					<div id="left_menus">
 						<div class="postbox">
 							<div class="handlediv" title="Click to toggle"><br></div>
-							<h3 class="hndle"><span><?php _e( 'Left' , $this->ltd ); ?></span></h3>
+							<h3 class="hndle"><span><?php _e( 'Left' ); ?><?php _e( 'Menus' ); ?></span></h3>
 							<div class="inside">
 								<?php if( empty( $Data ) ) : ?>
 		

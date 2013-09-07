@@ -42,7 +42,7 @@ wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', arr
 										<?php $field = 'add_new_menu'; ?>
 										<tr>
 											<th>
-												<label><?php _e( 'Add a new menu' , $this->ltd ); ?></label>
+												<label><?php _e( 'Create a new menu' , $this->ltd ); ?></label>
 											</th>
 											<td>
 												<?php $Checked = ''; ?>

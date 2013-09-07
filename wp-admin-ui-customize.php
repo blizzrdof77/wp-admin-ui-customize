@@ -2,10 +2,10 @@
 /*
 Plugin Name: WP Admin UI Customize
 Description: An excellent plugin to customize the management screens.
-Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_3_8_1
-Version: 1.3.8.1
+Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_3_8_2
+Version: 1.3.8.2
 Author: gqevu6bsiz
-Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_3_8_1
+Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_3_8_2
 Text Domain: wauc
 Domain Path: /languages
 */
@@ -52,7 +52,7 @@ class WP_Admin_UI_Customize
 
 
 	function __construct() {
-		$this->Ver = '1.3.8.1';
+		$this->Ver = '1.3.8.2';
 		$this->Name = 'WP Admin UI Customize';
 		$this->Dir = plugin_dir_path( __FILE__ );
 		$this->Url = plugin_dir_url( __FILE__ );
@@ -400,6 +400,13 @@ class WP_Admin_UI_Customize
 				}
 			}
 		}
+
+		// meta field add
+		foreach( $Default_bar as $node_id => $node ) {
+			if( !isset( $node->meta ) ) {
+				$Default_bar[$node_id]->meta = array();
+			}
+		}
 		
 		foreach( $MainMenuIDs as $parent_id => $menu_type ) {
 
@@ -615,19 +622,31 @@ class WP_Admin_UI_Customize
 
 			<div class="widget-inside">
 				<div class="settings">
-					<p class="description">
-						<input type="hidden" class="idtext" value="<?php echo $menu_widget["id"]; ?>" name="data[][id]">
+					<p class="field-url description">
+						<input type="hidden" class="idtext" value="<?php echo $menu_widget["id"]; ?>" name="data[][id]" />
 						<?php if( $menu_widget["id"] == 'custom_node' ) : ?>
-							URL: <input type="text" class="regular-text linktext" value="" name="data[][href]" placeholder="http://">
+							URL: <input type="text" class="regular-text linktext" value="" name="data[][href]" placeholder="http://" />
 						<?php else:  ?>
 							<a href="<?php echo $menu_widget["href"]; ?>" target="_blank"><?php echo $menu_widget["id"]; ?></a>
-							<input type="hidden" class="linktext" value="<?php echo $menu_widget["href"]; ?>" name="data[][href]">
+							<input type="hidden" class="linktext" value="<?php echo $menu_widget["href"]; ?>" name="data[][href]" />
 						<?php endif; ?>
 					</p>
-					<label>
-						<?php _e( 'Title' ); ?> : <input type="text" class="regular-text titletext" value="<?php echo esc_html( $menu_widget["title"] ); ?>" name="data[][title]">
-					</label>
-					<input type="hidden" class="parent" value="<?php echo $menu_widget["parent"]; ?>" name="data[][parent]">
+					<p class="field-title description">
+						<label>
+							<?php _e( 'Title' ); ?> : <input type="text" class="regular-text titletext" value="<?php echo esc_html( $menu_widget["title"] ); ?>" name="data[][title]" />
+						</label>
+					</p>
+					<p class="field-meta description">
+						<label class="description">
+							<?php $checked = ""; ?>
+							<?php if( !empty( $menu_widget["meta"]["target"] ) ) : ?>
+								<?php $checked = checked( $menu_widget["meta"]["target"] , '_blank' , 0 ); ?>
+							<?php endif; ?>
+							<input type="checkbox" class="meta_target" value="_blank" name="data[][meta][target]" <?php echo $checked; ?> />
+							<?php _e( 'Open link in a new window/tab' ); ?>
+						</label>
+					</p>
+					<input type="hidden" class="parent" value="<?php echo $menu_widget["parent"]; ?>" name="data[][parent]" />
 				</div>
 
 				<div class="submenu">
@@ -655,15 +674,27 @@ class WP_Admin_UI_Customize
 
 								<div class="widget-inside">
 									<div class="settings">
-										<p class="description">
-											<input type="hidden" class="idtext" value="<?php echo $sm["id"]; ?>" name="data[][id]">
+										<p class="field-url description">
+											<input type="hidden" class="idtext" value="<?php echo $sm["id"]; ?>" name="data[][id]" />
 											<a href="<?php echo $sm["href"]; ?>" target="_blank"><?php echo $sm["id"]; ?></a>
-											<input type="hidden" class="linktext" value="<?php echo $sm["href"]; ?>" name="data[][href]">
+											<input type="hidden" class="linktext" value="<?php echo $sm["href"]; ?>" name="data[][href]" />
 										</p>
-										<label>
-											<?php _e( 'Title' ); ?> : <input type="text" class="regular-text titletext" value="<?php echo esc_html( $sm["title"] ); ?>" name="data[][title]">
-										</label>
-										<input type="hidden" class="parent" value="<?php echo $sm["parent"]; ?>" name="data[][parent]">
+										<p class="field-title description">
+											<label>
+												<?php _e( 'Title' ); ?> : <input type="text" class="regular-text titletext" value="<?php echo esc_html( $sm["title"] ); ?>" name="data[][title]" />
+											</label>
+										</p>
+										<p class="field-meta description">
+											<label class="description">
+												<?php $checked = ""; ?>
+												<?php if( !empty( $sm["meta"]["target"] ) ) : ?>
+													<?php $checked = checked( $sm["meta"]["target"] , '_blank' , 0 ); ?>
+												<?php endif; ?>
+												<input type="checkbox" class="meta_target" value="_blank" name="data[][meta][target]" <?php echo $checked; ?> />
+												<?php _e( 'Open link in a new window/tab' ); ?>
+											</label>
+										</p>
+										<input type="hidden" class="parent" value="<?php echo $sm["parent"]; ?>" name="data[][parent]" />
 									</div>
 									<div class="widget-control-actions">
 										<div class="alignleft">
@@ -913,8 +944,16 @@ class WP_Admin_UI_Customize
 								$parent = strip_tags( $node["parent"] );
 								$depth = 'sub';
 							}
+							$meta = array();
+							if( !empty( $node["meta"] ) ) {
+								foreach( $node["meta"] as $mk => $mv ) {
+									if( !empty( $mv ) ) {
+										$meta[strip_tags($mk)] = strip_tags($mv);
+									}
+								}
+							}
 
-							$Update[$boxtype][$depth][] = array( "id" => $id , "title" => $title , "href" => $href , "parent" => $parent );
+							$Update[$boxtype][$depth][] = array( "id" => $id , "title" => $title , "href" => $href , "parent" => $parent , "meta" => $meta );
 						}
 					}
 				}
@@ -1248,7 +1287,7 @@ class WP_Admin_UI_Customize
 				foreach($GetData as $Boxtype => $allnodes) {
 					foreach($allnodes as $depth => $nodes) {
 						foreach($nodes as $node) {
-							$args = array( "id" => $node["id"] , "title" => stripslashes( $node["title"] ) , "href" => $node["href"] , "parent" => "" );
+							$args = array( "id" => $node["id"] , "title" => stripslashes( $node["title"] ) , "href" => $node["href"] , "parent" => "" , "meta" => array() );
 							if( strstr( $node["id"] , 'custom_node' ) ) {
 								$args["href"] = $this->val_replace( $node["href"] );
 							}
@@ -1257,6 +1296,9 @@ class WP_Admin_UI_Customize
 							}
 							if( $Boxtype == 'right' && $depth == 'main' ) {
 								$args["parent"] = "top-secondary";
+							}
+							if( !empty( $node["meta"] ) ) {
+								$args["meta"] = $node["meta"];
 							}
 							if( strstr( $args["title"] , '[comment_count]') ) {
 								if ( !current_user_can('edit_posts') ) {

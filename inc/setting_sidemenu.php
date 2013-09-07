@@ -24,6 +24,7 @@ wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', arr
 	<?php echo $this->Msg; ?>
 	<h2><?php _e( 'Side Menu' , $this->ltd ); ?></h2>
 	<p><?php _e( 'Please change the menu by drag and drop.' , $this->ltd ); ?></p>
+	<p class="description"><?php echo sprintf( __( 'New plugin menus will be added to the <strong>%s</strong>.' , $this->ltd ) , __( 'Menu items that can be added' , $this->ltd ) ); ?>
 	<p><strong><?php _e( 'Notice: Please do not place the same multiple menu slug.' , $this->ltd ); ?></strong></p>
 
 	<h3 id="wauc-apply-user-roles"><?php echo $this->get_apply_roles(); ?></h3>

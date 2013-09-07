@@ -23,7 +23,7 @@ wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', arr
 	<h2><?php echo $this->Name; ?></h2>
 	<p><?php _e( 'Customize the UI of the management screen for all users.' , $this->ltd ); ?></p>
 	<p><?php _e ( 'Please select the user roles that all settings will apply to.' , $this->ltd ); ?></p>
-	<p class="description"><?php _e( 'Multiple settings not supported.' , $this->ltd ); ?></p>
+	<p class="description"><?php _e( 'Please use the Multiple Add-on If you want settings on User role basis.' , $this->ltd ); ?></p>
 	<p><strong><span style="color: orange;">new</span> <a href="<?php echo $this->Site; ?>multiple_about/?utm_source=use_plugin&utm_medium=side&utm_content=<?php echo $this->ltd; ?>&utm_campaign=<?php echo str_replace( '.' , '_' , $this->Ver ); ?>" target="_blank">WP Admin UI Customize Multiple Add-on</a></strong></p>
 
 	<div id="poststuff">
@@ -61,7 +61,7 @@ wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', arr
 					<div class="stuffbox" id="aboutbox">
 						<h3><span class="hndle"><?php _e( 'About plugin' , $this->ltd_p ); ?></span></h3>
 						<div class="inside">
-							<p><?php _e( 'Version check' , $this->ltd_p ); ?> : 3.5.2 - 3.6</p>
+							<p><?php _e( 'Version checked' , $this->ltd_p ); ?> : 3.5.2 - 3.6</p>
 							<ul>
 								<li><a href="<?php echo $this->Site; ?>?utm_source=use_plugin&utm_medium=side&utm_content=<?php echo $this->ltd; ?>&utm_campaign=<?php echo str_replace( '.' , '_' , $this->Ver ); ?>" target="_blank"><?php _e( 'Plugin\'s site' , $this->ltd_p ); ?></a></li>
 								<li><a href="<?php echo $this->AuthorUrl; ?>?utm_source=use_plugin&utm_medium=side&utm_content=<?php echo $this->ltd; ?>&utm_campaign=<?php echo str_replace( '.' , '_' , $this->Ver ); ?>" target="_blank"><?php _e( 'Developer\'s site' , $this->ltd_p ); ?></a></li>
@@ -77,9 +77,9 @@ wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', arr
 						<h3><span class="hndle"><?php _e( 'Useful plugins' , $this->ltd_p ); ?></span></h3>
 						<div class="inside">
 							<p><strong><span style="color: orange;">new</span> <a href="<?php echo $this->Site; ?>multiple_about/?utm_source=use_plugin&utm_medium=side&utm_content=<?php echo $this->ltd; ?>&utm_campaign=<?php echo str_replace( '.' , '_' , $this->Ver ); ?>" target="_blank">WP Admin UI Customize Multiple Add-on</a></strong></p>
-							<p class="description"><?php _e( 'This add-on is simply settings of different user roles.' , $this->ltd_p ); ?></p>
+							<p class="description"><?php _e( 'This add-on is simply settings of multi user roles.' , $this->ltd_p ); ?></p>
 							<p><strong><a href="<?php echo $this->Site; ?>import_export_about/?utm_source=use_plugin&utm_medium=side&utm_content=<?php echo $this->ltd; ?>&utm_campaign=<?php echo str_replace( '.' , '_' , $this->Ver ); ?>" target="_blank">WP Admin UI Customize Import &amp; Export Add-on</a></strong></p>
-							<p class="description"><?php _e( 'This add-on is import & export of settings data of WP Admin UI Customize.' , $this->ltd_p ); ?></p>
+							<p class="description"><?php _e( 'This add-on is Import/Export easily of the settings data.' , $this->ltd_p ); ?></p>
 							<p><strong><a href="<?php echo $this->Site; ?>multisite_about/?utm_source=use_plugin&utm_medium=side&utm_content=<?php echo $this->ltd; ?>&utm_campaign=<?php echo str_replace( '.' , '_' , $this->Ver ); ?>" target="_blank">WP Admin UI Customize for Multisite</a></strong></p>
 							<p class="description"><?php _e( 'This add-on is an add-on to unify the management screen of all sites.' , $this->ltd_p ); ?></p>
 							<p><strong><a href="http://wordpress.org/extend/plugins/post-lists-view-custom/" target="_blank">Post Lists View Custom</a></strong></p>
@@ -157,7 +157,7 @@ wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', arr
 							<p><?php _e( 'Please consider the request to me if it is good.' , $this->ltd_p ); ?></p>
 							<p>
 								<a href="<?php echo $this->Site; ?>blog/category/example/?utm_source=use_plugin&utm_medium=side&utm_content=<?php echo $this->ltd; ?>&utm_campaign=<?php echo str_replace( '.' , '_' , $this->Ver ); ?>" target="_blank"><?php _e ( 'Example Customize' , $this->ltd_p ); ?></a> :
-								<a href="<?php echo $this->AuthorUrl; ?>contact-us/?utm_source=use_plugin&utm_medium=side&utm_content=<?php echo $this->ltd; ?>&utm_campaign=<?php echo str_replace( '.' , '_' , $this->Ver ); ?>" target="_blank"><?php _e( 'Contact me' , $this->ltd_p ); ?></a></p>
+								<a href="<?php echo $this->Site; ?>contact/?utm_source=use_plugin&utm_medium=side&utm_content=<?php echo $this->ltd; ?>&utm_campaign=<?php echo str_replace( '.' , '_' , $this->Ver ); ?>" target="_blank"><?php _e( 'Contact me' , $this->ltd_p ); ?></a></p>
 						</div>
 					</div>
 

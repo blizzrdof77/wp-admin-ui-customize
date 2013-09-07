@@ -55,7 +55,7 @@ wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', arr
 				
 												<?php if( $main_node->id == $sub_node->parent ) : ?>
 				
-													<?php $pnsn[] = array( 'id' => $sub_node->id , 'title' => stripslashes( $sub_node->title ) , 'parent' => $main_node->id , 'href' => $sub_node->href , 'group' => false , 'new' => false ); ?>
+													<?php $pnsn[] = array( 'id' => $sub_node->id , 'title' => stripslashes( $sub_node->title ) , 'parent' => $main_node->id , 'href' => $sub_node->href , 'group' => false , 'meta' => $sub_node->meta , 'new' => false ); ?>
 				
 												<?php endif; ?>
 				
@@ -63,7 +63,7 @@ wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', arr
 
 										<?php endif; ?>
 			
-										<?php $menu_widget = array( 'id' => $main_node->id , 'title' => stripslashes( $main_node->title ) , 'parent' => '' , 'href' => $main_node->href , 'group' => false , 'new' => false , 'subnode' => $pnsn ); ?>
+										<?php $menu_widget = array( 'id' => $main_node->id , 'title' => stripslashes( $main_node->title ) , 'parent' => '' , 'href' => $main_node->href , 'group' => false , 'meta' => $main_node->meta , 'new' => false , 'subnode' => $pnsn ); ?>
 										<?php $this->admin_bar_menu_widget( $menu_widget ); ?>
 			
 									<?php endforeach; ?>
@@ -80,16 +80,24 @@ wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', arr
 												<?php foreach( $Data["right"]["sub"] as $sub_node) : ?>
 				
 													<?php if( $main_node["id"] == $sub_node["parent"] ) : ?>
-				
-														<?php $pnsn[] = array( 'id' => $sub_node["id"] , 'title' => stripslashes( $sub_node["title"] ) , 'parent' => $main_node["id"] , 'href' => $sub_node["href"] , 'group' => false , 'new' => false ); ?>
+
+														<?php if( empty( $sub_node["meta"] ) ) : ?>
+															<?php $sub_node["meta"] = array(); ?>
+														<?php endif; ?>
+
+														<?php $pnsn[] = array( 'id' => $sub_node["id"] , 'title' => stripslashes( $sub_node["title"] ) , 'parent' => $main_node["id"] , 'href' => $sub_node["href"] , 'group' => false , 'meta' => $sub_node["meta"] , 'new' => false ); ?>
 				
 													<?php endif; ?>
 				
 												<?php endforeach; ?>
 
 											<?php endif; ?>
-			
-											<?php $menu_widget = array( 'id' => $main_node["id"] , 'title' => stripslashes( $main_node["title"] ) , 'parent' => '' , 'href' => $main_node["href"] , 'group' => false , 'new' => false , 'subnode' => $pnsn ); ?>
+
+											<?php if( empty( $main_node["meta"] ) ) : ?>
+												<?php $main_node["meta"] = array(); ?>
+											<?php endif; ?>
+
+											<?php $menu_widget = array( 'id' => $main_node["id"] , 'title' => stripslashes( $main_node["title"] ) , 'parent' => '' , 'href' => $main_node["href"] , 'group' => false , 'meta' => $main_node["meta"] , 'new' => false , 'subnode' => $pnsn ); ?>
 											<?php $this->admin_bar_menu_widget( $menu_widget ); ?>
 			
 										<?php endforeach; ?>
@@ -120,7 +128,7 @@ wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', arr
 				
 												<?php if( $main_node->id == $sub_node->parent ) : ?>
 				
-													<?php $pnsn[] = array( 'id' => $sub_node->id , 'title' => stripslashes( $sub_node->title ) , 'parent' => $main_node->id , 'href' => $sub_node->href , 'group' => false , 'new' => false ); ?>
+													<?php $pnsn[] = array( 'id' => $sub_node->id , 'title' => stripslashes( $sub_node->title ) , 'parent' => $main_node->id , 'href' => $sub_node->href , 'group' => false , 'meta' => $sub_node->meta , 'new' => false ); ?>
 				
 												<?php endif; ?>
 				
@@ -128,7 +136,7 @@ wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', arr
 
 										<?php endif; ?>
 			
-										<?php $menu_widget = array( 'id' => $main_node->id , 'title' => stripslashes( $main_node->title ) , 'parent' => '' , 'href' => $main_node->href , 'group' => false , 'new' => false , 'subnode' => $pnsn ); ?>
+										<?php $menu_widget = array( 'id' => $main_node->id , 'title' => stripslashes( $main_node->title ) , 'parent' => '' , 'href' => $main_node->href , 'group' => false , 'meta' => $main_node->meta , 'new' => false , 'subnode' => $pnsn ); ?>
 										<?php $this->admin_bar_menu_widget( $menu_widget ); ?>
 			
 									<?php endforeach; ?>
@@ -145,16 +153,24 @@ wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', arr
 												<?php foreach( $Data["left"]["sub"] as $sub_node) : ?>
 				
 													<?php if( $main_node["id"] == $sub_node["parent"] ) : ?>
-				
-														<?php $pnsn[] = array( 'id' => $sub_node["id"] , 'title' => stripslashes( $sub_node["title"] ) , 'parent' => $main_node["id"] , 'href' => $sub_node["href"] , 'group' => false , 'new' => false ); ?>
+
+														<?php if( empty( $sub_node["meta"] ) ) : ?>
+															<?php $sub_node["meta"] = array(); ?>
+														<?php endif; ?>
+
+														<?php $pnsn[] = array( 'id' => $sub_node["id"] , 'title' => stripslashes( $sub_node["title"] ) , 'parent' => $main_node["id"] , 'href' => $sub_node["href"] , 'group' => false , 'meta' => $sub_node["meta"] , 'new' => false ); ?>
 				
 													<?php endif; ?>
 				
 												<?php endforeach; ?>
 
 											<?php endif; ?>
-			
-											<?php $menu_widget = array( 'id' => $main_node["id"] , 'title' => stripslashes( $main_node["title"] ) , 'parent' => '' , 'href' => $main_node["href"] , 'group' => false , 'new' => false , 'subnode' => $pnsn ); ?>
+
+											<?php if( empty( $main_node["meta"] ) ) : ?>
+												<?php $main_node["meta"] = array(); ?>
+											<?php endif; ?>
+
+											<?php $menu_widget = array( 'id' => $main_node["id"] , 'title' => stripslashes( $main_node["title"] ) , 'parent' => '' , 'href' => $main_node["href"] , 'group' => false , 'meta' => $main_node["meta"] , 'new' => false , 'subnode' => $pnsn ); ?>
 											<?php $this->admin_bar_menu_widget( $menu_widget ); ?>
 			
 										<?php endforeach; ?>
@@ -180,7 +196,7 @@ wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', arr
 				<div class="inside">
 
 					<h4><?php _e( 'Custom' ); ?> <?php _e( 'Menus' ); ?></h4>
-					<?php $menu_widget = array( 'id' => "custom_node" , 'title' => "" , 'parent' => '' , 'href' => "" , 'group' => false , 'new' => true , 'subnode' => false ); ?>
+					<?php $menu_widget = array( 'id' => "custom_node" , 'title' => "" , 'parent' => '' , 'href' => "" , 'group' => false , 'meta' => array() , 'new' => true , 'subnode' => false ); ?>
 					<?php $this->admin_bar_menu_widget( $menu_widget ); ?>
 					<div class="clear"></div>
 					
@@ -189,14 +205,14 @@ wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', arr
 					<?php foreach( $AllDefaultNodes["left"]["main"] as $node_id => $node ) : ?>
 
 						<p class="description"><?php echo $node_id; ?></p>
-						<?php $menu_widget = array( 'id' => $node->id , 'title' => $node->title , 'parent' => '' , 'href' => $node->href , 'group' => false , 'new' => true , 'subnode' => false ); ?>
+						<?php $menu_widget = array( 'id' => $node->id , 'title' => $node->title , 'parent' => '' , 'href' => $node->href , 'group' => false , 'meta' => $node->meta , 'new' => true , 'subnode' => false ); ?>
 						<?php $this->admin_bar_menu_widget( $menu_widget ); ?>
 
 						<?php foreach( $AllDefaultNodes["left"]["sub"] as $child_node_id => $child_node ) : ?>
 
 							<?php if( $child_node->parent == $node_id ) : ?>
 
-								<?php $menu_widget = array( 'id' => $child_node->id , 'title' => $child_node->title , 'parent' => '' , 'href' => $child_node->href , 'group' => false , 'new' => true , 'subnode' => false ); ?>
+								<?php $menu_widget = array( 'id' => $child_node->id , 'title' => $child_node->title , 'parent' => '' , 'href' => $child_node->href , 'group' => false , 'meta' => $child_node->meta , 'new' => true , 'subnode' => false ); ?>
 								<?php $this->admin_bar_menu_widget( $menu_widget ); ?>
 
 							<?php endif; ?>
@@ -214,14 +230,14 @@ wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', arr
 					<?php foreach( $AllDefaultNodes["right"]["main"] as $node_id => $node ) : ?>
 
 						<p class="description"><?php echo $node_id; ?></p>
-						<?php $menu_widget = array( 'id' => $node->id , 'title' => $node->title , 'parent' => '' , 'href' => $node->href , 'group' => false , 'new' => true , 'subnode' => false ); ?>
+						<?php $menu_widget = array( 'id' => $node->id , 'title' => $node->title , 'parent' => '' , 'href' => $node->href , 'group' => false , 'new' => $node->meta , 'new' => true , 'subnode' => false ); ?>
 						<?php $this->admin_bar_menu_widget( $menu_widget ); ?>
 							
 						<?php foreach( $AllDefaultNodes["right"]["sub"] as $child_node_id => $child_node ) : ?>
 
 							<?php if( $child_node->parent == $node_id ) : ?>
 
-								<?php $menu_widget = array( 'id' => $child_node->id , 'title' => $child_node->title , 'parent' => '' , 'href' => $child_node->href , 'group' => false , 'new' => true , 'subnode' => false ); ?>
+								<?php $menu_widget = array( 'id' => $child_node->id , 'title' => $child_node->title , 'parent' => '' , 'href' => $child_node->href , 'group' => false , 'new' => $child_node->meta , 'new' => true , 'subnode' => false ); ?>
 								<?php $this->admin_bar_menu_widget( $menu_widget ); ?>
 
 							<?php endif; ?>
@@ -344,9 +360,10 @@ jQuery(document).ready(function($) {
 	wauc_widget_each = function widget_each() {
 		var $Count = 0;
 		$('#wauc_setting_admin_bar_menu #poststuff #post-body .postbox-container .postbox .inside .widget').each(function() {
-			var $InputId = $(this).children(".widget-inside").children(".settings").children(".description").children(".idtext");
-			var $InputLink = $(this).children(".widget-inside").children(".settings").children(".description").children(".linktext");
-			var $InputTitle = $(this).children(".widget-inside").children(".settings").children("label").children(".titletext");
+			var $InputId = $(this).children(".widget-inside").children(".settings").children(".field-url").children(".idtext");
+			var $InputLink = $(this).children(".widget-inside").children(".settings").children(".field-url").children(".linktext");
+			var $InputTitle = $(this).children(".widget-inside").children(".settings").children(".field-title").children("label").children(".titletext");
+			var $InputMetaTarget = $(this).children(".widget-inside").children(".settings").children(".field-meta").children("label").children(".meta_target");
 			var $InputParentName = $(this).children(".widget-inside").children(".settings").children(".parent");
 
 			var $BoxName = "";
@@ -375,6 +392,7 @@ jQuery(document).ready(function($) {
 			$InputId.attr("name", $Name+'[id]');
 			$InputLink.attr("name", $Name+'[href]');
 			$InputTitle.attr("name", $Name+'[title]');
+			$InputMetaTarget.attr("name", $Name+'[meta][target]');
 			$InputParentName.attr("name", $Name+'[parent]');
 
 			if ( $(this).parent().parent().parent().parent().hasClass("submenu") ) {

@@ -4,10 +4,12 @@ if( !empty( $_POST["update"] ) ) {
 	$this->update_removemetabox();
 } elseif( !empty( $_POST["reset"] ) ) {
 	$this->update_reset( 'removemetabox' );
+	$this->update_reset( 'regist_metabox' );
 }
 
 $Data = $this->get_data( 'removemetabox' );
 $Metaboxes = $this->get_data( "regist_metabox" );
+$CustomPosts = $this->get_custom_posts();
 
 // include js css
 $ReadedJs = array( 'jquery' , 'jquery-ui-sortable' );
@@ -33,7 +35,8 @@ wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', arr
 			<div id="post-body" class="metabox-holder columns-1">
 
 				<div id="postbox-container-1" class="postbox-container">
-					<div id="metabox_post">
+					<div id="built_in">
+
 						<div class="postbox">
 							<div class="handlediv" title="Click to toggle"><br></div>
 							<h3 class="hndle"><span><?php _e( 'Post' ); ?></span></h3>
@@ -76,11 +79,7 @@ wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', arr
 								<?php endif; ?>
 							</div>
 						</div>
-					</div>
-				</div>
-				
-				<div id="postbox-container-2" class="postbox-container">
-					<div id="metabox_page">
+
 						<div class="postbox">
 							<div class="handlediv" title="Click to toggle"><br></div>
 							<h3 class="hndle"><span><?php _e( 'Page' ); ?></span></h3>
@@ -123,8 +122,59 @@ wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', arr
 			
 							</div>
 						</div>
+
 					</div>
 				</div>
+				
+				<?php if ( !empty( $CustomPosts ) ) : ?>
+				
+				<div id="postbox-container-2" class="postbox-container">
+					<div id="custom_post">
+						
+						<?php foreach( $CustomPosts as $post_name => $cpt ) : ?>
+						<div class="postbox">
+							<div class="handlediv" title="Click to toggle"><br></div>
+							<h3 class="hndle"><span><?php echo strip_tags( $cpt->labels->name ); ?></span></h3>
+							<div class="inside">
+			
+								<?php if( empty( $Metaboxes["metaboxes"][$post_name] ) ) : ?>
+			
+									<p><?php _e( 'Could not read the meta box.' , $this->ltd ); ?></p>
+									<p><?php echo sprintf( __( 'Meta boxes will be loaded automatically when you Edit %s.' , $this->ltd ) , strip_tags( $cpt->labels->name ) ); ?></p>
+								
+								<?php else: ?>
+			
+									<table class="form-table">
+										<tbody>
+											<?php foreach( $Metaboxes["metaboxes"][$post_name] as $context => $meta_box ) : ?>
+												<?php foreach( $meta_box as $priority => $box ) : ?>
+													<?php foreach( $box as $metabox_id => $metabox_title ) : ?>
+														<?php if( !empty( $metabox_id ) && $metabox_id != 'submitdiv' ) : ?>
+															<tr>
+																<th><?php echo $metabox_title; ?></th>
+																<td>
+																	<?php $Checked = ''; ?>
+																	<?php if( !empty( $Data[$post_name][$metabox_id] ) ) : $Checked = 'checked="checked"'; endif; ?>
+																	<label><input type="checkbox" name="data[<?php echo $post_name; ?>][<?php echo $metabox_id; ?>]" value="1" <?php echo $Checked; ?> /> <?php _e ( 'Hide' ); ?></label>
+																</td>
+															</tr>
+														<?php endif; ?>
+													<?php endforeach; ?>
+												<?php endforeach; ?>
+											<?php endforeach; ?>
+										</tbody>
+									</table>
+			
+								<?php endif; ?>
+			
+							</div>
+						</div>
+						<?php endforeach; ?>
+
+					</div>
+				</div>
+				
+				<?php endif; ?>
 				
 				<br class="clear">
 

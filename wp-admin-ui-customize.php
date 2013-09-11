@@ -2,10 +2,10 @@
 /*
 Plugin Name: WP Admin UI Customize
 Description: An excellent plugin to customize the management screens.
-Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_3_8_2
-Version: 1.3.8.2
+Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_3_9
+Version: 1.3.9
 Author: gqevu6bsiz
-Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_3_8_2
+Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_3_9
 Text Domain: wauc
 Domain Path: /languages
 */
@@ -52,7 +52,7 @@ class WP_Admin_UI_Customize
 
 
 	function __construct() {
-		$this->Ver = '1.3.8.2';
+		$this->Ver = '1.3.9';
 		$this->Name = 'WP Admin UI Customize';
 		$this->Dir = plugin_dir_path( __FILE__ );
 		$this->Url = plugin_dir_url( __FILE__ );
@@ -428,49 +428,47 @@ class WP_Admin_UI_Customize
 		$UserRole = $this->current_user_role_group();
 
 		if( $current_screen->base == 'post' && $current_screen->action != 'add' && $UserRole == 'administrator' ) {
-			if( $current_screen->post_type == 'post' or $current_screen->post_type == 'page' ) {
-				
-				global $wp_meta_boxes;
-				global $post_type;
+			global $wp_meta_boxes;
 
-				$GetData = $this->get_data( "regist_metabox" );
-				$Metaboxes = $wp_meta_boxes[$post_type];
+			$GetData = $this->get_data( "regist_metabox" );
+			$post_type = $current_screen->post_type;
+			$Metaboxes = $wp_meta_boxes[$post_type];
 				
-				$Update = array();
-				if( empty( $GetData ) ) {
+			$Update = array();
+			if( empty( $GetData ) ) {
 
-					$Update["UPFN"] = $this->UPFN;
-					foreach( $Metaboxes as $context => $meta_box ) {
-						foreach( $meta_box as $priority => $box ) {
-							foreach( $box as $metabox_id => $b ) {
-								$Update["metaboxes"][$post_type][$context][$priority][$b["id"]] = strip_tags( $b["title"] );
-							}
+				$Update["UPFN"] = $this->UPFN;
+				foreach( $Metaboxes as $context => $meta_box ) {
+					foreach( $meta_box as $priority => $box ) {
+						foreach( $box as $metabox_id => $b ) {
+							$Update["metaboxes"][$post_type][$context][$priority][$b["id"]] = strip_tags( $b["title"] );
 						}
 					}
+				}
 					
-				} else {
+			} else {
 					
-					unset( $GetData["metaboxes"][$post_type] );
+				if( !empty( $GetData["metaboxes"][$post_type] ) ) {
 					$Update = $GetData;
-					foreach( $Metaboxes as $context => $meta_box ) {
-						foreach( $meta_box as $priority => $box ) {
+				}
+				foreach( $Metaboxes as $context => $meta_box ) {
+					foreach( $meta_box as $priority => $box ) {
+						if( is_array( $box ) ) {
 							foreach( $box as $metabox_id => $b ) {
 								if( !empty( $GetData["metaboxes"][$post_type][$context][$priority][$b["id"]] ) ) {
 									$Update["metaboxes"][$post_type][$context][$priority][$b["id"]] = strip_tags( $b["title"] );
-									unset( $Metaboxes[$context][$priority][$b["id"]] );
 								} else {
 									$Update["metaboxes"][$post_type][$context][$priority][$b["id"]] = strip_tags( $b["title"] );
 								}
 							}
 						}
 					}
-					
 				}
+				
+			}
 
-				if( !empty( $Update ) ) {
-					update_option( $this->Record["regist_metabox"] , $Update );
-				}
-
+			if( !empty( $Update ) ) {
+				update_option( $this->Record["regist_metabox"] , $Update );
 			}
 		}
 
@@ -719,6 +717,25 @@ class WP_Admin_UI_Customize
 		</div>
 <?php
 	}
+
+	// SetList
+	function get_custom_posts() {
+		$args = array( );
+		$all_custom_posts = get_post_types( $args , 'objects' );
+		
+		$exclusion = array( "post" , "page" , "attachment" , "revision" , "nav_menu_item");
+		$custom_posts = array();
+		foreach($all_custom_posts as $post_type => $cpt) {
+			if( !in_array( $post_type , $exclusion ) ) {
+				if( !empty( $cpt->show_ui ) ) {
+					$custom_posts[$post_type] = $cpt;
+				}
+			}
+		}
+		
+		return $custom_posts;
+	}
+			
 
 	// SetList
 	function val_replace( $str ) {
@@ -1482,35 +1499,33 @@ class WP_Admin_UI_Customize
 			if( !empty( $GetData ) && is_array( $GetData ) ) {
 
 				if( $current_screen->base == 'post' ) {
-					if( $current_screen->post_type == 'post' or $current_screen->post_type == 'page' ) {
 
-						global $post_type;
+					global $post_type;
 
-						if( !empty( $GetData[$post_type] ) ) {
+					if( !empty( $GetData[$post_type] ) ) {
 
-							$Metaboxes = $wp_meta_boxes[$post_type];
-							$Data = $GetData[$post_type];
+						$Metaboxes = $wp_meta_boxes[$post_type];
+						$Data = $GetData[$post_type];
 	
-							$Remove_metaboxes = array();
-							foreach( $Metaboxes as $context => $meta_box ) {
-								foreach( $meta_box as $priority => $box ) {
-									foreach( $box as $metabox_id => $b ) {
-										if( array_key_exists( $metabox_id , $Data ) ) {
-											$Remove_metaboxes[$metabox_id] = array( "context" => $context , "priority" => $priority );
-										}
+						$Remove_metaboxes = array();
+						foreach( $Metaboxes as $context => $meta_box ) {
+							foreach( $meta_box as $priority => $box ) {
+								foreach( $box as $metabox_id => $b ) {
+									if( array_key_exists( $metabox_id , $Data ) ) {
+										$Remove_metaboxes[$metabox_id] = array( "context" => $context , "priority" => $priority );
 									}
 								}
 							}
+						}
 
-						}
-						
-						if( !empty( $Remove_metaboxes ) ) {
-							foreach( $Remove_metaboxes as $metabox_id => $box ) {
-								remove_meta_box( $metabox_id , $post_type , $box["context"] );
-							}
-						}
-						
 					}
+
+					if( !empty( $Remove_metaboxes ) ) {
+						foreach( $Remove_metaboxes as $metabox_id => $box ) {
+							remove_meta_box( $metabox_id , $post_type , $box["context"] );
+						}
+					}
+						
 				}
 			}
 		}

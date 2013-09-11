@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP Admin UI Customize sub\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-07 12:24+0900\n"
-"PO-Revision-Date: 2013-09-07 12:24+0900\n"
+"POT-Creation-Date: 2013-09-12 01:33+0900\n"
+"PO-Revision-Date: 2013-09-12 01:33+0900\n"
 "Last-Translator: gqevu6bsiz <gqevu6bsiz@gmail.com>\n"
 "Language-Team: gqevu6bsiz <gqevu6bsiz@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -14,16 +14,17 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: wp-admin-ui-customize.php:838
+#: wp-admin-ui-customize.php:855
 #: inc/setting_default.php:185
 msgid "Thank you for your donation."
 msgstr ""
 
-#: wp-admin-ui-customize.php:1757
+#: wp-admin-ui-customize.php:1770
 msgid "Thank you for considering donate."
 msgstr ""
 
-#: wp-admin-ui-customize.php:1757
+#: wp-admin-ui-customize.php:1770
+#: inc/setting_default.php:38
 msgid "Donate"
 msgstr ""
 
@@ -138,4 +139,5 @@ msgstr ""
 #: inc/setting_default.php:160
 msgid "Contact me"
 msgstr ""
+
 

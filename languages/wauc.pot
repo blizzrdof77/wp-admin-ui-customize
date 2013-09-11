@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP Admin UI Customize\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-07 12:24+0900\n"
-"PO-Revision-Date: 2013-09-07 12:24+0900\n"
+"POT-Creation-Date: 2013-09-12 01:33+0900\n"
+"PO-Revision-Date: 2013-09-12 01:33+0900\n"
 "Last-Translator: gqevu6bsiz <gqevu6bsiz@gmail.com>\n"
 "Language-Team: gqevu6bsiz <gqevu6bsiz@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -45,7 +45,7 @@ msgid "Side Menu"
 msgstr ""
 
 #: wp-admin-ui-customize.php:148
-#: inc/setting_removemtabox.php:22
+#: inc/setting_removemtabox.php:24
 msgid "Remove meta box"
 msgstr ""
 
@@ -73,13 +73,20 @@ msgstr ""
 msgid "Apply user roles"
 msgstr ""
 
-#: wp-admin-ui-customize.php:531
-#: wp-admin-ui-customize.php:653
+#: wp-admin-ui-customize.php:529
+#: wp-admin-ui-customize.php:651
 msgid "Sub Menus"
 msgstr ""
 
 #: inc/list_variables.php:17
 #: inc/setting_admin_bar_menu.php:30
+#: inc/setting_admin_general.php:130
+#: inc/setting_admin_general.php:153
+#: inc/setting_loginscreen.php:55
+#: inc/setting_loginscreen.php:68
+#: inc/setting_loginscreen.php:80
+#: inc/setting_loginscreen.php:108
+#: inc/setting_loginscreen.php:120
 #: inc/setting_sidemenu.php:32
 msgid "Shortcodes"
 msgstr ""
@@ -143,7 +150,7 @@ msgstr ""
 #: inc/setting_default.php:129
 #: inc/setting_loginscreen.php:143
 #: inc/setting_post_add_edit.php:106
-#: inc/setting_removemtabox.php:140
+#: inc/setting_removemtabox.php:190
 #: inc/setting_sidemenu.php:230
 #: inc/setting_site.php:165
 msgid "Reset all settings?"
@@ -267,8 +274,8 @@ msgid "Allow people to post comments on new articles when hide to discussion of 
 msgstr ""
 
 #: inc/setting_post_add_edit.php:53
-#: inc/setting_removemtabox.php:62
-#: inc/setting_removemtabox.php:109
+#: inc/setting_removemtabox.php:65
+#: inc/setting_removemtabox.php:108
 msgid "Notice: If hide the Discussion on metabox, comments does not display of Add New Post on apply user role."
 msgstr ""
 
@@ -290,23 +297,25 @@ msgstr ""
 msgid "Only appears when you have settings to the default permalink."
 msgstr ""
 
-#: inc/setting_removemtabox.php:23
+#: inc/setting_removemtabox.php:25
 msgid "Please update or add a \"post\" and a \"page\" to load the available meta boxes."
 msgstr ""
 
-#: inc/setting_removemtabox.php:44
-#: inc/setting_removemtabox.php:91
+#: inc/setting_removemtabox.php:47
+#: inc/setting_removemtabox.php:90
+#: inc/setting_removemtabox.php:142
 msgid "Could not read the meta box."
 msgstr ""
 
-#: inc/setting_removemtabox.php:45
-#: inc/setting_removemtabox.php:92
+#: inc/setting_removemtabox.php:48
+#: inc/setting_removemtabox.php:91
+#: inc/setting_removemtabox.php:143
 #, php-format
 msgid "Meta boxes will be loaded automatically when you Edit %s."
 msgstr ""
 
-#: inc/setting_removemtabox.php:64
-#: inc/setting_removemtabox.php:111
+#: inc/setting_removemtabox.php:67
+#: inc/setting_removemtabox.php:110
 msgid "Please set from here if you want to view the comments on screen."
 msgstr ""
 

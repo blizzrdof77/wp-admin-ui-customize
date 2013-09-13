@@ -2,10 +2,10 @@
 /*
 Plugin Name: WP Admin UI Customize
 Description: An excellent plugin to customize the management screens.
-Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_3_9
-Version: 1.3.9
+Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_3_9_1
+Version: 1.3.9.1
 Author: gqevu6bsiz
-Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_3_9
+Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_3_9_1
 Text Domain: wauc
 Domain Path: /languages
 */
@@ -52,7 +52,7 @@ class WP_Admin_UI_Customize
 
 
 	function __construct() {
-		$this->Ver = '1.3.9';
+		$this->Ver = '1.3.9.1';
 		$this->Name = 'WP Admin UI Customize';
 		$this->Dir = plugin_dir_path( __FILE__ );
 		$this->Url = plugin_dir_url( __FILE__ );
@@ -448,17 +448,17 @@ class WP_Admin_UI_Customize
 					
 			} else {
 					
-				if( !empty( $GetData["metaboxes"][$post_type] ) ) {
-					$Update = $GetData;
-				}
-				foreach( $Metaboxes as $context => $meta_box ) {
-					foreach( $meta_box as $priority => $box ) {
-						if( is_array( $box ) ) {
-							foreach( $box as $metabox_id => $b ) {
-								if( !empty( $GetData["metaboxes"][$post_type][$context][$priority][$b["id"]] ) ) {
-									$Update["metaboxes"][$post_type][$context][$priority][$b["id"]] = strip_tags( $b["title"] );
-								} else {
-									$Update["metaboxes"][$post_type][$context][$priority][$b["id"]] = strip_tags( $b["title"] );
+				$Update = $GetData;
+				if( !empty( $Metaboxes ) ) {
+					foreach( $Metaboxes as $context => $meta_box ) {
+						foreach( $meta_box as $priority => $box ) {
+							if( is_array( $box ) ) {
+								foreach( $box as $metabox_id => $b ) {
+									if( !empty( $GetData["metaboxes"][$post_type][$context][$priority][$b["id"]] ) ) {
+										$Update["metaboxes"][$post_type][$context][$priority][$b["id"]] = strip_tags( $b["title"] );
+									} else {
+										$Update["metaboxes"][$post_type][$context][$priority][$b["id"]] = strip_tags( $b["title"] );
+									}
 								}
 							}
 						}

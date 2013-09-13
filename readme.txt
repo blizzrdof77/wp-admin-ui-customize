@@ -1,10 +1,10 @@
 === WP Admin UI Customize ===
 Contributors: gqevu6bsiz
-Donate link: http://gqevu6bsiz.chicappa.jp/please-donation/?utm_source=wporg&utm_medium=donate&utm_content=wauc&utm_campaign=1_3_9
+Donate link: http://gqevu6bsiz.chicappa.jp/please-donation/?utm_source=wporg&utm_medium=donate&utm_content=wauc&utm_campaign=1_3_9_1
 Tags: admin, post, posts, page, option, sitemenu, menu, custom, customize, dashboard, admin_bar
 Requires at least: 3.5.2
-Tested up to: 3.6
-Stable tag: 1.3.9
+Tested up to: 3.6.1
+Stable tag: 1.3.9.1
 License: GPL2
 
 Customize the management screen UI.
@@ -48,6 +48,9 @@ These to Customization is possible.
 11. Login Screen Customized
 
 == Changelog ==
+
+= 1.3.9.1 =
+* Fixed bug : Regist metaboxes for remove metaboxes.
 
 = 1.3.9 =
 * Added: Remove metaboxes on Custom post types.

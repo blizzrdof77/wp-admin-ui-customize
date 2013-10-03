@@ -1,13 +1,5 @@
 <?php
 
-if( !empty( $_POST["donate_key"] ) ) {
-	$this->DonatingCheck();
-} elseif( !empty( $_POST["update"] ) ) {
-	$this->update_userrole();
-} elseif( !empty( $_POST["reset"] ) ) {
-	$this->update_reset( 'user_role' );
-}
-
 $Data = $this->get_data( 'user_role' );
 $UserRoles = $this->get_user_role();
 
@@ -100,9 +92,10 @@ wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', arr
 
 				<div id="user_role">
 
-					<form id="wauc_setting_default" class="wauc_form" method="post" action="">
+					<form id="wauc_setting_default" class="wauc_form" method="post" action="<?php echo remove_query_arg( 'wauc_msg' , add_query_arg( array( 'page' => $this->PageSlug ) ) ); ?>">
 						<input type="hidden" name="<?php echo $this->UPFN; ?>" value="Y" />
 						<?php wp_nonce_field( $this->Nonces["value"] , $this->Nonces["field"] ); ?>
+						<input type="hidden" name="record_field" value="user_role" />
 		
 						<div class="postbox">
 							<h3 class="hndle"><span><?php _e( 'User Roles' ); ?></span></h3>
@@ -134,11 +127,11 @@ wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', arr
 						
 					</form>
 
-					<form id="donation_form" class="wauc_form" method="post" action="">
+					<form id="donation_form" class="wauc_form" method="post" action="<?php echo remove_query_arg( 'wauc_msg' , add_query_arg( array( 'page' => $this->PageSlug ) ) ); ?>">
 						<h3><?php _e( 'If you have already donated to.' , $this->ltd_p ); ?></h3>
 						<p><?php _e( 'Please enter the \'Donation delete key\' that have been described in the \'Line Break First and End download page\'.' , $this->ltd_p ); ?></p>
 						<input type="hidden" name="<?php echo $this->UPFN; ?>" value="Y" />
-						<?php wp_nonce_field(); ?>
+						<?php wp_nonce_field( $this->Nonces["value"] , $this->Nonces["field"] ); ?>
 						<label for="donate_key"><?php _e( 'Donation delete key' , $this->ltd_p ); ?></label>
 						<input type="text" name="donate_key" id="donate_key" value="" class="regular-text" />
 						<input type="submit" class="button-primary" name="update" value="<?php _e( 'Submit' ); ?>" />

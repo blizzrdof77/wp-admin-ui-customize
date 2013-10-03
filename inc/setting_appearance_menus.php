@@ -1,11 +1,5 @@
 <?php
 
-if( !empty( $_POST["update"] ) ) {
-	$this->update_appearance_menus();
-} elseif( !empty( $_POST["reset"] ) ) {
-	$this->update_reset( 'appearance_menus' );
-}
-
 $Data = $this->get_data( 'appearance_menus' );
 
 // include js css
@@ -23,9 +17,10 @@ wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', arr
 
 	<h3 id="wauc-apply-user-roles"><?php echo $this->get_apply_roles(); ?></h3>
 
-	<form id="wauc_setting_appearance_menus" class="wauc_form" method="post" action="">
+	<form id="wauc_setting_appearance_menus" class="wauc_form" method="post" action="<?php echo remove_query_arg( 'wauc_msg' , add_query_arg( array( 'page' => $this->PageSlug ) ) ); ?>">
 		<input type="hidden" name="<?php echo $this->UPFN; ?>" value="Y" />
 		<?php wp_nonce_field( $this->Nonces["value"] , $this->Nonces["field"] ); ?>
+		<input type="hidden" name="record_field" value="appearance_menus" />
 
 		<div id="poststuff">
 

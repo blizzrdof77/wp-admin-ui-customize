@@ -1,6 +1,5 @@
 <?php
 
-
 $Data = $this->get_data( 'user_role' );
 $UserRoles = $this->get_user_role();
 
@@ -16,9 +15,10 @@ wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', arr
 	<h2><?php _e( 'Reset User Roles' , $this->ltd ); ?></h2>
 	<p>&nbsp;</p>
 
-	<form id="wauc_reset_userrole" class="wauc_form" method="post" action="">
+	<form id="wauc_reset_userrole" class="wauc_form" method="post" action="<?php echo remove_query_arg( 'wauc_msg' , add_query_arg( array( 'page' => $this->PageSlug ) ) ); ?>">
 		<input type="hidden" name="<?php echo $this->UPFN; ?>" value="Y" />
 		<?php wp_nonce_field( $this->Nonces["value"] , $this->Nonces["field"] ); ?>
+		<input type="hidden" name="record_field" value="user_role" />
 
 		<h3><?php _e( 'Applied user roles' , $this->ltd ); ?></h3>
 		<ul>

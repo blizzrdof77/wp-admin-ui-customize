@@ -1,11 +1,5 @@
 <?php
 
-if( !empty( $_POST["update"] ) ) {
-	$this->update_loginscreen();
-} elseif( !empty( $_POST["reset"] ) ) {
-	$this->update_reset( 'loginscreen' );
-}
-
 $Data = $this->get_data( 'loginscreen' );
 
 // include js css
@@ -22,9 +16,10 @@ wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', arr
 	<h2><?php _e( 'Login Screen Settings' , $this->ltd ); ?></h2>
 	<p>&nbsp;</p>
 
-	<form id="wauc_setting_loginscreen" class="wauc_form" method="post" action="">
+	<form id="wauc_setting_loginscreen" class="wauc_form" method="post" action="<?php echo remove_query_arg( 'wauc_msg' , add_query_arg( array( 'page' => $this->PageSlug ) ) ); ?>">
 		<input type="hidden" name="<?php echo $this->UPFN; ?>" value="Y" />
 		<?php wp_nonce_field( $this->Nonces["value"] , $this->Nonces["field"] ); ?>
+		<input type="hidden" name="record_field" value="loginscreen" />
 
 		<?php if( is_multisite() ) : ?>
 			<p class="description"><?php _e( 'Is not possible to check the login form if you do not log out in the case of MultiSite.' , $this->ltd ); ?></p>
@@ -32,9 +27,23 @@ wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', arr
 		<p><a title="<?php _e( 'Login Screen' , $this->ltd ); ?>" href="<?php echo get_option( 'siteurl' ); ?>/wp-login.php?TB_iframe=1&width=520&height=520" class="thickbox"><?php _e( 'Show Login Screen' , $this->ltd ); ?></a></p>
 
 		<div id="poststuff">
-			<div id="post-body" class="metabox-holder columns-1">
+
+			<div id="post-body" class="metabox-holder columns-2">
 
 				<div id="postbox-container-1" class="postbox-container">
+	
+					<div class="stuffbox" id="usefulbox">
+						<h3><span class="hndle"><?php _e( 'Useful plugins' , $this->ltd_p ); ?></span></h3>
+						<div class="inside">
+							<p><strong><span style="color: orange;">new</span> <a href="http://codecanyon.net/item/login-layout-customize/5729642" target="_blank">Login Layout Customize</a></strong></p>
+							<p class="description"><?php _e( 'This plugin is that can be for customizing flexibly Login Screen.' , $this->ltd_p ); ?></p>
+						</div>
+					</div>
+	
+				</div>
+
+
+				<div id="postbox-container-2" class="postbox-container">
 					<div id="login_screen">
 
 						<div class="postbox">

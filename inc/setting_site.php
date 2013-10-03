@@ -1,11 +1,5 @@
 <?php
 
-if( !empty( $_POST["update"] ) ) {
-	$this->update_site();
-} elseif( !empty( $_POST["reset"] ) ) {
-	$this->update_reset( 'site' );
-}
-
 $Data = $this->get_data( 'site' );
 $SiteSetting = get_option( $this->Record["site"] );
 
@@ -24,9 +18,10 @@ wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', arr
 
 	<h3 id="wauc-apply-user-roles"><?php echo $this->get_apply_roles(); ?></h3>
 
-	<form id="wauc_setting_site" class="wauc_form" method="post" action="">
+	<form id="wauc_setting_site" class="wauc_form" method="post" action="<?php echo remove_query_arg( 'wauc_msg' , add_query_arg( array( 'page' => $this->PageSlug ) ) ); ?>">
 		<input type="hidden" name="<?php echo $this->UPFN; ?>" value="Y" />
 		<?php wp_nonce_field( $this->Nonces["value"] , $this->Nonces["field"] ); ?>
+		<input type="hidden" name="record_field" value="site" />
 
 		<div id="poststuff">
 			<div id="post-body" class="metabox-holder columns-1">

@@ -2,12 +2,6 @@
 
 global $menu, $submenu;
 
-if( !empty( $_POST["update"] ) ) {
-	$this->update_sidemenu();
-} elseif( !empty( $_POST["reset"] ) ) {
-	$this->update_reset( 'sidemenu' );
-}
-
 $this->get_user_role();
 $Data = $this->get_data( 'sidemenu' );
 
@@ -31,9 +25,10 @@ wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', arr
 
 	<p><a href="#TB_inline?height=300&width=600&inlineId=list_variables&modal=false" title="<?php _e( 'Shortcodes' , $this->ltd ); ?>" class="thickbox"><?php _e( 'Available Shortcodes' , $this->ltd ); ?></a></p>
 
-	<form id="wauc_setting_sidemenu" class="wauc_form" method="post" action="">
+	<form id="wauc_setting_sidemenu" class="wauc_form" method="post" action="<?php echo remove_query_arg( 'wauc_msg' , add_query_arg( array( 'page' => $this->PageSlug ) ) ); ?>">
 		<input type="hidden" name="<?php echo $this->UPFN; ?>" value="Y" />
 		<?php wp_nonce_field( $this->Nonces["value"] , $this->Nonces["field"] ); ?>
+		<input type="hidden" name="record_field" value="sidemenu" />
 
 		<div id="poststuff">
 

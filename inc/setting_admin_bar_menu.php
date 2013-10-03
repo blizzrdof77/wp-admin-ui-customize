@@ -1,11 +1,5 @@
 <?php
 
-if( !empty( $_POST["update"] ) ) {
-	$this->update_admin_bar_menu();
-} elseif( !empty( $_POST["reset"] ) ) {
-	$this->update_reset( 'admin_bar_menu' );
-}
-
 $Data = $this->get_data( 'admin_bar_menu' );
 $AllDefaultNodes = $this->admin_bar_filter_load();
 
@@ -29,9 +23,10 @@ wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', arr
 
 	<p><a href="#TB_inline?height=300&width=600&inlineId=list_variables&modal=false" title="<?php _e( 'Shortcodes' , $this->ltd ); ?>" class="thickbox"><?php _e( 'Available Shortcodes' , $this->ltd ); ?></a></p>
 
-	<form id="wauc_setting_admin_bar_menu" class="wauc_form" method="post" action="">
+	<form id="wauc_setting_admin_bar_menu" class="wauc_form" method="post" action="<?php echo remove_query_arg( 'wauc_msg' , add_query_arg( array( 'page' => $this->PageSlug ) ) ); ?>">
 		<input type="hidden" name="<?php echo $this->UPFN; ?>" value="Y" />
 		<?php wp_nonce_field( $this->Nonces["value"] , $this->Nonces["field"] ); ?>
+		<input type="hidden" name="record_field" value="admin_bar_menu" />
 
 		<div id="poststuff">
 

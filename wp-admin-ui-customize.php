@@ -2,10 +2,10 @@
 /*
 Plugin Name: WP Admin UI Customize
 Description: An excellent plugin to customize the management screens.
-Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_3_9_1
-Version: 1.3.9.1
+Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_3_9_2
+Version: 1.3.9.2
 Author: gqevu6bsiz
-Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_3_9_1
+Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_3_9_2
 Text Domain: wauc
 Domain Path: /languages
 */
@@ -48,11 +48,12 @@ class WP_Admin_UI_Customize
 		$Menu,
 		$SubMenu,
 		$Admin_bar,
+		$MsgQ,
 		$Msg;
 
 
 	function __construct() {
-		$this->Ver = '1.3.9.1';
+		$this->Ver = '1.3.9.2';
 		$this->Name = 'WP Admin UI Customize';
 		$this->Dir = plugin_dir_path( __FILE__ );
 		$this->Url = plugin_dir_url( __FILE__ );
@@ -80,6 +81,7 @@ class WP_Admin_UI_Customize
 		$this->Schema = is_ssl() ? 'https://' : 'http://';
 		$this->UPFN = 'Y';
 		$this->DonateKey = 'd77aec9bc89d445fd54b4c988d090f03';
+		$this->MsgQ = $this->ltd . '_msg';
 		
 		$this->PluginSetup();
 		$this->FilterStart();
@@ -106,6 +108,9 @@ class WP_Admin_UI_Customize
 
 		// setting check user role
 		add_action( 'admin_notices' , array( $this , 'settingCheck' ) );
+
+		// data update
+		add_action( 'admin_init' , array( $this , 'dataUpdate') );
 	}
 
 	// PluginSetup
@@ -158,12 +163,14 @@ class WP_Admin_UI_Customize
 
 	// SettingPage
 	function setting_default() {
+		$this->display_msg();
 		add_filter( 'admin_footer_text' , array( $this , 'layout_footer' ) );
 		include_once 'inc/setting_default.php';
 	}
 
 	// SettingPage
 	function setting_site() {
+		$this->display_msg();
 		add_filter( 'admin_footer_text' , array( $this , 'layout_footer' ) );
 		$this->DisplayDonation();
 		include_once 'inc/setting_site.php';
@@ -171,6 +178,7 @@ class WP_Admin_UI_Customize
 
 	// SettingPage
 	function setting_admin_general() {
+		$this->display_msg();
 		add_filter( 'admin_footer_text' , array( $this , 'layout_footer' ) );
 		$this->DisplayDonation();
 		include_once 'inc/setting_admin_general.php';
@@ -178,6 +186,7 @@ class WP_Admin_UI_Customize
 
 	// SettingPage
 	function setting_dashboard() {
+		$this->display_msg();
 		add_filter( 'admin_footer_text' , array( $this , 'layout_footer' ) );
 		$this->DisplayDonation();
 		include_once 'inc/setting_dashboard.php';
@@ -185,6 +194,7 @@ class WP_Admin_UI_Customize
 
 	// SettingPage
 	function setting_admin_bar_menu() {
+		$this->display_msg();
 		add_filter( 'admin_footer_text' , array( $this , 'layout_footer' ) );
 		$this->DisplayDonation();
 		include_once 'inc/setting_admin_bar_menu.php';
@@ -192,6 +202,7 @@ class WP_Admin_UI_Customize
 
 	// SettingPage
 	function setting_sidemenu() {
+		$this->display_msg();
 		add_filter( 'admin_footer_text' , array( $this , 'layout_footer' ) );
 		$this->DisplayDonation();
 		include_once 'inc/setting_sidemenu.php';
@@ -199,6 +210,7 @@ class WP_Admin_UI_Customize
 
 	// SettingPage
 	function setting_removemtabox() {
+		$this->display_msg();
 		add_filter( 'admin_footer_text' , array( $this , 'layout_footer' ) );
 		$this->DisplayDonation();
 		include_once 'inc/setting_removemtabox.php';
@@ -206,6 +218,7 @@ class WP_Admin_UI_Customize
 
 	// SettingPage
 	function setting_post_add_edit() {
+		$this->display_msg();
 		add_filter( 'admin_footer_text' , array( $this , 'layout_footer' ) );
 		$this->DisplayDonation();
 		include_once 'inc/setting_post_add_edit.php';
@@ -213,6 +226,7 @@ class WP_Admin_UI_Customize
 
 	// SettingPage
 	function setting_appearance_menus() {
+		$this->display_msg();
 		add_filter( 'admin_footer_text' , array( $this , 'layout_footer' ) );
 		$this->DisplayDonation();
 		include_once 'inc/setting_appearance_menus.php';
@@ -220,6 +234,7 @@ class WP_Admin_UI_Customize
 
 	// SettingPage
 	function setting_loginscreen() {
+		$this->display_msg();
 		add_filter( 'admin_footer_text' , array( $this , 'layout_footer' ) );
 		$this->DisplayDonation();
 		include_once 'inc/setting_loginscreen.php';
@@ -227,9 +242,7 @@ class WP_Admin_UI_Customize
 
 	// SettingPage
 	function reset_userrole() {
-		if( !empty( $_POST["reset"] ) ) {
-			$this->update_reset( 'user_role' );
-		}
+		$this->display_msg();
 		add_filter( 'admin_footer_text' , array( $this , 'layout_footer' ) );
 		include_once 'inc/reset_userrole.php';
 	}
@@ -820,6 +833,52 @@ class WP_Admin_UI_Customize
 
 
 	// DataUpdate
+	function dataUpdate() {
+
+		$RecordField = false;
+		
+		if( !empty( $_POST["record_field"] ) ) {
+			$RecordField = strip_tags( $_POST["record_field"] );
+		}
+		
+		if( !empty( $RecordField ) && !empty( $_POST["update"] ) ) {
+			if( $RecordField == 'user_role' ) {
+				$this->update_userrole();
+			} elseif( $RecordField == 'site' ) {
+				$this->update_site();
+			} elseif( $RecordField == 'admin_general' ) {
+				$this->update_admin_general();
+			} elseif( $RecordField == 'dashboard' ) {
+				$this->update_dashboard();
+			} elseif( $RecordField == 'admin_bar_menu' ) {
+				$this->update_admin_bar_menu();
+			} elseif( $RecordField == 'sidemenu' ) {
+				$this->update_sidemenu();
+			} elseif( $RecordField == 'removemetabox' ) {
+				$this->update_removemetabox();
+			} elseif( $RecordField == 'post_add_edit' ) {
+				$this->update_post_add_edit();
+			} elseif( $RecordField == 'appearance_menus' ) {
+				$this->update_appearance_menus();
+			} elseif( $RecordField == 'loginscreen' ) {
+				$this->update_loginscreen();
+			}
+		}
+
+		if( !empty( $RecordField ) && !empty( $_POST["reset"] ) ) {
+			if( $RecordField == 'removemetabox' ) {
+				delete_option( $this->Record["regist_metabox"] );
+			}
+			$this->update_reset( $RecordField );
+		}
+
+		if( !empty( $_POST["donate_key"] ) && !empty( $_POST["update"] ) ) {
+			$this->DonatingCheck();
+		}
+
+	}
+
+	// DataUpdate
 	function update_validate() {
 		$Update = array();
 
@@ -839,7 +898,8 @@ class WP_Admin_UI_Customize
 		if( !empty( $Update ) && check_admin_referer( $this->Nonces["value"] , $this->Nonces["field"] ) ) {
 			$record = apply_filters( 'wauc_pre_delete' , $this->Record[$record] );
 			delete_option( $record );
-			$this->Msg .= '<div class="updated"><p><strong>' . __('Settings saved.') . '</strong></p></div>';
+			wp_redirect( add_query_arg( $this->MsgQ , 'delete' , stripslashes( $_POST["_wp_http_referer"] ) ) );
+			exit;
 		}
 	}
 
@@ -847,12 +907,13 @@ class WP_Admin_UI_Customize
 	function DonatingCheck() {
 		$Update = $this->update_validate();
 
-		if( !empty( $Update ) ) {
+		if( !empty( $Update ) && check_admin_referer( $this->Nonces["value"] , $this->Nonces["field"] ) ) {
 			if( !empty( $_POST["donate_key"] ) ) {
 				$SubmitKey = md5( strip_tags( $_POST["donate_key"] ) );
 				if( $this->DonateKey == $SubmitKey ) {
 					update_option( $this->Record["donate"] , $SubmitKey );
-					$this->Msg .= '<div class="updated"><p><strong>' . __( 'Thank you for your donation.' , $this->ltd_p ) . '</strong></p></div>';
+					wp_redirect( add_query_arg( $this->MsgQ , 'donated' , stripslashes( $_POST["_wp_http_referer"] ) ) );
+					exit;
 				}
 			}
 		}
@@ -873,7 +934,8 @@ class WP_Admin_UI_Customize
 			}
 
 			update_option( $this->Record["user_role"] , $Update );
-			$this->Msg .= '<div class="updated"><p><strong>' . __('Settings saved.') . '</strong></p></div>';
+			wp_redirect( add_query_arg( $this->MsgQ , 'update' , stripslashes( $_POST["_wp_http_referer"] ) ) );
+			exit;
 		}
 	}
 
@@ -892,7 +954,8 @@ class WP_Admin_UI_Customize
 
 			$Record = apply_filters( 'wauc_pre_update' , $this->Record["site"] );
 			update_option( $Record , $Update );
-			$this->Msg .= '<div class="updated"><p><strong>' . __('Settings saved.') . '</strong></p></div>';
+			wp_redirect( add_query_arg( $this->MsgQ , 'update' , stripslashes( $_POST["_wp_http_referer"] ) ) );
+			exit;
 		}
 	}
 
@@ -911,7 +974,8 @@ class WP_Admin_UI_Customize
 
 			$Record = apply_filters( 'wauc_pre_update' , $this->Record["admin_general"] );
 			update_option( $Record , $Update );
-			$this->Msg .= '<div class="updated"><p><strong>' . __('Settings saved.') . '</strong></p></div>';
+			wp_redirect( add_query_arg( $this->MsgQ , 'update' , stripslashes( $_POST["_wp_http_referer"] ) ) );
+			exit;
 		}
 	}
 
@@ -930,7 +994,8 @@ class WP_Admin_UI_Customize
 
 			$Record = apply_filters( 'wauc_pre_update' , $this->Record["dashboard"] );
 			update_option( $Record , $Update );
-			$this->Msg .= '<div class="updated"><p><strong>' . __('Settings saved.') . '</strong></p></div>';
+			wp_redirect( add_query_arg( $this->MsgQ , 'update' , stripslashes( $_POST["_wp_http_referer"] ) ) );
+			exit;
 		}
 	}
 
@@ -978,7 +1043,8 @@ class WP_Admin_UI_Customize
 
 			$Record = apply_filters( 'wauc_pre_update' , $this->Record["admin_bar_menu"] );
 			update_option( $Record , $Update );
-			$this->Msg .= '<div class="updated"><p><strong>' . __('Settings saved.') . '</strong></p></div>';
+			wp_redirect( add_query_arg( $this->MsgQ , 'update' , stripslashes( $_POST["_wp_http_referer"] ) ) );
+			exit;
 		}
 	}
 
@@ -1007,7 +1073,8 @@ class WP_Admin_UI_Customize
 
 			$Record = apply_filters( 'wauc_pre_update' , $this->Record["sidemenu"] );
 			update_option( $Record , $Update );
-			$this->Msg .= '<div class="updated"><p><strong>' . __('Settings saved.') . '</strong></p></div>';
+			wp_redirect( add_query_arg( $this->MsgQ , 'update' , stripslashes( $_POST["_wp_http_referer"] ) ) );
+			exit;
 		}
 	}
 
@@ -1031,7 +1098,8 @@ class WP_Admin_UI_Customize
 
 			$Record = apply_filters( 'wauc_pre_update' , $this->Record["removemetabox"] );
 			update_option( $Record , $Update );
-			$this->Msg .= '<div class="updated"><p><strong>' . __('Settings saved.') . '</strong></p></div>';
+			wp_redirect( add_query_arg( $this->MsgQ , 'update' , stripslashes( $_POST["_wp_http_referer"] ) ) );
+			exit;
 		}
 	}
 
@@ -1050,7 +1118,8 @@ class WP_Admin_UI_Customize
 
 			$Record = apply_filters( 'wauc_pre_update' , $this->Record["post_add_edit"] );
 			update_option( $Record , $Update );
-			$this->Msg .= '<div class="updated"><p><strong>' . __('Settings saved.') . '</strong></p></div>';
+			wp_redirect( add_query_arg( $this->MsgQ , 'update' , stripslashes( $_POST["_wp_http_referer"] ) ) );
+			exit;
 		}
 	}
 
@@ -1069,7 +1138,8 @@ class WP_Admin_UI_Customize
 
 			$Record = apply_filters( 'wauc_pre_update' , $this->Record["appearance_menus"] );
 			update_option( $Record , $Update );
-			$this->Msg .= '<div class="updated"><p><strong>' . __('Settings saved.') . '</strong></p></div>';
+			wp_redirect( add_query_arg( $this->MsgQ , 'update' , stripslashes( $_POST["_wp_http_referer"] ) ) );
+			exit;
 		}
 	}
 
@@ -1088,7 +1158,8 @@ class WP_Admin_UI_Customize
 
 			$Record = apply_filters( 'wauc_pre_update' , $this->Record["loginscreen"] );
 			update_option( $Record , $Update );
-			$this->Msg .= '<div class="updated"><p><strong>' . __('Settings saved.') . '</strong></p></div>';
+			wp_redirect( add_query_arg( $this->MsgQ , 'update' , stripslashes( $_POST["_wp_http_referer"] ) ) );
+			exit;
 
 		}
 	}
@@ -1754,6 +1825,18 @@ class WP_Admin_UI_Customize
 				echo '<style>.major-publishing-actions .delete-action { display: none; }</style>';
 			}
 
+		}
+	}
+
+	// FilterStart
+	function display_msg() {
+		if( !empty( $_GET[$this->MsgQ] ) ) {
+			$msg = strip_tags(  $_GET[$this->MsgQ] );
+			if( $msg == 'update' or $msg == 'delete' ) {
+				$this->Msg .= '<div class="updated"><p><strong>' . __( 'Settings saved.' ) . '</strong></p></div>';
+			} elseif( $msg == 'donated' ) {
+				$this->Msg .= '<div class="updated"><p><strong>' . __( 'Thank you for your donation.' , $this->ltd_p ) . '</strong></p></div>';
+			}
 		}
 	}
 

@@ -1,6 +1,6 @@
 === WP Admin UI Customize ===
 Contributors: gqevu6bsiz
-Donate link: http://gqevu6bsiz.chicappa.jp/please-donation/?utm_source=wporg&utm_medium=donate&utm_content=wauc&utm_campaign=1_3_9_2
+Donate link: http://gqevu6bsiz.chicappa.jp/please-donation/?utm_source=wporg&utm_medium=donate&utm_content=wauc&utm_campaign=1_3_9_3
 Tags: admin, post, posts, page, option, sitemenu, menu, custom, customize, dashboard, admin_bar
 Requires at least: 3.5.2
 Tested up to: 3.6.1
@@ -48,6 +48,10 @@ These to Customization is possible.
 11. Login Screen Customized
 
 == Changelog ==
+
+= 1.3.9.3 beta1 =
+* Fixed bug : Remove tabs.
+* Added : Avatar on Admin bar.
 
 = 1.3.9.2 =
 * Change mechanism : Update timing change of settings data.

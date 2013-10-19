@@ -2,10 +2,10 @@
 /*
 Plugin Name: WP Admin UI Customize
 Description: An excellent plugin to customize the management screens.
-Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_3_9_2
-Version: 1.3.9.2
+Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_3_9_3
+Version: 1.3.9.3 beta1
 Author: gqevu6bsiz
-Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_3_9_2
+Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_3_9_3
 Text Domain: wauc
 Domain Path: /languages
 */
@@ -53,7 +53,7 @@ class WP_Admin_UI_Customize
 
 
 	function __construct() {
-		$this->Ver = '1.3.9.2';
+		$this->Ver = '1.3.9.3 beta1';
 		$this->Name = 'WP Admin UI Customize';
 		$this->Dir = plugin_dir_path( __FILE__ );
 		$this->Url = plugin_dir_url( __FILE__ );
@@ -369,7 +369,7 @@ class WP_Admin_UI_Customize
 		
 		foreach( $Default_bar as $node_id => $node ) {
 			if( $node->id == 'my-account' ) {
-				$Default_bar[$node_id]->title = sprintf( __( 'Howdy, %1$s' ) , '[user_name]' );
+				$Default_bar[$node_id]->title = sprintf( __( 'Howdy, %1$s' ) , '[user_name]' ) . '[user_avatar]';
 			} elseif( $node->id == 'user-info' ) {
 				$Default_bar[$node_id]->title = '<span class="display-name">[user_name]</span>';
 			} elseif( $node->id == 'logout' ) {
@@ -440,7 +440,7 @@ class WP_Admin_UI_Customize
 
 		$UserRole = $this->current_user_role_group();
 
-		if( $current_screen->base == 'post' && $current_screen->action != 'add' && $UserRole == 'administrator' ) {
+		if( !empty( $current_screen ) && $current_screen->base == 'post' && $current_screen->action != 'add' && $UserRole == 'administrator' ) {
 			global $wp_meta_boxes;
 
 			$GetData = $this->get_data( "regist_metabox" );
@@ -800,7 +800,10 @@ class WP_Admin_UI_Customize
 				$str = str_replace( '[comment_count_format]' , number_format_i18n( $awaiting_mod ) , $str );
 			}
 			if( strstr( $str , '[user_name]') ) {
-				$str = str_replace( '[user_name]' , '<span class="display-name">' . $current_user->display_name . '</span>' , $str );
+				$str = str_replace( '[user_name]' , $current_user->display_name , $str );
+			}
+			if( strstr( $str , '[user_avatar]') ) {
+				$str = str_replace( '[user_avatar]' , get_avatar( $current_user->ID , 16 ) , $str );
 			}
 
 			if( is_multisite() ) {
@@ -1421,6 +1424,12 @@ class WP_Admin_UI_Customize
 							if( $args["id"] == 'logout' ) {
 								$args["href"] = wp_logout_url();
 							}
+							
+							if( $args["id"] == 'my-account' ) {
+								$avatar = get_avatar( get_current_user_id() , 16 );
+								$class  = empty( $avatar ) ? '' : 'with-avatar';
+								$args["meta"]["class"] = $class;
+							}
 							$wp_admin_bar->add_menu( $args );
 						}
 					}
@@ -1481,7 +1490,9 @@ class WP_Admin_UI_Customize
 
 			if( !empty( $GetData["help_tab"] ) ) {
 				$screen = get_current_screen();
-				$screen->remove_help_tabs();
+				if( !empty( $screen ) ) {
+					$screen->remove_help_tabs();
+				}
 			}
 	
 			if( !empty( $GetData["screen_option_tab"] ) ) {

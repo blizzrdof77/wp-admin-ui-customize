@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP Admin UI Customize\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-03 14:57+0900\n"
-"PO-Revision-Date: 2013-10-03 15:10+0900\n"
+"POT-Creation-Date: 2013-10-19 19:52+0900\n"
+"PO-Revision-Date: 2013-10-19 20:01+0900\n"
 "Last-Translator: gqevu6bsiz <gqevu6bsiz@gmail.com>\n"
 "Language-Team: gqevu6bsiz@gmail.com <gqevu6bsiz@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -76,10 +76,18 @@ msgstr "設定を適用する権限が選択されていません。<a href=\"%s
 msgid "Apply user roles"
 msgstr "適用されるユーザー権限"
 
-#: wp-admin-ui-customize.php:542
-#: wp-admin-ui-customize.php:664
+#: wp-admin-ui-customize.php:548
+#: wp-admin-ui-customize.php:677
 msgid "Sub Menus"
 msgstr "サブメニュー"
+
+#: wp-admin-ui-customize.php:656
+msgid "If you want edit to name, please edit of translation file(PO)."
+msgstr "タイトルを変更したい場合は翻訳ファイル(PO)を編集してください。"
+
+#: wp-admin-ui-customize.php:657
+msgid "Show only on front end."
+msgstr "フロントのみ表示"
 
 #: inc/list_variables.php:17
 #: inc/setting_admin_bar_menu.php:24
@@ -103,6 +111,7 @@ msgid "Blog URL of logged in."
 msgstr "ログイン中のブログURL"
 
 #: inc/list_variables.php:95
+#: inc/list_variables.php:102
 msgid "In your case."
 msgstr "これはあなたの場合です。"
 
@@ -146,7 +155,7 @@ msgstr "利用可能なショートコード一覧"
 msgid "Menu items that can be added"
 msgstr "追加できるメニュー一覧"
 
-#: inc/setting_admin_bar_menu.php:258
+#: inc/setting_admin_bar_menu.php:283
 #: inc/setting_admin_general.php:181
 #: inc/setting_appearance_menus.php:90
 #: inc/setting_dashboard.php:176

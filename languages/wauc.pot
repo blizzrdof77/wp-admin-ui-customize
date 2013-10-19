@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP Admin UI Customize\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-03 14:57+0900\n"
-"PO-Revision-Date: 2013-10-03 14:57+0900\n"
+"POT-Creation-Date: 2013-10-19 19:52+0900\n"
+"PO-Revision-Date: 2013-10-19 19:52+0900\n"
 "Last-Translator: gqevu6bsiz <gqevu6bsiz@gmail.com>\n"
 "Language-Team: gqevu6bsiz <gqevu6bsiz@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -73,9 +73,17 @@ msgstr ""
 msgid "Apply user roles"
 msgstr ""
 
-#: wp-admin-ui-customize.php:542
-#: wp-admin-ui-customize.php:664
+#: wp-admin-ui-customize.php:548
+#: wp-admin-ui-customize.php:677
 msgid "Sub Menus"
+msgstr ""
+
+#: wp-admin-ui-customize.php:656
+msgid "If you want edit to name, please edit of translation file(PO)."
+msgstr ""
+
+#: wp-admin-ui-customize.php:657
+msgid "Show only on front end."
 msgstr ""
 
 #: inc/list_variables.php:17
@@ -100,6 +108,7 @@ msgid "Blog URL of logged in."
 msgstr ""
 
 #: inc/list_variables.php:95
+#: inc/list_variables.php:102
 msgid "In your case."
 msgstr ""
 
@@ -143,7 +152,7 @@ msgstr ""
 msgid "Menu items that can be added"
 msgstr ""
 
-#: inc/setting_admin_bar_menu.php:258
+#: inc/setting_admin_bar_menu.php:283
 #: inc/setting_admin_general.php:181
 #: inc/setting_appearance_menus.php:90
 #: inc/setting_dashboard.php:176

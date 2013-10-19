@@ -50,8 +50,9 @@ These to Customization is possible.
 == Changelog ==
 
 = 1.3.9.3 beta1 =
-* Fixed bug : Remove tabs.
-* Added : Avatar on Admin bar.
+* Fixed bug: Remove tabs.
+* Added: Avatar on Admin bar.
+* Added: Edit link on Admin bar.
 
 = 1.3.9.2 =
 * Change mechanism : Update timing change of settings data.

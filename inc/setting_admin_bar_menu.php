@@ -245,6 +245,31 @@ wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', arr
 					
 					<div class="clear"></div>
 
+					<h4><?php _e( 'Front' ); ?> <?php _e( 'Menus' ); ?></h4>
+
+					<?php foreach( $AllDefaultNodes["front"]["main"] as $node_id => $node ) : ?>
+
+						<p class="description"><?php echo $node_id; ?></p>
+						<?php $menu_widget = array( 'id' => $node->id , 'title' => $node->title , 'parent' => '' , 'href' => $node->href , 'group' => false , 'new' => $node->meta , 'new' => true , 'subnode' => false ); ?>
+						<?php $this->admin_bar_menu_widget( $menu_widget ); ?>
+							
+						<?php foreach( $AllDefaultNodes["front"]["sub"] as $child_node_id => $child_node ) : ?>
+
+							<?php if( $child_node->parent == $node_id ) : ?>
+
+								<?php $menu_widget = array( 'id' => $child_node->id , 'title' => $child_node->title , 'parent' => '' , 'href' => $child_node->href , 'group' => false , 'new' => $child_node->meta , 'new' => true , 'subnode' => false ); ?>
+								<?php $this->admin_bar_menu_widget( $menu_widget ); ?>
+
+							<?php endif; ?>
+
+						<?php endforeach; ?>
+							
+						<div class="clear"></div>
+
+					<?php endforeach; ?>
+					
+					<div class="clear"></div>
+
 				</div>
 			</div>
 

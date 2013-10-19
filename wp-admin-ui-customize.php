@@ -431,6 +431,12 @@ class WP_Admin_UI_Customize
 			}
 		}
 		
+		// front field
+		$Filter_bar["front"] = array( "main" => array() , "sub" => array() );
+		$Filter_bar["front"]["main"]["edit-post_type"] = new stdClass;
+		$Filter_bar["front"]["main"]["edit-post_type"] = (object) array( 'id' => 'edit-post_type' , 'title' => '' , 'href' => '' , 'meta' => array() );
+		$Filter_bar["front"]["main"]["edit-post_type"]->title = sprintf( '%1$s (%2$s/%3$s/%4$s/%5$s/%6$s)' , __( 'Edit' ) , __( 'Post' ) , __( 'Page' ) , __( 'Category' ) , __( 'Tags' ) , __( 'Custom' ) );
+		
 		return $Filter_bar;
 	}
 
@@ -612,6 +618,7 @@ class WP_Admin_UI_Customize
 		if( !empty( $menu_widget["new"] ) ) {
 			$new_widget = 'new';
 		}
+		
 ?>
 		<div class="widget <?php echo $new_widget; ?> <?php echo $menu_widget["id"]; ?>">
 
@@ -644,7 +651,13 @@ class WP_Admin_UI_Customize
 					</p>
 					<p class="field-title description">
 						<label>
-							<?php _e( 'Title' ); ?> : <input type="text" class="regular-text titletext" value="<?php echo esc_html( $menu_widget["title"] ); ?>" name="data[][title]" />
+							<?php if( $menu_widget["id"] == 'edit-post_type' ) : ?>
+								<?php _e( 'Title' ); ?> : <input type="text" class="regular-text titletext" value="<?php echo esc_html( $menu_widget["title"] ); ?>" name="data[][title]" readonly="readonly" /><br />
+								<span class="description"><?php _e( 'If you want edit to name, please edit of translation file(PO).' , $this->ltd ); ?></span><br />
+								<strong><?php _e( 'Show only on front end.' , $this->ltd ); ?></strong>
+							<?php else : ?>
+								<?php _e( 'Title' ); ?> : <input type="text" class="regular-text titletext" value="<?php echo esc_html( $menu_widget["title"] ); ?>" name="data[][title]" />
+							<?php endif; ?>
 						</label>
 					</p>
 					<p class="field-meta description">
@@ -1379,6 +1392,7 @@ class WP_Admin_UI_Customize
 					foreach($allnodes as $depth => $nodes) {
 						foreach($nodes as $node) {
 							$args = array( "id" => $node["id"] , "title" => stripslashes( $node["title"] ) , "href" => $node["href"] , "parent" => "" , "meta" => array() );
+							
 							if( strstr( $node["id"] , 'custom_node' ) ) {
 								$args["href"] = $this->val_replace( $node["href"] );
 							}
@@ -1430,6 +1444,33 @@ class WP_Admin_UI_Customize
 								$class  = empty( $avatar ) ? '' : 'with-avatar';
 								$args["meta"]["class"] = $class;
 							}
+
+							if( $node["id"] == 'edit-post_type' ) {
+								if( !is_admin() ) {
+									$current_object = get_queried_object();
+									print_r($args);
+									if ( empty( $current_object ) )
+										return;
+									if ( ! empty( $current_object->post_type )
+										&& ( $post_type_object = get_post_type_object( $current_object->post_type ) )
+										&& current_user_can( $post_type_object->cap->edit_post, $current_object->ID )
+										&& $post_type_object->show_ui && $post_type_object->show_in_admin_bar )
+									{
+										$args["title"] =  $post_type_object->labels->edit_item;
+										$args["href"] =  get_edit_post_link( $current_object->ID );
+									} elseif ( ! empty( $current_object->taxonomy )
+										&& ( $tax = get_taxonomy( $current_object->taxonomy ) )
+										&& current_user_can( $tax->cap->edit_terms )
+										&& $tax->show_ui )
+									{
+										$args["title"] =  $tax->labels->edit_item;
+										$args["href"] =  get_edit_term_link( $current_object->term_id, $current_object->taxonomy );
+									}
+								} else {
+									continue;
+								}
+							}
+
 							$wp_admin_bar->add_menu( $args );
 						}
 					}

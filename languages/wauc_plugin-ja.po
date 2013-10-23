@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: WP Admin UI Customize sub\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-10-03 14:57+0900\n"
-"PO-Revision-Date: 2013-10-19 20:01+0900\n"
+"PO-Revision-Date: 2013-10-23 17:50+0900\n"
 "Last-Translator: gqevu6bsiz <gqevu6bsiz@gmail.com>\n"
 "Language-Team: gqevu6bsiz <gqevu6bsiz@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -17,16 +17,16 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: wp-admin-ui-customize.php:1890
+#: wp-admin-ui-customize.php:1912
 #: inc/setting_default.php:178
 msgid "Thank you for your donation."
 msgstr "寄付いただきありがとうございます。"
 
-#: wp-admin-ui-customize.php:1905
+#: wp-admin-ui-customize.php:1927
 msgid "Thank you for considering donate."
 msgstr "寄付のご検討宜しくお願いします。"
 
-#: wp-admin-ui-customize.php:1905
+#: wp-admin-ui-customize.php:1927
 #: inc/setting_default.php:30
 msgid "Donate"
 msgstr "寄付について"

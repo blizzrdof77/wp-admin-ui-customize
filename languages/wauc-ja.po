@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP Admin UI Customize\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-19 19:52+0900\n"
-"PO-Revision-Date: 2013-10-19 20:01+0900\n"
+"POT-Creation-Date: 2013-10-23 17:37+0900\n"
+"PO-Revision-Date: 2013-10-23 18:08+0900\n"
 "Last-Translator: gqevu6bsiz <gqevu6bsiz@gmail.com>\n"
 "Language-Team: gqevu6bsiz@gmail.com <gqevu6bsiz@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -21,71 +21,71 @@ msgstr ""
 msgid "An excellent plugin to customize the management screens."
 msgstr "管理画面のカスタマイズに優れたプラグインです。"
 
-#: wp-admin-ui-customize.php:121
-#: wp-admin-ui-customize.php:157
+#: wp-admin-ui-customize.php:124
+#: wp-admin-ui-customize.php:160
 #: inc/reset_userrole.php:15
 msgid "Reset User Roles"
 msgstr "ユーザー権限リセット"
 
-#: wp-admin-ui-customize.php:148
+#: wp-admin-ui-customize.php:151
 #: inc/setting_site.php:16
 msgid "Site Settings"
 msgstr "サイトの設定"
 
-#: wp-admin-ui-customize.php:149
+#: wp-admin-ui-customize.php:152
 #: inc/setting_admin_general.php:16
 msgid "General Screen Settings"
 msgstr "一般設定"
 
-#: wp-admin-ui-customize.php:151
+#: wp-admin-ui-customize.php:154
 #: inc/setting_admin_bar_menu.php:17
 msgid "Admin Bar Menu"
 msgstr "管理バー"
 
-#: wp-admin-ui-customize.php:152
+#: wp-admin-ui-customize.php:155
 #: inc/setting_sidemenu.php:19
 msgid "Side Menu"
 msgstr "サイドメニュー"
 
-#: wp-admin-ui-customize.php:153
-#: inc/setting_removemtabox.php:17
-msgid "Remove meta box"
-msgstr "メタボックス削除"
+#: wp-admin-ui-customize.php:156
+#: inc/setting_manage_metabox.php:17
+msgid "Manage meta box"
+msgstr "メタボックス管理"
 
-#: wp-admin-ui-customize.php:154
+#: wp-admin-ui-customize.php:157
 #: inc/setting_post_add_edit.php:16
 msgid "Add New Post and Edit Post Screen Setting"
 msgstr "新規投稿と投稿編集の設定"
 
-#: wp-admin-ui-customize.php:155
+#: wp-admin-ui-customize.php:158
 #: inc/setting_appearance_menus.php:15
 msgid "Appearance Menus Screen Setting"
 msgstr "外観メニュー画面の設定"
 
-#: wp-admin-ui-customize.php:156
+#: wp-admin-ui-customize.php:159
 #: inc/setting_loginscreen.php:27
 msgid "Login Screen"
 msgstr "ログイン画面"
 
-#: wp-admin-ui-customize.php:292
+#: wp-admin-ui-customize.php:321
 #, php-format
 msgid "Authority to apply the setting is not selected. <a href=\"%s\">From here</a>, please select the permissions you want to set."
 msgstr "設定を適用する権限が選択されていません。<a href=\"%s\">こちら</a>から設定する権限を選んでください。"
 
-#: wp-admin-ui-customize.php:317
+#: wp-admin-ui-customize.php:346
 msgid "Apply user roles"
 msgstr "適用されるユーザー権限"
 
-#: wp-admin-ui-customize.php:548
-#: wp-admin-ui-customize.php:677
+#: wp-admin-ui-customize.php:577
+#: wp-admin-ui-customize.php:706
 msgid "Sub Menus"
 msgstr "サブメニュー"
 
-#: wp-admin-ui-customize.php:656
+#: wp-admin-ui-customize.php:685
 msgid "If you want edit to name, please edit of translation file(PO)."
 msgstr "タイトルを変更したい場合は翻訳ファイル(PO)を編集してください。"
 
-#: wp-admin-ui-customize.php:657
+#: wp-admin-ui-customize.php:686
 msgid "Show only on front end."
 msgstr "フロントのみ表示"
 
@@ -161,8 +161,8 @@ msgstr "追加できるメニュー一覧"
 #: inc/setting_dashboard.php:176
 #: inc/setting_default.php:122
 #: inc/setting_loginscreen.php:152
+#: inc/setting_manage_metabox.php:243
 #: inc/setting_post_add_edit.php:101
-#: inc/setting_removemtabox.php:184
 #: inc/setting_sidemenu.php:225
 #: inc/setting_site.php:160
 msgid "Reset all settings?"
@@ -281,15 +281,47 @@ msgstr "ロゴタイトル"
 msgid "Logo Image path"
 msgstr "ロゴ画像のパス"
 
+#: inc/setting_manage_metabox.php:18
+msgid "Please update or add a \"post\" and a \"page\" to load the available meta boxes."
+msgstr "メタボックスを読み込むには編集画面にアクセスしてください。"
+
+#: inc/setting_manage_metabox.php:19
+msgid "Please enter if you want to change of Metabox label name."
+msgstr "メタボックス名を変更したい時だけ入力してください。"
+
+#: inc/setting_manage_metabox.php:42
+#: inc/setting_manage_metabox.php:105
+#: inc/setting_manage_metabox.php:176
+msgid "Could not read the meta box."
+msgstr "メタボックスの読み込みができませんでした。"
+
+#: inc/setting_manage_metabox.php:43
+#: inc/setting_manage_metabox.php:106
+#: inc/setting_manage_metabox.php:177
+#, php-format
+msgid "Meta boxes will be loaded automatically when you <strong>%s</strong>."
+msgstr "<strong>%s</strong> 画面を一度表示すると自動でメタボックスが読み込まれます。"
+
+#: inc/setting_manage_metabox.php:55
+#: inc/setting_manage_metabox.php:118
+#: inc/setting_manage_metabox.php:189
+msgid "Change metabox title to"
+msgstr "メタボックス名を変更"
+
+#: inc/setting_manage_metabox.php:81
+#: inc/setting_manage_metabox.php:143
+#: inc/setting_post_add_edit.php:48
+msgid "Notice: If hide the Discussion on metabox, comments does not display of Add New Post on apply user role."
+msgstr "注意: ディスカッションメタボックスを隠す場合、適用された権限の新規投稿はコメントが表示されません。"
+
+#: inc/setting_manage_metabox.php:83
+#: inc/setting_manage_metabox.php:145
+msgid "Please set from here if you want to view the comments on screen."
+msgstr "コメントが表示されるようにしたい場合はここから設定してください。"
+
 #: inc/setting_post_add_edit.php:41
 msgid "Allow people to post comments on new articles when hide to discussion of metabox"
 msgstr "ディスカッションメタボックスが非表示でも新しい投稿へのコメントを許可する"
-
-#: inc/setting_post_add_edit.php:48
-#: inc/setting_removemtabox.php:59
-#: inc/setting_removemtabox.php:102
-msgid "Notice: If hide the Discussion on metabox, comments does not display of Add New Post on apply user role."
-msgstr "注意: ディスカッションメタボックスを隠す場合、適用された権限の新規投稿はコメントが表示されません。"
 
 #: inc/setting_post_add_edit.php:49
 msgid "Please select if you want to display the comments on Site."
@@ -305,31 +337,13 @@ msgstr "ただし、これは%sの設定に従います。"
 msgid "Please select the %s"
 msgstr "%s を選択してください。"
 
+#: inc/setting_post_add_edit.php:52
+msgid "Allow people to post comments on new articles"
+msgstr "ディスカッションメタボックスが非表示でも新しい投稿へのコメントを許可する"
+
 #: inc/setting_post_add_edit.php:78
 msgid "Only appears when you have settings to the default permalink."
 msgstr "デフォルトのパーマリンクに設定している時のみ表示されます。"
-
-#: inc/setting_removemtabox.php:18
-msgid "Please update or add a \"post\" and a \"page\" to load the available meta boxes."
-msgstr "新しいプラグインのメタボックスを読み込むには編集画面に一度アクセスしてください。"
-
-#: inc/setting_removemtabox.php:41
-#: inc/setting_removemtabox.php:84
-#: inc/setting_removemtabox.php:136
-msgid "Could not read the meta box."
-msgstr "メタボックスの読み込みができませんでした。"
-
-#: inc/setting_removemtabox.php:42
-#: inc/setting_removemtabox.php:85
-#: inc/setting_removemtabox.php:137
-#, php-format
-msgid "Meta boxes will be loaded automatically when you Edit %s."
-msgstr "%s 編集画面を一度表示すると自動でメタボックスが読み込まれます。"
-
-#: inc/setting_removemtabox.php:61
-#: inc/setting_removemtabox.php:104
-msgid "Please set from here if you want to view the comments on screen."
-msgstr "コメントが表示されるようにしたい場合はここから設定してください。"
 
 #: inc/setting_sidemenu.php:21
 #, php-format

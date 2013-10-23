@@ -176,3 +176,10 @@
 	float: left;
 	margin: 0 4px 4px 0;
 }
+
+
+/* manage metabox */
+
+#wauc_setting_manage_metabox table.form-table td {
+	vertical-align: top;
+}

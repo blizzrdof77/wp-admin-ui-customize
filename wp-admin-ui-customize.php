@@ -2,10 +2,10 @@
 /*
 Plugin Name: WP Admin UI Customize
 Description: An excellent plugin to customize the management screens.
-Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_3_9_3
-Version: 1.3.9.3 beta1
+Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_4
+Version: 1.4
 Author: gqevu6bsiz
-Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_3_9_3
+Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_4
 Text Domain: wauc
 Domain Path: /languages
 */
@@ -53,7 +53,7 @@ class WP_Admin_UI_Customize
 
 
 	function __construct() {
-		$this->Ver = '1.3.9.3 beta1';
+		$this->Ver = '1.4';
 		$this->Name = 'WP Admin UI Customize';
 		$this->Dir = plugin_dir_path( __FILE__ );
 		$this->Url = plugin_dir_url( __FILE__ );
@@ -68,7 +68,7 @@ class WP_Admin_UI_Customize
 			"dashboard" => $this->ltd . '_dashboard_setting',
 			"admin_bar_menu" => $this->ltd . '_admin_bar_menu_setting',
 			"sidemenu" => $this->ltd . '_sidemenu_setting',
-			"removemetabox" => $this->ltd . '_removemetabox_setting',
+			"manage_metabox" => $this->ltd . '_manage_metabox_setting',
 			"regist_metabox" => $this->ltd . '_regist_metabox',
 			"post_add_edit" => $this->ltd . '_post_add_edit_setting',
 			"appearance_menus" => $this->ltd . '_appearance_menus_setting',
@@ -111,6 +111,9 @@ class WP_Admin_UI_Customize
 
 		// data update
 		add_action( 'admin_init' , array( $this , 'dataUpdate') );
+		
+		// data convert
+		add_action( 'admin_init' , array( $this , 'dataConvert' ) );
 	}
 
 	// PluginSetup
@@ -150,13 +153,39 @@ class WP_Admin_UI_Customize
 		add_submenu_page( $this->PageSlug , __( 'Dashboard' ) , __( 'Dashboard' ) , 'administrator' , $this->PageSlug . '_dashboard' , array( $this , 'setting_dashboard' ) );
 		add_submenu_page( $this->PageSlug , __( 'Admin Bar Menu' , $this->ltd ) , __( 'Admin Bar Menu' , $this->ltd ) , 'administrator' , $this->PageSlug . '_admin_bar' , array( $this , 'setting_admin_bar_menu' ) );
 		add_submenu_page( $this->PageSlug , __( 'Side Menu' , $this->ltd ) , __( 'Side Menu' , $this->ltd ) , 'administrator' , $this->PageSlug . '_sidemenu' , array( $this , 'setting_sidemenu' ) );
-		add_submenu_page( $this->PageSlug , __( 'Remove meta box' , $this->ltd ) , __( 'Remove meta box' , $this->ltd ) , 'administrator' , $this->PageSlug . '_removemtabox' , array( $this , 'setting_removemtabox' ) );
+		add_submenu_page( $this->PageSlug , __( 'Manage meta box' , $this->ltd ) , __( 'Manage meta box' , $this->ltd ) , 'administrator' , $this->PageSlug . '_manage_metabox' , array( $this , 'setting_manage_metabox' ) );
 		add_submenu_page( $this->PageSlug , __( 'Add New Post and Edit Post Screen Setting' , $this->ltd ) , __( 'Add New Post and Edit Post Screen Setting' , $this->ltd ) , 'administrator' , $this->PageSlug . '_post_add_edit_screen' , array( $this , 'setting_post_add_edit' ) );
 		add_submenu_page( $this->PageSlug , __( 'Appearance Menus Screen Setting' , $this->ltd ) , __( 'Appearance Menus Screen Setting' , $this->ltd ) , 'administrator' , $this->PageSlug . '_appearance_menus' , array( $this , 'setting_appearance_menus' ) );
 		add_submenu_page( $this->PageSlug , __( 'Login Screen' , $this->ltd ) , __( 'Login Screen' , $this->ltd ) , 'administrator' , $this->PageSlug . '_loginscreen' , array( $this , 'setting_loginscreen' ) );
 		add_submenu_page( $this->PageSlug , __( 'Reset User Roles' , $this->ltd ) , '<div style="display: none";>' . __( 'Reset User Roles' , $this->ltd ) . '</div>' , 'administrator' , $this->PageSlug . '_reset_userrole' , array( $this , 'reset_userrole' ) );
 	}
 
+	// PluginSetup
+	function dataConvert() {
+		$ManageMetabox = get_option( $this->Record['manage_metabox'] );
+		$RemoveMetabox = get_option( $this->ltd . '_removemetabox_setting' );
+		
+		if( empty( $ManageMetabox ) && !empty( $RemoveMetabox ) ) {
+
+			// Old Data Convert
+			$ManageMetabox["UPFN"] = $this->UPFN;
+			unset( $RemoveMetabox["UPFN"] );
+			
+			if( !empty( $RemoveMetabox ) ) {
+				foreach( $RemoveMetabox as $post_type => $box ) {
+					foreach( $box as $id => $v ) {
+						if( !empty( $v ) ) {
+							$ManageMetabox[$post_type][$id] = array( "remove" => 1 , "name" => "" );
+						}
+					}
+				}
+				
+				update_option( $this->Record['manage_metabox'] , $ManageMetabox );
+				delete_option( $this->ltd . '_removemetabox_setting' );
+			}
+			
+		}
+	}
 
 
 
@@ -209,11 +238,11 @@ class WP_Admin_UI_Customize
 	}
 
 	// SettingPage
-	function setting_removemtabox() {
+	function setting_manage_metabox() {
 		$this->display_msg();
 		add_filter( 'admin_footer_text' , array( $this , 'layout_footer' ) );
 		$this->DisplayDonation();
-		include_once 'inc/setting_removemtabox.php';
+		include_once 'inc/setting_manage_metabox.php';
 	}
 
 	// SettingPage
@@ -856,7 +885,7 @@ class WP_Admin_UI_Customize
 		if( !empty( $_POST["record_field"] ) ) {
 			$RecordField = strip_tags( $_POST["record_field"] );
 		}
-		
+
 		if( !empty( $RecordField ) && !empty( $_POST["update"] ) ) {
 			if( $RecordField == 'user_role' ) {
 				$this->update_userrole();
@@ -870,8 +899,8 @@ class WP_Admin_UI_Customize
 				$this->update_admin_bar_menu();
 			} elseif( $RecordField == 'sidemenu' ) {
 				$this->update_sidemenu();
-			} elseif( $RecordField == 'removemetabox' ) {
-				$this->update_removemetabox();
+			} elseif( $RecordField == 'manage_metabox' ) {
+				$this->update_manage_metabox();
 			} elseif( $RecordField == 'post_add_edit' ) {
 				$this->update_post_add_edit();
 			} elseif( $RecordField == 'appearance_menus' ) {
@@ -882,7 +911,7 @@ class WP_Admin_UI_Customize
 		}
 
 		if( !empty( $RecordField ) && !empty( $_POST["reset"] ) ) {
-			if( $RecordField == 'removemetabox' ) {
+			if( $RecordField == 'manage_metabox' ) {
 				delete_option( $this->Record["regist_metabox"] );
 			}
 			$this->update_reset( $RecordField );
@@ -1095,7 +1124,7 @@ class WP_Admin_UI_Customize
 	}
 
 	// DataUpdate
-	function update_removemetabox() {
+	function update_manage_metabox() {
 		$Update = $this->update_validate();
 		if( !empty( $Update ) && check_admin_referer( $this->Nonces["value"] , $this->Nonces["field"] ) ) {
 
@@ -1105,14 +1134,14 @@ class WP_Admin_UI_Customize
 					if( is_array( $val ) ) {
 						foreach($val as $id => $v) {
 							$tmpK = strip_tags( $id );
-							$tmpV = strip_tags ( $v );
+							$tmpV = $v;
 							$Update[$post_type][$tmpK] = $tmpV;
 						}
 					}
 				}
 			}
 
-			$Record = apply_filters( 'wauc_pre_update' , $this->Record["removemetabox"] );
+			$Record = apply_filters( 'wauc_pre_update' , $this->Record["manage_metabox"] );
 			update_option( $Record , $Update );
 			wp_redirect( add_query_arg( $this->MsgQ , 'update' , stripslashes( $_POST["_wp_http_referer"] ) ) );
 			exit;
@@ -1234,7 +1263,7 @@ class WP_Admin_UI_Customize
 					add_filter( 'admin_footer_text' , array( $this , 'admin_footer_text' ) );
 					add_action( 'admin_print_styles' , array( $this , 'load_css' ) );
 					add_action( 'wp_dashboard_setup' , array( $this , 'wp_dashboard_setup' ) );
-					add_action( 'admin_head' , array( $this , 'removemetabox' ) , 11 );
+					add_action( 'admin_head' , array( $this , 'manage_metabox' ) , 11 );
 					add_filter( 'admin_head', array( $this , 'sidemenu' ) );
 					add_filter( 'get_sample_permalink_html' , array( $this , 'add_edit_post_change_permalink' ) );
 					add_filter( 'edit_form_after_title' , array( $this , 'allow_comments' ) );
@@ -1610,11 +1639,10 @@ class WP_Admin_UI_Customize
 	}
 
 	// FilterStart
-	function removemetabox() {
-		global $wp_meta_boxes;
-		global $current_screen;
+	function manage_metabox() {
+		global $wp_meta_boxes, $current_screen, $post_type;
 
-		$GetData = $this->get_flit_data( 'removemetabox' );
+		$GetData = $this->get_flit_data( 'manage_metabox' );
 		
 		if( !empty( $GetData["UPFN"] ) ) {
 			unset( $GetData["UPFN"] );
@@ -1622,8 +1650,6 @@ class WP_Admin_UI_Customize
 			if( !empty( $GetData ) && is_array( $GetData ) ) {
 
 				if( $current_screen->base == 'post' ) {
-
-					global $post_type;
 
 					if( !empty( $GetData[$post_type] ) ) {
 
@@ -1634,8 +1660,10 @@ class WP_Admin_UI_Customize
 						foreach( $Metaboxes as $context => $meta_box ) {
 							foreach( $meta_box as $priority => $box ) {
 								foreach( $box as $metabox_id => $b ) {
-									if( array_key_exists( $metabox_id , $Data ) ) {
-										$Remove_metaboxes[$metabox_id] = array( "context" => $context , "priority" => $priority );
+									if( !empty( $Data[$metabox_id]["remove"] ) ) {
+										remove_meta_box( $metabox_id , $post_type , $context );
+									} elseif( !empty( $Data[$metabox_id]["name"] ) ) {
+										$wp_meta_boxes[$post_type][$context][$priority][$metabox_id]["title"] = stripslashes( $Data[$metabox_id]["name"] );
 									}
 								}
 							}
@@ -1643,12 +1671,6 @@ class WP_Admin_UI_Customize
 
 					}
 
-					if( !empty( $Remove_metaboxes ) ) {
-						foreach( $Remove_metaboxes as $metabox_id => $box ) {
-							remove_meta_box( $metabox_id , $post_type , $box["context"] );
-						}
-					}
-						
 				}
 			}
 		}
@@ -1825,7 +1847,7 @@ class WP_Admin_UI_Customize
 		global $current_screen;
 		
 		$PostAddEdit = $this->get_flit_data( 'post_add_edit' );
-		$RemoveMetaBox = $this->get_flit_data( 'removemetabox' );
+		$RemoveMetaBox = $this->get_flit_data( 'manage_metabox' );
 		
 		if( !empty( $PostAddEdit["UPFN"] ) && !empty( $RemoveMetaBox["UPFN"] ) ) {
 			if( $current_screen->action == 'add' ) {

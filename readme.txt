@@ -1,10 +1,10 @@
 === WP Admin UI Customize ===
 Contributors: gqevu6bsiz
-Donate link: http://gqevu6bsiz.chicappa.jp/please-donation/?utm_source=wporg&utm_medium=donate&utm_content=wauc&utm_campaign=1_3_9_3
-Tags: admin, post, posts, page, option, sitemenu, menu, custom, customize, dashboard, admin_bar
+Donate link: http://gqevu6bsiz.chicappa.jp/please-donation/?utm_source=wporg&utm_medium=donate&utm_content=wauc&utm_campaign=1_4
+Tags: admin, post, posts, page, option, sitemenu, menu, custom, customize, dashboard, admin_bar, multisite, network, metabox
 Requires at least: 3.5.2
 Tested up to: 3.6.1
-Stable tag: 1.3.9.2
+Stable tag: 1.4
 License: GPL2
 
 Customize the management screen UI.
@@ -16,8 +16,9 @@ Customize the management screen UI.
 * Output-meta site
 * Admin bar
 * Admin menu (Side menu)
-* Management of meta box
+* Management of meta boxes
 * Login screen
+* Other features.
 
 These to Customization is possible.
 
@@ -38,18 +39,23 @@ These to Customization is possible.
 1. Set the user role apply
 2. Site Settings
 3. Admin Screen Settings
-4. Admin Screen Customized
-5. Dashboard Settings
-6. Dashboard Screen Customized
-7. Admin Menu Settings
-8. Admin Menu Customized
-9. Metabox Settings
+4. Dashboard Settings
+5. Admin Bar Menu Settings
+6. Admin Menu(side menu) Settings
+7. Metabox Settings
+8. Post/Page Settings
+9. Appearance Menu Settings
 10. Login Screen Settings
-11. Login Screen Customized
 
 == Changelog ==
 
+= 1.4 =
+* Removed: Remove meta box feature.
+* Added: Manage to meta boxes.
+* Updated: Screenshots.
+
 = 1.3.9.3 beta1 =
+* Added: Change the Label name for metaboxes.
 * Fixed bug: Remove tabs.
 * Added: Avatar on Admin bar.
 * Added: Edit link on Admin bar.

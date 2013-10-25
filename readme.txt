@@ -3,7 +3,7 @@ Contributors: gqevu6bsiz
 Donate link: http://gqevu6bsiz.chicappa.jp/please-donation/?utm_source=wporg&utm_medium=donate&utm_content=wauc&utm_campaign=1_4
 Tags: admin, post, posts, page, option, sitemenu, menu, custom, customize, dashboard, admin_bar, multisite, network, metabox
 Requires at least: 3.5.2
-Tested up to: 3.6.1
+Tested up to: 3.7
 Stable tag: 1.4
 License: GPL2
 

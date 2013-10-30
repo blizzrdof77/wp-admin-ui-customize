@@ -4,7 +4,7 @@ Donate link: http://gqevu6bsiz.chicappa.jp/please-donation/?utm_source=wporg&utm
 Tags: admin, post, posts, page, option, sitemenu, menu, custom, customize, dashboard, admin_bar, multisite, network, metabox
 Requires at least: 3.5.2
 Tested up to: 3.7.1
-Stable tag: 1.4.1
+Stable tag: 1.4
 License: GPL2
 
 Customize the management screen UI.

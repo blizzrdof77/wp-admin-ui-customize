@@ -49,6 +49,9 @@ These to Customization is possible.
 
 == Changelog ==
 
+= 1.4.1 =
+* Fixed bug: X-XSS-Protection.
+
 = 1.4 =
 * Removed: Remove meta box feature.
 * Added: Manage to meta boxes.

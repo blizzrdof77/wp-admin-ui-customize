@@ -2,10 +2,10 @@
 /*
 Plugin Name: WP Admin UI Customize
 Description: An excellent plugin to customize the management screens.
-Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_4
-Version: 1.4
+Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_4_1
+Version: 1.4.1
 Author: gqevu6bsiz
-Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_4
+Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_4_1
 Text Domain: wauc
 Domain Path: /languages
 */
@@ -53,7 +53,7 @@ class WP_Admin_UI_Customize
 
 
 	function __construct() {
-		$this->Ver = '1.4';
+		$this->Ver = '1.4.1';
 		$this->Name = 'WP Admin UI Customize';
 		$this->Dir = plugin_dir_path( __FILE__ );
 		$this->Url = plugin_dir_url( __FILE__ );
@@ -142,7 +142,7 @@ class WP_Admin_UI_Customize
 
 		if( !empty( $_GET["page"] ) ) {
 			$page = strip_tags( $_GET["page"] );
-			if( $page == $this->PageSlug . '_admin_bar' ) {
+			if( $page == $this->PageSlug ) {
 				@header("X-XSS-Protection: 0");
 			}
 		}

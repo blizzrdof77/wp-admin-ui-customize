@@ -50,7 +50,7 @@ These to Customization is possible.
 == Changelog ==
 
 = 1.4.1 =
-* Fixed bug: X-XSS-Protection.
+* Change mechanism : Settings sub menus of Admin Bar.
 
 = 1.4 =
 * Removed: Remove meta box feature.

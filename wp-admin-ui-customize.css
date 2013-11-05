@@ -161,8 +161,7 @@
 }
 
 
-#wauc_setting_admin_bar_menu #can_menus .postbox .inside .widget .widget-top .widget-title-action,
-#wauc_setting_admin_bar_menu .postbox .inside .widget .widget-inside .submenu .widget .widget-inside .submenu {
+#wauc_setting_admin_bar_menu #can_menus .postbox .inside .widget .widget-top .widget-title-action {
 	display: none;
 }
 

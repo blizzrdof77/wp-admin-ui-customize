@@ -142,7 +142,7 @@ class WP_Admin_UI_Customize
 
 		if( !empty( $_GET["page"] ) ) {
 			$page = strip_tags( $_GET["page"] );
-			if( $page == $this->PageSlug ) {
+			if( $page == $this->PageSlug . '_admin_bar' ) {
 				@header("X-XSS-Protection: 0");
 			}
 		}
@@ -379,28 +379,21 @@ class WP_Admin_UI_Customize
 	function admin_bar_filter_load() {
 		$Default_bar = $this->Admin_bar;
 		
-		$Delete_bar = array( "user-actions" , "wp-logo-external" , "top-secondary" , "my-sites-super-admin" , "my-sites-list" );
+		$Delete_bar = array( "top-secondary" , "my-sites-super-admin" );
 		foreach( $Delete_bar as $del_name ) {
 			if( !empty( $Default_bar[$del_name] ) ) {
 				unset( $Default_bar[$del_name] );
 			}
 		}
-		if( !empty( $Default_bar ) ) {
-			foreach( $Default_bar as $node_id => $node ) {
-				if( preg_match( "/blog-[0-9]/" , $node->parent ) ) {
-					unset( $Default_bar[$node_id] );
-				}
-			}
-		}
 
-		// front 
-		$Default_bar["dashboard"] = (object) array( "id" => "dashboard" , "title" => __( 'Dashboard' ) , "parent" => "site-name" , "href" => admin_url() );
+		// front
+		$Default_bar["dashboard"] = (object) array( "id" => "dashboard" , "title" => __( 'Dashboard' ) , "parent" => "site-name" , "href" => admin_url() , "group" => false );
 		
 		foreach( $Default_bar as $node_id => $node ) {
 			if( $node->id == 'my-account' ) {
 				$Default_bar[$node_id]->title = sprintf( __( 'Howdy, %1$s' ) , '[user_name]' ) . '[user_avatar]';
 			} elseif( $node->id == 'user-info' ) {
-				$Default_bar[$node_id]->title = '<span class="display-name">[user_name]</span>';
+				$Default_bar[$node_id]->title = '[user_avatar_64]<span class="display-name">[user_name]</span><span class="username">[user_login_name]</span>';
 			} elseif( $node->id == 'logout' ) {
 				$Default_bar[$node_id]->href = preg_replace( '/&amp(.*)/' , '' , $node->href );
 			} elseif( $node->id == 'site-name' ) {
@@ -427,22 +420,6 @@ class WP_Admin_UI_Customize
 			}
 		}
 		
-		foreach( $Default_bar as $node_id => $node ) {
-			if( $node->parent == 'wp-logo-external' ) {
-				$Default_bar[$node_id]->parent = 'wp-logo';
-			} elseif( $node->parent == 'user-actions' ) {
-				$Default_bar[$node_id]->parent = 'my-account';
-			} elseif( $node->parent == 'my-sites-list' ) {
-				$Default_bar[$node_id]->parent = 'my-sites';
-			} else{
-				if( !array_keys( $MainMenuIDs , $node->parent ) ) {
-					if( !empty( $Default_bar[$node->parent] ) ) {
-						$Default_bar[$node_id]->parent = $Default_bar[$node->parent]->parent;
-					}
-				}
-			}
-		}
-
 		// meta field add
 		foreach( $Default_bar as $node_id => $node ) {
 			if( !isset( $node->meta ) ) {
@@ -450,8 +427,8 @@ class WP_Admin_UI_Customize
 			}
 		}
 		
+		// sub node
 		foreach( $MainMenuIDs as $parent_id => $menu_type ) {
-
 			foreach( $Default_bar as $node_id => $node ) {
 				if( $node->parent == $parent_id ) {
 					$Filter_bar[$menu_type]["sub"][$node_id] = $node;
@@ -459,11 +436,61 @@ class WP_Admin_UI_Customize
 				}
 			}
 		}
+
+		$place_types = array( "left" , "right" );
+
+		// sub2 node
+		if( !empty( $Default_bar ) ) {
+			foreach( $place_types as $place ) {
+				if( !empty( $Filter_bar[$place]["sub"] ) ) {
+					foreach( $Filter_bar[$place]["sub"] as $parent_id => $parent_node ) {
+						foreach( $Default_bar as $node_id => $node ) {
+							if( $node->parent == $parent_id ) {
+								$Filter_bar[$place]["sub2"][$node_id] = $node;
+								unset( $Default_bar[$node_id] );
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		// sub3 node
+		if( !empty( $Default_bar ) ) {
+			foreach( $place_types as $place ) {
+				if( !empty( $Filter_bar[$place]["sub2"] ) ) {
+					foreach( $Filter_bar[$place]["sub2"] as $parent_id => $parent_node ) {
+						foreach( $Default_bar as $node_id => $node ) {
+							if( $node->parent == $parent_id ) {
+								$Filter_bar[$place]["sub3"][$node_id] = $node;
+								unset( $Default_bar[$node_id] );
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		// sub4 node
+		if( !empty( $Default_bar ) ) {
+			foreach( $place_types as $place ) {
+				if( !empty( $Filter_bar[$place]["sub3"] ) ) {
+					foreach( $Filter_bar[$place]["sub3"] as $parent_id => $parent_node ) {
+						foreach( $Default_bar as $node_id => $node ) {
+							if( $node->parent == $parent_id ) {
+								$Filter_bar[$place]["sub4"][$node_id] = $node;
+								unset( $Default_bar[$node_id] );
+							}
+						}
+					}
+				}
+			}
+		}
 		
 		// front field
 		$Filter_bar["front"] = array( "main" => array() , "sub" => array() );
 		$Filter_bar["front"]["main"]["edit-post_type"] = new stdClass;
-		$Filter_bar["front"]["main"]["edit-post_type"] = (object) array( 'id' => 'edit-post_type' , 'title' => '' , 'href' => '' , 'meta' => array() );
+		$Filter_bar["front"]["main"]["edit-post_type"] = (object) array( 'id' => 'edit-post_type' , 'title' => '' , 'href' => '' , 'group' => '' , 'meta' => array() );
 		$Filter_bar["front"]["main"]["edit-post_type"]->title = sprintf( '%1$s (%2$s/%3$s/%4$s/%5$s/%6$s)' , __( 'Edit' ) , __( 'Post' ) , __( 'Page' ) , __( 'Category' ) , __( 'Tags' ) , __( 'Custom' ) );
 		
 		return $Filter_bar;
@@ -642,12 +669,15 @@ class WP_Admin_UI_Customize
 	}
 
 	// SetList
-	function admin_bar_menu_widget( $menu_widget ) {
+	function admin_bar_menu_widget( $Nodes , $menu_widget , $node_type ) {
+		if ( is_object( $menu_widget ) ) $menu_widget = (array) $menu_widget;
+		if( !isset( $menu_widget["group"] ) ) $menu_widget["group"] = 0;
+		if( !isset( $menu_widget["meta"]["class"] ) ) $menu_widget["meta"]["class"] = "";
+		
 		$new_widget = '';
 		if( !empty( $menu_widget["new"] ) ) {
 			$new_widget = 'new';
 		}
-		
 ?>
 		<div class="widget <?php echo $new_widget; ?> <?php echo $menu_widget["id"]; ?>">
 
@@ -674,7 +704,11 @@ class WP_Admin_UI_Customize
 						<?php if( $menu_widget["id"] == 'custom_node' ) : ?>
 							URL: <input type="text" class="regular-text linktext" value="" name="data[][href]" placeholder="http://" />
 						<?php else:  ?>
-							<a href="<?php echo $menu_widget["href"]; ?>" target="_blank"><?php echo $menu_widget["id"]; ?></a>
+							<?php if( $menu_widget["id"] == 'edit-post_type' ) : ?>
+								<strong><?php _e( 'Show only on front end.' , $this->ltd ); ?></strong>
+							<?php else: ?>
+								<a href="<?php echo $menu_widget["href"]; ?>" target="_blank"><?php echo $menu_widget["id"]; ?></a>
+							<?php endif; ?>
 							<input type="hidden" class="linktext" value="<?php echo $menu_widget["href"]; ?>" name="data[][href]" />
 						<?php endif; ?>
 					</p>
@@ -683,7 +717,6 @@ class WP_Admin_UI_Customize
 							<?php if( $menu_widget["id"] == 'edit-post_type' ) : ?>
 								<?php _e( 'Title' ); ?> : <input type="text" class="regular-text titletext" value="<?php echo esc_html( $menu_widget["title"] ); ?>" name="data[][title]" readonly="readonly" /><br />
 								<span class="description"><?php _e( 'If you want edit to name, please edit of translation file(PO).' , $this->ltd ); ?></span><br />
-								<strong><?php _e( 'Show only on front end.' , $this->ltd ); ?></strong>
 							<?php else : ?>
 								<?php _e( 'Title' ); ?> : <input type="text" class="regular-text titletext" value="<?php echo esc_html( $menu_widget["title"] ); ?>" name="data[][title]" />
 							<?php endif; ?>
@@ -698,68 +731,38 @@ class WP_Admin_UI_Customize
 							<input type="checkbox" class="meta_target" value="_blank" name="data[][meta][target]" <?php echo $checked; ?> />
 							<?php _e( 'Open link in a new window/tab' ); ?>
 						</label>
+						<input type="hidden" class="meta_class" value="<?php echo $menu_widget["meta"]["class"]; ?>" name="data[][meta][class]" />
 					</p>
 					<input type="hidden" class="parent" value="<?php echo $menu_widget["parent"]; ?>" name="data[][parent]" />
+					<input type="hidden" class="group" value="<?php echo $menu_widget["group"]; ?>" name="data[][group]" />
+					<input type="hidden" class="node_type" value="" name="data[][node_type]" />
 				</div>
 
 				<div class="submenu">
 					<p class="description"><?php _e( 'Sub Menus' , $this->ltd ); ?></p>
-					<?php if( empty( $menu_widget["new"] ) && !empty( $menu_widget["subnode"] ) ) : ?>
-						<?php foreach( $menu_widget["subnode"] as $sm ) : ?>
-
-							<div class="widget">
-
-								<div class="widget-top">
-									<div class="widget-title-action">
-										<a class="widget-action" href="#available"></a>
-									</div>
-									<div class="widget-title">
-										<h4>
-											<?php if( preg_match( '/\<form/' , $sm["title"] ) ) : ?>
-												<?php echo $sm["id"]; ?>
-											<?php else: ?>
-												<?php echo $sm["title"]; ?>
-												: <span class="in-widget-title"><?php echo $sm["id"]; ?></span>
-											<?php endif; ?>
-										</h4>
-									</div>
-								</div>
-
-								<div class="widget-inside">
-									<div class="settings">
-										<p class="field-url description">
-											<input type="hidden" class="idtext" value="<?php echo $sm["id"]; ?>" name="data[][id]" />
-											<a href="<?php echo $sm["href"]; ?>" target="_blank"><?php echo $sm["id"]; ?></a>
-											<input type="hidden" class="linktext" value="<?php echo $sm["href"]; ?>" name="data[][href]" />
-										</p>
-										<p class="field-title description">
-											<label>
-												<?php _e( 'Title' ); ?> : <input type="text" class="regular-text titletext" value="<?php echo esc_html( $sm["title"] ); ?>" name="data[][title]" />
-											</label>
-										</p>
-										<p class="field-meta description">
-											<label class="description">
-												<?php $checked = ""; ?>
-												<?php if( !empty( $sm["meta"]["target"] ) ) : ?>
-													<?php $checked = checked( $sm["meta"]["target"] , '_blank' , 0 ); ?>
-												<?php endif; ?>
-												<input type="checkbox" class="meta_target" value="_blank" name="data[][meta][target]" <?php echo $checked; ?> />
-												<?php _e( 'Open link in a new window/tab' ); ?>
-											</label>
-										</p>
-										<input type="hidden" class="parent" value="<?php echo $sm["parent"]; ?>" name="data[][parent]" />
-									</div>
-									<div class="widget-control-actions">
-										<div class="alignleft">
-											<a href="#remove"><?php _e( 'Remove' ); ?></a>
-										</div>
-										<div class="clear"></div>
-									</div>
-								</div>
-							</div>
-
-						<?php endforeach; ?>
+					
+					<?php if( empty( $new_widget ) ) : ?>
+						<?php $subnode_type = ''; ?>
+						<?php if( $node_type == 'main' ) : ?>
+							<?php $subnode_type = 'sub'; ?>
+						<?php elseif( $node_type == 'sub' ) : ?>
+							<?php $subnode_type = 'sub2'; ?>
+						<?php elseif( $node_type == 'sub2' ) : ?>
+							<?php $subnode_type = 'sub3'; ?>
+						<?php elseif( $node_type == 'sub3' ) : ?>
+							<?php $subnode_type = 'sub4'; ?>
+						<?php endif; ?>
+						
+						<?php if( !empty( $subnode_type ) && !empty( $Nodes[$subnode_type] ) ) : ?>
+							<?php foreach( $Nodes[$subnode_type] as $subnode_id => $subnode ) : ?>
+								<?php if( is_object( $subnode ) ) $subnode = get_object_vars( $subnode ); ?>
+								<?php if( $menu_widget["id"] == $subnode["parent"] ) : ?>
+									<?php array_map( array( $this , 'admin_bar_menu_widget' ) , array( $Nodes ) , array( $subnode ) , array( $subnode_type ) ); ?>
+								<?php endif; ?>
+							<?php endforeach; ?>
+						<?php endif; ?>
 					<?php endif; ?>
+
 				</div>
 				<div class="widget-control-actions">
 					<div class="alignleft">
@@ -844,8 +847,14 @@ class WP_Admin_UI_Customize
 			if( strstr( $str , '[user_name]') ) {
 				$str = str_replace( '[user_name]' , $current_user->display_name , $str );
 			}
+			if( strstr( $str , '[user_login_name]') ) {
+				$str = str_replace( '[user_login_name]' , $current_user->user_login , $str );
+			}
 			if( strstr( $str , '[user_avatar]') ) {
 				$str = str_replace( '[user_avatar]' , get_avatar( $current_user->ID , 16 ) , $str );
+			}
+			if( strstr( $str , '[user_avatar_64]') ) {
+				$str = str_replace( '[user_avatar_64]' , get_avatar( $current_user->ID , 64 ) , $str );
 			}
 
 			if( is_multisite() ) {
@@ -1050,6 +1059,10 @@ class WP_Admin_UI_Customize
 		if( !empty( $Update ) && check_admin_referer( $this->Nonces["value"] , $this->Nonces["field"] ) ) {
 
 			if( !empty( $_POST["data"] ) ) {
+				if( isset( $_POST["data"]["can"] ) ) {
+					unset( $_POST["data"]["can"] );
+				}
+
 				foreach($_POST["data"] as $boxtype => $nodes) {
 					if( $boxtype === 'left' or $boxtype === 'right' ) {
 						foreach($nodes as $key => $node) {
@@ -1065,11 +1078,17 @@ class WP_Admin_UI_Customize
 							if( !empty( $node["href"] ) ) {
 								$href = strip_tags( $node["href"] );
 							}
+							$group = "";
+							if( !empty( $node["group"] ) ) {
+								$group = intval( $node["group"] );
+							}
 							$parent = "";
-							$depth = "main";
 							if( !empty( $node["parent"] ) ) {
 								$parent = strip_tags( $node["parent"] );
-								$depth = 'sub';
+							}
+							$node_type = "";
+							if( !empty( $node["node_type"] ) ) {
+								$node_type = strip_tags( $node["node_type"] );
 							}
 							$meta = array();
 							if( !empty( $node["meta"] ) ) {
@@ -1080,7 +1099,7 @@ class WP_Admin_UI_Customize
 								}
 							}
 
-							$Update[$boxtype][$depth][] = array( "id" => $id , "title" => $title , "href" => $href , "parent" => $parent , "meta" => $meta );
+							$Update[$boxtype][$node_type][] = array( "id" => $id , "title" => $title , "href" => $href , "parent" => $parent , "group" => $group ,  "meta" => $meta );
 						}
 					}
 				}
@@ -1415,69 +1434,66 @@ class WP_Admin_UI_Customize
 						$wp_admin_bar->remove_node( $node->id );
 					}
 				}
+				
+				$SettingNodes = $GetData;
+				$user_id      = get_current_user_id();
+				$current_user = wp_get_current_user();
+				$profile_url  = get_edit_profile_url( $user_id );
 
-				// add nodes
-				foreach($GetData as $Boxtype => $allnodes) {
-					foreach($allnodes as $depth => $nodes) {
-						foreach($nodes as $node) {
-							$args = array( "id" => $node["id"] , "title" => stripslashes( $node["title"] ) , "href" => $node["href"] , "parent" => "" , "meta" => array() );
-							
+				// all nodes adjustment
+				foreach($SettingNodes as $Boxtype => $allnodes) {
+					foreach($allnodes as $node_type => $nodes) {
+						foreach($nodes as $key => $node) {
+
 							if( strstr( $node["id"] , 'custom_node' ) ) {
-								$args["href"] = $this->val_replace( $node["href"] );
+								$node["href"] = $this->val_replace( $node["href"] );
+							} elseif( !empty( $All_Nodes[$node["id"]] ) ) {
+								$node["href"] = $All_Nodes[$node["id"]]->href;
 							}
-							if( $depth == 'sub' ) {
-								$args["parent"] = $node["parent"];
+							if( $Boxtype == 'right' && $node_type == 'main' ) {
+								$node["parent"] = "top-secondary";
 							}
-							if( $Boxtype == 'right' && $depth == 'main' ) {
-								$args["parent"] = "top-secondary";
-							}
-							if( !empty( $node["meta"] ) ) {
-								$args["meta"] = $node["meta"];
-							}
-							if( strstr( $args["title"] , '[comment_count]') ) {
+							if( strstr( $node["title"] , '[comment_count]') ) {
 								if ( !current_user_can('edit_posts') ) {
 									continue;
 								} else {
-									$args["title"] = str_replace( '[comment_count]' , '<span class="ab-icon"></span><span id="ab-awaiting-mod" class="ab-label awaiting-mod pending-count count-[comment_count]">[comment_count_format]</span>' , $args["title"] );
+									$node["title"] = str_replace( '[comment_count]' , '<span class="ab-icon"></span><span id="ab-awaiting-mod" class="ab-label awaiting-mod pending-count count-[comment_count]">[comment_count_format]</span>' , $node["title"] );
 								}
 							}
-							if( strstr( $args["title"] , '[update_total]') ) {
+							if( strstr( $node["title"] , '[update_total]') ) {
 								if ( !$update_data['counts']['total'] ) {
 									continue;
 								} else {
-									$args["title"] = str_replace( '[update_total]' , '<span class="ab-icon"></span><span class="ab-label">[update_total_format]</span>' , $args["title"] );
+									$node["title"] = str_replace( '[update_total]' , '<span class="ab-icon"></span><span class="ab-label">[update_total_format]</span>' , $node["title"] );
 								}
 							}
-							if( strstr( $args["title"] , '[update_plugins]') ) {
+							if( strstr( $node["title"] , '[update_plugins]') ) {
 								if ( !$update_data['counts']['plugins'] ) {
 									continue;
 								} else {
-									$args["title"] = str_replace( '[update_plugins]' , '[update_plugins_format]' , $args["title"] );
+									$node["title"] = str_replace( '[update_plugins]' , '[update_plugins_format]' , $node["title"] );
 								}
 							}
-							if( strstr( $args["title"] , '[update_themes]') ) {
+							if( strstr( $node["title"] , '[update_themes]') ) {
 								if ( !$update_data['counts']['themes'] ) {
 									continue;
 								} else {
-									$args["title"] = str_replace( '[update_themes]' , '[update_themes_format]' , $args["title"] );
+									$node["title"] = str_replace( '[update_themes]' , '[update_themes_format]' , $node["title"] );
 								}
 							}
-							$args["title"] = $this->val_replace( $args["title"] );
-							
-							if( $args["id"] == 'logout' ) {
-								$args["href"] = wp_logout_url();
+							if( $node["id"] == 'logout' ) {
+								$node["href"] = wp_logout_url();
 							}
-							
-							if( $args["id"] == 'my-account' ) {
-								$avatar = get_avatar( get_current_user_id() , 16 );
+							if( $node["id"] == 'my-account' ) {
+								$avatar = get_avatar( $user_id , 16 );
 								$class  = empty( $avatar ) ? '' : 'with-avatar';
-								$args["meta"]["class"] = $class;
+								$node["meta"]["class"] = $class;
 							}
+							$node["title"] = $this->val_replace( $node["title"] );
 
 							if( $node["id"] == 'edit-post_type' ) {
 								if( !is_admin() ) {
 									$current_object = get_queried_object();
-									print_r($args);
 									if ( empty( $current_object ) )
 										return;
 									if ( ! empty( $current_object->post_type )
@@ -1485,27 +1501,69 @@ class WP_Admin_UI_Customize
 										&& current_user_can( $post_type_object->cap->edit_post, $current_object->ID )
 										&& $post_type_object->show_ui && $post_type_object->show_in_admin_bar )
 									{
-										$args["title"] =  $post_type_object->labels->edit_item;
-										$args["href"] =  get_edit_post_link( $current_object->ID );
+										$node["title"] =  $post_type_object->labels->edit_item;
+										$node["href"] =  get_edit_post_link( $current_object->ID );
 									} elseif ( ! empty( $current_object->taxonomy )
 										&& ( $tax = get_taxonomy( $current_object->taxonomy ) )
 										&& current_user_can( $tax->cap->edit_terms )
 										&& $tax->show_ui )
 									{
-										$args["title"] =  $tax->labels->edit_item;
-										$args["href"] =  get_edit_term_link( $current_object->term_id, $current_object->taxonomy );
+										$node["title"] =  $tax->labels->edit_item;
+										$node["href"] =  get_edit_term_link( $current_object->term_id, $current_object->taxonomy );
 									}
 								} else {
 									continue;
 								}
 							}
+							
+							$SettingNodes[$Boxtype][$node_type][$key] = $node;
 
-							$wp_admin_bar->add_menu( $args );
 						}
 					}
 				}
+
+				// add main nodes
+				foreach($SettingNodes as $Boxtype => $allnodes) {
+					foreach($allnodes as $node_type => $nodes) {
+						foreach($nodes as $node_id => $node) {
+							if( $node_type == 'main' ) {
+								$args = array( "id" => $node["id"] , "title" => stripslashes( $node["title"] ) , "href" => $node["href"] , "parent" => $node["parent"] , "group" => $node["group"] , "meta" => $node["meta"] );
+								$wp_admin_bar->add_menu( $args );
+								unset( $SettingNodes[$Boxtype][$node_type][$node_id] );
+							}
+						}
+					}
+				}
+
+				// add all sub nodes
+				foreach($SettingNodes as $Boxtype => $allnodes) {
+					foreach($allnodes as $node_type => $nodes) {
+						foreach($nodes as $node_id => $node) {
+							if( $node_type != 'main' && empty( $node["group"] ) ) {
+								$args = array( "id" => $node["id"] , "title" => stripslashes( $node["title"] ) , "href" => $node["href"] , "parent" => $node["parent"] , "group" => false , "meta" => $node["meta"] );
+								$wp_admin_bar->add_menu( $args );
+								unset( $SettingNodes[$Boxtype][$node_type][$node_id] );
+							}
+						}
+					}
+				}
+
+				// add groups
+				foreach($SettingNodes as $Boxtype => $allnodes) {
+					foreach($allnodes as $node_type => $nodes) {
+						foreach($nodes as $node_id => $node) {
+							if( !empty( $node["group"] ) ) {
+								$args = array( "id" => $node["id"] , "parent" => $node["parent"] , "meta" => $node["meta"] );
+								$wp_admin_bar->add_group( $args );
+								unset( $SettingNodes[$Boxtype][$node_type][$node_id] );
+							}
+						}
+					}
+				}
+
 			}
 		}
+
 	}
 
 	// FilterStart

@@ -2,6 +2,7 @@
 
 $Data = $this->get_data( 'admin_bar_menu' );
 $AllDefaultNodes = $this->admin_bar_filter_load();
+$Place_types = array( "left" => __( 'Left' ) , "right" => __( 'Right' ) );
 
 // include js css
 $ReadedJs = array( 'jquery' , 'jquery-ui-draggable' , 'jquery-ui-droppable' , 'jquery-ui-sortable' , 'thickbox' );
@@ -32,151 +33,40 @@ wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', arr
 
 			<div id="post-body" class="metabox-holder columns-2">
 
-				<div id="postbox-container-1" class="postbox-container">
-					<div id="right_menus">
-						<div class="postbox">
-							<div class="handlediv" title="Click to toggle"><br></div>
-							<h3 class="hndle"><span><?php _e( 'Right' ); ?><?php _e( 'Menus' ); ?></span></h3>
-							<div class="inside">
-		
-								<?php if( empty( $Data ) ) : ?>
-		
-									<?php foreach( $AllDefaultNodes["right"]["main"] as $main_node) : ?>
-			
-										<?php $pnsn = array(); ?>
-										<?php if( !empty( $AllDefaultNodes["right"]["sub"] ) ) : ?>
-		
-											<?php foreach( $AllDefaultNodes["right"]["sub"] as $sub_node) : ?>
-				
-												<?php if( $main_node->id == $sub_node->parent ) : ?>
-				
-													<?php $pnsn[] = array( 'id' => $sub_node->id , 'title' => stripslashes( $sub_node->title ) , 'parent' => $main_node->id , 'href' => $sub_node->href , 'group' => false , 'meta' => $sub_node->meta , 'new' => false ); ?>
-				
-												<?php endif; ?>
-				
-											<?php endforeach; ?>
+				<?php foreach( $Place_types as $place => $place_label ) : ?>
+					
+					<?php if( $place == 'left' ) : $box_id = 2; else: $box_id = 1; endif; ?>
 
-										<?php endif; ?>
-			
-										<?php $menu_widget = array( 'id' => $main_node->id , 'title' => stripslashes( $main_node->title ) , 'parent' => '' , 'href' => $main_node->href , 'group' => false , 'meta' => $main_node->meta , 'new' => false , 'subnode' => $pnsn ); ?>
-										<?php $this->admin_bar_menu_widget( $menu_widget ); ?>
-			
-									<?php endforeach; ?>
-		
-								<?php else : ?>
-		
-									<?php if( !empty( $Data["right"]["main"] ) ) : ?>
-		
-										<?php foreach( $Data["right"]["main"] as $main_node) : ?>
-			
-											<?php $pnsn = array(); ?>
-											<?php if( !empty( $Data["right"]["sub"] ) ) : ?>
-		
-												<?php foreach( $Data["right"]["sub"] as $sub_node) : ?>
-				
-													<?php if( $main_node["id"] == $sub_node["parent"] ) : ?>
-
-														<?php if( empty( $sub_node["meta"] ) ) : ?>
-															<?php $sub_node["meta"] = array(); ?>
-														<?php endif; ?>
-
-														<?php $pnsn[] = array( 'id' => $sub_node["id"] , 'title' => stripslashes( $sub_node["title"] ) , 'parent' => $main_node["id"] , 'href' => $sub_node["href"] , 'group' => false , 'meta' => $sub_node["meta"] , 'new' => false ); ?>
-				
-													<?php endif; ?>
-				
-												<?php endforeach; ?>
-
-											<?php endif; ?>
-
-											<?php if( empty( $main_node["meta"] ) ) : ?>
-												<?php $main_node["meta"] = array(); ?>
-											<?php endif; ?>
-
-											<?php $menu_widget = array( 'id' => $main_node["id"] , 'title' => stripslashes( $main_node["title"] ) , 'parent' => '' , 'href' => $main_node["href"] , 'group' => false , 'meta' => $main_node["meta"] , 'new' => false , 'subnode' => $pnsn ); ?>
-											<?php $this->admin_bar_menu_widget( $menu_widget ); ?>
-			
-										<?php endforeach; ?>
-		
+					<div id="postbox-container-<?php echo $box_id; ?>" class="postbox-container">
+						<div id="<?php echo $place; ?>_menus">
+							<div class="postbox">
+								<div class="handlediv" title="Click to toggle"><br></div>
+								<h3 class="hndle"><span><?php echo $place_label; ?><?php _e( 'Menus' ); ?></span></h3>
+								<div class="inside">
+	
+									<?php if( empty( $Data ) ) : ?>
+										<?php $Nodes = $AllDefaultNodes; ?>
+									<?php else : ?>
+										<?php $Nodes = $Data; ?>
 									<?php endif; ?>
-								
-								<?php endif; ?>
-		
+	
+									<?php if( !empty( $Nodes[$place]["main"] ) ) : ?>
+										<?php foreach( $Nodes[$place]["main"] as $main_node ) : ?>
+
+											<?php if ( is_object( $main_node ) ) $main_node = (array) $main_node; ?>
+											<?php $menu_widget = array( 'id' => $main_node["id"] , 'title' => stripslashes( $main_node["title"] ) , 'parent' => '' , 'href' => $main_node["href"] , 'group' => $main_node["group"] , 'meta' => $main_node["meta"] , 'new' => false ); ?>
+	
+											<?php $this->admin_bar_menu_widget( $Nodes[$place] , $menu_widget , 'main' ); ?>
+	
+										<?php endforeach; ?>
+									<?php endif; ?>
+	
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-				
-				<div id="postbox-container-2" class="postbox-container">
-					<div id="left_menus">
-						<div class="postbox">
-							<div class="handlediv" title="Click to toggle"><br></div>
-							<h3 class="hndle"><span><?php _e( 'Left' ); ?><?php _e( 'Menus' ); ?></span></h3>
-							<div class="inside">
-								<?php if( empty( $Data ) ) : ?>
-		
-									<?php foreach( $AllDefaultNodes["left"]["main"] as $main_node) : ?>
-			
-										<?php $pnsn = array(); ?>
-										<?php if( !empty( $AllDefaultNodes["left"]["sub"] ) ) : ?>
 
-											<?php foreach( $AllDefaultNodes["left"]["sub"] as $sub_node) : ?>
-				
-												<?php if( $main_node->id == $sub_node->parent ) : ?>
-				
-													<?php $pnsn[] = array( 'id' => $sub_node->id , 'title' => stripslashes( $sub_node->title ) , 'parent' => $main_node->id , 'href' => $sub_node->href , 'group' => false , 'meta' => $sub_node->meta , 'new' => false ); ?>
-				
-												<?php endif; ?>
-				
-											<?php endforeach; ?>
-
-										<?php endif; ?>
-			
-										<?php $menu_widget = array( 'id' => $main_node->id , 'title' => stripslashes( $main_node->title ) , 'parent' => '' , 'href' => $main_node->href , 'group' => false , 'meta' => $main_node->meta , 'new' => false , 'subnode' => $pnsn ); ?>
-										<?php $this->admin_bar_menu_widget( $menu_widget ); ?>
-			
-									<?php endforeach; ?>
-		
-								<?php else : ?>
-		
-									<?php if( !empty( $Data["left"]["main"] ) ) : ?>
-		
-										<?php foreach( $Data["left"]["main"] as $main_node) : ?>
-			
-											<?php $pnsn = array(); ?>
-											<?php if( !empty( $Data["left"]["sub"] ) ) : ?>
-
-												<?php foreach( $Data["left"]["sub"] as $sub_node) : ?>
-				
-													<?php if( $main_node["id"] == $sub_node["parent"] ) : ?>
-
-														<?php if( empty( $sub_node["meta"] ) ) : ?>
-															<?php $sub_node["meta"] = array(); ?>
-														<?php endif; ?>
-
-														<?php $pnsn[] = array( 'id' => $sub_node["id"] , 'title' => stripslashes( $sub_node["title"] ) , 'parent' => $main_node["id"] , 'href' => $sub_node["href"] , 'group' => false , 'meta' => $sub_node["meta"] , 'new' => false ); ?>
-				
-													<?php endif; ?>
-				
-												<?php endforeach; ?>
-
-											<?php endif; ?>
-
-											<?php if( empty( $main_node["meta"] ) ) : ?>
-												<?php $main_node["meta"] = array(); ?>
-											<?php endif; ?>
-
-											<?php $menu_widget = array( 'id' => $main_node["id"] , 'title' => stripslashes( $main_node["title"] ) , 'parent' => '' , 'href' => $main_node["href"] , 'group' => false , 'meta' => $main_node["meta"] , 'new' => false , 'subnode' => $pnsn ); ?>
-											<?php $this->admin_bar_menu_widget( $menu_widget ); ?>
-			
-										<?php endforeach; ?>
-										
-									<?php endif; ?>
-								
-								<?php endif; ?>
-							</div>
-						</div>
-					</div>
-				</div>
+				<?php endforeach; ?>
 				
 				<br class="clear">
 
@@ -184,6 +74,7 @@ wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', arr
 
 		</div>
 
+		<?php $Place_types["front"] = __( 'Front' ); ?>
 		<div id="can_menus" class="metabox-holder columns-1">
 
 			<div class="postbox">
@@ -191,83 +82,70 @@ wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', arr
 				<div class="inside">
 
 					<h4><?php _e( 'Custom' ); ?> <?php _e( 'Menus' ); ?></h4>
-					<?php $menu_widget = array( 'id' => "custom_node" , 'title' => "" , 'parent' => '' , 'href' => "" , 'group' => false , 'meta' => array() , 'new' => true , 'subnode' => false ); ?>
-					<?php $this->admin_bar_menu_widget( $menu_widget ); ?>
-					<div class="clear"></div>
-					
-					<h4><?php _e( 'Left' ); ?> <?php _e( 'Menus' ); ?></h4>
-
-					<?php foreach( $AllDefaultNodes["left"]["main"] as $node_id => $node ) : ?>
-
-						<p class="description"><?php echo $node_id; ?></p>
-						<?php $menu_widget = array( 'id' => $node->id , 'title' => $node->title , 'parent' => '' , 'href' => $node->href , 'group' => false , 'meta' => $node->meta , 'new' => true , 'subnode' => false ); ?>
-						<?php $this->admin_bar_menu_widget( $menu_widget ); ?>
-
-						<?php foreach( $AllDefaultNodes["left"]["sub"] as $child_node_id => $child_node ) : ?>
-
-							<?php if( $child_node->parent == $node_id ) : ?>
-
-								<?php $menu_widget = array( 'id' => $child_node->id , 'title' => $child_node->title , 'parent' => '' , 'href' => $child_node->href , 'group' => false , 'meta' => $child_node->meta , 'new' => true , 'subnode' => false ); ?>
-								<?php $this->admin_bar_menu_widget( $menu_widget ); ?>
-
-							<?php endif; ?>
-
-						<?php endforeach; ?>
-
-						<div class="clear"></div>
-
-					<?php endforeach; ?>
-					
+					<?php $menu_widget = array( 'id' => "custom_node" , 'title' => "" , 'parent' => '' , 'href' => "" , 'group' => false , 'meta' => array() , 'new' => true ); ?>
+					<?php $this->admin_bar_menu_widget( $AllDefaultNodes["front"] , $menu_widget , 'custom' ); ?>
 					<div class="clear"></div>
 
-					<h4><?php _e( 'Right' ); ?> <?php _e( 'Menus' ); ?></h4>
-
-					<?php foreach( $AllDefaultNodes["right"]["main"] as $node_id => $node ) : ?>
-
-						<p class="description"><?php echo $node_id; ?></p>
-						<?php $menu_widget = array( 'id' => $node->id , 'title' => $node->title , 'parent' => '' , 'href' => $node->href , 'group' => false , 'new' => $node->meta , 'new' => true , 'subnode' => false ); ?>
-						<?php $this->admin_bar_menu_widget( $menu_widget ); ?>
-							
-						<?php foreach( $AllDefaultNodes["right"]["sub"] as $child_node_id => $child_node ) : ?>
-
-							<?php if( $child_node->parent == $node_id ) : ?>
-
-								<?php $menu_widget = array( 'id' => $child_node->id , 'title' => $child_node->title , 'parent' => '' , 'href' => $child_node->href , 'group' => false , 'new' => $child_node->meta , 'new' => true , 'subnode' => false ); ?>
-								<?php $this->admin_bar_menu_widget( $menu_widget ); ?>
-
-							<?php endif; ?>
-
-						<?php endforeach; ?>
-							
-						<div class="clear"></div>
-
-					<?php endforeach; ?>
+					<?php foreach( $Place_types as $place => $place_label ) : ?>
 					
-					<div class="clear"></div>
+						<h4><?php echo $place_label; ?> <?php _e( 'Menus' ); ?></h4>
 
-					<h4><?php _e( 'Front' ); ?> <?php _e( 'Menus' ); ?></h4>
-
-					<?php foreach( $AllDefaultNodes["front"]["main"] as $node_id => $node ) : ?>
-
-						<p class="description"><?php echo $node_id; ?></p>
-						<?php $menu_widget = array( 'id' => $node->id , 'title' => $node->title , 'parent' => '' , 'href' => $node->href , 'group' => false , 'new' => $node->meta , 'new' => true , 'subnode' => false ); ?>
-						<?php $this->admin_bar_menu_widget( $menu_widget ); ?>
+						<?php if( !empty( $Nodes[$place] ) ) : ?>
+							<?php foreach( $AllDefaultNodes[$place]["main"] as $main_node_id => $main_node ) : ?>
 							
-						<?php foreach( $AllDefaultNodes["front"]["sub"] as $child_node_id => $child_node ) : ?>
+								<p class="description"><?php echo $main_node_id; ?></p>
+								<?php $menu_widget = array( 'id' => $main_node_id , 'title' => stripslashes( $main_node->title ) , 'parent' => '' , 'href' => $main_node->href , 'group' => $main_node->group , 'meta' => $main_node->meta , 'new' => true ); ?>
+								<?php $this->admin_bar_menu_widget( $AllDefaultNodes[$place] , $menu_widget , 'main' ); ?>
 
-							<?php if( $child_node->parent == $node_id ) : ?>
+								<?php foreach( $AllDefaultNodes[$place]["sub"] as $sub_node_id => $sub_node ) : ?>
+									<?php if( $sub_node->parent == $main_node_id ) : ?>
 
-								<?php $menu_widget = array( 'id' => $child_node->id , 'title' => $child_node->title , 'parent' => '' , 'href' => $child_node->href , 'group' => false , 'new' => $child_node->meta , 'new' => true , 'subnode' => false ); ?>
-								<?php $this->admin_bar_menu_widget( $menu_widget ); ?>
+										<?php $menu_widget = array( 'id' => $sub_node_id , 'title' => stripslashes( $sub_node->title ) , 'parent' => '' , 'href' => $sub_node->href , 'group' => $sub_node->group , 'meta' => $sub_node->meta , 'new' => true ); ?>
+										<?php $this->admin_bar_menu_widget( $AllDefaultNodes[$place] , $menu_widget , 'sub' ); ?>
 
-							<?php endif; ?>
+										<?php if( !empty( $AllDefaultNodes[$place]["sub2"] ) ) : ?>
+											<?php foreach( $AllDefaultNodes[$place]["sub2"] as $sub_node_id2 => $sub_node2 ) : ?>
+												<?php if( $sub_node2->parent == $sub_node_id ) : ?>
+			
+													<?php $menu_widget = array( 'id' => $sub_node_id2 , 'title' => stripslashes( $sub_node2->title ) , 'parent' => '' , 'href' => $sub_node2->href , 'group' => $sub_node2->group , 'meta' => $sub_node2->meta , 'new' => true ); ?>
+													<?php $this->admin_bar_menu_widget( $AllDefaultNodes[$place] , $menu_widget , 'sub2' ); ?>
+	
+													<?php if( !empty( $AllDefaultNodes[$place]["sub3"] ) ) : ?>
+														<?php foreach( $AllDefaultNodes[$place]["sub3"] as $sub_node_id3 => $sub_node3 ) : ?>
+															<?php if( $sub_node3->parent == $sub_node_id2 ) : ?>
+						
+																<?php $menu_widget = array( 'id' => $sub_node_id3 , 'title' => stripslashes( $sub_node3->title ) , 'parent' => '' , 'href' => $sub_node3->href , 'group' => $sub_node3->group , 'meta' => $sub_node3->meta , 'new' => true ); ?>
+																<?php $this->admin_bar_menu_widget( $AllDefaultNodes[$place] , $menu_widget , 'sub3' ); ?>
+		
+																<?php if( !empty( $AllDefaultNodes[$place]["sub4"] ) ) : ?>
+																	<?php foreach( $AllDefaultNodes[$place]["sub4"] as $sub_node_id4 => $sub_node4 ) : ?>
+																		<?php if( $sub_node4->parent == $sub_node_id3 ) : ?>
+									
+																			<?php $menu_widget = array( 'id' => $sub_node_id4 , 'title' => stripslashes( $sub_node4->title ) , 'parent' => '' , 'href' => $sub_node4->href , 'group' => $sub_node4->group , 'meta' => $sub_node4->meta , 'new' => true ); ?>
+																			<?php $this->admin_bar_menu_widget( $AllDefaultNodes[$place] , $menu_widget , 'sub4' ); ?>
+									
+																		<?php endif; ?>
+																	<?php endforeach; ?>
+																<?php endif; ?>
+						
+															<?php endif; ?>
+														<?php endforeach; ?>
+													<?php endif; ?>
+			
+												<?php endif; ?>
+											<?php endforeach; ?>
+										<?php endif; ?>
 
-						<?php endforeach; ?>
-							
-						<div class="clear"></div>
+									<?php endif; ?>
+								<?php endforeach; ?>
 
-					<?php endforeach; ?>
+								<div class="clear"></div>
+
+							<?php endforeach; ?>
+						<?php endif; ?>
 					
+					<?php endforeach; ?>
+
 					<div class="clear"></div>
 
 				</div>
@@ -379,18 +257,33 @@ jQuery(document).ready(function($) {
 
 	wauc_widget_each = function widget_each() {
 		var $Count = 0;
-		$('#wauc_setting_admin_bar_menu #poststuff #post-body .postbox-container .postbox .inside .widget').each(function() {
+		$('.widget', '#wauc_setting_admin_bar_menu').each(function() {
 			var $InputId = $(this).children(".widget-inside").children(".settings").children(".field-url").children(".idtext");
 			var $InputLink = $(this).children(".widget-inside").children(".settings").children(".field-url").children(".linktext");
 			var $InputTitle = $(this).children(".widget-inside").children(".settings").children(".field-title").children("label").children(".titletext");
 			var $InputMetaTarget = $(this).children(".widget-inside").children(".settings").children(".field-meta").children("label").children(".meta_target");
+			var $InputMetaClass = $(this).children(".widget-inside").children(".settings").children(".field-meta").children(".meta_class");
+			var $InputGourp = $(this).children(".widget-inside").children(".settings").children(".group");
 			var $InputParentName = $(this).children(".widget-inside").children(".settings").children(".parent");
-
+			var $InputNodeType = $(this).children(".widget-inside").children(".settings").children(".node_type");
+			
 			var $BoxName = "";
-			if( $(this).parent().hasClass("submenu") ) {
+			var $NodeType = "";
+			if( $(this).parent().parent().parent().parent().parent().parent().parent().parent().parent().parent().hasClass("submenu") ) {
+				$BoxName = $(this).parent().parent().parent().parent().parent().parent().parent().parent().parent().parent().parent().parent().parent().parent().parent().attr("id");
+				$NodeType = "sub4";
+			} else if( $(this).parent().parent().parent().parent().parent().parent().parent().hasClass("submenu") ) {
+				$BoxName = $(this).parent().parent().parent().parent().parent().parent().parent().parent().parent().parent().parent().parent().attr("id");
+				$NodeType = "sub3";
+			} else if( $(this).parent().parent().parent().parent().hasClass("submenu") ) {
+				$BoxName = $(this).parent().parent().parent().parent().parent().parent().parent().parent().parent().attr("id");
+				$NodeType = "sub2";
+			} else if( $(this).parent().hasClass("submenu") ) {
 				$BoxName = $(this).parent().parent().parent().parent().parent().parent().attr("id");
+				$NodeType = "sub";
 			} else {
 				$BoxName = $(this).parent().parent().parent().attr("id");
+				$NodeType = "main";
 			}
 			
 			if( $BoxName ) {
@@ -413,12 +306,13 @@ jQuery(document).ready(function($) {
 			$InputLink.attr("name", $Name+'[href]');
 			$InputTitle.attr("name", $Name+'[title]');
 			$InputMetaTarget.attr("name", $Name+'[meta][target]');
+			$InputMetaClass.attr("name", $Name+'[meta][class]');
+			$InputGourp.attr("name", $Name+'[group]');
 			$InputParentName.attr("name", $Name+'[parent]');
+			$InputNodeType.attr("name", $Name+'[node_type]');
+			$InputNodeType.val( $NodeType );
 
-			if ( $(this).parent().parent().parent().parent().hasClass("submenu") ) {
-				// None three
-				$(this).remove();
-			} else if ( $(this).parent().hasClass("submenu") ) {
+			if ( $(this).parent().hasClass("submenu") ) {
 				var $ParentId = $(this).parent().parent().children(".settings").children(".description").children(".idtext").val();
 				$InputParentName.val($ParentId);
 			} else {
@@ -427,6 +321,7 @@ jQuery(document).ready(function($) {
 
 			$Count++;
 		});
+		
 	}
 	wauc_widget_each();
 		

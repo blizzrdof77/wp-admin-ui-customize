@@ -96,9 +96,23 @@ if( is_multisite() ) {
 					</td>
 				</tr>
 				<tr>
+					<th><strong>[user_login_name]</strong></th>
+					<td>
+						<code><?php echo $current_user->user_login; ?></code>
+						<span class="description"><?php _e( 'In your case.' , $this->ltd ); ?></span>
+					</td>
+				</tr>
+				<tr>
 					<th><strong>[user_avatar]</strong></th>
 					<td>
 						<code><?php echo get_avatar( $current_user->ID , 16 ); ?></code>
+						<span class="description"><?php _e( 'In your case.' , $this->ltd ); ?></span>
+					</td>
+				</tr>
+				<tr>
+					<th><strong>[user_avatar_64]</strong></th>
+					<td>
+						<code><?php echo get_avatar( $current_user->ID , 64 ); ?></code>
 						<span class="description"><?php _e( 'In your case.' , $this->ltd ); ?></span>
 					</td>
 				</tr>

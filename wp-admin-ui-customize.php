@@ -43,6 +43,8 @@ class WP_Admin_UI_Customize
 		$PluginSlug,
 		$Nonces,
 		$Schema,
+		$ActivatedPlugin,
+		$OtherPluginMenu,
 		$UPFN,
 		$DonateKey,
 		$Menu,
@@ -79,6 +81,8 @@ class WP_Admin_UI_Customize
 		$this->PluginSlug = dirname( plugin_basename( __FILE__ ) );
 		$this->Nonces = array( "field" => $this->ltd . '_field' , "value" => $this->ltd . '_value' );
 		$this->Schema = is_ssl() ? 'https://' : 'http://';
+		$this->ActivatedPlugin = array();
+		$this->OtherPluginMenu = array();
 		$this->UPFN = 'Y';
 		$this->DonateKey = 'd77aec9bc89d445fd54b4c988d090f03';
 		$this->MsgQ = $this->ltd . '_msg';
@@ -108,6 +112,9 @@ class WP_Admin_UI_Customize
 
 		// setting check user role
 		add_action( 'admin_notices' , array( $this , 'settingCheck' ) );
+
+		// compatible other plugin check
+		add_action( 'admin_init' , array( $this , 'activated_plugin' ) );
 
 		// data update
 		add_action( 'admin_init' , array( $this , 'dataUpdate') );
@@ -187,7 +194,13 @@ class WP_Admin_UI_Customize
 		}
 	}
 
-
+	// PluginSetup
+	function activated_plugin() {
+		if( is_plugin_active( 'buddypress/bp-loader.php' ) ) {
+			$this->ActivatedPlugin["buddypress"] = true;
+		}
+	}
+	
 
 
 	// SettingPage
@@ -369,10 +382,45 @@ class WP_Admin_UI_Customize
 	}
 
 	// SetList
-	function admin_bar_default_load( $wp_admin_bar ) {
+	function admin_bar_default_load() {
 		global $wp_admin_bar;
 
 		$this->Admin_bar = $wp_admin_bar->get_nodes();
+
+		// other plugin
+		if( !empty( $this->ActivatedPlugin["buddypress"] ) ) {
+			// main menu
+			foreach( $this->Admin_bar as $node_id => $node ) {
+				if( strstr( $node_id , 'buddypress' ) or strstr( $node_id , 'bp-' ) ) {
+					$this->OtherPluginMenu["admin_bar"]["buddypress"][$node_id] = 1;
+				}
+			}
+			// submenu
+			foreach( $this->OtherPluginMenu["admin_bar"]["buddypress"] as $search_id => $v ) {
+				foreach( $this->Admin_bar as $node_id => $node ) {
+					if( $node->parent == $search_id ) {
+						$this->OtherPluginMenu["admin_bar"]["buddypress"][$node_id] = 1;
+					}
+				}
+			}
+			// sub2 menu
+			foreach( $this->OtherPluginMenu["admin_bar"]["buddypress"] as $search_id => $v ) {
+				foreach( $this->Admin_bar as $node_id => $node ) {
+					if( $node->parent == $search_id ) {
+						$this->OtherPluginMenu["admin_bar"]["buddypress"][$node_id] = 1;
+					}
+				}
+			}
+			// sub3 menu
+			foreach( $this->OtherPluginMenu["admin_bar"]["buddypress"] as $search_id => $v ) {
+				foreach( $this->Admin_bar as $node_id => $node ) {
+					if( $node->parent == $search_id ) {
+						$this->OtherPluginMenu["admin_bar"]["buddypress"][$node_id] = 1;
+					}
+				}
+			}
+		}
+
 	}
 
 	// SetList
@@ -493,6 +541,32 @@ class WP_Admin_UI_Customize
 		$Filter_bar["front"]["main"]["edit-post_type"] = (object) array( 'id' => 'edit-post_type' , 'title' => '' , 'href' => '' , 'group' => '' , 'meta' => array() );
 		$Filter_bar["front"]["main"]["edit-post_type"]->title = sprintf( '%1$s (%2$s/%3$s/%4$s/%5$s/%6$s)' , __( 'Edit' ) , __( 'Post' ) , __( 'Page' ) , __( 'Category' ) , __( 'Tags' ) , __( 'Custom' ) );
 		
+		// other plugin
+		$activated_plugin = $this->ActivatedPlugin;
+
+		if( !empty( $activated_plugin["buddypress"] ) ) {
+			
+			foreach($Filter_bar["right"]["sub"] as $node_id => $node ) {
+				if( strstr( $node->parent , 'bp-' ) ) {
+					unset( $Filter_bar["right"]["sub"][$node_id] );
+				}
+			}
+			$bp_sm = array();
+			foreach($Filter_bar["right"]["sub2"] as $node_id => $node ) {
+				if( strstr( $node->parent , 'buddypress' ) ) {
+					unset( $Filter_bar["right"]["sub2"][$node_id] );
+					$bp_sm[] = $node_id;
+				}
+			}
+			foreach($Filter_bar["right"]["sub3"] as $node_id => $node ) {
+				if( in_array( $node->parent , $bp_sm ) ) {
+					unset( $Filter_bar["right"]["sub3"][$node_id] );
+				}
+			}
+			$Filter_bar["right"]["main"]["bp-notifications"]->title = __( 'Notifications menu' );
+			$Filter_bar["right"]["sub"]["my-account-buddypress"]->title = __( 'BuddyPress account menu' );
+		}
+
 		return $Filter_bar;
 	}
 
@@ -673,13 +747,19 @@ class WP_Admin_UI_Customize
 		if ( is_object( $menu_widget ) ) $menu_widget = (array) $menu_widget;
 		if( !isset( $menu_widget["group"] ) ) $menu_widget["group"] = 0;
 		if( !isset( $menu_widget["meta"]["class"] ) ) $menu_widget["meta"]["class"] = "";
+		$no_submenu = array( 'bp-notifications' , 'my-account-buddypress' );
 		
+		$widget_class = $menu_widget["id"];
 		$new_widget = '';
 		if( !empty( $menu_widget["new"] ) ) {
 			$new_widget = 'new';
+			$widget_class .= ' new';
+		}
+		if( !empty( $menu_widget["group"] ) ) {
+			$widget_class .= ' widget-group';
 		}
 ?>
-		<div class="widget <?php echo $new_widget; ?> <?php echo $menu_widget["id"]; ?>">
+		<div class="widget <?php echo $widget_class; ?>">
 
 			<div class="widget-top">
 				<div class="widget-title-action">
@@ -687,7 +767,10 @@ class WP_Admin_UI_Customize
 				</div>
 				<div class="widget-title">
 					<h4>
-						<?php if( preg_match( '/\<form/' , $menu_widget["title"] ) ) : ?>
+						<?php if( !empty( $menu_widget["group"] ) ) : ?>
+							<?php _e( 'Menu Group' , $this->ltd ); ?>
+							: <span class="in-widget-title"><?php echo $menu_widget["id"]; ?></span>
+						<?php elseif( preg_match( '/\<form/' , $menu_widget["title"] ) ) : ?>
 							<?php echo $menu_widget["id"]; ?>
 						<?php else: ?>
 							<?php echo $menu_widget["title"]; ?>
@@ -701,11 +784,13 @@ class WP_Admin_UI_Customize
 				<div class="settings">
 					<p class="field-url description">
 						<input type="hidden" class="idtext" value="<?php echo $menu_widget["id"]; ?>" name="data[][id]" />
-						<?php if( $menu_widget["id"] == 'custom_node' ) : ?>
-							URL: <input type="text" class="regular-text linktext" value="" name="data[][href]" placeholder="http://" />
+						<?php if( strstr( $menu_widget["id"] , 'custom_node' ) ) : ?>
+							URL: <input type="text" class="regular-text linktext" value="<?php echo $menu_widget["href"]; ?>" name="data[][href]" placeholder="http://" />
 						<?php else:  ?>
 							<?php if( $menu_widget["id"] == 'edit-post_type' ) : ?>
 								<strong><?php _e( 'Show only on front end.' , $this->ltd ); ?></strong>
+							<?php elseif( !empty( $menu_widget["group"] ) ) : ?>
+								<strong><?php _e( 'Menu Group' , $this->ltd ); ?></strong>
 							<?php else: ?>
 								<a href="<?php echo $menu_widget["href"]; ?>" target="_blank"><?php echo $menu_widget["id"]; ?></a>
 							<?php endif; ?>
@@ -714,22 +799,32 @@ class WP_Admin_UI_Customize
 					</p>
 					<p class="field-title description">
 						<label>
-							<?php if( $menu_widget["id"] == 'edit-post_type' ) : ?>
-								<?php _e( 'Title' ); ?> : <input type="text" class="regular-text titletext" value="<?php echo esc_html( $menu_widget["title"] ); ?>" name="data[][title]" readonly="readonly" /><br />
-								<span class="description"><?php _e( 'If you want edit to name, please edit of translation file(PO).' , $this->ltd ); ?></span><br />
+							<?php if( !empty( $menu_widget["group"] ) ) : ?>
+								<input type="hidden" class="regular-text titletext" value="" name="data[][title]" />
 							<?php else : ?>
-								<?php _e( 'Title' ); ?> : <input type="text" class="regular-text titletext" value="<?php echo esc_html( $menu_widget["title"] ); ?>" name="data[][title]" />
+								<?php if( $menu_widget["id"] == 'edit-post_type' or in_array( $menu_widget["id"] , $no_submenu ) ) : ?>
+									<?php _e( 'Title' ); ?> : <input type="text" class="regular-text titletext" value="<?php echo esc_html( $menu_widget["title"] ); ?>" name="data[][title]" readonly="readonly" /><br />
+									<?php if( $menu_widget["id"] == 'edit-post_type' ) : ?>
+										<span class="description"><?php _e( 'If you want edit to name, please edit of translation file(PO).' , $this->ltd ); ?></span><br />
+									<?php endif; ?>
+								<?php else : ?>
+									<?php _e( 'Title' ); ?> : <input type="text" class="regular-text titletext" value="<?php echo esc_html( $menu_widget["title"] ); ?>" name="data[][title]" />
+								<?php endif; ?>
 							<?php endif; ?>
 						</label>
 					</p>
 					<p class="field-meta description">
 						<label class="description">
-							<?php $checked = ""; ?>
-							<?php if( !empty( $menu_widget["meta"]["target"] ) ) : ?>
-								<?php $checked = checked( $menu_widget["meta"]["target"] , '_blank' , 0 ); ?>
+							<?php if( !empty( $menu_widget["group"] ) ) : ?>
+								<input type="hidden" class="meta_target" value="_blank" name="data[][meta][target]" />
+							<?php else: ?>
+								<?php $checked = ""; ?>
+								<?php if( !empty( $menu_widget["meta"]["target"] ) ) : ?>
+									<?php $checked = checked( $menu_widget["meta"]["target"] , '_blank' , 0 ); ?>
+								<?php endif; ?>
+								<input type="checkbox" class="meta_target" value="_blank" name="data[][meta][target]" <?php echo $checked; ?> />
+								<?php _e( 'Open link in a new window/tab' ); ?>
 							<?php endif; ?>
-							<input type="checkbox" class="meta_target" value="_blank" name="data[][meta][target]" <?php echo $checked; ?> />
-							<?php _e( 'Open link in a new window/tab' ); ?>
 						</label>
 						<input type="hidden" class="meta_class" value="<?php echo $menu_widget["meta"]["class"]; ?>" name="data[][meta][class]" />
 					</p>
@@ -738,32 +833,34 @@ class WP_Admin_UI_Customize
 					<input type="hidden" class="node_type" value="" name="data[][node_type]" />
 				</div>
 
-				<div class="submenu">
-					<p class="description"><?php _e( 'Sub Menus' , $this->ltd ); ?></p>
-					
-					<?php if( empty( $new_widget ) ) : ?>
-						<?php $subnode_type = ''; ?>
-						<?php if( $node_type == 'main' ) : ?>
-							<?php $subnode_type = 'sub'; ?>
-						<?php elseif( $node_type == 'sub' ) : ?>
-							<?php $subnode_type = 'sub2'; ?>
-						<?php elseif( $node_type == 'sub2' ) : ?>
-							<?php $subnode_type = 'sub3'; ?>
-						<?php elseif( $node_type == 'sub3' ) : ?>
-							<?php $subnode_type = 'sub4'; ?>
-						<?php endif; ?>
+				<?php if( !in_array( $menu_widget["id"] , $no_submenu ) ) : ?>
+					<div class="submenu">
+						<p class="description"><?php _e( 'Sub Menus' , $this->ltd ); ?></p>
 						
-						<?php if( !empty( $subnode_type ) && !empty( $Nodes[$subnode_type] ) ) : ?>
-							<?php foreach( $Nodes[$subnode_type] as $subnode_id => $subnode ) : ?>
-								<?php if( is_object( $subnode ) ) $subnode = get_object_vars( $subnode ); ?>
-								<?php if( $menu_widget["id"] == $subnode["parent"] ) : ?>
-									<?php array_map( array( $this , 'admin_bar_menu_widget' ) , array( $Nodes ) , array( $subnode ) , array( $subnode_type ) ); ?>
-								<?php endif; ?>
-							<?php endforeach; ?>
+						<?php if( empty( $new_widget ) ) : ?>
+							<?php $subnode_type = ''; ?>
+							<?php if( $node_type == 'main' ) : ?>
+								<?php $subnode_type = 'sub'; ?>
+							<?php elseif( $node_type == 'sub' ) : ?>
+								<?php $subnode_type = 'sub2'; ?>
+							<?php elseif( $node_type == 'sub2' ) : ?>
+								<?php $subnode_type = 'sub3'; ?>
+							<?php elseif( $node_type == 'sub3' ) : ?>
+								<?php $subnode_type = 'sub4'; ?>
+							<?php endif; ?>
+							
+							<?php if( !empty( $subnode_type ) && !empty( $Nodes[$subnode_type] ) ) : ?>
+								<?php foreach( $Nodes[$subnode_type] as $subnode_id => $subnode ) : ?>
+									<?php if( is_object( $subnode ) ) $subnode = get_object_vars( $subnode ); ?>
+									<?php if( $menu_widget["id"] == $subnode["parent"] ) : ?>
+										<?php array_map( array( $this , 'admin_bar_menu_widget' ) , array( $Nodes ) , array( $subnode ) , array( $subnode_type ) ); ?>
+									<?php endif; ?>
+								<?php endforeach; ?>
+							<?php endif; ?>
 						<?php endif; ?>
-					<?php endif; ?>
-
-				</div>
+	
+					</div>
+				<?php endif; ?>
 				<div class="widget-control-actions">
 					<div class="alignleft">
 						<a href="#remove"><?php _e( 'Remove' ); ?></a>
@@ -1426,11 +1523,19 @@ class WP_Admin_UI_Customize
 			if( is_array( $GetData ) ) {
 
 				$update_data = wp_get_update_data();
+				$activated_plugin = $this->ActivatedPlugin;
 
-				// remove all nodes
+				// admin bar initialize nodes
 				$All_Nodes = $wp_admin_bar->get_nodes();
 				foreach( $All_Nodes as $node ) {
 					if( $node->id != 'top-secondary' ) {
+						if( !empty( $activated_plugin["buddypress"] ) ) {
+							if( array_key_exists( $node->id , $this->OtherPluginMenu["admin_bar"]["buddypress"] ) ) {
+								if( !strstr( $node->id , 'bp-') && !strstr( $node->id , 'buddypress') ) {
+									continue;
+								}
+							}
+						}
 						$wp_admin_bar->remove_node( $node->id );
 					}
 				}
@@ -1445,6 +1550,12 @@ class WP_Admin_UI_Customize
 					foreach($allnodes as $node_type => $nodes) {
 						foreach($nodes as $key => $node) {
 
+							if( !empty( $activated_plugin["buddypress"] ) ) {
+								if( strstr( $node["id"] , 'bp-') or strstr( $node["id"] , 'buddypress') ) {
+									$node["title"] = $All_Nodes[$node["id"]]->title;
+									$node["href"] = $All_Nodes[$node["id"]]->href;
+								}
+							}
 							if( strstr( $node["id"] , 'custom_node' ) ) {
 								$node["href"] = $this->val_replace( $node["href"] );
 							} elseif( !empty( $All_Nodes[$node["id"]] ) ) {

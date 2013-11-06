@@ -114,6 +114,21 @@
 
 
 #wauc_setting_admin_bar_menu {}
+#wauc_setting_admin_bar_menu .postbox .widget-group > .widget-top {
+	color: #fff;
+	text-shadow: 0 -1px 0 #333;
+	border-top-color: gray;
+	border-bottom-color: #6d6d6d;
+	background: #777;
+	background-image: -webkit-gradient(linear,left bottom,left top,from(#6d6d6d),to(gray));
+	background-image: -webkit-linear-gradient(bottom,#6d6d6d,gray);
+	background-image: -moz-linear-gradient(bottom,#6d6d6d,gray);
+	background-image: -o-linear-gradient(bottom,#6d6d6d,gray);
+	background-image: linear-gradient(to top,#6d6d6d,gray);
+}
+#wauc_setting_admin_bar_menu .postbox .widget-group > .widget-top .in-widget-title {
+	color: #fff;
+}
 #wauc_setting_admin_bar_menu .postbox .inside {
 	padding: 10px;
 }

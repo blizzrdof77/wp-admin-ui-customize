@@ -51,6 +51,7 @@ These to Customization is possible.
 
 = 1.4.1 =
 * Change mechanism : Settings sub menus of Admin Bar.
+* Compatible for BuddyPress.
 
 = 1.4 =
 * Removed: Remove meta box feature.

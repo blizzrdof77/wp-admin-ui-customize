@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP Admin UI Customize\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-23 17:37+0900\n"
-"PO-Revision-Date: 2013-10-23 17:37+0900\n"
+"POT-Creation-Date: 2013-11-08 12:24+0900\n"
+"PO-Revision-Date: 2013-11-08 12:24+0900\n"
 "Last-Translator: gqevu6bsiz <gqevu6bsiz@gmail.com>\n"
 "Language-Team: gqevu6bsiz <gqevu6bsiz@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -35,7 +35,7 @@ msgid "General Screen Settings"
 msgstr ""
 
 #: wp-admin-ui-customize.php:154
-#: inc/setting_admin_bar_menu.php:17
+#: inc/setting_admin_bar_menu.php:18
 msgid "Admin Bar Menu"
 msgstr ""
 
@@ -73,21 +73,30 @@ msgstr ""
 msgid "Apply user roles"
 msgstr ""
 
-#: wp-admin-ui-customize.php:577
-#: wp-admin-ui-customize.php:706
+#: wp-admin-ui-customize.php:603
+#: wp-admin-ui-customize.php:763
 msgid "Sub Menus"
 msgstr ""
 
-#: wp-admin-ui-customize.php:685
-msgid "If you want edit to name, please edit of translation file(PO)."
+#: wp-admin-ui-customize.php:696
+#: wp-admin-ui-customize.php:718
+msgid "Menu Group"
 msgstr ""
 
-#: wp-admin-ui-customize.php:686
+#: wp-admin-ui-customize.php:716
 msgid "Show only on front end."
 msgstr ""
 
+#: wp-admin-ui-customize.php:733
+msgid "If you want edit to name, please edit of translation file(PO)."
+msgstr ""
+
+#: wp-admin-ui-customize.php:925
+msgid "Front"
+msgstr ""
+
 #: inc/list_variables.php:17
-#: inc/setting_admin_bar_menu.php:24
+#: inc/setting_admin_bar_menu.php:25
 #: inc/setting_admin_general.php:125
 #: inc/setting_admin_general.php:148
 #: inc/setting_loginscreen.php:64
@@ -109,6 +118,8 @@ msgstr ""
 
 #: inc/list_variables.php:95
 #: inc/list_variables.php:102
+#: inc/list_variables.php:109
+#: inc/list_variables.php:116
 msgid "In your case."
 msgstr ""
 
@@ -120,21 +131,21 @@ msgstr ""
 msgid "You want to reset the user roles?"
 msgstr ""
 
-#: inc/setting_admin_bar_menu.php:18
+#: inc/setting_admin_bar_menu.php:19
 #: inc/setting_sidemenu.php:20
 msgid "Please change the menu by drag and drop."
 msgstr ""
 
-#: inc/setting_admin_bar_menu.php:19
+#: inc/setting_admin_bar_menu.php:20
 #: inc/setting_sidemenu.php:22
 msgid "Notice: Please do not place the same multiple menu slug."
 msgstr ""
 
-#: inc/setting_admin_bar_menu.php:20
+#: inc/setting_admin_bar_menu.php:21
 msgid "Can be more than one custom menu."
 msgstr ""
 
-#: inc/setting_admin_bar_menu.php:24
+#: inc/setting_admin_bar_menu.php:25
 #: inc/setting_admin_general.php:125
 #: inc/setting_admin_general.php:148
 #: inc/setting_loginscreen.php:64
@@ -146,13 +157,11 @@ msgstr ""
 msgid "Available Shortcodes"
 msgstr ""
 
-#: inc/setting_admin_bar_menu.php:190
-#: inc/setting_sidemenu.php:21
-#: inc/setting_sidemenu.php:42
-msgid "Menu items that can be added"
+#: inc/setting_admin_bar_menu.php:33
+msgid "Sub-menu can to settings to four levels."
 msgstr ""
 
-#: inc/setting_admin_bar_menu.php:283
+#: inc/setting_admin_bar_menu.php:86
 #: inc/setting_admin_general.php:181
 #: inc/setting_appearance_menus.php:90
 #: inc/setting_dashboard.php:176
@@ -163,6 +172,12 @@ msgstr ""
 #: inc/setting_sidemenu.php:225
 #: inc/setting_site.php:160
 msgid "Reset all settings?"
+msgstr ""
+
+#: inc/setting_admin_bar_menu.php:92
+#: inc/setting_sidemenu.php:21
+#: inc/setting_sidemenu.php:42
+msgid "Menu items that can be added"
 msgstr ""
 
 #: inc/setting_admin_general.php:34
@@ -345,6 +360,10 @@ msgstr ""
 #: inc/setting_sidemenu.php:21
 #, php-format
 msgid "New plugin menus will be added to the <strong>%s</strong>."
+msgstr ""
+
+#: inc/setting_sidemenu.php:45
+msgid "Sepalator"
 msgstr ""
 
 #: inc/setting_sidemenu.php:107

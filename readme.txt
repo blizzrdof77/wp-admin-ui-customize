@@ -4,7 +4,7 @@ Donate link: http://gqevu6bsiz.chicappa.jp/please-donation/?utm_source=wporg&utm
 Tags: admin, post, posts, page, option, sitemenu, menu, custom, customize, dashboard, admin_bar, multisite, network, metabox
 Requires at least: 3.5.2
 Tested up to: 3.7.1
-Stable tag: 1.4
+Stable tag: 1.4.1
 License: GPL2
 
 Customize the management screen UI.
@@ -14,7 +14,7 @@ Customize the management screen UI.
 * Dashboard
 * Display options tab
 * Output-meta site
-* Admin bar
+* Admin bar (Toolbar)
 * Admin menu (Side menu)
 * Management of meta boxes
 * Login screen
@@ -50,8 +50,12 @@ These to Customization is possible.
 == Changelog ==
 
 = 1.4.1 =
-* Change mechanism : Settings sub menus of Admin Bar.
-* Compatible for BuddyPress.
+* Fixed : Show front item on Admin bar settings.
+* Updated: Get the user role if in Multisite.
+* Updated: Four levels of sub menu settings on Admin Bar settings.
+* Added: Group settings on Admin Bar settings.
+* Fixed: Error avoid as much max_input_vars of PHP on Admin Bar settings.
+* Updated: Compatible to Admin theme mp6.
 
 = 1.4 =
 * Removed: Remove meta box feature.

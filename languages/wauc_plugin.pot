@@ -14,16 +14,16 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: wp-admin-ui-customize.php:1912
+#: wp-admin-ui-customize.php:2015
 #: inc/setting_default.php:178
 msgid "Thank you for your donation."
 msgstr ""
 
-#: wp-admin-ui-customize.php:1927
+#: wp-admin-ui-customize.php:2030
 msgid "Thank you for considering donate."
 msgstr ""
 
-#: wp-admin-ui-customize.php:1927
+#: wp-admin-ui-customize.php:2030
 #: inc/setting_default.php:30
 msgid "Donate"
 msgstr ""
@@ -144,5 +144,4 @@ msgstr ""
 #: inc/setting_loginscreen.php:39
 msgid "This plugin is that can be for customizing flexibly Login Screen."
 msgstr ""
-
 

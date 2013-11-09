@@ -215,7 +215,7 @@ jQuery(document).ready(function($) {
 		}
 	});
 
-	$('.columns-1', $Form).droppable({
+	$('#can_menus').droppable({
 		tolerance: 'pointer',
 		accept: function(o){
 			return $(o).parent().parent().parent().parent().parent().parent().parent().attr('class') != 'columns-1';

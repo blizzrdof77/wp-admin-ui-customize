@@ -2,10 +2,10 @@
 /*
 Plugin Name: WP Admin UI Customize
 Description: An excellent plugin to customize the management screens.
-Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_4_1_2
-Version: 1.4.1.2
+Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_4_2
+Version: 1.4.2
 Author: gqevu6bsiz
-Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_4_1_2
+Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_4_2
 Text Domain: wauc
 Domain Path: /languages
 */
@@ -48,12 +48,14 @@ class WP_Admin_UI_Customize
 		$Menu,
 		$SubMenu,
 		$Admin_bar,
+		$ActivatedPlugin,
+		$OtherPluginMenu,
 		$MsgQ,
 		$Msg;
 
 
 	function __construct() {
-		$this->Ver = '1.4.1.2';
+		$this->Ver = '1.4.2';
 		$this->Name = 'WP Admin UI Customize';
 		$this->Dir = plugin_dir_path( __FILE__ );
 		$this->Url = plugin_dir_url( __FILE__ );
@@ -79,6 +81,8 @@ class WP_Admin_UI_Customize
 		$this->PluginSlug = dirname( plugin_basename( __FILE__ ) );
 		$this->Nonces = array( "field" => $this->ltd . '_field' , "value" => $this->ltd . '_value' );
 		$this->Schema = is_ssl() ? 'https://' : 'http://';
+		$this->ActivatedPlugin = array();
+		$this->OtherPluginMenu = array();
 		$this->UPFN = 'Y';
 		$this->DonateKey = 'd77aec9bc89d445fd54b4c988d090f03';
 		$this->MsgQ = $this->ltd . '_msg';
@@ -108,6 +112,9 @@ class WP_Admin_UI_Customize
 
 		// setting check user role
 		add_action( 'admin_notices' , array( $this , 'settingCheck' ) );
+
+		// compatible other plugin check
+		add_action( 'wp_loaded' , array( $this , 'activated_plugin' ) );
 
 		// data update
 		add_action( 'admin_init' , array( $this , 'dataUpdate') );
@@ -185,6 +192,16 @@ class WP_Admin_UI_Customize
 			}
 			
 		}
+	}
+
+	// PluginSetup
+	function activated_plugin() {
+		include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+
+		if( is_plugin_active( 'buddypress/bp-loader.php' ) ) {
+			$this->ActivatedPlugin["buddypress"] = true;
+		}
+		
 	}
 
 
@@ -373,6 +390,32 @@ class WP_Admin_UI_Customize
 		global $wp_admin_bar;
 
 		$this->Admin_bar = $wp_admin_bar->get_nodes();
+		
+		// Other plugin
+		if( !empty( $this->ActivatedPlugin ) ) {
+
+			if( !empty( $this->ActivatedPlugin["buddypress"] ) ) {
+				$plugin_slug = 'buddypress';
+				foreach( $this->Admin_bar as $node_id => $node ) {
+					if( strstr( $node_id , $plugin_slug ) or strstr( $node_id , 'bp-' ) ) {
+						$this->OtherPluginMenu["admin_bar"][$plugin_slug][$node_id] = 1;
+					}
+				}
+			}
+			
+			if( !empty( $this->OtherPluginMenu["admin_bar"] ) ) {
+				for($i = 0; $i < 4; $i++) {
+					foreach( $this->OtherPluginMenu["admin_bar"] as $plugin_slug => $plugin_menu ) {
+						foreach( $this->Admin_bar as $node_id => $node ) {
+							if( !empty( $node->parent ) && array_key_exists( $node->parent , $plugin_menu ) ) {
+								$this->OtherPluginMenu["admin_bar"][$plugin_slug][$node_id] = 1;
+							}
+						}
+					}
+				}
+			}
+			
+		}
 	}
 
 	// SetList
@@ -672,7 +715,9 @@ class WP_Admin_UI_Customize
 		if ( is_object( $menu_widget ) ) $menu_widget = (array) $menu_widget;
 		if( !isset( $menu_widget["group"] ) ) $menu_widget["group"] = 0;
 		if( !isset( $menu_widget["meta"]["class"] ) ) $menu_widget["meta"]["class"] = "";
-		$no_submenu = array( 'search' );
+		$no_submenu = array( 'search' , 'bp-notifications' );
+		$activated_plugin = $this->ActivatedPlugin;
+		$other_plugin = $this->OtherPluginMenu;
 
 		$widget_class = $menu_widget["id"];
 		$new_widget = '';
@@ -727,13 +772,22 @@ class WP_Admin_UI_Customize
 							<?php if( !empty( $menu_widget["group"] ) ) : ?>
 								<input type="hidden" class="regular-text titletext" value="" name="data[][title]" />
 							<?php else : ?>
+								<?php _e( 'Title' ); ?> : 
 								<?php if( $menu_widget["id"] == 'edit-post_type' or in_array( $menu_widget["id"] , $no_submenu ) ) : ?>
-									<?php _e( 'Title' ); ?> : <input type="text" class="regular-text titletext" value="<?php echo esc_html( $menu_widget["title"] ); ?>" name="data[][title]" readonly="readonly" /><br />
+									<input type="text" class="regular-text titletext" value="<?php echo esc_html( $menu_widget["title"] ); ?>" name="data[][title]" readonly="readonly" /><br />
 									<?php if( $menu_widget["id"] == 'edit-post_type' ) : ?>
 										<span class="description"><?php _e( 'If you want edit to name, please edit of translation file(PO).' , $this->ltd ); ?></span><br />
 									<?php endif; ?>
+								<?php elseif( !empty( $activated_plugin ) ) : ?>
+									<?php foreach( $activated_plugin as $plugin_slug => $v ) : ?>
+										<?php if( !empty( $other_plugin["admin_bar"][$plugin_slug] ) && array_key_exists( $menu_widget["id"] , $other_plugin["admin_bar"][$plugin_slug] ) ) : ?>
+											<input type="text" class="regular-text titletext" value="<?php echo esc_html( $menu_widget["title"] ); ?>" name="data[][title]" readonly="readonly" /><br />
+										<?php else : ?>
+											<input type="text" class="regular-text titletext" value="<?php echo esc_html( $menu_widget["title"] ); ?>" name="data[][title]" />
+										<?php endif; ?>
+									<?php endforeach; ?>
 								<?php else : ?>
-									<?php _e( 'Title' ); ?> : <input type="text" class="regular-text titletext" value="<?php echo esc_html( $menu_widget["title"] ); ?>" name="data[][title]" />
+									<input type="text" class="regular-text titletext" value="<?php echo esc_html( $menu_widget["title"] ); ?>" name="data[][title]" />
 								<?php endif; ?>
 							<?php endif; ?>
 						</label>
@@ -1290,15 +1344,16 @@ class WP_Admin_UI_Customize
 			// default side menu load.
 			add_action( 'admin_menu' , array( $this , 'sidemenu_default_load' ) , 10000 );
 
-			// default admin bar menu load.
-			add_action( 'wp_before_admin_bar_render' , array( $this , 'admin_bar_default_load' ) , 1 );
-
 			// default post metabox load.
 			add_action( 'admin_head' , array( $this , 'post_meta_boxes_load' ) , 10 );
 
 			// admin init
 			add_action( 'wp_loaded' , array( $this , 'admin_init' ) );
 		}
+
+		// default admin bar menu load.
+		add_action( 'wp_before_admin_bar_render' , array( $this , 'admin_bar_default_load' ) , 1 );
+
 	}
 	
 	// FilterStart
@@ -1476,6 +1531,8 @@ class WP_Admin_UI_Customize
 				$current_user = wp_get_current_user();
 				$profile_url  = get_edit_profile_url( $user_id );
 				$update_data = wp_get_update_data();
+				$activated_plugin = $this->ActivatedPlugin;
+				$other_plugin = $this->OtherPluginMenu;
 
 				// all nodes adjustment
 				foreach($SettingNodes as $Boxtype => $allnodes) {
@@ -1561,6 +1618,41 @@ class WP_Admin_UI_Customize
 
 							$SettingNodes[$Boxtype][$node_type][$key] = $node;
 
+						}
+					}
+				}
+				
+				// other plugin nodes
+				foreach($SettingNodes as $Boxtype => $allnodes) {
+					foreach($allnodes as $node_type => $nodes) {
+						foreach($nodes as $key => $node) {
+							if( !empty( $activated_plugin ) ) {
+								if( $node["id"] == 'bp-notifications' ) {
+									foreach($All_Nodes as $default_node_id => $default_node) {
+										if( $default_node->parent == $node["id"] ) {
+											$subnode_type = '';
+											if( $node_type == 'main' ) {
+												$subnode_type = 'sub';
+											} elseif( $node_type == 'sub' ) {
+												 $subnode_type = 'sub2';
+											} elseif( $node_type == 'sub2' ) {
+												$subnode_type = 'sub3';
+											} elseif( $node_type == 'sub3' ) {
+												$subnode_type = 'sub4';
+											}
+											if( !empty( $subnode_type ) ) {
+												$SettingNodes[$Boxtype][$subnode_type][] = (array) $default_node;
+											}
+										}
+									}
+								}
+								foreach( $activated_plugin as $plugin_slug => $v ) {
+									if( !empty( $other_plugin["admin_bar"][$plugin_slug] ) && array_key_exists( $node["id"] , $other_plugin["admin_bar"][$plugin_slug] ) ) {
+										$SettingNodes[$Boxtype][$node_type][$key]["title"] = $All_Nodes[$node["id"]]->title;
+										$SettingNodes[$Boxtype][$node_type][$key]["href"] = $All_Nodes[$node["id"]]->href;
+									}
+								}
+							}
 						}
 					}
 				}
@@ -1795,13 +1887,7 @@ class WP_Admin_UI_Customize
 				$SetMain_menu = array();
 				$SetMain_submenu = array();
 				
-				$separator_menu = array();
-				foreach( $menu as $key => $ms ) {
-					if(  strstr( $ms[2] , 'separator' ) ) {
-						$separator_menu = $ms;
-						break;
-					}
-				}
+				$separator_menu = array( 0 => "" , 1 => 'read' , 2 => 'separator1' , 3 => "" , 4 => 'wp-menu-separator' );
 				
 				foreach($GetData["main"] as $mm_pos => $mm) {
 					if($mm["slug"] == 'separator') {

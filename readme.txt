@@ -1,10 +1,10 @@
 === WP Admin UI Customize ===
 Contributors: gqevu6bsiz
-Donate link: http://gqevu6bsiz.chicappa.jp/please-donation/?utm_source=wporg&utm_medium=donate&utm_content=wauc&utm_campaign=1_4_1_2
+Donate link: http://gqevu6bsiz.chicappa.jp/please-donation/?utm_source=wporg&utm_medium=donate&utm_content=wauc&utm_campaign=1_4_2
 Tags: admin, post, posts, page, option, sitemenu, menu, custom, customize, dashboard, admin_bar, multisite, network, metabox
 Requires at least: 3.5.2
 Tested up to: 3.7.1
-Stable tag: 1.4.1.2
+Stable tag: 1.4.2
 License: GPL2
 
 Customize the management screen UI.
@@ -48,6 +48,10 @@ These to Customization is possible.
 10. Login Screen Settings
 
 == Changelog ==
+
+= 1.4.2 =
+* Added: Compatible to Admin Bar on BuddyPress.
+* Fixed: Separator settings on Sidemenu settings.
 
 = 1.4.1.2 =
 * Fixed: Can not dropped on Admin Bar settings.

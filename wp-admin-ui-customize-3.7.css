@@ -32,9 +32,6 @@
 .postbox-container .postbox .hndle {
 	cursor: default; 	
 }
-input.regular-text {
-	width: 80%;
-}
 
 
 
@@ -70,9 +67,6 @@ input.regular-text {
 #wauc_setting_sidemenu .postbox .inside .widget-placeholder {
 	width: auto;
 }
-#wauc_setting_sidemenu .postbox .inside .widget .widget-top:hover {
-	border-color:#999
-}
 #wauc_setting_sidemenu .postbox .inside .widget .widget-top .widget-title .in-widget-title {
 	opacity: 0.7;
 	font-weight: normal;
@@ -83,7 +77,6 @@ input.regular-text {
 #wauc_setting_sidemenu .postbox .inside .widget .widget-inside .submenu {
 	padding: 5px 5px 20px 5px;
 	border: 1px solid #DFDFDF;
-	margin-bottom: 12px;
 }
 #wauc_setting_sidemenu .postbox .inside .widget .widget-inside input.regular-text {
 	width: 300px;
@@ -103,12 +96,11 @@ input.regular-text {
 
 #wauc_setting_sidemenu #setting_menus .postbox .inside .settings ul.display_roles {
 	display: block;
-	font-size: 12px;
 }
 #wauc_setting_sidemenu #setting_menus .postbox .inside .settings ul.display_roles li {
 	display: inline-block;
 	color: #DDD;
-	margin-right: 2px;
+	margin-right: 6px;
 }
 #wauc_setting_sidemenu #setting_menus .postbox .inside .settings ul.display_roles li.has_cap {
 	font-weight: bold;
@@ -135,14 +127,11 @@ body.wp-admin-ui-customize_page_wp_admin_ui_customize_admin_bar .postbox .inside
 body.wp-admin-ui-customize_page_wp_admin_ui_customize_admin_bar .postbox .inside .widget .widget-inside .submenu {
 	padding: 5px 5px 20px 5px;
 	border: 1px solid #DFDFDF;
-	margin: 8px 0 12px 0;
+	margin: 8px 0 0 0;
 }
 
 body.wp-admin-ui-customize_page_wp_admin_ui_customize_admin_bar .postbox .inside .widget .widget-top {
 	height: auto;
-}
-body.wp-admin-ui-customize_page_wp_admin_ui_customize_admin_bar .postbox .inside .widget .widget-top:hover {
-	border-color:#999
 }
 body.wp-admin-ui-customize_page_wp_admin_ui_customize_admin_bar .postbox .inside .widget-group > .widget-top {
 	color: #fff;
@@ -158,6 +147,10 @@ body.wp-admin-ui-customize_page_wp_admin_ui_customize_admin_bar .postbox .inside
 }
 body.wp-admin-ui-customize_page_wp_admin_ui_customize_admin_bar .postbox .inside .widget-group > .widget-top .in-widget-title {
 	color: #fff;
+}
+body.wp-admin-ui-customize_page_wp_admin_ui_customize_admin_bar .postbox .inside .widget .widget-top .widget-title {
+	padding-top: 4px;
+	padding-bottom: 4px;
 }
 body.wp-admin-ui-customize_page_wp_admin_ui_customize_admin_bar .postbox .inside .widget .widget-top .widget-title h4 {
 	line-height: 20px;

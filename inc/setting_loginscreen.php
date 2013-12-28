@@ -1,12 +1,19 @@
 <?php
 
+global $wp_version;
+
 $Data = $this->get_data( 'loginscreen' );
 
 // include js css
 $ReadedJs = array( 'jquery' , 'jquery-ui-sortable' , 'thickbox' );
 wp_enqueue_script( $this->PageSlug ,  $this->Url . $this->PluginSlug . '.js', $ReadedJs , $this->Ver );
 wp_enqueue_style('thickbox');
-wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', array() , $this->Ver );
+
+if ( version_compare( $wp_version , '3.8' , '<' ) ) {
+	wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '-3.7.css', array() , $this->Ver );
+} else {
+	wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', array() , $this->Ver );
+}
 
 ?>
 
@@ -33,10 +40,10 @@ wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', arr
 				<div id="postbox-container-1" class="postbox-container">
 	
 					<div class="stuffbox" id="usefulbox">
-						<h3><span class="hndle"><?php _e( 'Useful plugins' , $this->ltd_p ); ?></span></h3>
+						<h3><span class="hndle"><?php _e( 'Useful plugins' , $this->ltd ); ?></span></h3>
 						<div class="inside">
 							<p><strong><span style="color: orange;">new</span> <a href="http://codecanyon.net/item/login-layout-customize/5729642" target="_blank">Login Layout Customize</a></strong></p>
-							<p class="description"><?php _e( 'This plugin is that can be for customizing flexibly Login Screen.' , $this->ltd_p ); ?></p>
+							<p class="description"><?php _e( 'This plugin is that can be for customizing flexibly Login Screen.' , $this->ltd ); ?></p>
 						</div>
 					</div>
 	
@@ -150,7 +157,7 @@ wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', arr
 
 		<p class="submit reset">
 			<span class="description"><?php _e( 'Reset all settings?' , $this->ltd ); ?></span>
-			<input type="submit" class="button-secondary" name="reset" value="<?php _e('Reset'); ?>" />
+			<input type="submit" class="button-secondary" name="reset" value="<?php _e( 'Reset settings' , $this->ltd ); ?>" />
 		</p>
 
 	</form>

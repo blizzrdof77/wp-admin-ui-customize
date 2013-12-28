@@ -1,4 +1,7 @@
 <?php
+
+global $wp_version;
+
 $update_data = wp_get_update_data();
 $awaiting_mod = wp_count_comments();
 $awaiting_mod = $awaiting_mod->moderated;
@@ -85,7 +88,17 @@ if( is_multisite() ) {
 				<tr>
 					<th><strong>[comment_count]</strong></th>
 					<td>
-						<code>&lt;span class=&quot;awaiting-mod count-<?php echo $awaiting_mod; ?>&quot;&gt;&lt;span class=&quot;pending-count&quot;&gt;<strong><?php echo number_format_i18n( $awaiting_mod ); ?></strong>&lt;/span&gt;&lt;/span&gt;</code>
+						<?php if ( version_compare( $wp_version , '3.8' , '<' ) ) : ?>
+							<code>&lt;span class=&quot;awaiting-mod count-<?php echo $awaiting_mod; ?>&quot;&gt;&lt;span class=&quot;pending-count&quot;&gt;<strong><?php echo number_format_i18n( $awaiting_mod ); ?></strong>&lt;/span&gt;&lt;/span&gt;</code>
+						<?php else: ?>
+							<code>&lt;span class&quot;ab-icon&quot;&gt&lt;/span&gt; &lt;span id=&quot;ab-awaiting-mod&quot; class=&quot;ab-label awaiting-mod pending-count count-<?php echo $awaiting_mod; ?>&quot;&gt;<strong><?php echo number_format_i18n( $awaiting_mod ); ?></strong>&lt;/span&gt;</code>
+						<?php endif; ?>
+					</td>
+				</tr>
+				<tr>
+					<th><strong>[comment_count_format]</strong></th>
+					<td>
+						<code><?php echo $awaiting_mod; ?></code>
 					</td>
 				</tr>
 				<tr>

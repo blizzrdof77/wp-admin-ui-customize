@@ -1,6 +1,7 @@
 <?php
 
 global $menu, $submenu;
+global $wp_version;
 
 $this->get_user_role();
 $Data = $this->get_data( 'sidemenu' );
@@ -9,7 +10,12 @@ $Data = $this->get_data( 'sidemenu' );
 $ReadedJs = array( 'jquery' , 'jquery-ui-draggable' , 'jquery-ui-droppable' , 'jquery-ui-sortable' , 'thickbox' );
 wp_enqueue_script( $this->PageSlug ,  $this->Url . $this->PluginSlug . '.js', $ReadedJs , $this->Ver );
 wp_enqueue_style('thickbox');
-wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', array() , $this->Ver );
+
+if ( version_compare( $wp_version , '3.8' , '<' ) ) {
+	wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '-3.7.css', array() , $this->Ver );
+} else {
+	wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', array() , $this->Ver );
+}
 
 ?>
 
@@ -106,7 +112,7 @@ wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', arr
 							<h3 class="hndle">
 								<span><?php _e( 'Current menu' , $this->ltd ); ?></span>
 							</h3>
-							<div class="inside">
+							<div class="inside widgets-holder-wrap">
 		
 								<?php if( empty( $Data ) ) : ?>
 		
@@ -223,7 +229,7 @@ wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', arr
 
 		<p class="submit reset">
 			<span class="description"><?php _e( 'Reset all settings?' , $this->ltd ); ?></span>
-			<input type="submit" class="button-secondary" name="reset" value="<?php _e('Reset'); ?>" />
+			<input type="submit" class="button-secondary" name="reset" value="<?php _e( 'Reset settings' , $this->ltd ); ?>" />
 		</p>
 
 	</form>

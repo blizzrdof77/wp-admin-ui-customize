@@ -1,5 +1,7 @@
 <?php
 
+global $wp_version;
+
 $Data = $this->get_data( 'manage_metabox' );
 $Metaboxes = $this->get_data( "regist_metabox" );
 $CustomPosts = $this->get_custom_posts();
@@ -7,7 +9,12 @@ $CustomPosts = $this->get_custom_posts();
 // include js css
 $ReadedJs = array( 'jquery' , 'jquery-ui-sortable' );
 wp_enqueue_script( $this->PageSlug ,  $this->Url . $this->PluginSlug . '.js', $ReadedJs , $this->Ver );
-wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', array() , $this->Ver );
+
+if ( version_compare( $wp_version , '3.8' , '<' ) ) {
+	wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '-3.7.css', array() , $this->Ver );
+} else {
+	wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', array() , $this->Ver );
+}
 
 ?>
 
@@ -241,7 +248,7 @@ wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', arr
 
 		<p class="submit reset">
 			<span class="description"><?php _e( 'Reset all settings?' , $this->ltd ); ?></span>
-			<input type="submit" class="button-secondary" name="reset" value="<?php _e('Reset'); ?>" />
+			<input type="submit" class="button-secondary" name="reset" value="<?php _e( 'Reset settings' , $this->ltd ); ?>" />
 		</p>
 
 	</form>

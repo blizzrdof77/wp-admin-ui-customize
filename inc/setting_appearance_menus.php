@@ -1,11 +1,18 @@
 <?php
 
+global $wp_version;
+
 $Data = $this->get_data( 'appearance_menus' );
 
 // include js css
 $ReadedJs = array( 'jquery' , 'jquery-ui-sortable' );
 wp_enqueue_script( $this->PageSlug ,  $this->Url . $this->PluginSlug . '.js', $ReadedJs , $this->Ver );
-wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', array() , $this->Ver );
+
+if ( version_compare( $wp_version , '3.8' , '<' ) ) {
+	wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '-3.7.css', array() , $this->Ver );
+} else {
+	wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', array() , $this->Ver );
+}
 
 ?>
 
@@ -44,11 +51,12 @@ wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', arr
 												<?php if( !empty( $Data[$field] ) ) : $Checked = 'checked="checked"'; endif; ?>
 												<label><input type="checkbox" name="data[<?php echo $field; ?>]" value="1" <?php echo $Checked; ?> /> <?php _e ( 'Hide' ); ?></label>
 												<p class="description"><?php _e( 'This is useful when you want to use only the menus have been created.' , $this->ltd ); ?></p>
-												<?php if( version_compare( $GLOBALS['wp_version'], '3.6', '>=' ) ) : ?>
+												<?php if( version_compare( $wp_version , '3.8' , '<' ) ) : ?>
 													<p><img src="<?php echo $this->Url; ?>images/3.6/appearance_menus_add_new_menu.png" /></p>
 													<p><img src="<?php echo $this->Url; ?>images/3.6/appearance_menus_add_new_menu_of_location.png" /></p>
 												<?php else: ?>
 													<p><img src="<?php echo $this->Url; ?>images/appearance_menus_add_new_menu.png" /></p>
+													<p><img src="<?php echo $this->Url; ?>images/appearance_menus_add_new_menu_of_location.png" /></p>
 												<?php endif; ?>
 											</td>
 										</tr>
@@ -62,7 +70,7 @@ wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', arr
 												<?php if( !empty( $Data[$field] ) ) : $Checked = 'checked="checked"'; endif; ?>
 												<label><input type="checkbox" name="data[<?php echo $field; ?>]" value="1" <?php echo $Checked; ?> /> <?php _e ( 'Hide' ); ?></label>
 												<p class="description"><?php _e( 'This is useful when you want to use only the menus have been created.' , $this->ltd ); ?></p>
-												<?php if( version_compare( $GLOBALS['wp_version'], '3.6', '>=' ) ) : ?>
+												<?php if( version_compare( $wp_version , '3.8' , '<' ) ) : ?>
 													<p><img src="<?php echo $this->Url; ?>images/3.6/appearance_menus_delete_menu.png" /></p>
 												<?php else: ?>
 													<p><img src="<?php echo $this->Url; ?>images/appearance_menus_delete_menu.png" /></p>
@@ -88,7 +96,7 @@ wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', arr
 
 		<p class="submit reset">
 			<span class="description"><?php _e( 'Reset all settings?' , $this->ltd ); ?></span>
-			<input type="submit" class="button-secondary" name="reset" value="<?php _e('Reset'); ?>" />
+			<input type="submit" class="button-secondary" name="reset" value="<?php _e( 'Reset settings' , $this->ltd ); ?>" />
 		</p>
 
 	</form>

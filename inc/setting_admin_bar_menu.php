@@ -1,5 +1,7 @@
 <?php
 
+global $wp_version;
+
 $Data = $this->get_data( 'admin_bar_menu' );
 $AllDefaultNodes = $this->admin_bar_filter_load();
 $Place_types = $this->admin_bar_places();
@@ -8,7 +10,12 @@ $Place_types = $this->admin_bar_places();
 $ReadedJs = array( 'jquery' , 'jquery-ui-draggable' , 'jquery-ui-droppable' , 'jquery-ui-sortable' , 'thickbox' );
 wp_enqueue_script( $this->PageSlug ,  $this->Url . $this->PluginSlug . '.js', $ReadedJs , $this->Ver );
 wp_enqueue_style('thickbox');
-wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', array() , $this->Ver );
+
+if ( version_compare( $wp_version , '3.8' , '<' ) ) {
+	wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '-3.7.css', array() , $this->Ver );
+} else {
+	wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', array() , $this->Ver );
+}
 
 ?>
 
@@ -45,7 +52,7 @@ wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', arr
 								<div class="postbox">
 									<div class="handlediv" title="Click to toggle"><br></div>
 									<h3 class="hndle"><span><?php echo $place_label; ?><?php _e( 'Menus' ); ?></span></h3>
-									<div class="inside">
+									<div class="inside widgets-holder-wrap">
 
 										<?php if( empty( $Data ) ) : ?>
 											<?php $Nodes = $AllDefaultNodes; ?>
@@ -84,7 +91,7 @@ wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', arr
 
 		<p class="submit reset">
 			<span class="description"><?php _e( 'Reset all settings?' , $this->ltd ); ?></span>
-			<input type="submit" class="button-secondary" name="reset" value="<?php _e('Reset'); ?>" />
+			<input type="submit" class="button-secondary" name="reset" value="<?php _e( 'Reset settings' , $this->ltd ); ?>" />
 		</p>
 
 	</form>

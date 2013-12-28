@@ -1,10 +1,10 @@
 === WP Admin UI Customize ===
 Contributors: gqevu6bsiz
-Donate link: http://gqevu6bsiz.chicappa.jp/please-donation/?utm_source=wporg&utm_medium=donate&utm_content=wauc&utm_campaign=1_4_2
+Donate link: http://gqevu6bsiz.chicappa.jp/please-donation/?utm_source=wporg&utm_medium=donate&utm_content=wauc&utm_campaign=1_4_3
 Tags: admin, post, posts, page, option, sitemenu, menu, custom, customize, dashboard, admin_bar, multisite, network, metabox
-Requires at least: 3.5.2
-Tested up to: 3.7.1
-Stable tag: 1.4.2
+Requires at least: 3.6.1
+Tested up to: 3.8
+Stable tag: 1.4.3
 License: GPL2
 
 Customize the management screen UI.
@@ -46,8 +46,16 @@ These to Customization is possible.
 8. Post/Page Settings
 9. Appearance Menu Settings
 10. Login Screen Settings
+11. Plugin Capabilities Settings
 
 == Changelog ==
+
+= 1.4.3 =
+* Updated: Compatible to 3.8.
+* Updated: Existence check of Link Manager.
+* Updated: Dashboard metaboxes settings.
+* Updated: Screen shots.
+* Added: Working capability change to possible.
 
 = 1.4.2 =
 * Added: Compatible to Admin Bar on BuddyPress.

@@ -2,10 +2,10 @@
 /*
 Plugin Name: WP Admin UI Customize
 Description: An excellent plugin to customize the management screens.
-Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_4_3_2
-Version: 1.4.3.2
+Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_4_3_3
+Version: 1.4.3.3
 Author: gqevu6bsiz
-Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_4_3_2
+Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_4_3_3
 Text Domain: wauc
 Domain Path: /languages
 */
@@ -55,7 +55,7 @@ class WP_Admin_UI_Customize
 
 
 	function __construct() {
-		$this->Ver = '1.4.3.2';
+		$this->Ver = '1.4.3.3';
 		$this->Name = 'WP Admin UI Customize';
 		$this->Dir = plugin_dir_path( __FILE__ );
 		$this->Url = plugin_dir_url( __FILE__ );
@@ -1111,48 +1111,51 @@ class WP_Admin_UI_Customize
 
 		$RecordField = false;
 		
-		if( !empty( $_POST["record_field"] ) ) {
-			$RecordField = strip_tags( $_POST["record_field"] );
-		}
+		if( !empty( $_POST[$this->Nonces["field"]] ) ) {
 
-		if( !empty( $RecordField ) && !empty( $_POST["update"] ) ) {
-			if( $RecordField == 'user_role' ) {
-				$this->update_userrole();
-			} elseif( $RecordField == 'site' ) {
-				$this->update_site();
-			} elseif( $RecordField == 'admin_general' ) {
-				$this->update_admin_general();
-			} elseif( $RecordField == 'dashboard' ) {
-				$this->update_dashboard();
-			} elseif( $RecordField == 'admin_bar_menu' ) {
-				$this->update_admin_bar_menu();
-			} elseif( $RecordField == 'sidemenu' ) {
-				$this->update_sidemenu();
-			} elseif( $RecordField == 'manage_metabox' ) {
-				$this->update_manage_metabox();
-			} elseif( $RecordField == 'post_add_edit' ) {
-				$this->update_post_add_edit();
-			} elseif( $RecordField == 'appearance_menus' ) {
-				$this->update_appearance_menus();
-			} elseif( $RecordField == 'loginscreen' ) {
-				$this->update_loginscreen();
-			} elseif( $RecordField == 'plugin_cap' ) {
-				$this->update_plugincap();
+			if( !empty( $_POST["record_field"] ) ) {
+				$RecordField = strip_tags( $_POST["record_field"] );
 			}
-			
-		}
-
-		if( !empty( $RecordField ) && !empty( $_POST["reset"] ) ) {
-			if( $RecordField == 'manage_metabox' ) {
-				delete_option( $this->Record["regist_metabox"] );
-			} elseif( $RecordField == 'dashboard' ) {
-				delete_option( $this->Record["regist_dashboard_metabox"] );
+	
+			if( !empty( $RecordField ) && !empty( $_POST["update"] ) ) {
+				if( $RecordField == 'user_role' ) {
+					$this->update_userrole();
+				} elseif( $RecordField == 'site' ) {
+					$this->update_site();
+				} elseif( $RecordField == 'admin_general' ) {
+					$this->update_admin_general();
+				} elseif( $RecordField == 'dashboard' ) {
+					$this->update_dashboard();
+				} elseif( $RecordField == 'admin_bar_menu' ) {
+					$this->update_admin_bar_menu();
+				} elseif( $RecordField == 'sidemenu' ) {
+					$this->update_sidemenu();
+				} elseif( $RecordField == 'manage_metabox' ) {
+					$this->update_manage_metabox();
+				} elseif( $RecordField == 'post_add_edit' ) {
+					$this->update_post_add_edit();
+				} elseif( $RecordField == 'appearance_menus' ) {
+					$this->update_appearance_menus();
+				} elseif( $RecordField == 'loginscreen' ) {
+					$this->update_loginscreen();
+				} elseif( $RecordField == 'plugin_cap' ) {
+					$this->update_plugincap();
+				}
+				
 			}
-			$this->update_reset( $RecordField );
-		}
-
-		if( !empty( $_POST["donate_key"] ) && !empty( $_POST["update"] ) ) {
-			$this->DonatingCheck();
+	
+			if( !empty( $RecordField ) && !empty( $_POST["reset"] ) ) {
+				if( $RecordField == 'manage_metabox' ) {
+					delete_option( $this->Record["regist_metabox"] );
+				} elseif( $RecordField == 'dashboard' ) {
+					delete_option( $this->Record["regist_dashboard_metabox"] );
+				}
+				$this->update_reset( $RecordField );
+			}
+	
+			if( !empty( $_POST["donate_key"] ) && !empty( $_POST["update"] ) ) {
+				$this->DonatingCheck();
+			}
 		}
 
 	}

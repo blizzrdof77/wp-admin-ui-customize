@@ -2,10 +2,10 @@
 /*
 Plugin Name: WP Admin UI Customize
 Description: An excellent plugin to customize the management screens.
-Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_4_3_1
-Version: 1.4.3.1
+Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_4_3_2
+Version: 1.4.3.2
 Author: gqevu6bsiz
-Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_4_3_1
+Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_4_3_2
 Text Domain: wauc
 Domain Path: /languages
 */
@@ -55,7 +55,7 @@ class WP_Admin_UI_Customize
 
 
 	function __construct() {
-		$this->Ver = '1.4.3.1';
+		$this->Ver = '1.4.3.2';
 		$this->Name = 'WP Admin UI Customize';
 		$this->Dir = plugin_dir_path( __FILE__ );
 		$this->Url = plugin_dir_url( __FILE__ );
@@ -1689,6 +1689,7 @@ class WP_Admin_UI_Customize
 								if( !empty( $All_Nodes["edit"] ) ) {
 									$node["title"] = $All_Nodes["edit"]->title;
 									$node["href"] = $All_Nodes["edit"]->href;
+									$node["id"] = $All_Nodes["edit"]->id;
 								} else {
 									unset( $SettingNodes[$Boxtype][$node_type][$key] );
 									continue;

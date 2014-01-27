@@ -155,7 +155,6 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 												<a href="#TB_inline?height=300&width=600&inlineId=list_variables&modal=false" title="<?php _e( 'Shortcodes' , $this->ltd ); ?>" class="thickbox"><?php _e( 'Available Shortcodes' , $this->ltd ); ?></a>
 											</td>
 										</tr>
-			
 										<?php $field = 'title_tag'; ?>
 										<tr>
 											<th>
@@ -167,6 +166,19 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 												<label><input type="checkbox" name="data[<?php echo $field; ?>]" value="1" <?php echo $Checked; ?> /> <?php _e ( 'Remove "Wordpress" from the title tag of the Admin screen' , $this->ltd ); ?></label>
 											</td>
 										</tr>
+										<?php if( version_compare( $wp_version , '3.8' , '>=' ) ) : ?>
+											<?php $field = 'resize_admin_bar'; ?>
+											<tr>
+												<th>
+													<label><?php _e( 'Resizing Admin bar' , $this->ltd ); ?></label>
+												</th>
+												<td>
+													<?php $Checked = ''; ?>
+													<?php if( !empty( $Data[$field] ) ) : $Checked = 'checked="checked"'; endif; ?>
+													<label><input type="checkbox" name="data[<?php echo $field; ?>]" value="1" <?php echo $Checked; ?> /> <?php _e ( 'Not resize' , $this->ltd ); ?></label>
+												</td>
+											</tr>
+										<?php endif; ?>
 									</tbody>
 								</table>
 							</div>

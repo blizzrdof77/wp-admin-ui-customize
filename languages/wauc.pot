@@ -166,6 +166,19 @@ msgstr ""
 msgid "Reset settings"
 msgstr ""
 
+#: inc/reset_userrole.php:49
+#: inc/reset_userrole.php:71
+msgid "Reset settings of all"
+msgstr ""
+
+#: inc/reset_userrole.php:54
+msgid "Setting all of the below will be deleted."
+msgstr ""
+
+#: inc/reset_userrole.php:69
+msgid "Are you sure you want to delete all settings?"
+msgstr ""
+
 #: inc/setting_admin_bar_menu.php:26
 #: inc/setting_sidemenu.php:26
 msgid "Please change the menu by drag and drop."
@@ -194,6 +207,10 @@ msgstr ""
 
 #: inc/setting_admin_bar_menu.php:40
 msgid "Sub-menu can to settings to four levels."
+msgstr ""
+
+#: inc/setting_admin_bar_menu.php:41
+msgid "Documents is here"
 msgstr ""
 
 #: inc/setting_admin_bar_menu.php:93
@@ -258,6 +275,14 @@ msgstr ""
 
 #: inc/setting_admin_general.php:167
 msgid "Remove \"Wordpress\" from the title tag of the Admin screen"
+msgstr ""
+
+#: inc/setting_admin_general.php:172
+msgid "Resizing Admin bar"
+msgstr ""
+
+#: inc/setting_admin_general.php:177
+msgid "Not resize"
 msgstr ""
 
 #: inc/setting_appearance_menus.php:47

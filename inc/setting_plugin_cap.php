@@ -59,13 +59,15 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 													<?php else: ?>
 														<option value="" selected="selected"><?php echo _x( 'Administrator' , 'User role' ); ?></option>
 													<?php endif; ?>
-													<?php foreach( $UserRoles["administrator"]["capabilities"] as $cap => $v ) : ?>
-														<?php $Selected = false; ?>
-														<?php if( !empty( $SelectedCap ) ) : ?>
-															<?php if( $Data[$field] == $cap ) $Selected = 'selected="selected"'; ?>
-														<?php endif; ?>
-														<option value="<?php echo $cap; ?>" <?php echo $Selected; ?>><?php echo $cap; ?></option>
-													<?php endforeach; ?>
+													<?php if( !empty( $UserRoles["administrator"]["capabilities"] ) ) : ?>
+														<?php foreach( $UserRoles["administrator"]["capabilities"] as $cap => $v ) : ?>
+															<?php $Selected = false; ?>
+															<?php if( !empty( $SelectedCap ) ) : ?>
+																<?php if( $Data[$field] == $cap ) $Selected = 'selected="selected"'; ?>
+															<?php endif; ?>
+															<option value="<?php echo $cap; ?>" <?php echo $Selected; ?>><?php echo $cap; ?></option>
+														<?php endforeach; ?>
+													<?php endif; ?>
 												</select>
 												<p class="description"><?php _e( 'Default' ); ?>: <?php echo _x( 'Administrator' , 'User role' ); ?></p>
 											</td>

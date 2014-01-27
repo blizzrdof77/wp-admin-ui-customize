@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: WP Admin UI Customize\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-12-29 01:38+0900\n"
-"PO-Revision-Date: 2013-12-29 02:02+0900\n"
+"PO-Revision-Date: 2014-01-27 23:15+0900\n"
 "Last-Translator: gqevu6bsiz <gqevu6bsiz@gmail.com>\n"
 "Language-Team: gqevu6bsiz@gmail.com <gqevu6bsiz@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -169,6 +169,19 @@ msgstr "ユーザー権限をリセットしてもよろしいですか？"
 msgid "Reset settings"
 msgstr "設定をリセット"
 
+#: inc/reset_userrole.php:49
+#: inc/reset_userrole.php:71
+msgid "Reset settings of all"
+msgstr "全ての設定をリセット"
+
+#: inc/reset_userrole.php:54
+msgid "Setting all of the below will be deleted."
+msgstr "以下のすべての設定が削除されます。"
+
+#: inc/reset_userrole.php:69
+msgid "Are you sure you want to delete all settings?"
+msgstr "本当に全ての設定を削除してもよろしいですか？"
+
 #: inc/setting_admin_bar_menu.php:26
 #: inc/setting_sidemenu.php:26
 msgid "Please change the menu by drag and drop."
@@ -198,6 +211,10 @@ msgstr "利用可能なショートコード一覧"
 #: inc/setting_admin_bar_menu.php:40
 msgid "Sub-menu can to settings to four levels."
 msgstr "サブメニューは4階層まで設定できます。"
+
+#: inc/setting_admin_bar_menu.php:41
+msgid "Documents is here"
+msgstr "ドキュメントはこちら"
 
 #: inc/setting_admin_bar_menu.php:93
 #: inc/setting_admin_general.php:188
@@ -262,6 +279,14 @@ msgstr "管理画面のタイトルタグ"
 #: inc/setting_admin_general.php:167
 msgid "Remove \"Wordpress\" from the title tag of the Admin screen"
 msgstr "管理画面のタイトルタグから\"WordPress\"を削除"
+
+#: inc/setting_admin_general.php:172
+msgid "Resizing Admin bar"
+msgstr "管理バーリサイズ"
+
+#: inc/setting_admin_general.php:177
+msgid "Not resize"
+msgstr "リサイズしない"
 
 #: inc/setting_appearance_menus.php:47
 msgid "Create a new menu"

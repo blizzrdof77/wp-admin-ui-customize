@@ -2,10 +2,10 @@
 /*
 Plugin Name: WP Admin UI Customize
 Description: An excellent plugin to customize the management screens.
-Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_4_3_3
-Version: 1.4.3.3
+Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_4_4
+Version: 1.4.4
 Author: gqevu6bsiz
-Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_4_3_3
+Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_4_4
 Text Domain: wauc
 Domain Path: /languages
 */
@@ -55,7 +55,7 @@ class WP_Admin_UI_Customize
 
 
 	function __construct() {
-		$this->Ver = '1.4.3.3';
+		$this->Ver = '1.4.4';
 		$this->Name = 'WP Admin UI Customize';
 		$this->Dir = plugin_dir_path( __FILE__ );
 		$this->Url = plugin_dir_url( __FILE__ );
@@ -180,7 +180,7 @@ class WP_Admin_UI_Customize
 		add_submenu_page( $this->PageSlug , __( 'Appearance Menus Screen Setting' , $this->ltd ) , __( 'Appearance Menus Screen Setting' , $this->ltd ) , $capability , $this->PageSlug . '_appearance_menus' , array( $this , 'setting_appearance_menus' ) );
 		add_submenu_page( $this->PageSlug , __( 'Login Screen' , $this->ltd ) , __( 'Login Screen' , $this->ltd ) , $capability , $this->PageSlug . '_loginscreen' , array( $this , 'setting_loginscreen' ) );
 		add_submenu_page( $this->PageSlug , sprintf( __( '%1$s of %2$s %3$s' , $this->ltd ) , __( 'Change' ) , __( 'Plugin' ) , __( 'Capabilities' ) ) , sprintf( __( '%1$s of %2$s %3$s' , $this->ltd ) , __( 'Change' ) , __( 'Plugin' ) , __( 'Capabilities' ) ) , $capability , $this->PageSlug . '_plugin_cap' , array( $this , 'setting_plugin_cap' ) );
-		add_submenu_page( $this->PageSlug , __( 'Reset User Roles' , $this->ltd ) , '<div style="display: none";>' . __( 'Reset User Roles' , $this->ltd ) . '</div>' , $capability , $this->PageSlug . '_reset_userrole' , array( $this , 'reset_userrole' ) );
+		add_submenu_page( $this->PageSlug , __( 'Reset User Roles' , $this->ltd ) , __( 'Reset User Roles' , $this->ltd ) , $capability , $this->PageSlug . '_reset_userrole' , array( $this , 'reset_userrole' ) );
 	}
 
 	// PluginSetup
@@ -1102,6 +1102,30 @@ class WP_Admin_UI_Customize
 		
 		return $capability;
 	}
+	
+	// SetList
+	function get_document_link( $document_type ) {
+		
+		$link = $this->Site;
+		$locale = get_locale();
+
+		if( !empty( $document_type ) ) {
+
+			if( $locale == 'ja' ) {
+				$link .= 'ja/';
+			} else {
+				$link .= 'blog/';
+			}
+			
+			if( $document_type == 'admin_bar' ) {
+				$link .= 'admin-bar-toolbar-settings/';
+			}
+			
+		}
+		
+		echo $link;
+
+	}
 
 
 
@@ -1116,8 +1140,9 @@ class WP_Admin_UI_Customize
 			if( !empty( $_POST["record_field"] ) ) {
 				$RecordField = strip_tags( $_POST["record_field"] );
 			}
-	
+
 			if( !empty( $RecordField ) && !empty( $_POST["update"] ) ) {
+
 				if( $RecordField == 'user_role' ) {
 					$this->update_userrole();
 				} elseif( $RecordField == 'site' ) {
@@ -1143,14 +1168,21 @@ class WP_Admin_UI_Customize
 				}
 				
 			}
+
 	
 			if( !empty( $RecordField ) && !empty( $_POST["reset"] ) ) {
+
 				if( $RecordField == 'manage_metabox' ) {
 					delete_option( $this->Record["regist_metabox"] );
 				} elseif( $RecordField == 'dashboard' ) {
 					delete_option( $this->Record["regist_dashboard_metabox"] );
 				}
-				$this->update_reset( $RecordField );
+				
+				if( $RecordField == 'all_settings' ) {
+					$this->update_reset_all();
+				} else {
+					$this->update_reset( $RecordField );
+				}
 			}
 	
 			if( !empty( $_POST["donate_key"] ) && !empty( $_POST["update"] ) ) {
@@ -1180,6 +1212,21 @@ class WP_Admin_UI_Customize
 		if( !empty( $Update ) && check_admin_referer( $this->Nonces["value"] , $this->Nonces["field"] ) ) {
 			$record = apply_filters( 'wauc_pre_delete' , $this->Record[$record] );
 			delete_option( $record );
+			wp_redirect( add_query_arg( $this->MsgQ , 'delete' , stripslashes( $_POST["_wp_http_referer"] ) ) );
+			exit;
+		}
+	}
+
+	// DataUpdate
+	function update_reset_all() {
+		$Update = $this->update_validate();
+		if( !empty( $Update ) && check_admin_referer( $this->Nonces["value"] , $this->Nonces["field"] ) ) {
+			
+			foreach( $this->Record as $key => $record ) {
+				if( $key != 'donate' ) {
+					delete_option( $record );
+				}
+			}
 			wp_redirect( add_query_arg( $this->MsgQ , 'delete' , stripslashes( $_POST["_wp_http_referer"] ) ) );
 			exit;
 		}
@@ -1494,9 +1541,6 @@ class WP_Admin_UI_Customize
 			add_action( 'wp_loaded' , array( $this , 'admin_init' ) );
 		}
 
-		add_action( 'admin_footer' , array( $this , 'admin_bar_resizing' ) );
-		add_action( 'wp_footer' , array( $this , 'admin_bar_resizing' ) );
-
 	}
 	
 	// FilterStart
@@ -1517,13 +1561,14 @@ class WP_Admin_UI_Customize
 					add_action( 'admin_head' , array( $this , 'remove_tab' ) );
 					add_filter( 'admin_footer_text' , array( $this , 'admin_footer_text' ) );
 					add_action( 'admin_print_styles' , array( $this , 'load_css' ) );
-					add_action( 'wp_dashboard_setup' , array( $this , 'wp_dashboard_setup' ) );
+					add_action( 'wp_dashboard_setup' , array( $this , 'wp_dashboard_setup' ) , 11 );
 					add_action( 'admin_head' , array( $this , 'manage_metabox' ) , 11 );
 					add_filter( 'admin_head', array( $this , 'sidemenu' ) );
 					add_filter( 'get_sample_permalink_html' , array( $this , 'add_edit_post_change_permalink' ) );
 					add_filter( 'edit_form_after_title' , array( $this , 'allow_comments' ) );
 					add_action( 'admin_print_styles-nav-menus.php', array( $this , 'nav_menus' ) );
 					add_filter( 'admin_title', array( $this, 'admin_title' ) );
+					add_action( 'admin_footer' , array( $this , 'admin_bar_resizing' ) );
 				}
 			}
 		}
@@ -1542,6 +1587,8 @@ class WP_Admin_UI_Customize
 
 			if( !is_network_admin() && !empty( $UserRole ) ) {
 				if( array_key_exists( $UserRole , $SettingRole ) ) {
+
+					add_action( 'wp_footer' , array( $this , 'admin_bar_resizing' ) );
 
 					$GetData = $this->get_flit_data( 'site' );
 					
@@ -2234,12 +2281,17 @@ class WP_Admin_UI_Customize
 	// FilterStart
 	function admin_bar_resizing() {
 		global $wp_version;
-		if ( version_compare( $wp_version , '3.8' , '>=' ) ) {
+		$GetData = $this->get_flit_data( 'admin_general' );
+
+		if ( version_compare( $wp_version , '3.8' , '>=' ) && empty( $GetData["resize_admin_bar"] ) ) {
 			wp_enqueue_style( $this->PageSlug . '-adminbar-resize' , $this->Url . 'css/adminbar/resize.css', array() , $this->Ver );
 			if( is_admin() ) {
 				wp_enqueue_script( $this->PageSlug . '-adminbar-resize' , $this->Url . 'js/adminbar/resize.js', array( 'jquery' ) , $this->Ver );
+			} else {
+				wp_enqueue_script( $this->PageSlug . '-adminbar-resize' , $this->Url . 'js/adminbar/resize-front.js', array( 'jquery' ) , $this->Ver );
 			}
 		}
+
 	}
 
 	// FilterStart

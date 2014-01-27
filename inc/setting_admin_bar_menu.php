@@ -38,6 +38,7 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 
 		<p></p>
 		<p><?php _e( 'Sub-menu can to settings to four levels.' , $this->ltd ); ?></p>
+		<p><a href="<?php $this->get_document_link( 'admin_bar' ); ?>" target="_blank" class="button-secondary"><?php _e( 'Documents is here' , $this->ltd ); ?></a></p>
 
 		<div id="poststuff">
 

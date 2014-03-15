@@ -200,7 +200,7 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 											<?php foreach( $Metaboxes["metaboxes"][$post_name] as $context => $meta_box ) : ?>
 												<?php foreach( $meta_box as $priority => $box ) : ?>
 													<?php foreach( $box as $metabox_id => $metabox_title ) : ?>
-														<?php if( !empty( $metabox_id ) && $metabox_id != 'submitdiv' ) : ?>
+														<?php if( !empty( $metabox_id ) ) : ?>
 															<tr>
 																<th><?php echo $metabox_title; ?></th>
 																<td>

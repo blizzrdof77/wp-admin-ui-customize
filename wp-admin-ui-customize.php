@@ -2,10 +2,10 @@
 /*
 Plugin Name: WP Admin UI Customize
 Description: An excellent plugin to customize the management screens.
-Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_4_4
-Version: 1.4.4
+Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_4_4_1
+Version: 1.4.4.1
 Author: gqevu6bsiz
-Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_4_4
+Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_4_4_1
 Text Domain: wauc
 Domain Path: /languages
 */
@@ -55,7 +55,7 @@ class WP_Admin_UI_Customize
 
 
 	function __construct() {
-		$this->Ver = '1.4.4';
+		$this->Ver = '1.4.4.1';
 		$this->Name = 'WP Admin UI Customize';
 		$this->Dir = plugin_dir_path( __FILE__ );
 		$this->Url = plugin_dir_url( __FILE__ );
@@ -1918,21 +1918,27 @@ class WP_Admin_UI_Customize
 
 	// FilterStart
 	function notice_update_core( $site_transient_update_core ) {
-		$site_transient_update_core->updates[0]->response = 'latest';
+		if( !empty( $site_transient_update_core ) && !empty( $site_transient_update_core->updates[0] ) && !empty( $site_transient_update_core->updates[0]->response ) ) {
+			$site_transient_update_core->updates[0]->response = 'latest';
+		}
 		
 		return $site_transient_update_core;
 	}
 
 	// FilterStart
 	function notice_update_plugin( $site_transient_update_plugins ) {
-		unset( $site_transient_update_plugins->response );
+		if( isset( $site_transient_update_plugins->response ) ) {
+			unset( $site_transient_update_plugins->response );
+		}
 		
 		return $site_transient_update_plugins;
 	}
 
 	// FilterStart
 	function notice_update_theme( $site_transient_update_themes ) {
-		unset( $site_transient_update_themes->response );
+		if( isset( $site_transient_update_themes->response ) ) {
+			unset( $site_transient_update_themes->response );
+		}
 		
 		return $site_transient_update_themes;
 	}

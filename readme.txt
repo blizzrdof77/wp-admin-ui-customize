@@ -50,6 +50,9 @@ These to Customization is possible.
 
 == Changelog ==
 
+= 1.4.4.3 beta =
+* Fixed: Strip html tag from the title of Side menu settings.
+
 = 1.4.4.2 =
 * Fixed: Timing change of metabox load.
 

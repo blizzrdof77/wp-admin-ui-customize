@@ -2,10 +2,10 @@
 /*
 Plugin Name: WP Admin UI Customize
 Description: An excellent plugin to customize the management screens.
-Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_4_4_2
-Version: 1.4.4.2
+Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_4_4_3
+Version: 1.4.4.3 beta
 Author: gqevu6bsiz
-Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_4_4_2
+Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_4_4_3
 Text Domain: wauc
 Domain Path: /languages
 */
@@ -55,7 +55,7 @@ class WP_Admin_UI_Customize
 
 
 	function __construct() {
-		$this->Ver = '1.4.4.2';
+		$this->Ver = '1.4.4.3 beta';
 		$this->Name = 'WP Admin UI Customize';
 		$this->Dir = plugin_dir_path( __FILE__ );
 		$this->Url = plugin_dir_url( __FILE__ );
@@ -718,7 +718,7 @@ class WP_Admin_UI_Customize
 				</div>
 				<div class="widget-title">
 					<h4>
-						<?php echo $menu_widget["title"]; ?>
+						<?php echo strip_tags( $menu_widget["title"] ); ?>
 						: <span class="in-widget-title"><?php echo $menu_widget["slug"]; ?></span>
 					</h4>
 				</div>
@@ -767,7 +767,7 @@ class WP_Admin_UI_Customize
 										</div>
 										<div class="widget-title">
 											<h4>
-												<?php echo $sm["title"]; ?>
+												<?php echo strip_tags( $sm["title"] ); ?>
 												: <span class="in-widget-title"><?php echo $sm["slug"]; ?></span>
 											</h4>
 										</div>

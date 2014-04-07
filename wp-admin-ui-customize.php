@@ -244,6 +244,10 @@ class WP_Admin_UI_Customize
 		if( is_plugin_active( 'buddypress/bp-loader.php' ) ) {
 			$this->ActivatedPlugin["buddypress"] = true;
 		}
+
+		if( is_plugin_active( 'admin-menu-post-list/admin-menu-post-list.php' ) ) {
+			$this->ActivatedPlugin["admin-menu-post-list"] = true;
+		}
 	}
 
 
@@ -440,6 +444,23 @@ class WP_Admin_UI_Customize
 				}
 			}
 		}
+
+		// Other plugin
+		if( !empty( $this->ActivatedPlugin ) ) {
+
+			if( !empty( $this->ActivatedPlugin['admin-menu-post-list'] ) ) {
+				$plugin_slug = 'admin-menu-post-list';
+				foreach( $this->SubMenu as $parent_slug => $parent_menu_set ) {
+					foreach( $parent_menu_set as $primary => $submenu_set ) {
+						if( !empty( $submenu_set[0] ) && !empty( $submenu_set[3] ) && strstr( $submenu_set[0] , 'post_list_view' ) ) {
+							$this->OtherPluginMenu["sidemenu"][$plugin_slug]["submenu"][$parent_slug][$primary] = $submenu_set;
+						}
+					}
+				}
+			}
+			
+		}
+
 	}
 
 	// SetList
@@ -2084,6 +2105,9 @@ class WP_Admin_UI_Customize
 			if( !empty( $GetData ) && is_array( $GetData ) && !empty( $GetData["main"] ) ) {
 				$SetMain_menu = array();
 				$SetMain_submenu = array();
+
+				$activated_plugin = $this->ActivatedPlugin;
+				$other_plugin = $this->OtherPluginMenu;
 				
 				$separator_menu = array( 0 => "" , 1 => 'read' , 2 => 'separator1' , 3 => "" , 4 => 'wp-menu-separator' );
 				
@@ -2188,8 +2212,21 @@ class WP_Admin_UI_Customize
 											if( strstr( $sm["title"] , '[update_themes]') ) {
 												$sm["title"] = str_replace( '[update_themes]' , '<span class="update-plugins count-[update_themes]"><span class="theme-count">[update_themes_format]</span></span>' , $sm["title"] );
 											}
-											$submenu[$gsm_parent_slug][$gsm_pos][0] = $this->val_replace( $sm["title"] );
+											
+											if( !empty( $activated_plugin ) ) {
+												if( !empty( $activated_plugin['admin-menu-post-list'] ) && strstr( $sm["title"] , 'post_list_view' ) ) {
+													if( !empty( $other_plugin['sidemenu']['admin-menu-post-list']['submenu'][$sm["parent_slug"]] ) ) {
+														$admin_menu_post_list_menu = array_shift( $other_plugin['sidemenu']['admin-menu-post-list']['submenu'][$sm["parent_slug"]] );
+														if( !empty( $admin_menu_post_list_menu ) && !empty( $admin_menu_post_list_menu[0] ) ) {
+															$submenu[$gsm_parent_slug][$gsm_pos][0] = $admin_menu_post_list_menu[0];
+														}
+													}
+												}
+											} else {
+												$submenu[$gsm_parent_slug][$gsm_pos][0] = $this->val_replace( $sm["title"] );
+											}
 											$SetMain_submenu[$sm["parent_slug"]][] = $submenu[$gsm_parent_slug][$gsm_pos];
+											
 										}
 									}
 								}

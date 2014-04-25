@@ -59,6 +59,9 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 													<input type="checkbox" name="" class="check_all" />
 													<strong><?php _e( 'Show on screen' ); ?></strong>
 												</td>
+												<td style="width: 15%;">
+													<strong><?php _e( 'Default Open' , $this->ltd ); ?></strong>
+												</td>
 												<td><strong><?php _e( 'Change metabox title to' , $this->ltd ); ?></strong></td>
 											</tr>
 										</thead>
@@ -75,7 +78,19 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 																<?php if( $metabox_id != 'submitdiv' ) : ?>
 																	<?php $Checked = ''; ?>
 																	<?php if( !empty( $Data["post"][$metabox_id]["remove"] ) ) : $Checked = 'checked="checked"'; endif; ?>
-																	<label><input type="checkbox" name="data[post][<?php echo $metabox_id; ?>][remove]" value="1" <?php echo $Checked; ?> /> <?php _e ( 'Hide' ); ?></label>
+																	<label><input type="checkbox" name="data[post][<?php echo $metabox_id; ?>][remove]" value="1" class="show_check" <?php echo $Checked; ?> /> <?php _e ( 'Hide' ); ?></label>
+																<?php else : ?>
+																	<?php _e( 'Show' ); ?>
+																<?php endif; ?>
+															</td>
+															<td>
+																<?php if( $metabox_id != 'submitdiv' ) : ?>
+																	<?php $Selected = 0; ?>
+																	<?php if( !empty( $Data["post"][$metabox_id]["toggle"] ) ) : $Selected = true; endif; ?>
+																	<select name="data[post][<?php echo $metabox_id; ?>][toggle]" class="select_toggle">
+																		<option value="0" <?php Selected( $Selected , 0 ); ?>><?php _e( 'Not Reduce' , $this->ltd ); ?></option>
+																		<option value="1" <?php Selected( $Selected , 1 ); ?>><?php _e( 'Reduce' , $this->ltd ); ?></option>
+																	</select>
 																<?php else : ?>
 																	<?php _e( 'Show' ); ?>
 																<?php endif; ?>
@@ -83,7 +98,7 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 															<td>
 																<?php $Val = ''; ?>
 																<?php if( !empty( $Data["post"][$metabox_id]["name"] ) ) : $Val = esc_html( stripslashes( $Data["post"][$metabox_id]["name"] ) ); endif; ?>
-																<input type="text" name="data[post][<?php echo $metabox_id; ?>][name]" class="regular-text" value="<?php echo $Val; ?>" placeholder="<?php _e( $metabox_title ); ?>" />
+																<input type="text" name="data[post][<?php echo $metabox_id; ?>][name]" class="regular-text metabox_rename" value="<?php echo $Val; ?>" placeholder="<?php _e( $metabox_title ); ?>" />
 																<?php if( $metabox_id == 'commentstatusdiv' ) : ?>
 																	<p class="description"><?php _e( 'Notice: If hide the Discussion on metabox, comments does not display of Add New Post on apply user role.' , $this->ltd ); ?></p>
 																	<p><img src="<?php echo $this->Url; ?>images/discussion_allow_comments.png" /></p>
@@ -122,6 +137,9 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 													<input type="checkbox" name="" class="check_all" />
 													<strong><?php _e( 'Show on screen' ); ?></strong>
 												</td>
+												<td style="width: 15%;">
+													<strong><?php _e( 'Default Open' , $this->ltd ); ?></strong>
+												</td>
 												<td><strong><?php _e( 'Change metabox title to' ); ?></strong></td>
 											</tr>
 										</thead>
@@ -137,7 +155,19 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 																<?php if( $metabox_id != 'submitdiv' ) : ?>
 																	<?php $Checked = ''; ?>
 																	<?php if( !empty( $Data["page"][$metabox_id]["remove"] ) ) : $Checked = 'checked="checked"'; endif; ?>
-																	<label><input type="checkbox" name="data[page][<?php echo $metabox_id; ?>][remove]" value="1" <?php echo $Checked; ?> /> <?php _e ( 'Hide' ); ?></label>
+																	<label><input type="checkbox" name="data[page][<?php echo $metabox_id; ?>][remove]" value="1" class="show_check" <?php echo $Checked; ?> /> <?php _e ( 'Hide' ); ?></label>
+																<?php else : ?>
+																	<?php _e( 'Show' ); ?>
+																<?php endif; ?>
+															</td>
+															<td>
+																<?php if( $metabox_id != 'submitdiv' ) : ?>
+																	<?php $Selected = 0; ?>
+																	<?php if( !empty( $Data["page"][$metabox_id]["toggle"] ) ) : $Selected = true; endif; ?>
+																	<select name="data[page][<?php echo $metabox_id; ?>][toggle]" class="select_toggle">
+																		<option value="0" <?php Selected( $Selected , 0 ); ?>><?php _e( 'Not Reduce' , $this->ltd ); ?></option>
+																		<option value="1" <?php Selected( $Selected , 1 ); ?>><?php _e( 'Reduce' , $this->ltd ); ?></option>
+																	</select>
 																<?php else : ?>
 																	<?php _e( 'Show' ); ?>
 																<?php endif; ?>
@@ -145,7 +175,7 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 															<td>
 																<?php $Val = ''; ?>
 																<?php if( !empty( $Data["page"][$metabox_id]["name"] ) ) : $Val = esc_html( stripslashes( $Data["page"][$metabox_id]["name"] ) ); endif; ?>
-																<input type="text" name="data[page][<?php echo $metabox_id; ?>][name]" class="regular-text" value="<?php echo $Val; ?>" placeholder="<?php _e( $metabox_title ); ?>" />
+																<input type="text" name="data[page][<?php echo $metabox_id; ?>][name]" class="regular-text metabox_rename" value="<?php echo $Val; ?>" placeholder="<?php _e( $metabox_title ); ?>" />
 																<?php if( $metabox_id == 'commentstatusdiv' ) : ?>
 																	<p class="description"><?php _e( 'Notice: If hide the Discussion on metabox, comments does not display of Add New Post on apply user role.' , $this->ltd ); ?></p>
 																	<p><img src="<?php echo $this->Url; ?>images/discussion_allow_comments.png" /></p>
@@ -193,6 +223,9 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 													<input type="checkbox" name="" class="check_all" />
 													<strong><?php _e( 'Show on screen' ); ?></strong>
 												</td>
+												<td style="width: 15%;">
+													<strong><?php _e( 'Default Open' , $this->ltd ); ?></strong>
+												</td>
 												<td><strong><?php _e( 'Change metabox title to' ); ?></strong></td>
 											</tr>
 										</thead>
@@ -207,16 +240,28 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 																	<?php if( $metabox_id != 'submitdiv' ) : ?>
 																		<?php $Checked = ''; ?>
 																		<?php if( !empty( $Data[$post_name][$metabox_id]["remove"] ) ) : $Checked = 'checked="checked"'; endif; ?>
-																		<label><input type="checkbox" name="data[<?php echo $post_name; ?>][<?php echo $metabox_id; ?>][remove]" value="1" <?php echo $Checked; ?> /> <?php _e ( 'Hide' ); ?></label>
+																		<label><input type="checkbox" name="data[<?php echo $post_name; ?>][<?php echo $metabox_id; ?>][remove]" value="1" class="show_check" <?php echo $Checked; ?> /> <?php _e ( 'Hide' ); ?></label>
 																	<?php else : ?>
 																		<?php _e( 'Show' ); ?>
 																	<?php endif; ?>
 																</td>
-															<td>
-																<?php $Val = ''; ?>
-																<?php if( !empty( $Data[$post_name][$metabox_id]["name"] ) ) : $Val = esc_html( stripslashes( $Data[$post_name][$metabox_id]["name"] ) ); endif; ?>
-																<input type="text" name="data[<?php echo $post_name; ?>][<?php echo $metabox_id; ?>][name]" class="regular-text" value="<?php echo $Val; ?>" placeholder="<?php _e( $metabox_title ); ?>" />
-															</td>
+																<td>
+																	<?php if( $metabox_id != 'submitdiv' ) : ?>
+																		<?php $Selected = 0; ?>
+																		<?php if( !empty( $Data[$post_name][$metabox_id]["toggle"] ) ) : $Selected = true; endif; ?>
+																		<select name="data[<?php echo $post_name; ?>][<?php echo $metabox_id; ?>][toggle]" class="select_toggle">
+																			<option value="0" <?php Selected( $Selected , 0 ); ?>><?php _e( 'Not Reduce' , $this->ltd ); ?></option>
+																			<option value="1" <?php Selected( $Selected , 1 ); ?>><?php _e( 'Reduce' , $this->ltd ); ?></option>
+																		</select>
+																	<?php else : ?>
+																		<?php _e( 'Show' ); ?>
+																	<?php endif; ?>
+																</td>
+																<td>
+																	<?php $Val = ''; ?>
+																	<?php if( !empty( $Data[$post_name][$metabox_id]["name"] ) ) : $Val = esc_html( stripslashes( $Data[$post_name][$metabox_id]["name"] ) ); endif; ?>
+																	<input type="text" name="data[<?php echo $post_name; ?>][<?php echo $metabox_id; ?>][name]" class="regular-text metabox_rename" value="<?php echo $Val; ?>" placeholder="<?php _e( $metabox_title ); ?>" />
+																</td>
 															</tr>
 														<?php endif; ?>
 													<?php endforeach; ?>
@@ -265,6 +310,28 @@ jQuery(document).ready(function($) {
 		$Table.children("tbody").children("tr").each(function() {
 			$(this).find("input[type=checkbox]").prop("checked" , Checked);
 		});
+	});
+	
+	$('.postbox .inside .form-table').each(function( key, el ) {
+		$(el).find('tbody tr').each(function( tr_key , tr_el ) {
+			if( $(tr_el).find('.show_check').size() > 0 ) {
+				if( $(tr_el).find('.show_check').prop('checked') ) {
+					$(tr_el).find('.select_toggle').prop('disabled', true);
+					$(tr_el).find('.metabox_rename').prop('disabled', true).addClass('disabled');
+				}
+			}
+		});
+	});
+	
+	$('.postbox .inside .form-table tbody tr td .show_check').on('click', function( ev ) {
+		var Tr = $(ev.target).parent().parent().parent();
+		if( $(ev.target).prop('checked') ) {
+			Tr.find('.select_toggle').prop('disabled', true);
+			Tr.find('.metabox_rename').prop('disabled', true).addClass('disabled');
+		} else {
+			Tr.find('.select_toggle').prop('disabled', false);
+			Tr.find('.metabox_rename').prop('disabled', false).removeClass('disabled');
+		}
 	});
 
 });

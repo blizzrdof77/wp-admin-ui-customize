@@ -1,10 +1,10 @@
 === WP Admin UI Customize ===
 Contributors: gqevu6bsiz
-Donate link: http://gqevu6bsiz.chicappa.jp/please-donation/?utm_source=wporg&utm_medium=donate&utm_content=wauc&utm_campaign=1_4_4_2
+Donate link: http://gqevu6bsiz.chicappa.jp/please-donation/?utm_source=wporg&utm_medium=donate&utm_content=wauc&utm_campaign=1_5
 Tags: admin, post, posts, page, option, sitemenu, menu, custom, customize, dashboard, admin_bar, multisite, network, metabox
 Requires at least: 3.6.1
-Tested up to: 3.8.1
-Stable tag: 1.4.4.2
+Tested up to: 3.9
+Stable tag: 1.5
 License: GPL2
 
 Customize the management screen UI.
@@ -50,8 +50,11 @@ These to Customization is possible.
 
 == Changelog ==
 
-= 1.4.4.3 beta =
+= 1.5 =
 * Fixed: Strip html tag from the title of Side menu settings.
+* Fixed: Update notification on the Front-end.
+* Added: Settings default show of Metaboxes manage.
+* Added: Possible to settings children-free menu of Side menu settings.
 
 = 1.4.4.2 =
 * Fixed: Timing change of metabox load.

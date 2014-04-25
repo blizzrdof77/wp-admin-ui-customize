@@ -2,10 +2,10 @@
 /*
 Plugin Name: WP Admin UI Customize
 Description: An excellent plugin to customize the management screens.
-Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_4_4_3
-Version: 1.4.4.3 beta
+Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_5
+Version: 1.5
 Author: gqevu6bsiz
-Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_4_4_3
+Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_5
 Text Domain: wauc
 Domain Path: /languages
 */
@@ -27,6 +27,7 @@ Domain Path: /languages
 */
 
 
+if ( !class_exists( 'WP_Admin_UI_Customize' ) ) :
 
 class WP_Admin_UI_Customize
 {
@@ -55,7 +56,7 @@ class WP_Admin_UI_Customize
 
 
 	function __construct() {
-		$this->Ver = '1.4.4.3 beta';
+		$this->Ver = '1.5';
 		$this->Name = 'WP Admin UI Customize';
 		$this->Dir = plugin_dir_path( __FILE__ );
 		$this->Url = plugin_dir_url( __FILE__ );
@@ -119,9 +120,6 @@ class WP_Admin_UI_Customize
 		// data update
 		add_action( 'admin_init' , array( $this , 'dataUpdate') );
 		
-		// data convert
-		add_action( 'admin_init' , array( $this , 'dataConvert' ) );
-
 		// default admin bar menu load.
 		add_action( 'wp_before_admin_bar_render' , array( $this , 'admin_bar_default_load' ) , 1 );
 
@@ -184,69 +182,11 @@ class WP_Admin_UI_Customize
 	}
 
 	// PluginSetup
-	function dataConvert() {
-		$ManageMetabox = get_option( $this->Record['manage_metabox'] );
-		$RemoveMetabox = get_option( $this->ltd . '_removemetabox_setting' );
-		
-		if( empty( $ManageMetabox ) && !empty( $RemoveMetabox ) ) {
-
-			// Old Data Convert
-			$ManageMetabox["UPFN"] = $this->UPFN;
-			unset( $RemoveMetabox["UPFN"] );
-			
-			if( !empty( $RemoveMetabox ) ) {
-				foreach( $RemoveMetabox as $post_type => $box ) {
-					foreach( $box as $id => $v ) {
-						if( !empty( $v ) ) {
-							$ManageMetabox[$post_type][$id] = array( "remove" => 1 , "name" => "" );
-						}
-					}
-				}
-				
-				update_option( $this->Record['manage_metabox'] , $ManageMetabox );
-				delete_option( $this->ltd . '_removemetabox_setting' );
-			}
-			
-		}
-		
-		$Dashboard = get_option( $this->Record['dashboard'] );
-		if( !empty( $Dashboard ) ) {
-			unset( $Dashboard["UPFN"] );
-
-			if( !empty( $Dashboard["metabox_move"] ) ) {
-				$metabox_move = 1;
-				unset( $Dashboard["metabox_move"] );
-			}
-
-			$is_array = true;
-			foreach( $Dashboard as $box_id => $val ) {
-				if( !is_array( $val ) ) {
-					$Dashboard[$box_id] = array( "remove" => 1 );
-					$is_array = false;
-				}
-			}
-			if( $is_array ==  false ) {
-
-				$Dashboard["UPFN"] = $this->UPFN;
-				if( !empty( $metabox_move ) ) {
-					$Dashboard["metabox_move"] = 1;
-				}
-
-				update_option( $this->Record['dashboard'] , $Dashboard );
-			}
-		}
-	}
-
-	// PluginSetup
 	function activated_plugin() {
 		include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 
 		if( is_plugin_active( 'buddypress/bp-loader.php' ) ) {
 			$this->ActivatedPlugin["buddypress"] = true;
-		}
-
-		if( is_plugin_active( 'admin-menu-post-list/admin-menu-post-list.php' ) ) {
-			$this->ActivatedPlugin["admin-menu-post-list"] = true;
 		}
 	}
 
@@ -444,23 +384,6 @@ class WP_Admin_UI_Customize
 				}
 			}
 		}
-
-		// Other plugin
-		if( !empty( $this->ActivatedPlugin ) ) {
-
-			if( !empty( $this->ActivatedPlugin['admin-menu-post-list'] ) ) {
-				$plugin_slug = 'admin-menu-post-list';
-				foreach( $this->SubMenu as $parent_slug => $parent_menu_set ) {
-					foreach( $parent_menu_set as $primary => $submenu_set ) {
-						if( !empty( $submenu_set[0] ) && !empty( $submenu_set[3] ) && strstr( $submenu_set[0] , 'post_list_view' ) ) {
-							$this->OtherPluginMenu["sidemenu"][$plugin_slug]["submenu"][$parent_slug][$primary] = $submenu_set;
-						}
-					}
-				}
-			}
-			
-		}
-
 	}
 
 	// SetList
@@ -1610,6 +1533,7 @@ class WP_Admin_UI_Customize
 				if( array_key_exists( $UserRole , $SettingRole ) ) {
 
 					add_action( 'wp_footer' , array( $this , 'admin_bar_resizing' ) );
+					add_action( 'wp_loaded' , array( $this , 'notice_dismiss' ) , 2 );
 
 					$GetData = $this->get_flit_data( 'site' );
 					
@@ -1617,7 +1541,6 @@ class WP_Admin_UI_Customize
 						if( $GetData["admin_bar"] == "hide" ) {
 							add_filter( 'show_admin_bar' , '__return_false' );
 						} elseif( $GetData["admin_bar"] == "front" ) {
-							add_action( 'init' , array( $this , 'notice_dismiss' ) , 2 );
 							add_action( 'wp_before_admin_bar_render' , array( $this , 'admin_bar_menu') , 25 );
 						}
 					}
@@ -2075,9 +1998,21 @@ class WP_Admin_UI_Customize
 							foreach( $meta_box as $priority => $box ) {
 								foreach( $box as $metabox_id => $b ) {
 									if( !empty( $Data[$metabox_id]["remove"] ) ) {
+
 										remove_meta_box( $metabox_id , $post_type , $context );
-									} elseif( !empty( $Data[$metabox_id]["name"] ) ) {
-										$wp_meta_boxes[$post_type][$context][$priority][$metabox_id]["title"] = stripslashes( $Data[$metabox_id]["name"] );
+
+									} else {
+
+										if( !empty( $Data[$metabox_id]["name"] ) ) {
+											$wp_meta_boxes[$post_type][$context][$priority][$metabox_id]["title"] = stripslashes( $Data[$metabox_id]["name"] );
+										}
+
+										if( !empty( $Data[$metabox_id]["toggle"] ) ) {
+											add_filter( 'postbox_classes_' . $post_type . '_' . $metabox_id , array( $this , 'manage_metabox_close' ) );
+										} else {
+											add_filter( 'postbox_classes_' . $post_type . '_' . $metabox_id , array( $this , 'manage_metabox_open' ) );
+										}
+
 									}
 								}
 							}
@@ -2089,6 +2024,18 @@ class WP_Admin_UI_Customize
 			}
 		}
 
+	}
+
+	// FilterStart
+	function manage_metabox_close( $classes ) {
+		$classes = array( 'closed' );
+		return $classes;
+	}
+
+	// FilterStart
+	function manage_metabox_open( $classes ) {
+		$classes = array();
+		return $classes;
 	}
 
 	// FilterStart
@@ -2105,9 +2052,6 @@ class WP_Admin_UI_Customize
 			if( !empty( $GetData ) && is_array( $GetData ) && !empty( $GetData["main"] ) ) {
 				$SetMain_menu = array();
 				$SetMain_submenu = array();
-
-				$activated_plugin = $this->ActivatedPlugin;
-				$other_plugin = $this->OtherPluginMenu;
 				
 				$separator_menu = array( 0 => "" , 1 => 'read' , 2 => 'separator1' , 3 => "" , 4 => 'wp-menu-separator' );
 				
@@ -2212,21 +2156,8 @@ class WP_Admin_UI_Customize
 											if( strstr( $sm["title"] , '[update_themes]') ) {
 												$sm["title"] = str_replace( '[update_themes]' , '<span class="update-plugins count-[update_themes]"><span class="theme-count">[update_themes_format]</span></span>' , $sm["title"] );
 											}
-											
-											if( !empty( $activated_plugin ) ) {
-												if( !empty( $activated_plugin['admin-menu-post-list'] ) && strstr( $sm["title"] , 'post_list_view' ) ) {
-													if( !empty( $other_plugin['sidemenu']['admin-menu-post-list']['submenu'][$sm["parent_slug"]] ) ) {
-														$admin_menu_post_list_menu = array_shift( $other_plugin['sidemenu']['admin-menu-post-list']['submenu'][$sm["parent_slug"]] );
-														if( !empty( $admin_menu_post_list_menu ) && !empty( $admin_menu_post_list_menu[0] ) ) {
-															$submenu[$gsm_parent_slug][$gsm_pos][0] = $admin_menu_post_list_menu[0];
-														}
-													}
-												}
-											} else {
-												$submenu[$gsm_parent_slug][$gsm_pos][0] = $this->val_replace( $sm["title"] );
-											}
+											$submenu[$gsm_parent_slug][$gsm_pos][0] = $this->val_replace( $sm["title"] );
 											$SetMain_submenu[$sm["parent_slug"]][] = $submenu[$gsm_parent_slug][$gsm_pos];
-											
 										}
 									}
 								}
@@ -2364,5 +2295,7 @@ class WP_Admin_UI_Customize
 	}
 
 }
+
 $wauc = new WP_Admin_UI_Customize();
 
+endif;

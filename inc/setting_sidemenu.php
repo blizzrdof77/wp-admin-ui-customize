@@ -66,30 +66,39 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 											<?php $menu_title = __( 'Plugins' ); ?>
 										<?php endif; ?>
 										<p class="description"><?php echo $menu_title; ?></p>
-		
-										<?php foreach($this->SubMenu as $parent_slug => $sub) : ?>
-				
-											<?php foreach($sub as $sm) : ?>
-		
-												<?php if( $mm[2] == $parent_slug ) : ?>
-													<?php $menu_title = $sm[0]; ?>
-													<?php if( $sm[1] == 'update_core' ) : ?>
-														<?php $menu_title = __( 'Update' ) . ' [update_total]'; ?>
-													<?php elseif( $sm[2] == 'edit-comments.php' ) : ?>
-														<?php $menu_title .= ' [comment_count]'; ?>
-													<?php elseif( $sm[2] == 'themes.php' ) : ?>
-														<?php $menu_title .= ' [update_themes]'; ?>
-													<?php elseif( $sm[2] == 'plugins.php' ) : ?>
-														<?php $menu_title .= ' [update_plugins]'; ?>
+
+										<?php if( empty( $this->SubMenu[$mm[2]] ) ) : ?>
+
+											<?php $menu_widget = array( 'title' => $menu_title , 'slug' => $sm[2] , 'parent_slug' => '' , 'new' => true , 'cap' => $mm[1] , 'submenu' => '' ); ?>
+											<?php $this->sidebar_menu_widget( $menu_widget ); ?>
+
+										<?php else: ?>
+
+											<?php foreach($this->SubMenu as $parent_slug => $sub) : ?>
+					
+												<?php foreach($sub as $sm) : ?>
+			
+													<?php if( $mm[2] == $parent_slug ) : ?>
+														<?php $menu_title = $sm[0]; ?>
+														<?php if( $sm[1] == 'update_core' ) : ?>
+															<?php $menu_title = __( 'Update' ) . ' [update_total]'; ?>
+														<?php elseif( $sm[2] == 'edit-comments.php' ) : ?>
+															<?php $menu_title .= ' [comment_count]'; ?>
+														<?php elseif( $sm[2] == 'themes.php' ) : ?>
+															<?php $menu_title .= ' [update_themes]'; ?>
+														<?php elseif( $sm[2] == 'plugins.php' ) : ?>
+															<?php $menu_title .= ' [update_plugins]'; ?>
+														<?php endif; ?>
+														<?php $menu_widget = array( 'title' => $menu_title , 'slug' => $sm[2] , 'parent_slug' => '' , 'new' => true , 'cap' => $sm[1] , 'submenu' => '' ); ?>
+														<?php $this->sidebar_menu_widget( $menu_widget ); ?>
 													<?php endif; ?>
-													<?php $menu_widget = array( 'title' => $menu_title , 'slug' => $sm[2] , 'parent_slug' => '' , 'new' => true , 'cap' => $sm[1] , 'submenu' => '' ); ?>
-													<?php $this->sidebar_menu_widget( $menu_widget ); ?>
-												<?php endif; ?>
-				
+					
+												<?php endforeach; ?>
+					
 											<?php endforeach; ?>
-				
-										<?php endforeach; ?>
-		
+
+										<?php endif; ?>
+
 										<div class="clear"></div>
 		
 									<?php endif; ?>

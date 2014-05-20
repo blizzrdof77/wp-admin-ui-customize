@@ -2,10 +2,10 @@
 /*
 Plugin Name: WP Admin UI Customize
 Description: An excellent plugin to customize the management screens.
-Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_5
-Version: 1.5
+Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_5_1
+Version: 1.5.1 beta
 Author: gqevu6bsiz
-Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_5
+Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_5_1
 Text Domain: wauc
 Domain Path: /languages
 */
@@ -56,7 +56,7 @@ class WP_Admin_UI_Customize
 
 
 	function __construct() {
-		$this->Ver = '1.5';
+		$this->Ver = '1.5.1 Beta';
 		$this->Name = 'WP Admin UI Customize';
 		$this->Dir = plugin_dir_path( __FILE__ );
 		$this->Url = plugin_dir_url( __FILE__ );
@@ -536,7 +536,12 @@ class WP_Admin_UI_Customize
 		$Filter_bar["front"]["main"]["edit-post_type"] = new stdClass;
 		$Filter_bar["front"]["main"]["edit-post_type"] = (object) array( 'id' => 'edit-post_type' , 'title' => '' , 'href' => '' , 'group' => '' , 'meta' => array() );
 		$Filter_bar["front"]["main"]["edit-post_type"]->title = sprintf( '%1$s (%2$s/%3$s/%4$s/%5$s/%6$s)' , __( 'Edit' ) , __( 'Posts' ) , __( 'Pages' ) , __( 'Categories' ) , __( 'Tags' ) , __( 'Custom' ) );
-		
+
+		$Filter_bar["front"]["main"]["search"] = new stdClass;
+		$Filter_bar["front"]["main"]["search"] = (object) array( 'id' => 'search' , 'title' => '' , 'href' => '' , 'group' => '' , 'meta' => array() );
+		$Filter_bar["front"]["main"]["search"]->title = __( 'Search' );
+		$Filter_bar["front"]["main"]["search"]->href = get_search_link();
+	
 		return $Filter_bar;
 	}
 
@@ -1684,6 +1689,16 @@ class WP_Admin_UI_Customize
 									$node["title"] = $All_Nodes["edit"]->title;
 									$node["href"] = $All_Nodes["edit"]->href;
 									$node["id"] = $All_Nodes["edit"]->id;
+								} else {
+									unset( $SettingNodes[$Boxtype][$node_type][$key] );
+									continue;
+								}
+							} elseif( $node["id"] == 'search' ) {
+								if( !empty( $All_Nodes["search"] ) ) {
+									$node["title"] = $All_Nodes["search"]->title;
+									$node["id"] = $All_Nodes["search"]->id;
+									$node["href"] = "";
+									$node["meta"]["class"] = $All_Nodes["search"]->meta["class"];
 								} else {
 									unset( $SettingNodes[$Boxtype][$node_type][$key] );
 									continue;

@@ -1,6 +1,6 @@
 === WP Admin UI Customize ===
 Contributors: gqevu6bsiz
-Donate link: http://gqevu6bsiz.chicappa.jp/please-donation/?utm_source=wporg&utm_medium=donate&utm_content=wauc&utm_campaign=1_5
+Donate link: http://gqevu6bsiz.chicappa.jp/please-donation/?utm_source=wporg&utm_medium=donate&utm_content=wauc&utm_campaign=1_5_1
 Tags: admin, post, posts, page, option, sitemenu, menu, custom, customize, dashboard, admin_bar, multisite, network, metabox
 Requires at least: 3.6.1
 Tested up to: 3.9
@@ -49,6 +49,9 @@ These to Customization is possible.
 11. Plugin Capabilities Settings
 
 == Changelog ==
+
+= 1.5.1 =
+* Added: Search box settings on the Admin Bar Settings.
 
 = 1.5 =
 * Fixed: Strip html tag from the title of Side menu settings.

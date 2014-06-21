@@ -3,7 +3,7 @@
 Plugin Name: WP Admin UI Customize
 Description: An excellent plugin to customize the management screens.
 Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_5_1
-Version: 1.5.1
+Version: 1.5.1.1 alpha
 Author: gqevu6bsiz
 Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_5_1
 Text Domain: wauc
@@ -56,7 +56,7 @@ class WP_Admin_UI_Customize
 
 
 	function __construct() {
-		$this->Ver = '1.5.1';
+		$this->Ver = '1.5.1.1 alpha';
 		$this->Name = 'WP Admin UI Customize';
 		$this->Dir = plugin_dir_path( __FILE__ );
 		$this->Url = plugin_dir_url( __FILE__ );
@@ -1016,8 +1016,10 @@ class WP_Admin_UI_Customize
 		$User = wp_get_current_user();
 		if( !empty( $User->roles ) ) {
 			foreach( $User->roles as $role ) {
-				$UserRole = $role;
-				break;
+				if( !empty( $role ) ) {
+					$UserRole = $role;
+					break;
+				}
 			}
 		}
 		if( empty( $UserRole ) && is_multisite() ) {
@@ -1026,8 +1028,10 @@ class WP_Admin_UI_Customize
 			$User = wp_get_current_user();
 			if( !empty( $User->roles ) ) {
 				foreach( $User->roles as $role ) {
-					$UserRole = $role;
-					break;
+					if( !empty( $role ) ) {
+						$UserRole = $role;
+						break;
+					}
 				}
 			}
 			restore_current_blog();
@@ -1074,6 +1078,88 @@ class WP_Admin_UI_Customize
 		
 		echo $link;
 
+	}
+	
+	// SetList
+	function get_debug_code() {
+		
+		global $current_user;
+		global $plugin_page;
+		global $wpdb;
+		
+		$now_page = $plugin_page;
+		$now_page = str_replace( $this->PageSlug , '' , $now_page );
+		$record = 'user_role';
+		
+?>
+		<p>
+			<span class="description">Debug code is will show on the only page of <?php echo $this->Name; ?>.</span>
+			<a href="<?php echo remove_query_arg( 'wauc_msg' , add_query_arg( array( $this->ltd . '_debug' => true ) ) ); ?>" class="button-secondary"><?php _e( 'Show' ); ?><?php _e( 'Debug' ); ?></a>
+		</p>
+
+		<?php if( !empty( $_GET[$this->ltd . '_debug'] ) ) : ?>
+
+			<?php
+				
+				if( !empty( $now_page ) ) {
+					$now_page = str_replace( '_setting' , '' , $now_page );
+					if( $now_page == '_site' ) {
+						$record = 'site';
+					} elseif( $now_page == '_admin_general' ) {
+						$record = 'admin_general';
+					} elseif( $now_page == '_dashboard' ) {
+						$record = 'dashboard';
+					} elseif( $now_page == '_admin_bar' ) {
+						$record = 'admin_bar_menu';
+					} elseif( $now_page == '_sidemenu' ) {
+						$record = 'sidemenu';
+					} elseif( $now_page == '_manage_metabox' ) {
+						$record = 'manage_metabox';
+					} elseif( $now_page == '_post_add_edit_screen' ) {
+						$record = 'post_add_edit';
+					} elseif( $now_page == '_appearance_menus' ) {
+						$record = 'appearance_menus';
+					} elseif( $now_page == '_loginscreen' ) {
+						$record = 'loginscreen';
+					} elseif( $now_page == '_plugin_cap' ) {
+						$record = 'plugin_cap';
+					}
+				}
+				
+				$alloptions = wp_load_alloptions();
+				if ( isset( $alloptions[$this->Record[$record]] ) ) {
+					$cache_data = $alloptions[$this->Record[$record]];
+				} else {
+					$cache_data = wp_cache_get( $this->Record[$record], 'options' );
+				}
+				$cache_data = maybe_unserialize( $cache_data );
+				
+				$row = $wpdb->get_row( $wpdb->prepare( "SELECT option_value FROM $wpdb->options WHERE option_name = %s LIMIT 1", $this->Record[$record] ) );
+				$option_data = false;
+				if ( is_object( $row ) ) {
+					$option_data = maybe_unserialize( $row->option_value );
+				}
+
+			?>
+			<div class="<?php echo $this->ltd; ?>_debug">
+
+				<p><strong>Current User Role Group of you</strong>: <input type="text" readonly="readonly" value="<?php echo $this->current_user_role_group(); ?>" /></p>
+				<p><strong>Current User Role Group of you ( Core )</strong>: <textarea readonly="readonly"><?php print_r( $current_user->roles ); ?></textarea></p>
+				<p><strong>Current Record</strong>: <input type="text" readonly="readonly" value="<?php echo $this->Record[$record]; ?>" /></p>
+				<?php if( $record == 'dashboard' ) : ?>
+					<p><strong>Get metaboxes of Dashboard</strong>: <textarea readonly="readonly"><?php print_r( get_option( $this->Record['regist_dashboard_metabox'] ) ); ?></textarea></p>
+				<?php elseif( $record == 'manage_metabox' ) : ?>
+					<p><strong>Get metaboxes of auto include</strong>: <textarea readonly="readonly"><?php print_r( get_option( $this->Record['regist_metabox'] ) ); ?></textarea></p>
+				<?php endif; ?>
+				<p><strong>Whether same the data and cache</strong>: <input type="text" readonly="readonly" value="<?php if( $option_data === $cache_data ) { _e( 'Yes' ); } else { _e( 'No' ); } ?>"></p>
+				<p><strong>Get option of Current data</strong>: <textarea readonly="readonly"><?php print_r( $option_data ); ?></textarea></p>
+				<p><strong>Get option of Cache data</strong>: <textarea readonly="readonly"><?php print_r( $cache_data ); ?></textarea></p>
+
+			</div>
+
+		<?php endif; ?>
+
+<?php
 	}
 
 
@@ -1161,7 +1247,7 @@ class WP_Admin_UI_Customize
 		if( !empty( $Update ) && check_admin_referer( $this->Nonces["value"] , $this->Nonces["field"] ) ) {
 			$record = apply_filters( 'wauc_pre_delete' , $this->Record[$record] );
 			delete_option( $record );
-			wp_redirect( add_query_arg( $this->MsgQ , 'delete' , stripslashes( $_POST["_wp_http_referer"] ) ) );
+			wp_redirect( add_query_arg( $this->MsgQ , 'delete' , remove_query_arg( array( 'wauc_debug' ) , stripslashes( $_POST["_wp_http_referer"] ) ) ) );
 			exit;
 		}
 	}
@@ -1176,7 +1262,7 @@ class WP_Admin_UI_Customize
 					delete_option( $record );
 				}
 			}
-			wp_redirect( add_query_arg( $this->MsgQ , 'delete' , stripslashes( $_POST["_wp_http_referer"] ) ) );
+			wp_redirect( add_query_arg( $this->MsgQ , 'delete' , remove_query_arg( array( 'wauc_debug' ) , stripslashes( $_POST["_wp_http_referer"] ) ) ) );
 			exit;
 		}
 	}
@@ -1190,7 +1276,7 @@ class WP_Admin_UI_Customize
 				$SubmitKey = md5( strip_tags( $_POST["donate_key"] ) );
 				if( $this->DonateKey == $SubmitKey ) {
 					update_option( $this->Record["donate"] , $SubmitKey );
-					wp_redirect( add_query_arg( $this->MsgQ , 'donated' ) );
+					wp_redirect( add_query_arg( $this->MsgQ , 'donated' , remove_query_arg( array( 'wauc_debug' ) , stripslashes( $_POST["_wp_http_referer"] ) ) ) );
 					exit;
 				}
 			}
@@ -1212,7 +1298,7 @@ class WP_Admin_UI_Customize
 			}
 
 			update_option( $this->Record["user_role"] , $Update );
-			wp_redirect( add_query_arg( $this->MsgQ , 'update' , stripslashes( $_POST["_wp_http_referer"] ) ) );
+			wp_redirect( add_query_arg( $this->MsgQ , 'update' , remove_query_arg( array( 'wauc_debug' ) , stripslashes( $_POST["_wp_http_referer"] ) ) ) );
 			exit;
 		}
 	}
@@ -1232,7 +1318,7 @@ class WP_Admin_UI_Customize
 
 			$Record = apply_filters( 'wauc_pre_update' , $this->Record["site"] );
 			update_option( $Record , $Update );
-			wp_redirect( add_query_arg( $this->MsgQ , 'update' , stripslashes( $_POST["_wp_http_referer"] ) ) );
+			wp_redirect( add_query_arg( $this->MsgQ , 'update' , remove_query_arg( array( 'wauc_debug' ) , stripslashes( $_POST["_wp_http_referer"] ) ) ) );
 			exit;
 		}
 	}
@@ -1252,7 +1338,7 @@ class WP_Admin_UI_Customize
 
 			$Record = apply_filters( 'wauc_pre_update' , $this->Record["admin_general"] );
 			update_option( $Record , $Update );
-			wp_redirect( add_query_arg( $this->MsgQ , 'update' , stripslashes( $_POST["_wp_http_referer"] ) ) );
+			wp_redirect( add_query_arg( $this->MsgQ , 'update' , remove_query_arg( array( 'wauc_debug' ) , stripslashes( $_POST["_wp_http_referer"] ) ) ) );
 			exit;
 		}
 	}
@@ -1272,7 +1358,7 @@ class WP_Admin_UI_Customize
 
 			$Record = apply_filters( 'wauc_pre_update' , $this->Record["dashboard"] );
 			update_option( $Record , $Update );
-			wp_redirect( add_query_arg( $this->MsgQ , 'update' , stripslashes( $_POST["_wp_http_referer"] ) ) );
+			wp_redirect( add_query_arg( $this->MsgQ , 'update' , remove_query_arg( array( 'wauc_debug' ) , stripslashes( $_POST["_wp_http_referer"] ) ) ) );
 			exit;
 		}
 	}
@@ -1327,7 +1413,7 @@ class WP_Admin_UI_Customize
 
 			$Record = apply_filters( 'wauc_pre_update' , $this->Record["admin_bar_menu"] );
 			update_option( $Record , $Update );
-			wp_redirect( add_query_arg( $this->MsgQ , 'update' , stripslashes( $_POST["_wp_http_referer"] ) ) );
+			wp_redirect( add_query_arg( $this->MsgQ , 'update' , remove_query_arg( array( 'wauc_debug' ) , stripslashes( $_POST["_wp_http_referer"] ) ) ) );
 			exit;
 		}
 	}
@@ -1357,7 +1443,7 @@ class WP_Admin_UI_Customize
 
 			$Record = apply_filters( 'wauc_pre_update' , $this->Record["sidemenu"] );
 			update_option( $Record , $Update );
-			wp_redirect( add_query_arg( $this->MsgQ , 'update' , stripslashes( $_POST["_wp_http_referer"] ) ) );
+			wp_redirect( add_query_arg( $this->MsgQ , 'update' , remove_query_arg( array( 'wauc_debug' ) , stripslashes( $_POST["_wp_http_referer"] ) ) ) );
 			exit;
 		}
 	}
@@ -1382,7 +1468,7 @@ class WP_Admin_UI_Customize
 
 			$Record = apply_filters( 'wauc_pre_update' , $this->Record["manage_metabox"] );
 			update_option( $Record , $Update );
-			wp_redirect( add_query_arg( $this->MsgQ , 'update' , stripslashes( $_POST["_wp_http_referer"] ) ) );
+			wp_redirect( add_query_arg( $this->MsgQ , 'update' , remove_query_arg( array( 'wauc_debug' ) , stripslashes( $_POST["_wp_http_referer"] ) ) ) );
 			exit;
 		}
 	}
@@ -1402,7 +1488,7 @@ class WP_Admin_UI_Customize
 
 			$Record = apply_filters( 'wauc_pre_update' , $this->Record["post_add_edit"] );
 			update_option( $Record , $Update );
-			wp_redirect( add_query_arg( $this->MsgQ , 'update' , stripslashes( $_POST["_wp_http_referer"] ) ) );
+			wp_redirect( add_query_arg( $this->MsgQ , 'update' , remove_query_arg( array( 'wauc_debug' ) , stripslashes( $_POST["_wp_http_referer"] ) ) ) );
 			exit;
 		}
 	}
@@ -1422,7 +1508,7 @@ class WP_Admin_UI_Customize
 
 			$Record = apply_filters( 'wauc_pre_update' , $this->Record["appearance_menus"] );
 			update_option( $Record , $Update );
-			wp_redirect( add_query_arg( $this->MsgQ , 'update' , stripslashes( $_POST["_wp_http_referer"] ) ) );
+			wp_redirect( add_query_arg( $this->MsgQ , 'update' , remove_query_arg( array( 'wauc_debug' ) , stripslashes( $_POST["_wp_http_referer"] ) ) ) );
 			exit;
 		}
 	}
@@ -1442,7 +1528,7 @@ class WP_Admin_UI_Customize
 
 			$Record = apply_filters( 'wauc_pre_update' , $this->Record["loginscreen"] );
 			update_option( $Record , $Update );
-			wp_redirect( add_query_arg( $this->MsgQ , 'update' , stripslashes( $_POST["_wp_http_referer"] ) ) );
+			wp_redirect( add_query_arg( $this->MsgQ , 'update' , remove_query_arg( array( 'wauc_debug' ) , stripslashes( $_POST["_wp_http_referer"] ) ) ) );
 			exit;
 
 		}
@@ -1459,7 +1545,7 @@ class WP_Admin_UI_Customize
 
 			$Record = apply_filters( 'wauc_pre_update' , $this->Record["plugin_cap"] );
 			update_option( $Record , $Update );
-			wp_redirect( add_query_arg( $this->MsgQ , 'update' , stripslashes( $_POST["_wp_http_referer"] ) ) );
+			wp_redirect( add_query_arg( $this->MsgQ , 'update' , remove_query_arg( array( 'wauc_debug' ) , stripslashes( $_POST["_wp_http_referer"] ) ) ) );
 			exit;
 
 		}

@@ -23,6 +23,9 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 	<div class="icon32" id="icon-tools"></div>
 	<?php echo $this->Msg; ?>
 	<h2><?php _e( 'Side Menu' , $this->ltd ); ?></h2>
+
+	<?php $this->get_debug_code(); ?>
+
 	<p><?php _e( 'Please change the menu by drag and drop.' , $this->ltd ); ?></p>
 	<p class="description"><?php echo sprintf( __( 'New plugin menus will be added to the <strong>%s</strong>.' , $this->ltd ) , __( 'Menu items that can be added' , $this->ltd ) ); ?>
 	<p><strong><?php _e( 'Notice: Please do not place the same multiple menu slug.' , $this->ltd ); ?></strong></p>
@@ -31,7 +34,7 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 
 	<p><a href="#TB_inline?height=300&width=600&inlineId=list_variables&modal=false" title="<?php _e( 'Shortcodes' , $this->ltd ); ?>" class="thickbox"><?php _e( 'Available Shortcodes' , $this->ltd ); ?></a></p>
 
-	<form id="wauc_setting_sidemenu" class="wauc_form" method="post" action="<?php echo remove_query_arg( 'wauc_msg' , add_query_arg( array( 'page' => $this->PageSlug ) ) ); ?>">
+	<form id="wauc_setting_sidemenu" class="wauc_form" method="post" action="<?php echo add_query_arg( array( 'page' => $this->PageSlug ) , remove_query_arg( array( 'wauc_msg' , 'wauc_debug' , 'page' ) ) ); ?>">
 		<input type="hidden" name="<?php echo $this->UPFN; ?>" value="Y" />
 		<?php wp_nonce_field( $this->Nonces["value"] , $this->Nonces["field"] ); ?>
 		<input type="hidden" name="record_field" value="sidemenu" />

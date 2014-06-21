@@ -20,11 +20,13 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 	<div class="icon32" id="icon-tools"></div>
 	<?php echo $this->Msg; ?>
 	<h2><?php _e( 'Appearance Menus Screen Setting' , $this->ltd ); ?></h2>
-	<p>&nbsp;</p>
 
+	<?php $this->get_debug_code(); ?>
+
+	<p>&nbsp;</p>
 	<h3 id="wauc-apply-user-roles"><?php echo $this->get_apply_roles(); ?></h3>
 
-	<form id="wauc_setting_appearance_menus" class="wauc_form" method="post" action="<?php echo remove_query_arg( 'wauc_msg' , add_query_arg( array( 'page' => $this->PageSlug ) ) ); ?>">
+	<form id="wauc_setting_appearance_menus" class="wauc_form" method="post" action="<?php echo add_query_arg( array( 'page' => $this->PageSlug ) , remove_query_arg( array( 'wauc_msg' , 'wauc_debug' , 'page' ) ) ); ?>">
 		<input type="hidden" name="<?php echo $this->UPFN; ?>" value="Y" />
 		<?php wp_nonce_field( $this->Nonces["value"] , $this->Nonces["field"] ); ?>
 		<input type="hidden" name="record_field" value="appearance_menus" />

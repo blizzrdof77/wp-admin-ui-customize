@@ -251,3 +251,23 @@ body.mp6.wp-admin-ui-customize_page_wp_admin_ui_customize_admin_bar .postbox .in
 }
 
 
+
+
+/* Debug Code */
+
+.wauc_debug {
+	background: #FFEFE5;
+	padding: 10px;
+	border: 1px solid #FF6600;
+}
+.wauc_debug textarea {
+	max-height: 300px;
+	min-height: 100px;
+	width: 100%;
+	overflow: scroll;
+	display: block;
+}
+.wauc_debug input {
+	width: 100%;
+	display: block;
+}

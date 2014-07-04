@@ -551,7 +551,12 @@ class WP_Admin_UI_Customize
 
 		$UserRole = $this->current_user_role_group();
 
+		if( $UserRole == 'administrator' ) echo 'Metabox load feature success(This show to Administrator only): 1';
+
 		if( !empty( $current_screen ) && $current_screen->id == 'dashboard' && $UserRole == 'administrator' ) {
+
+			if( $UserRole == 'administrator' ) echo '&amp;2';
+
 			global $wp_meta_boxes;
 
 			$GetData = $this->get_data( "regist_dashboard_metabox" );
@@ -592,6 +597,9 @@ class WP_Admin_UI_Customize
 			}
 
 			if( !empty( $Update ) ) {
+
+				if( $UserRole == 'administrator' ) echo '&amp;3';
+				if( $UserRole == 'administrator' ) : echo "\n\n"; print_r($Update); endif;
 				update_option( $this->Record["regist_dashboard_metabox"] , $Update );
 			}
 		}

@@ -21,15 +21,12 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 	<div class="icon32" id="icon-tools"></div>
 	<?php echo $this->Msg; ?>
 	<h2><?php echo sprintf( __( '%1$s of %2$s %3$s' , $this->ltd ) , __( 'Change' ) , __( 'Plugin' ) , __( 'Capabilities' ) ); ?></h2>
-
-	<?php $this->get_debug_code(); ?>
-
 	<p><?php echo sprintf( __( 'You can change the user role %2$s of %1$s settings.' , $this->ltd ) , $this->Name , __( 'Capabilities' ) ); ?></p>
 	<p><?php echo sprintf( __( 'Please choose the role to use the %s.' , $this->ltd ) , $this->Name ); ?></p>
 	
 	<p>&nbsp;</p>
 
-	<form id="wauc_setting_plugin_cap" class="wauc_form" method="post" action="<?php echo add_query_arg( array( 'page' => $this->PageSlug ) , remove_query_arg( array( 'wauc_msg' , 'wauc_debug' , 'page' ) ) ); ?>">
+	<form id="wauc_setting_plugin_cap" class="wauc_form" method="post" action="<?php echo remove_query_arg( 'wauc_msg' , add_query_arg( array( 'page' => $this->PageSlug ) ) ); ?>">
 		<input type="hidden" name="<?php echo $this->UPFN; ?>" value="Y" />
 		<?php wp_nonce_field( $this->Nonces["value"] , $this->Nonces["field"] ); ?>
 		<input type="hidden" name="record_field" value="plugin_cap" />

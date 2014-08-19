@@ -1,10 +1,10 @@
 === WP Admin UI Customize ===
 Contributors: gqevu6bsiz
-Donate link: http://gqevu6bsiz.chicappa.jp/please-donation/?utm_source=wporg&utm_medium=donate&utm_content=wauc&utm_campaign=1_5_1
+Donate link: http://gqevu6bsiz.chicappa.jp/please-donation/?utm_source=wporg&utm_medium=donate&utm_content=wauc&utm_campaign=1_5_2
 Tags: admin, post, posts, page, option, sitemenu, menu, custom, customize, dashboard, admin_bar, multisite, network, metabox
 Requires at least: 3.6.1
-Tested up to: 3.9.1
-Stable tag: 1.5.1
+Tested up to: 3.9.2
+Stable tag: 1.5.2
 License: GPL2
 
 Customize the management screen UI.
@@ -50,8 +50,9 @@ These to Customization is possible.
 
 == Changelog ==
 
-= 1.5.1.1 dev =
-* Added: Show the Debug mode.
+= 1.5.2 =
+* Added: Translation for zh-TW.
+* Updated: Change how to loading the metaboxes.
 
 = 1.5.1 =
 * Added: Search box settings on the Admin Bar Settings.

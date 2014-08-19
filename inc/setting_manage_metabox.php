@@ -22,15 +22,12 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 	<div class="icon32" id="icon-tools"></div>
 	<?php echo $this->Msg; ?>
 	<h2><?php _e( 'Manage meta box' , $this->ltd ); ?></h2>
-
-	<?php $this->get_debug_code(); ?>
-
 	<p><?php _e( 'Please update or add a "post" and a "page" to load the available meta boxes.' , $this->ltd ); ?></p>
 	<p><?php _e( 'Please enter if you want to change of Metabox label name.' , $this->ltd ); ?></p>
 
 	<h3 id="wauc-apply-user-roles"><?php echo $this->get_apply_roles(); ?></h3>
 
-	<form id="wauc_setting_manage_metabox" class="wauc_form" method="post" action="<?php echo add_query_arg( array( 'page' => $this->PageSlug ) , remove_query_arg( array( 'wauc_msg' , 'wauc_debug' , 'page' ) ) ); ?>">
+	<form id="wauc_setting_manage_metabox" class="wauc_form" method="post" action="<?php echo remove_query_arg( 'wauc_msg' , add_query_arg( array( 'page' => $this->PageSlug ) ) ); ?>">
 		<input type="hidden" name="<?php echo $this->UPFN; ?>" value="Y" />
 		<?php wp_nonce_field( $this->Nonces["value"] , $this->Nonces["field"] ); ?>
 		<input type="hidden" name="record_field" value="manage_metabox" />
@@ -49,8 +46,27 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 			
 								<?php if( empty( $Metaboxes["metaboxes"]["post"] ) ) : ?>
 			
-									<p><?php _e( 'Could not read the meta box.' , $this->ltd ); ?></p>
-									<p><?php echo sprintf( __( 'Meta boxes will be loaded automatically when you <strong>%s</strong>.' , $this->ltd ) , __( 'Edit Post' ) ); ?></p>
+									<?php $post = get_posts( array( 'post_type' => 'post' , 'order' => 'DESC' , 'orderby' => 'post_date' , 'numberposts' => 1 ) ); ?>
+									
+									<?php if( !empty( $post ) ) : ?>
+
+										<?php $load_link = self_admin_url( 'post.php?post=' . $post[0]->ID . '&action=edit' ); ?>
+
+									<?php else: ?>
+
+										<?php $load_link = self_admin_url( 'post-new.php' ); ?>
+
+									<?php endif; ?>
+
+									<p>
+										<a href="<?php echo $load_link; ?>" class="button button-primary column_load">
+											<?php echo sprintf( __( 'Metaboxes loading for %s', $this->ltd ) , __( 'Posts' ) ); ?>
+										</a>
+									</p>
+									<p class="loading">
+										<span class="spinner"></span>
+										<?php _e( 'Loading&hellip;' ); ?>
+									</p>
 								
 								<?php else: ?>
 								
@@ -127,8 +143,27 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 			
 								<?php if( empty( $Metaboxes["metaboxes"]["page"] ) ) : ?>
 			
-									<p><?php _e( 'Could not read the meta box.' , $this->ltd ); ?></p>
-									<p><?php echo sprintf( __( 'Meta boxes will be loaded automatically when you <strong>%s</strong>.' , $this->ltd ) , __( 'Edit Page' ) ); ?></p>
+									<?php $post = get_posts( array( 'post_type' => 'page' , 'order' => 'DESC' , 'orderby' => 'post_date' , 'numberposts' => 1 ) ); ?>
+									
+									<?php if( !empty( $post ) ) : ?>
+
+										<?php $load_link = self_admin_url( 'post.php?post=' . $post[0]->ID . '&action=edit' ); ?>
+
+									<?php else: ?>
+
+										<?php $load_link = self_admin_url( 'post-new.php?post_type=page' ); ?>
+
+									<?php endif; ?>
+
+									<p>
+										<a href="<?php echo $load_link; ?>" class="button button-primary column_load">
+											<?php echo sprintf( __( 'Metaboxes loading for %s', $this->ltd ) , __( 'Pages' ) ); ?>
+										</a>
+									</p>
+									<p class="loading">
+										<span class="spinner"></span>
+										<?php _e( 'Loading&hellip;' ); ?>
+									</p>
 								
 								<?php else: ?>
 			
@@ -213,9 +248,28 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 			
 								<?php if( empty( $Metaboxes["metaboxes"][$post_name] ) ) : ?>
 			
-									<p><?php _e( 'Could not read the meta box.' , $this->ltd ); ?></p>
-									<p><?php echo sprintf( __( 'Meta boxes will be loaded automatically when you <strong>%s</strong>.' , $this->ltd ) , strip_tags( $cpt->labels->edit_item ) ); ?></p>
-								
+									<?php $post = get_posts( array( 'post_type' => $post_name , 'order' => 'DESC' , 'orderby' => 'post_date' , 'numberposts' => 1 ) ); ?>
+									
+									<?php if( !empty( $post ) ) : ?>
+
+										<?php $load_link = self_admin_url( 'post.php?post=' . $post[0]->ID . '&action=edit' ); ?>
+
+									<?php else: ?>
+
+										<?php $load_link = self_admin_url( 'post-new.php?post_type=' . $post_name ); ?>
+
+									<?php endif; ?>
+
+									<p>
+										<a href="<?php echo $load_link; ?>" class="button button-primary column_load">
+											<?php echo sprintf( __( 'Metaboxes loading for %s', $this->ltd ) , $cpt->label ); ?>
+										</a>
+									</p>
+									<p class="loading">
+										<span class="spinner"></span>
+										<?php _e( 'Loading&hellip;' ); ?>
+									</p>
+
 								<?php else: ?>
 			
 									<table class="form-table">
@@ -336,6 +390,22 @@ jQuery(document).ready(function($) {
 			Tr.find('.metabox_rename').prop('disabled', false).removeClass('disabled');
 		}
 	});
+
+	$('.wauc_form .column_load').on('click', function( ev ) {
+		var load_url = $(ev.target).prop('href');
+				
+		$.ajax({
+			url: load_url,
+			beforeSend: function( xhr ) {
+				$(ev.target).parent().parent().find('.loading').show();
+				$(ev.target).parent().parent().find('.spinner').show();
+			}
+		}).done(function( data ) {
+			location.reload();
+		});
+		
+		return false;
+	}).disableSelection();
 
 });
 </script>

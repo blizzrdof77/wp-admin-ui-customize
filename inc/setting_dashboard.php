@@ -21,13 +21,11 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 	<div class="icon32" id="icon-tools"></div>
 	<?php echo $this->Msg; ?>
 	<h2><?php _e( 'Dashboard' ); ?><?php _e( 'Settings' ); ?></h2>
-
-	<?php $this->get_debug_code(); ?>
-
 	<p>&nbsp;</p>
+
 	<h3 id="wauc-apply-user-roles"><?php echo $this->get_apply_roles(); ?></h3>
 
-	<form id="wauc_setting_dashboard" class="wauc_form" method="post" action="<?php echo add_query_arg( array( 'page' => $this->PageSlug ) , remove_query_arg( array( 'wauc_msg' , 'wauc_debug' , 'page' ) ) ); ?>">
+	<form id="wauc_setting_dashboard" class="wauc_form" method="post" action="<?php echo remove_query_arg( 'wauc_msg' , add_query_arg( array( 'page' => $this->PageSlug ) ) ); ?>">
 		<input type="hidden" name="<?php echo $this->UPFN; ?>" value="Y" />
 		<?php wp_nonce_field( $this->Nonces["value"] , $this->Nonces["field"] ); ?>
 		<input type="hidden" name="record_field" value="dashboard" />
@@ -42,121 +40,23 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 							<div class="handlediv" title="Click to toggle"><br></div>
 							<h3 class="hndle"><span><?php _e( 'Meta boxes' , $this->ltd ); ?></span></h3>
 							<div class="inside">
+							
+								<?php if( empty( $Metaboxes["metaboxes"]["dashboard"] ) ) : ?>
+			
+									<?php $load_link = self_admin_url( 'index.php' ); ?>
+
+									<p>
+										<a href="<?php echo $load_link; ?>" class="button button-primary column_load">
+											<?php echo sprintf( __( 'Metaboxes loading for %s', $this->ltd ) , __( 'Dashboard' ) ); ?>
+										</a>
+									</p>
+									<p class="loading">
+										<span class="spinner"></span>
+										<?php _e( 'Loading&hellip;' ); ?>
+									</p>
 								
-								<?php if ( version_compare( $wp_version , '3.8' , '<' ) ) : ?>
-
-									<table class="form-table">
-										<tbody>
-											<?php $field = 'show_welcome_panel'; ?>
-											<tr>
-												<th>
-													<label><?php _e( 'Welcome Panel' , $this->ltd ); ?></label>
-												</th>
-												<td>
-													<?php $Checked = ''; ?>
-													<?php if( !empty( $Data[$field]["remove"] ) ) : $Checked = 'checked="checked"'; endif; ?>
-													<label><input type="checkbox" name="data[<?php echo $field; ?>][remove]" value="1" <?php echo $Checked; ?> /> <?php _e ( 'Hide' ); ?></label>
-												</td>
-											</tr>
-											<?php $field = 'dashboard_right_now'; ?>
-											<tr>
-												<th>
-													<label><?php _e( 'Right Now' ); ?></label>
-												</th>
-												<td>
-													<?php $Checked = ''; ?>
-													<?php if( !empty( $Data[$field]["remove"] ) ) : $Checked = 'checked="checked"'; endif; ?>
-													<label><input type="checkbox" name="data[<?php echo $field; ?>][remove]" value="1" <?php echo $Checked; ?> /> <?php _e ( 'Hide' ); ?></label>
-												</td>
-											</tr>
-											<?php $field = 'dashboard_recent_comments'; ?>
-											<tr>
-												<th>
-													<label><?php _e( 'Recent Comments' ); ?></label>
-												</th>
-												<td>
-													<?php $Checked = ''; ?>
-													<?php if( !empty( $Data[$field]["remove"] ) ) : $Checked = 'checked="checked"'; endif; ?>
-													<label><input type="checkbox" name="data[<?php echo $field; ?>][remove]" value="1" <?php echo $Checked; ?> /> <?php _e ( 'Hide' ); ?></label>
-												</td>
-											</tr>
-											<?php $field = 'dashboard_incoming_links'; ?>
-											<tr>
-												<th>
-													<label><?php _e( 'Incoming Links' ); ?></label>
-												</th>
-												<td>
-													<?php $Checked = ''; ?>
-													<?php if( !empty( $Data[$field]["remove"] ) ) : $Checked = 'checked="checked"'; endif; ?>
-													<label><input type="checkbox" name="data[<?php echo $field; ?>][remove]" value="1" <?php echo $Checked; ?> /> <?php _e ( 'Hide' ); ?></label>
-												</td>
-											</tr>
-											<?php $field = 'dashboard_plugins'; ?>
-											<tr>
-												<th>
-													<label><?php _e( 'Plugins' ); ?></label>
-												</th>
-												<td>
-													<?php $Checked = ''; ?>
-													<?php if( !empty( $Data[$field]["remove"] ) ) : $Checked = 'checked="checked"'; endif; ?>
-													<label><input type="checkbox" name="data[<?php echo $field; ?>][remove]" value="1" <?php echo $Checked; ?> /> <?php _e ( 'Hide' ); ?></label>
-												</td>
-											</tr>
-											<?php $field = 'dashboard_quick_press'; ?>
-											<tr>
-												<th>
-													<label><?php _e( 'QuickPress' ); ?></label>
-												</th>
-												<td>
-													<?php $Checked = ''; ?>
-													<?php if( !empty( $Data[$field]["remove"] ) ) : $Checked = 'checked="checked"'; endif; ?>
-													<label><input type="checkbox" name="data[<?php echo $field; ?>][remove]" value="1" <?php echo $Checked; ?> /> <?php _e ( 'Hide' ); ?></label>
-												</td>
-											</tr>
-											<?php $field = 'dashboard_recent_drafts'; ?>
-											<tr>
-												<th>
-													<label><?php _e( 'Recent Drafts' ); ?></label>
-												</th>
-												<td>
-													<?php $Checked = ''; ?>
-													<?php if( !empty( $Data[$field]["remove"] ) ) : $Checked = 'checked="checked"'; endif; ?>
-													<label><input type="checkbox" name="data[<?php echo $field; ?>][remove]" value="1" <?php echo $Checked; ?> /> <?php _e ( 'Hide' ); ?></label>
-												</td>
-											</tr>
-											<?php $field = 'dashboard_primary'; ?>
-											<tr>
-												<th>
-													<label><?php _e( 'WordPress Blog' ); ?></label>
-												</th>
-												<td>
-													<?php $Checked = ''; ?>
-													<?php if( !empty( $Data[$field]["remove"] ) ) : $Checked = 'checked="checked"'; endif; ?>
-													<label><input type="checkbox" name="data[<?php echo $field; ?>][remove]" value="1" <?php echo $Checked; ?> /> <?php _e ( 'Hide' ); ?></label>
-												</td>
-											</tr>
-											<?php $field = 'dashboard_secondary'; ?>
-											<tr>
-												<th>
-													<label><?php _e( 'Other WordPress News' ); ?></label>
-												</th>
-												<td>
-													<?php $Checked = ''; ?>
-													<?php if( !empty( $Data[$field]["remove"] ) ) : $Checked = 'checked="checked"'; endif; ?>
-													<label><input type="checkbox" name="data[<?php echo $field; ?>][remove]" value="1" <?php echo $Checked; ?> /> <?php _e ( 'Hide' ); ?></label>
-												</td>
-											</tr>
-										</tbody>
-									</table>
-
 								<?php else: ?>
-									
-									<?php if( empty( $Metaboxes["metaboxes"]["dashboard"] ) ) : ?>
-					
-										<p><?php _e( 'Could not read the meta box.' , $this->ltd ); ?></p>
-										<p><?php echo sprintf( __( 'Meta boxes will be loaded automatically when you <strong>%s</strong>.' , $this->ltd ) , __( 'Dashboard' ) ); ?></p>
-									<?php else: ?>
-											
+
 										<table class="form-table">
 											<thead>
 												<tr>
@@ -206,10 +106,9 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 												<?php endforeach; ?>
 											</tbody>
 										</table>
-											
-									<?php endif; ?>
 
 								<?php endif; ?>
+
 							</div>
 						</div>
 			
@@ -266,6 +165,22 @@ jQuery(document).ready(function($) {
 			$(el).find("input[type=checkbox]").prop("checked" , Checked);
 		});
 	});
+
+	$('.wauc_form .column_load').on('click', function( ev ) {
+		var load_url = $(ev.target).prop('href');
+				
+		$.ajax({
+			url: load_url,
+			beforeSend: function( xhr ) {
+				$(ev.target).parent().parent().find('.loading').show();
+				$(ev.target).parent().parent().find('.spinner').show();
+			}
+		}).done(function( data ) {
+			location.reload();
+		});
+		
+		return false;
+	}).disableSelection();
 
 });
 </script>

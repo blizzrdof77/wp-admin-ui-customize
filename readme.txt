@@ -50,7 +50,7 @@ These to Customization is possible.
 
 == Changelog ==
 
-= 1.5.2 =
+= 1.5.1.1 dev =
 * Added: Show the Debug mode.
 
 = 1.5.1 =

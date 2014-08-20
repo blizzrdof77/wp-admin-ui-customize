@@ -50,6 +50,9 @@ These to Customization is possible.
 
 == Changelog ==
 
+= 1.5.2.1 alpha =
+* Updated: Metaboxes on Dashboard is latest.
+
 = 1.5.2 =
 * Added: Translation for zh-TW.
 * Updated: Change how to loading the metaboxes.

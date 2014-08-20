@@ -3,7 +3,7 @@
 Plugin Name: WP Admin UI Customize
 Description: An excellent plugin to customize the management screens.
 Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_5_2
-Version: 1.5.2
+Version: 1.5.2.1 alpha
 Author: gqevu6bsiz
 Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_5_2
 Text Domain: wauc
@@ -56,7 +56,7 @@ class WP_Admin_UI_Customize
 
 
 	function __construct() {
-		$this->Ver = '1.5.2';
+		$this->Ver = '1.5.2.1 alpha';
 		$this->Name = 'WP Admin UI Customize';
 		$this->Dir = plugin_dir_path( __FILE__ );
 		$this->Url = plugin_dir_url( __FILE__ );
@@ -554,42 +554,25 @@ class WP_Admin_UI_Customize
 		if( !empty( $current_screen ) && $current_screen->id == 'dashboard' && $UserRole == 'administrator' ) {
 			global $wp_meta_boxes;
 
-			$GetData = $this->get_data( "regist_dashboard_metabox" );
 			$post_type = 'dashboard';
 			$Metaboxes = $wp_meta_boxes[$post_type];
 				
 			$Update = array();
-			if( empty( $GetData ) ) {
 
 				$Update["UPFN"] = $this->UPFN;
-				foreach( $Metaboxes as $context => $meta_box ) {
-					foreach( $meta_box as $priority => $box ) {
-						foreach( $box as $metabox_id => $b ) {
-							$Update["metaboxes"][$post_type][$context][$priority][$b["id"]] = strip_tags( $b["title"] );
-						}
-					}
-				}
 					
-			} else {
-					
-				$Update = $GetData;
 				if( !empty( $Metaboxes ) ) {
 					foreach( $Metaboxes as $context => $meta_box ) {
 						foreach( $meta_box as $priority => $box ) {
 							if( is_array( $box ) ) {
 								foreach( $box as $metabox_id => $b ) {
-									if( !empty( $GetData["metaboxes"][$post_type][$context][$priority][$b["id"]] ) ) {
-										$Update["metaboxes"][$post_type][$context][$priority][$b["id"]] = strip_tags( $b["title"] );
-									} else {
-										$Update["metaboxes"][$post_type][$context][$priority][$b["id"]] = strip_tags( $b["title"] );
-									}
+									$Update["metaboxes"][$post_type][$context][$priority][$b["id"]] = strip_tags( $b["title"] );
 								}
 							}
 						}
 					}
 				}
 				
-			}
 
 			if( !empty( $Update ) ) {
 				update_option( $this->Record["regist_dashboard_metabox"] , $Update );

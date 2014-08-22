@@ -31,7 +31,7 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 		<?php if( is_multisite() ) : ?>
 			<p class="description"><?php _e( 'Is not possible to check the login form if you do not log out in the case of MultiSite.' , $this->ltd ); ?></p>
 		<?php endif; ?>
-		<p><a title="<?php _e( 'Login Screen' , $this->ltd ); ?>" href="<?php echo get_option( 'siteurl' ); ?>/wp-login.php?TB_iframe=1&width=520&height=520" class="thickbox"><?php _e( 'Show Login Screen' , $this->ltd ); ?></a></p>
+		<p><a title="<?php _e( 'Login Screen' , $this->ltd ); ?>" href="<?php echo get_option( 'siteurl' ); ?>/wp-login.php?TB_iframe=1&width=520&height=520" class="thickbox button button-secondary"><?php _e( 'Show Current Login Screen' , $this->ltd ); ?></a></p>
 
 		<div id="poststuff">
 
@@ -43,7 +43,7 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 						<h3><span class="hndle"><?php _e( 'Useful plugins' , $this->ltd ); ?></span></h3>
 						<div class="inside">
 							<p><strong><span style="color: orange;">new</span> <a href="http://codecanyon.net/item/login-layout-customize/5729642" target="_blank">Login Layout Customize</a></strong></p>
-							<p class="description"><?php _e( 'This plugin is that can be for customizing flexibly Login Screen.' , $this->ltd ); ?></p>
+							<p class="description"><?php _e( 'Flexible plugin for login screen customization.' , $this->ltd ); ?></p>
 						</div>
 					</div>
 	

@@ -221,7 +221,7 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 
 						</div>
 		
-						<p class="sidebar_setting_delete"><a href="#"><?php _e( 'Delete all' ); ?></a></p>
+						<p class="sidebar_setting_delete"><a href="#"><?php _e( 'Delete all the Current menu' , $this->ltd ); ?></a></p>
 
 					</div>
 				</div>

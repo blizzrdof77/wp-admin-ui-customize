@@ -39,7 +39,7 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 
 						<div class="postbox">
 							<div class="handlediv" title="Click to toggle"><br></div>
-							<h3 class="hndle"><span>Meta Fields</span></h3>
+							<h3 class="hndle"><span><?php _e( 'Header Meta' , $this->ltd ); ?></span></h3>
 							<div class="inside">
 								<table class="form-table">
 									<tbody>
@@ -128,7 +128,7 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 										<?php $field = 'admin_bar'; ?>
 										<tr>
 											<th>
-												<?php echo $field; ?>
+												<?php _e( 'Admin Bar' , $this->ltd ); ?>
 											</th>
 											<td>
 												<?php $arr = array( "hide" => __( 'Hide the Admin bar on the front end' , $this->ltd ) , "front" => __( 'Apply WP Admin UI Customize settings on the front end admin bar also' , $this->ltd ) ); ?>

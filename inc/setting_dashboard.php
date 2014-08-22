@@ -63,7 +63,7 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 													<th>&nbsp;</th>
 													<td style="width: 15%;">
 														<input type="checkbox" name="" class="check_all" />
-														<strong><?php _e( 'Show on screen' ); ?></strong>
+														<strong><?php _e( 'Select All' ); ?></strong>
 													</td>
 													<td><strong><?php _e( 'Change metabox title to' , $this->ltd ); ?></strong></td>
 												</tr>
@@ -72,7 +72,7 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 												<?php $field = 'show_welcome_panel'; ?>
 												<tr>
 													<th>
-														<label><?php _e( 'Welcome Panel' , $this->ltd ); ?></label>
+														<label><?php echo _x( 'Welcome', 'Welcome panel' ); ?></label>
 													</th>
 													<td>
 														<?php $Checked = ''; ?>
@@ -126,7 +126,7 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 											<td>
 												<?php $Checked = ''; ?>
 												<?php if( !empty( $Data[$field] ) ) : $Checked = 'checked="checked"'; endif; ?>
-												<label><input type="checkbox" name="data[<?php echo $field; ?>]" value="1" <?php echo $Checked; ?> /> <?php _e( "Lock meta box positions" , $this->ltd ); ?></label>
+												<label><input type="checkbox" name="data[<?php echo $field; ?>]" value="1" <?php echo $Checked; ?> /> <?php _e( "Prevent selected roles from re-arranging metaboxes" , $this->ltd ); ?></label>
 											</td>
 										</tr>
 									</tbody>

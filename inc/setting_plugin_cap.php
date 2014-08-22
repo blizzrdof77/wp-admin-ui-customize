@@ -22,7 +22,7 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 	<?php echo $this->Msg; ?>
 	<h2><?php echo sprintf( __( '%1$s of %2$s %3$s' , $this->ltd ) , __( 'Change' ) , __( 'Plugin' ) , __( 'Capabilities' ) ); ?></h2>
 	<p><?php echo sprintf( __( 'You can change the user role %2$s of %1$s settings.' , $this->ltd ) , $this->Name , __( 'Capabilities' ) ); ?></p>
-	<p><?php echo sprintf( __( 'Please choose the role to use the %s.' , $this->ltd ) , $this->Name ); ?></p>
+	<p><?php echo sprintf( __( 'Please choose the minimum role that can modify %s settings.' , $this->ltd ) , $this->Name ); ?></p>
 	
 	<p>&nbsp;</p>
 

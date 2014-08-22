@@ -41,7 +41,7 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 
 						<div class="postbox">
 							<div class="handlediv" title="Click to toggle"><br></div>
-							<h3 class="hndle"><span><?php _e( 'Post' ); ?></span></h3>
+							<h3 class="hndle"><span><?php _e( 'Posts' ); ?></span></h3>
 							<div class="inside">
 			
 								<?php if( empty( $Metaboxes["metaboxes"]["post"] ) ) : ?>
@@ -76,7 +76,7 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 												<th>&nbsp;</th>
 												<td style="width: 15%;">
 													<input type="checkbox" name="" class="check_all" />
-													<strong><?php _e( 'Show on screen' ); ?></strong>
+													<strong><?php _e( 'Select All' ); ?></strong>
 												</td>
 												<td style="width: 15%;">
 													<strong><?php _e( 'Default Open' , $this->ltd ); ?></strong>
@@ -107,8 +107,8 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 																	<?php $Selected = 0; ?>
 																	<?php if( !empty( $Data["post"][$metabox_id]["toggle"] ) ) : $Selected = true; endif; ?>
 																	<select name="data[post][<?php echo $metabox_id; ?>][toggle]" class="select_toggle">
-																		<option value="0" <?php Selected( $Selected , 0 ); ?>><?php _e( 'Not Reduce' , $this->ltd ); ?></option>
-																		<option value="1" <?php Selected( $Selected , 1 ); ?>><?php _e( 'Reduce' , $this->ltd ); ?></option>
+																		<option value="0" <?php Selected( $Selected , 0 ); ?>><?php _e( 'Expanded' , $this->ltd ); ?></option>
+																		<option value="1" <?php Selected( $Selected , 1 ); ?>><?php _e( 'Collapsed' , $this->ltd ); ?></option>
 																	</select>
 																<?php else : ?>
 																	<?php _e( 'Show' ); ?>
@@ -138,7 +138,7 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 
 						<div class="postbox">
 							<div class="handlediv" title="Click to toggle"><br></div>
-							<h3 class="hndle"><span><?php _e( 'Page' ); ?></span></h3>
+							<h3 class="hndle"><span><?php _e( 'Pages' ); ?></span></h3>
 							<div class="inside">
 			
 								<?php if( empty( $Metaboxes["metaboxes"]["page"] ) ) : ?>
@@ -173,7 +173,7 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 												<th>&nbsp;</th>
 												<td style="width: 15%;">
 													<input type="checkbox" name="" class="check_all" />
-													<strong><?php _e( 'Show on screen' ); ?></strong>
+													<strong><?php _e( 'Select All' ); ?></strong>
 												</td>
 												<td style="width: 15%;">
 													<strong><?php _e( 'Default Open' , $this->ltd ); ?></strong>
@@ -203,8 +203,8 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 																	<?php $Selected = 0; ?>
 																	<?php if( !empty( $Data["page"][$metabox_id]["toggle"] ) ) : $Selected = true; endif; ?>
 																	<select name="data[page][<?php echo $metabox_id; ?>][toggle]" class="select_toggle">
-																		<option value="0" <?php Selected( $Selected , 0 ); ?>><?php _e( 'Not Reduce' , $this->ltd ); ?></option>
-																		<option value="1" <?php Selected( $Selected , 1 ); ?>><?php _e( 'Reduce' , $this->ltd ); ?></option>
+																		<option value="0" <?php Selected( $Selected , 0 ); ?>><?php _e( 'Expanded' , $this->ltd ); ?></option>
+																		<option value="1" <?php Selected( $Selected , 1 ); ?>><?php _e( 'Collapsed' , $this->ltd ); ?></option>
 																	</select>
 																<?php else : ?>
 																	<?php _e( 'Show' ); ?>
@@ -278,7 +278,7 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 												<th>&nbsp;</th>
 												<td style="width: 15%;">
 													<input type="checkbox" name="" class="check_all" />
-													<strong><?php _e( 'Show on screen' ); ?></strong>
+													<strong><?php _e( 'Select All' ); ?></strong>
 												</td>
 												<td style="width: 15%;">
 													<strong><?php _e( 'Default Open' , $this->ltd ); ?></strong>
@@ -307,8 +307,8 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 																		<?php $Selected = 0; ?>
 																		<?php if( !empty( $Data[$post_name][$metabox_id]["toggle"] ) ) : $Selected = true; endif; ?>
 																		<select name="data[<?php echo $post_name; ?>][<?php echo $metabox_id; ?>][toggle]" class="select_toggle">
-																			<option value="0" <?php Selected( $Selected , 0 ); ?>><?php _e( 'Not Reduce' , $this->ltd ); ?></option>
-																			<option value="1" <?php Selected( $Selected , 1 ); ?>><?php _e( 'Reduce' , $this->ltd ); ?></option>
+																			<option value="0" <?php Selected( $Selected , 0 ); ?>><?php _e( 'Expanded' , $this->ltd ); ?></option>
+																			<option value="1" <?php Selected( $Selected , 1 ); ?>><?php _e( 'Collapsed' , $this->ltd ); ?></option>
 																		</select>
 																	<?php else : ?>
 																		<?php _e( 'Show' ); ?>

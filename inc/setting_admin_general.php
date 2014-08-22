@@ -20,7 +20,7 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 <div class="wrap">
 	<div class="icon32" id="icon-tools"></div>
 	<?php echo $this->Msg; ?>
-	<h2><?php _e( 'General Screen Settings' , $this->ltd ); ?></h2>
+	<h2><?php printf( __( '%1$s %2$s' , $this->ltd ) , __( 'General' ) , __( 'Settings' ) ); ?></h2>
 	<p>&nbsp;</p>
 
 	<h3 id="wauc-apply-user-roles"><?php echo $this->get_apply_roles(); ?></h3>
@@ -175,7 +175,7 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 												<td>
 													<?php $Checked = ''; ?>
 													<?php if( !empty( $Data[$field] ) ) : $Checked = 'checked="checked"'; endif; ?>
-													<label><input type="checkbox" name="data[<?php echo $field; ?>]" value="1" <?php echo $Checked; ?> /> <?php _e ( 'Not resize' , $this->ltd ); ?></label>
+													<label><input type="checkbox" name="data[<?php echo $field; ?>]" value="1" <?php echo $Checked; ?> /> <?php _e ( 'Don\'t resize' , $this->ltd ); ?></label>
 												</td>
 											</tr>
 										<?php endif; ?>

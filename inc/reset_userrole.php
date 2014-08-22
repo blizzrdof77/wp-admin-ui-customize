@@ -54,7 +54,7 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 		<p><?php _e( 'Setting all of the below will be deleted.' , $this->ltd ); ?></p>
 		<ul class="description">
 			<li><?php _e( 'Site Settings' , $this->ltd ); ?></li>
-			<li><?php _e( 'General Screen Settings' , $this->ltd ); ?></li>
+			<li><?php printf( __( '%1$s %2$s' , $this->ltd ) , __( 'General' ) , __( 'Settings' ) ); ?></li>
 			<li><?php _e( 'Dashboard' ); ?></li>
 			<li><?php _e( 'Admin Bar Menu' , $this->ltd ); ?></li>
 			<li><?php _e( 'Side Menu' , $this->ltd ); ?></li>
@@ -62,7 +62,7 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 			<li><?php _e( 'Add New Post and Edit Post Screen Setting' , $this->ltd ); ?></li>
 			<li><?php _e( 'Appearance Menus Screen Setting' , $this->ltd ); ?></li>
 			<li><?php _e( 'Login Screen' , $this->ltd ); ?></li>
-			<li><?php echo sprintf( __( '%1$s of %2$s %3$s' , $this->ltd ) , __( 'Change' ) , __( 'Plugin' ) , __( 'Capabilities' ) ); ?></li>
+			<li><?php printf( __( '%1$s of %2$s %3$s' , $this->ltd ) , __( 'Change' ) , __( 'Plugin' ) , __( 'Capabilities' ) ); ?></li>
 		</ul>
 		<br />
 

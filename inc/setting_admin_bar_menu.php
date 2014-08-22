@@ -37,8 +37,8 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 		<input type="hidden" name="record_field" value="admin_bar_menu" />
 
 		<p></p>
-		<p><?php _e( 'Sub-menu can to settings to four levels.' , $this->ltd ); ?></p>
-		<p><a href="<?php $this->get_document_link( 'admin_bar' ); ?>" target="_blank" class="button-secondary"><?php _e( 'Documents is here' , $this->ltd ); ?></a></p>
+		<p><?php _e( 'Sub-menu settings apply to maximum of four levels deep.' , $this->ltd ); ?></p>
+		<p><a href="<?php $this->get_document_link( 'admin_bar' ); ?>" target="_blank" class="button-secondary"><?php _e( 'Admin bar settings documentation page' , $this->ltd ); ?></a></p>
 
 		<div id="poststuff">
 

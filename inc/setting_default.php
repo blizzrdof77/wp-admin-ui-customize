@@ -22,8 +22,10 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 	<h2><?php echo $this->Name; ?></h2>
 	<p><?php _e( 'Customize the UI of the management screen for all users.' , $this->ltd ); ?></p>
 	<p><?php _e ( 'Please select the user roles that all settings will apply to.' , $this->ltd ); ?></p>
-	<p class="description"><?php _e( 'Please use the Multiple Add-on If you want settings on User role basis.' , $this->ltd ); ?></p>
-	<p><strong><span style="color: orange;">new</span> <a href="<?php echo $this->Site; ?>multiple_about/?utm_source=use_plugin&utm_medium=side&utm_content=<?php echo $this->ltd; ?>&utm_campaign=<?php echo str_replace( '.' , '_' , $this->Ver ); ?>" target="_blank">WP Admin UI Customize Multiple Add-on</a></strong></p>
+	<p>
+		<span class="description"><?php _e( 'Please use the Multiple Add-on if you want per role customization.' , $this->ltd ); ?></span>
+		<strong><a href="<?php echo $this->Site; ?>multiple_about/?utm_source=use_plugin&utm_medium=side&utm_content=<?php echo $this->ltd; ?>&utm_campaign=<?php echo str_replace( '.' , '_' , $this->Ver ); ?>" target="_blank">WP Admin UI Customize Multiple Add-on</a></strong>
+	</p>
 
 	<div id="poststuff">
 		<div id="post-body" class="metabox-holder columns-2">
@@ -35,7 +37,7 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 					<div class="stuffbox" id="donationbox">
 						<div class="inside">
 							<p style="color: #FFFFFF; font-size: 20px;"><?php _e( 'Donate' , $this->ltd ); ?></p>
-							<p style="color: #FFFFFF;"><?php _e( 'You are contented with this plugin?<br />By the laws of Japan, Japan\'s new paypal user can not make a donation button.<br />So i would like you to buy this plugin as the replacement for the donation.' , $this->ltd ); ?></p>
+							<p style="color: #FFFFFF;"><?php _e( 'Are you happy with this plugin?<br />Japanese law prohibits PayPal donations. <br />Please consider purchasing the Line Break First and End plugin in lieu of a donation.' , $this->ltd ); ?></p>
 							<p>&nbsp;</p>
 							<p style="text-align: center;">
 								<a href="<?php echo $this->AuthorUrl; ?>line-break-first-and-end/?utm_source=use_plugin&utm_medium=donate&utm_content=<?php echo $this->ltd; ?>&utm_campaign=<?php echo str_replace( '.' , '_' , $this->Ver ); ?>" class="button-primary" target="_blank">Line Break First and End</a>
@@ -43,7 +45,7 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 							<p>&nbsp;</p>
 							<div class="donation_memo">
 								<p><strong><?php _e( 'Features' , $this->ltd ); ?></strong></p>
-								<p><?php _e( 'Line Break First and End plugin is In the visual editor TinyMCE, It is a plugin that will help when you will not be able to enter a line break.' , $this->ltd ); ?></p>
+								<p><?php _e( 'Line Break First and End plugin allows for line breaks when using the visual editor TinyMCE.' , $this->ltd ); ?></p>
 							</div>
 							<div class="donation_memo">
 								<p><strong><?php _e( 'The primary use of donations' , $this->ltd ); ?></strong></p>
@@ -76,17 +78,17 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 						<h3><span class="hndle"><?php _e( 'Useful plugins' , $this->ltd ); ?></span></h3>
 						<div class="inside">
 							<p><strong><span style="color: orange;">new</span> <a href="<?php echo $this->Site; ?>multiple_about/?utm_source=use_plugin&utm_medium=side&utm_content=<?php echo $this->ltd; ?>&utm_campaign=<?php echo str_replace( '.' , '_' , $this->Ver ); ?>" target="_blank">WP Admin UI Customize Multiple Add-on</a></strong></p>
-							<p class="description"><?php _e( 'This add-on is simply settings of multi user roles.' , $this->ltd ); ?></p>
+							<p class="description"><?php _e( 'Apply setting on a per-role basis.' , $this->ltd ); ?></p>
 							<p><strong><a href="<?php echo $this->Site; ?>import_export_about/?utm_source=use_plugin&utm_medium=side&utm_content=<?php echo $this->ltd; ?>&utm_campaign=<?php echo str_replace( '.' , '_' , $this->Ver ); ?>" target="_blank">WP Admin UI Customize Import &amp; Export Add-on</a></strong></p>
-							<p class="description"><?php _e( 'This add-on is Import/Export easily of the settings data.' , $this->ltd ); ?></p>
+							<p class="description"><?php _e( 'Easily import/export setting between installations.' , $this->ltd ); ?></p>
 							<p><strong><a href="<?php echo $this->Site; ?>multisite_about/?utm_source=use_plugin&utm_medium=side&utm_content=<?php echo $this->ltd; ?>&utm_campaign=<?php echo str_replace( '.' , '_' , $this->Ver ); ?>" target="_blank">WP Admin UI Customize for Multisite</a></strong></p>
-							<p class="description"><?php _e( 'This add-on is an add-on to unify the management screen of all sites.' , $this->ltd ); ?></p>
+							<p class="description"><?php _e( 'Unified custom management screens for Multisite.' , $this->ltd ); ?></p>
 							<p><strong><a href="http://wordpress.org/extend/plugins/post-lists-view-custom/" target="_blank">Post Lists View Custom</a></strong></p>
-							<p class="description"><?php _e( 'Customize the list of the post and page. custom post type page, too. You can customize the column display items freely.' , $this->ltd ); ?></p>
+							<p class="description"><?php _e( 'Customize list view columns for posts, pages, custom post types, media library, and other management screens.' , $this->ltd ); ?></p>
 							<p><strong><a href="http://wordpress.org/extend/plugins/announce-from-the-dashboard/" target="_blank">Announce from the Dashboard</a></strong></p>
-							<p class="description"><?php _e( 'Announce to display the dashboard. Change the display to a different user role.' , $this->ltd ); ?></p>
+							<p class="description"><?php _e( 'Create dashboard messages to be displayed for selected user roles.' , $this->ltd ); ?></p>
 							<p><strong><a href="http://wordpress.org/extend/plugins/custom-options-plus-post-in/" target="_blank">Custom Options Plus Post in</a></strong></p>
-							<p class="description"><?php _e( 'The plugin that allows you to add the value of the options. Option value that you have created, can be used in addition to the template tag, Short code can be used in the body of the article.' , $this->ltd ); ?></p>
+							<p class="description"><?php _e( 'Create custom global variables that can be used with generated template tags or shortcodes.' , $this->ltd ); ?></p>
 							<p>&nbsp;</p>
 						</div>
 					</div>
@@ -136,10 +138,10 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 
 					<form id="donation_form" class="wauc_form" method="post" action="<?php echo remove_query_arg( 'wauc_msg' , add_query_arg( array( 'page' => $this->PageSlug ) ) ); ?>">
 						<h3><?php _e( 'If you have already donated to.' , $this->ltd ); ?></h3>
-						<p><?php _e( 'Please enter the \'Donation delete key\' that have been described in the \'Line Break First and End download page\'.' , $this->ltd ); ?></p>
+						<p><?php _e( 'Please enter the \'Donation Delete Key\' that was provided on the Line Break First and End download page.' , $this->ltd ); ?></p>
 						<input type="hidden" name="<?php echo $this->UPFN; ?>" value="Y" />
 						<?php wp_nonce_field( $this->Nonces["value"] , $this->Nonces["field"] ); ?>
-						<label for="donate_key"><?php _e( 'Donation delete key' , $this->ltd ); ?></label>
+						<label for="donate_key"><?php _e( 'Donation Delete Key:' , $this->ltd ); ?></label>
 						<input type="text" name="donate_key" id="donate_key" value="" class="regular-text" />
 						<input type="submit" class="button-primary" name="update" value="<?php _e( 'Submit' ); ?>" />
 					</form>
@@ -147,14 +149,14 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 					<p>&nbsp;</p>
 
 					<div class="stuffbox" style="border-color: #FFC426; border-width: 3px;">
-						<h3 style="background: #FFF2D0; border-color: #FFC426;"><span class="hndle"><?php _e( 'Have you want to customize?' , $this->ltd ); ?></span></h3>
+						<h3 style="background: #FFF2D0; border-color: #FFC426;"><span class="hndle"><?php _e( 'Do you need professional setup and customization?' , $this->ltd ); ?></span></h3>
 						<div class="inside">
 							<p style="float: right;">
 								<img src="<?php echo $this->Schema; ?>www.gravatar.com/avatar/7e05137c5a859aa987a809190b979ed4?s=46" width="46" /><br />
 								<a href="<?php echo $this->AuthorUrl; ?>contact-us/?utm_source=use_plugin&utm_medium=side&utm_content=<?php echo $this->ltd; ?>&utm_campaign=<?php echo str_replace( '.' , '_' , $this->Ver ); ?>" target="_blank">gqevu6bsiz</a>
 							</p>
-							<p><?php _e( 'I am good at Admin Screen Customize.' , $this->ltd ); ?></p>
-							<p><?php _e( 'Please consider the request to me if it is good.' , $this->ltd ); ?></p>
+							<p><?php _e( 'I provide full service customization for WP Admin UI Customize.' , $this->ltd ); ?></p>
+							<p><?php _e( 'Please contact me if you are interested.' , $this->ltd ); ?></p>
 							<p>
 								<a href="<?php echo $this->Site; ?>blog/category/example/?utm_source=use_plugin&utm_medium=side&utm_content=<?php echo $this->ltd; ?>&utm_campaign=<?php echo str_replace( '.' , '_' , $this->Ver ); ?>" target="_blank"><?php _e ( 'Example Customize' , $this->ltd ); ?></a> :
 								<a href="<?php echo $this->Site; ?>contact/?utm_source=use_plugin&utm_medium=side&utm_content=<?php echo $this->ltd; ?>&utm_campaign=<?php echo str_replace( '.' , '_' , $this->Ver ); ?>" target="_blank"><?php _e( 'Contact me' , $this->ltd ); ?></a></p>

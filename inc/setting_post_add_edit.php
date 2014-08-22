@@ -56,7 +56,7 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 													<p><?php _e( 'Please select if you want to display the comments on Site.' , $this->ltd ); ?></p>
 													<p><a href="<?php echo admin_url( 'options-discussion.php' ); ?>"><?php echo sprintf( __( 'However, this will follow the setting of %s.' , $this->ltd ) , __( 'Default article settings' ) ); ?></a></p>
 												<?php else : ?>
-													<p><a href="<?php echo admin_url( 'options-discussion.php' ); ?>"><?php echo sprintf( __( 'Please select the %s' , $this->ltd ) , __( 'Allow people to post comments on new articles' ) ); ?></a></p>
+													<p><a href="<?php echo admin_url( 'options-discussion.php' ); ?>"><?php echo sprintf( __( 'Please select the <strong>%s</strong>' , $this->ltd ) , __( 'Allow people to post comments on new articles' ) ); ?></a></p>
 												<?php endif; ?>
 
 											</td>

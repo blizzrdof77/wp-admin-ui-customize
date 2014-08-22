@@ -2,10 +2,10 @@
 /*
 Plugin Name: WP Admin UI Customize
 Description: An excellent plugin to customize the management screens.
-Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_5_2
-Version: 1.5.2.1 alpha
+Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_5_2_1
+Version: 1.5.2.1
 Author: gqevu6bsiz
-Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_5_2
+Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_5_2_1
 Text Domain: wauc
 Domain Path: /languages
 */
@@ -56,7 +56,7 @@ class WP_Admin_UI_Customize
 
 
 	function __construct() {
-		$this->Ver = '1.5.2.1 alpha';
+		$this->Ver = '1.5.2.1';
 		$this->Name = 'WP Admin UI Customize';
 		$this->Dir = plugin_dir_path( __FILE__ );
 		$this->Url = plugin_dir_url( __FILE__ );
@@ -169,7 +169,7 @@ class WP_Admin_UI_Customize
 
 		add_menu_page( $this->Name , $this->Name , $capability, $this->PageSlug , array( $this , 'setting_default') );
 		add_submenu_page( $this->PageSlug , __( 'Site Settings' , $this->ltd ) , __( 'Site Settings' , $this->ltd ) , $capability , $this->PageSlug . '_setting_site' , array( $this , 'setting_site' ) );
-		add_submenu_page( $this->PageSlug , __( 'General Screen Settings' , $this->ltd ) , __( 'General Screen Settings' , $this->ltd ) , $capability , $this->PageSlug . '_admin_general_setting' , array( $this , 'setting_admin_general' ) );
+		add_submenu_page( $this->PageSlug , sprintf( __( '%1$s %2$s' , $this->ltd ) , __( 'General' ) , __( 'Settings' ) ) , sprintf( __( '%1$s %2$s' , $this->ltd ) , __( 'General' ) , __( 'Settings' ) ) , $capability , $this->PageSlug . '_admin_general_setting' , array( $this , 'setting_admin_general' ) );
 		add_submenu_page( $this->PageSlug , __( 'Dashboard' ) , __( 'Dashboard' ) , $capability , $this->PageSlug . '_dashboard' , array( $this , 'setting_dashboard' ) );
 		add_submenu_page( $this->PageSlug , __( 'Admin Bar Menu' , $this->ltd ) , __( 'Admin Bar Menu' , $this->ltd ) , $capability , $this->PageSlug . '_admin_bar' , array( $this , 'setting_admin_bar_menu' ) );
 		add_submenu_page( $this->PageSlug , __( 'Side Menu' , $this->ltd ) , __( 'Side Menu' , $this->ltd ) , $capability , $this->PageSlug . '_sidemenu' , array( $this , 'setting_sidemenu' ) );
@@ -558,25 +558,24 @@ class WP_Admin_UI_Customize
 			$Metaboxes = $wp_meta_boxes[$post_type];
 				
 			$Update = array();
-
-				$Update["UPFN"] = $this->UPFN;
+			$Update["UPFN"] = $this->UPFN;
 					
-				if( !empty( $Metaboxes ) ) {
-					foreach( $Metaboxes as $context => $meta_box ) {
-						foreach( $meta_box as $priority => $box ) {
-							if( is_array( $box ) ) {
-								foreach( $box as $metabox_id => $b ) {
-									$Update["metaboxes"][$post_type][$context][$priority][$b["id"]] = strip_tags( $b["title"] );
-								}
+			if( !empty( $Metaboxes ) ) {
+				foreach( $Metaboxes as $context => $meta_box ) {
+					foreach( $meta_box as $priority => $box ) {
+						if( is_array( $box ) ) {
+							foreach( $box as $metabox_id => $b ) {
+								$Update["metaboxes"][$post_type][$context][$priority][$b["id"]] = strip_tags( $b["title"] );
 							}
 						}
 					}
 				}
-				
+			}
 
 			if( !empty( $Update ) ) {
 				update_option( $this->Record["regist_dashboard_metabox"] , $Update );
 			}
+
 		}
 
 	}
@@ -2288,7 +2287,7 @@ class WP_Admin_UI_Customize
 	function DisplayDonation() {
 		$donation = get_option( $this->Record["donate"] );
 		if( $this->DonateKey != $donation ) {
-			$this->Msg .= '<div class="error"><p><strong>' . __( 'Thank you for considering donate.' , $this->ltd ) . '</strong> <a href="' . self_admin_url( 'admin.php?page=' . $this->PageSlug ) . '">' . __( 'Donate' , $this->ltd ) . '</a></p></div>';
+			$this->Msg .= '<div class="error"><p><strong>' . __( 'Please consider making a donation.' , $this->ltd ) . '</strong> <a href="' . self_admin_url( 'admin.php?page=' . $this->PageSlug ) . '">' . __( 'Donate' , $this->ltd ) . '</a></p></div>';
 		}
 	}
 

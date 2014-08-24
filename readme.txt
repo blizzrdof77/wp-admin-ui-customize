@@ -50,6 +50,9 @@ These to Customization is possible.
 
 == Changelog ==
 
+= 1.5.2.2 beta =
+* Updated: Check has user role to level on the side menu settings.
+
 = 1.5.2.1 =
 * Updated: Metaboxes on Dashboard is latest.
 * Updated: Translation for zh_TW.

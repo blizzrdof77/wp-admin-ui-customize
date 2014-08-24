@@ -3,7 +3,7 @@
 Plugin Name: WP Admin UI Customize
 Description: An excellent plugin to customize the management screens.
 Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_5_2_1
-Version: 1.5.2.1
+Version: 1.5.2.2 beta
 Author: gqevu6bsiz
 Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_5_2_1
 Text Domain: wauc
@@ -56,7 +56,7 @@ class WP_Admin_UI_Customize
 
 
 	function __construct() {
-		$this->Ver = '1.5.2.1';
+		$this->Ver = '1.5.2.2 beta';
 		$this->Name = 'WP Admin UI Customize';
 		$this->Dir = plugin_dir_path( __FILE__ );
 		$this->Url = plugin_dir_url( __FILE__ );
@@ -670,7 +670,7 @@ class WP_Admin_UI_Customize
 					<ul class="display_roles">
 						<?php foreach( $UserRoles as $role_name => $val ) : ?>
 							<?php $has_cap = false; ?>
-							<?php if( !empty( $val["capabilities"][$menu_widget["cap"]] ) or $role_name == $menu_widget["cap"] ) : ?>
+							<?php if( !empty( $val["capabilities"][$menu_widget["cap"]] ) or $role_name == $menu_widget["cap"] or !empty( $val["capabilities"]['level_' . $menu_widget["cap"]] ) ) : ?>
 								<?php $has_cap = 'has_cap'; ?>
 							<?php endif; ?>
 							<li class="<?php echo $role_name; ?> <?php echo $has_cap; ?>"><?php echo $val["label"]; ?></li>
@@ -714,7 +714,7 @@ class WP_Admin_UI_Customize
 											<ul class="display_roles">
 												<?php foreach( $UserRoles as $role_name => $val ) : ?>
 													<?php $has_cap = false; ?>
-													<?php if( !empty( $val["capabilities"][$sm["cap"]] ) or $role_name == $sm["cap"] ) : ?>
+													<?php if( !empty( $val["capabilities"][$sm["cap"]] ) or $role_name == $sm["cap"] or !empty( $val["capabilities"]['level_' . $sm["cap"]] ) ) : ?>
 														<?php $has_cap = 'has_cap'; ?>
 													<?php endif; ?>
 													<li class="<?php echo $role_name; ?> <?php echo $has_cap; ?>"><?php echo $val["label"]; ?></li>

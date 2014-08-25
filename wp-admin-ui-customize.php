@@ -161,7 +161,7 @@ class WP_Admin_UI_Customize
 		if( !empty( $_GET["page"] ) ) {
 			$page = strip_tags( $_GET["page"] );
 			if( $page == $this->PageSlug . '_admin_bar' ) {
-				@header("X-XSS-Protection: 0");
+				//@header("X-XSS-Protection: 0");
 			}
 		}
 		

@@ -91,7 +91,7 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 		</p>
 
 		<p class="submit reset">
-			<span class="description"><?php _e( 'Reset all settings?' , $this->ltd ); ?></span>
+			<span class="description"><?php _e( sprintf( 'Reset the %s?' , __( 'Admin Bar Menu' , $this->ltd ) . __( 'Settings' ) ) , $this->ltd ); ?></span>
 			<input type="submit" class="button-secondary" name="reset" value="<?php _e( 'Reset settings' , $this->ltd ); ?>" />
 		</p>
 

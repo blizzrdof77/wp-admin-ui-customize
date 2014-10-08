@@ -2,10 +2,10 @@
 /*
 Plugin Name: WP Admin UI Customize
 Description: An excellent plugin to customize the management screens.
-Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_5_2_2
-Version: 1.5.2.2
+Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_5_2_3-beta
+Version: 1.5.2.3-beta
 Author: gqevu6bsiz
-Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_5_2_2
+Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_5_2_3-beta
 Text Domain: wauc
 Domain Path: /languages
 */
@@ -25,6 +25,8 @@ Domain Path: /languages
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
+
+
 
 
 if ( !class_exists( 'WP_Admin_UI_Customize' ) ) :
@@ -56,7 +58,7 @@ class WP_Admin_UI_Customize
 
 
 	function __construct() {
-		$this->Ver = '1.5.2.2';
+		$this->Ver = '1.5.2.3-beta';
 		$this->Name = 'WP Admin UI Customize';
 		$this->Dir = plugin_dir_path( __FILE__ );
 		$this->Url = plugin_dir_url( __FILE__ );
@@ -130,7 +132,7 @@ class WP_Admin_UI_Customize
 		add_action( 'admin_head' , array( $this , 'post_meta_boxes_load' ) , 10000 );
 
 		// default post metabox dashbaord load.
-		add_action( 'admin_head' , array( $this , 'post_meta_boxes_dashboard_load' ) , 10 );
+		add_action( 'wp_dashboard_setup' , array( $this , 'post_meta_boxes_dashboard_load' ) , 10000 );
 
 	}
 
@@ -1492,7 +1494,7 @@ class WP_Admin_UI_Customize
 					add_action( 'admin_head' , array( $this , 'remove_tab' ) );
 					add_filter( 'admin_footer_text' , array( $this , 'admin_footer_text' ) );
 					add_action( 'admin_print_styles' , array( $this , 'load_css' ) );
-					add_action( 'wp_dashboard_setup' , array( $this , 'wp_dashboard_setup' ) , 11 );
+					add_action( 'wp_dashboard_setup' , array( $this , 'wp_dashboard_setup' ) , 10001 );
 					add_action( 'admin_head' , array( $this , 'manage_metabox' ) , 11 );
 					add_filter( 'admin_head', array( $this , 'sidemenu' ) );
 					add_filter( 'get_sample_permalink_html' , array( $this , 'add_edit_post_change_permalink' ) );
@@ -2308,3 +2310,4 @@ class WP_Admin_UI_Customize
 $wauc = new WP_Admin_UI_Customize();
 
 endif;
+

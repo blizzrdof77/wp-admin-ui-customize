@@ -39,7 +39,7 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 
 		<p><?php _e( 'You want to reset the user roles?' , $this->ltd ); ?></p>
 		<p class="submit">
-			<input type="submit" class="button-primary" name="reset" value="<?php _e( 'Reset settings' , $this->ltd ); ?>" />
+			<input type="submit" class="button-primary" name="reset" value="<?php _e( 'Reset Settings for User Roles Settings' , $this->ltd ); ?>" />
 		</p>
 
 	</form>
@@ -68,7 +68,7 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 
 		<p><?php _e( 'Are you sure you want to delete all settings?' , $this->ltd ); ?></p>
 		<p class="submit">
-			<input type="submit" class="button-primary" name="reset" value="<?php _e( 'Reset settings of all' , $this->ltd ); ?>" />
+			<input type="submit" class="button-primary" name="reset" value="<?php _e( 'Reset Settings of all' , $this->ltd ); ?>" />
 		</p>
 
 	</form>

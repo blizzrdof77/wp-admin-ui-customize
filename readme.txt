@@ -52,6 +52,7 @@ These to Customization is possible.
 
 = 1.5.2.3 =
 * Fixed: Priority change of loading meta boxes on Dashboard.
+* Added: Order number count show of WooCommerce.
 
 = 1.5.2.2 =
 * Updated: Remove the specific slug of child menu of Side menus.

@@ -190,6 +190,11 @@ class WP_Admin_UI_Customize
 		if( is_plugin_active( 'buddypress/bp-loader.php' ) ) {
 			$this->ActivatedPlugin["buddypress"] = true;
 		}
+
+		if( is_plugin_active( 'woocommerce/woocommerce.php' ) ) {
+			$this->ActivatedPlugin["woocommerce"] = true;
+		}
+
 	}
 
 
@@ -987,6 +992,26 @@ class WP_Admin_UI_Customize
 				if( strstr( $str , '[site_url]') ) {
 					$str = str_replace( '[site_url]' , $this->Schema . esc_attr( $current_site->domain ) , $str );
 				}
+			}
+			
+			if( !empty( $this->ActivatedPlugin ) ) {
+				
+				$activated_plugins = $this->ActivatedPlugin;
+				
+				if( !empty( $activated_plugins['woocommerce'] ) ) {
+					
+					if( strstr( $str , '[woocommerce_order_process_count]') ) {
+						
+						$woocommerce_order_process_count = '';
+						if ( $order_count = wc_processing_order_count() ) {
+							$woocommerce_order_process_count = ' <span class="awaiting-mod update-plugins count-' . $order_count . '"><span class="processing-count">' . number_format_i18n( $order_count ) . '</span></span>';
+						}
+						
+						$str = str_replace( '[woocommerce_order_process_count]' , $woocommerce_order_process_count , $str );
+					}
+					
+				}
+				
 			}
 
 		}

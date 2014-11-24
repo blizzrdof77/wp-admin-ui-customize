@@ -52,6 +52,7 @@ These to Customization is possible.
 
 = 1.5.2.3 =
 * Fixed: Priority change of loading meta boxes on Dashboard.
+* Fixed: Change the slug to Customize of Appearance.
 * Added: Order number count show of WooCommerce.
 
 = 1.5.2.2 =

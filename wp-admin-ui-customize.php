@@ -391,6 +391,26 @@ class WP_Admin_UI_Customize
 				}
 			}
 		}
+		
+		if( !empty( $submenu ) ) {
+			
+			foreach( $submenu as $submenu_key => $sm ) {
+				
+				if( !empty( $sm ) ) {
+					
+					foreach( $sm as $sm_key => $sm_set ) {
+						
+						if( preg_match("/^customize.php/", $sm_set[2] ) )
+							$submenu[$submenu_key][$sm_key][2] = 'customize.php';
+						
+					}
+					
+				}
+				
+			}
+			
+		}
+		
 	}
 
 	// SetList
@@ -2069,7 +2089,7 @@ class WP_Admin_UI_Customize
 
 		$GetData = $this->get_flit_data( 'sidemenu' );
 		$General = $this->get_flit_data( 'admin_general' );
-
+		
 		if( !empty( $GetData["UPFN"] ) ) {
 			unset( $GetData["UPFN"] );
 

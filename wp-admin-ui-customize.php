@@ -381,13 +381,10 @@ class WP_Admin_UI_Customize
 	function sidemenu_default_load() {
 		global $menu , $submenu;
 
-		$this->Menu = $menu;
-		$this->SubMenu = $submenu;
-		
 		if ( !get_option( 'link_manager_enabled' ) ) {
-			foreach( $this->Menu as $key => $val ) {
+			foreach( $menu as $key => $val ) {
 				if( !empty( $val[1] ) && $val[1] == 'manage_links' ) {
-					unset( $this->Menu[$key] );
+					unset( $menu[$key] );
 				}
 			}
 		}
@@ -410,6 +407,9 @@ class WP_Admin_UI_Customize
 			}
 			
 		}
+
+		$this->Menu = $menu;
+		$this->SubMenu = $submenu;
 		
 	}
 

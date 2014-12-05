@@ -568,6 +568,11 @@ class WP_Admin_UI_Customize
 		$Filter_bar["front"]["main"]["search"] = (object) array( 'id' => 'search' , 'title' => '' , 'href' => '' , 'group' => '' , 'meta' => array() );
 		$Filter_bar["front"]["main"]["search"]->title = __( 'Search' );
 		$Filter_bar["front"]["main"]["search"]->href = get_search_link();
+		
+		// admin field
+		$Filter_bar['left']['main']['view'] = new stdClass;
+		$Filter_bar['left']['main']['view'] = (object) array( 'id' => 'view-post_type' , 'title' => '' , 'href' => '' , 'group' => '' , 'meta' => array() );
+		$Filter_bar['left']['main']['view']->title = sprintf( '%1$s (%2$s/%3$s/%4$s/%5$s/%6$s)' , __( 'View' ) , __( 'Posts' ) , __( 'Pages' ) , __( 'Categories' ) , __( 'Tags' ) , __( 'Custom' ) );
 	
 		return $Filter_bar;
 	}
@@ -1701,17 +1706,44 @@ class WP_Admin_UI_Customize
 				$update_data = wp_get_update_data();
 				$activated_plugin = $this->ActivatedPlugin;
 				$other_plugin = $this->OtherPluginMenu;
-
+				
 				// all nodes adjustment
 				foreach($SettingNodes as $Boxtype => $allnodes) {
 					foreach($allnodes as $node_type => $nodes) {
 						foreach($nodes as $key => $node) {
-
+							
 							if( strstr( $node["id"] , 'custom_node' ) ) {
 								if( !empty( $node["group"] ) ) {
 									$node["meta"]["class"] = 'ab-sub-secondary';
 								} else {
 									$node["href"] = $this->val_replace( $node["href"] );
+								}
+							} elseif( $node["id"] == 'view-post_type' ) {
+								
+								if( is_admin() ) {
+									
+									if( !empty( $All_Nodes['preview'] ) ) {
+
+										$node["href"] = $All_Nodes['preview']->href;
+										$node["meta"] = $All_Nodes['preview']->meta;
+											
+									} elseif( !empty( $All_Nodes['view'] ) ) {
+											
+										$node["href"] = $All_Nodes['view']->href;
+										$node["meta"] = $All_Nodes['view']->meta;
+											
+									} else {
+	
+										unset( $SettingNodes[$Boxtype][$node_type][$key] );
+										continue;
+	
+									}
+
+								} else {
+	
+									unset( $SettingNodes[$Boxtype][$node_type][$key] );
+									continue;
+	
 								}
 							} elseif( $node["id"] == 'edit-post_type' ) {
 								if( !empty( $All_Nodes["edit"] ) ) {

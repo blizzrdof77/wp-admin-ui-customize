@@ -54,6 +54,7 @@ These to Customization is possible.
 * Fixed: Priority change of loading meta boxes on Dashboard.
 * Fixed: Change the slug to Customize of Appearance.
 * Added: Order number count show of WooCommerce.
+* Added: Add View Post menu of Admin bar settings.
 
 = 1.5.2.2 =
 * Updated: Remove the specific slug of child menu of Side menus.

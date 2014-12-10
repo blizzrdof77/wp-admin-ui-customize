@@ -570,9 +570,9 @@ class WP_Admin_UI_Customize
 		$Filter_bar["front"]["main"]["search"]->href = get_search_link();
 		
 		// admin field
-		$Filter_bar['left']['main']['view'] = new stdClass;
-		$Filter_bar['left']['main']['view'] = (object) array( 'id' => 'view-post_type' , 'title' => '' , 'href' => '' , 'group' => '' , 'meta' => array() );
-		$Filter_bar['left']['main']['view']->title = sprintf( '%1$s (%2$s/%3$s/%4$s/%5$s/%6$s)' , __( 'View' ) , __( 'Posts' ) , __( 'Pages' ) , __( 'Categories' ) , __( 'Tags' ) , __( 'Custom' ) );
+		$Filter_bar['left']['main']['view-post_type'] = new stdClass;
+		$Filter_bar['left']['main']['view-post_type'] = (object) array( 'id' => 'view-post_type' , 'title' => '' , 'href' => '' , 'group' => '' , 'meta' => array() );
+		$Filter_bar['left']['main']['view-post_type']->title = sprintf( '%1$s (%2$s/%3$s/%4$s/%5$s)' , __( 'View Post' ) , __( 'Pages' ) , __( 'Categories' ) , __( 'Tags' ) , __( 'Custom' ) );
 	
 		return $Filter_bar;
 	}

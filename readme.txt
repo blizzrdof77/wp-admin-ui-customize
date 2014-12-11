@@ -53,8 +53,9 @@ These to Customization is possible.
 = 1.5.2.3 =
 * Fixed: Priority change of loading meta boxes on Dashboard.
 * Fixed: Change the slug to Customize of Appearance.
-* Added: Order number count show of WooCommerce.
+* Added: Shortcode to order number count show of WooCommerce.
 * Added: Add View Post menu of Admin bar settings.
+* Added: Shortcode to Current post type name.
 
 = 1.5.2.2 =
 * Updated: Remove the specific slug of child menu of Side menus.

@@ -562,7 +562,7 @@ class WP_Admin_UI_Customize
 		$Filter_bar["front"] = array( "main" => array() , "sub" => array() );
 		$Filter_bar["front"]["main"]["edit-post_type"] = new stdClass;
 		$Filter_bar["front"]["main"]["edit-post_type"] = (object) array( 'id' => 'edit-post_type' , 'title' => '' , 'href' => '' , 'group' => '' , 'meta' => array() );
-		$Filter_bar["front"]["main"]["edit-post_type"]->title = sprintf( '%1$s (%2$s/%3$s/%4$s/%5$s/%6$s)' , __( 'Edit' ) , __( 'Posts' ) , __( 'Pages' ) , __( 'Categories' ) , __( 'Tags' ) , __( 'Custom' ) );
+		$Filter_bar["front"]["main"]["edit-post_type"]->title = sprintf( '%1$s [post_type]' , __( 'Edit' ) );
 
 		$Filter_bar["front"]["main"]["search"] = new stdClass;
 		$Filter_bar["front"]["main"]["search"] = (object) array( 'id' => 'search' , 'title' => '' , 'href' => '' , 'group' => '' , 'meta' => array() );
@@ -572,7 +572,7 @@ class WP_Admin_UI_Customize
 		// admin field
 		$Filter_bar['left']['main']['view-post_type'] = new stdClass;
 		$Filter_bar['left']['main']['view-post_type'] = (object) array( 'id' => 'view-post_type' , 'title' => '' , 'href' => '' , 'group' => '' , 'meta' => array() );
-		$Filter_bar['left']['main']['view-post_type']->title = sprintf( '%1$s (%2$s/%3$s/%4$s/%5$s)' , __( 'View Post' ) , __( 'Pages' ) , __( 'Categories' ) , __( 'Tags' ) , __( 'Custom' ) );
+		$Filter_bar['left']['main']['view-post_type']->title = sprintf( '%1$s [post_type]' , __( 'View' ) );
 	
 		return $Filter_bar;
 	}
@@ -848,11 +848,8 @@ class WP_Admin_UI_Customize
 								<input type="hidden" class="regular-text titletext" value="" name="data[][title]" />
 							<?php else : ?>
 								<?php _e( 'Title' ); ?> : 
-								<?php if( $menu_widget["id"] == 'edit-post_type' or in_array( $menu_widget["id"] , $no_submenu ) ) : ?>
+								<?php if( in_array( $menu_widget["id"] , $no_submenu ) ) : ?>
 									<input type="text" class="regular-text titletext" value="<?php echo esc_html( $menu_widget["title"] ); ?>" name="data[][title]" readonly="readonly" /><br />
-									<?php if( $menu_widget["id"] == 'edit-post_type' ) : ?>
-										<span class="description"><?php _e( 'If you want edit to name, please edit of translation file(PO).' , $this->ltd ); ?></span><br />
-									<?php endif; ?>
 								<?php elseif( !empty( $activated_plugin ) ) : ?>
 									<?php foreach( $activated_plugin as $plugin_slug => $v ) : ?>
 										<?php if( !empty( $other_plugin["admin_bar"][$plugin_slug] ) && array_key_exists( $menu_widget["id"] , $other_plugin["admin_bar"][$plugin_slug] ) ) : ?>
@@ -1008,6 +1005,68 @@ class WP_Admin_UI_Customize
 			}
 			if( strstr( $str , '[user_avatar_64]') ) {
 				$str = str_replace( '[user_avatar_64]' , get_avatar( $current_user->ID , 64 ) , $str );
+			}
+			if( strstr( $str , '[post_type]') ) {
+
+				$post_name = '';
+
+				if( is_admin() ) {
+				
+					global $current_screen;
+					global $typenow;
+					global $tax;
+					
+					if( $current_screen->base == 'edit' or $current_screen->base == 'post' && !empty( $typenow ) ) {
+						
+						$post_type_object = get_post_type_object( $typenow );
+						
+						if( !empty( $post_type_object->public ) ) {
+
+							$post_name = $post_type_object->labels->singular_name;
+							
+						}
+						
+					} elseif( $current_screen->base == 'edit-tags' && !empty( $tax ) ) {
+						
+						if( !empty( $tax->public ) ) {
+
+							$post_name = $tax->labels->singular_name;
+							
+						}
+						
+					}
+				
+					
+				} else {
+				
+					$queried_object = get_queried_object();
+
+					if( !empty( $queried_object->post_type ) ) {
+						
+						$post_type_object = get_post_type_object( $queried_object->post_type );
+
+						if( !empty( $post_type_object->public ) ) {
+
+							$post_name = $post_type_object->labels->singular_name;
+							
+						}
+						
+					} elseif( !empty( $queried_object->taxonomy ) ) {
+						
+						$tax = get_taxonomy( $queried_object->taxonomy );
+
+						if( !empty( $tax->public ) ) {
+
+							$post_name = $tax->labels->singular_name;
+							
+						}
+
+					}
+					
+				}
+
+				$str = str_replace( '[post_type]' , $post_name , $str );
+
 			}
 
 			if( is_multisite() ) {
@@ -1745,15 +1804,22 @@ class WP_Admin_UI_Customize
 									continue;
 	
 								}
+
 							} elseif( $node["id"] == 'edit-post_type' ) {
+
 								if( !empty( $All_Nodes["edit"] ) ) {
-									$node["title"] = $All_Nodes["edit"]->title;
+
+									//$node["title"] = $All_Nodes["edit"]->title;
 									$node["href"] = $All_Nodes["edit"]->href;
 									$node["id"] = $All_Nodes["edit"]->id;
+
 								} else {
+
 									unset( $SettingNodes[$Boxtype][$node_type][$key] );
 									continue;
+
 								}
+
 							} elseif( $node["id"] == 'search' ) {
 								if( !empty( $All_Nodes["search"] ) ) {
 									$node["title"] = $All_Nodes["search"]->title;

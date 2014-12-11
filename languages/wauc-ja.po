@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: WP Admin UI Customize\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-08-22 12:41+0900\n"
-"PO-Revision-Date: 2014-08-22 14:20+0900\n"
+"PO-Revision-Date: 2014-12-11 14:06+0900\n"
 "Last-Translator: gqevu6bsiz <gqevu6bsiz@gmail.com>\n"
 "Language-Team: gqevu6bsiz@gmail.com <gqevu6bsiz@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -625,4 +625,7 @@ msgstr "フロント(サイト)で管理バーを非表示"
 #: inc/setting_site.php:134
 msgid "Apply WP Admin UI Customize settings on the front end admin bar also"
 msgstr "WP Admin UI Customize の管理バーの設定をフロントにも適用"
+
+msgid "Current Post Type Name"
+msgstr "現在の投稿タイプ名"
 

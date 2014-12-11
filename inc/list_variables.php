@@ -129,6 +129,13 @@ if( is_multisite() ) {
 						<span class="description"><?php _e( 'In your case.' , $this->ltd ); ?></span>
 					</td>
 				</tr>
+				<tr>
+					<th><strong>[post_type]</strong></th>
+					<td>
+						<code><?php _e( 'Posts' ); ?></code>
+						<span class="description"><?php _e( 'Current Post Type Name' , $this->ltd ); ?> ( <?php _e( 'Pages' ); ?>/<?php _e( 'Categories' ); ?>/<?php _e( 'Tags' ); ?>/<?php _e( 'Custom' ); ?>)</span>
+					</td>
+				</tr>
 			</tbody>
 		</table>
 

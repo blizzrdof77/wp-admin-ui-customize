@@ -195,6 +195,10 @@ class WP_Admin_UI_Customize
 			$this->ActivatedPlugin["woocommerce"] = true;
 		}
 
+		if( is_plugin_active( 'post-edit-toolbar/post-edit-toolbar.php' ) ) {
+			$this->ActivatedPlugin["post_edit_toolbar"] = true;
+		}
+
 	}
 
 
@@ -426,6 +430,21 @@ class WP_Admin_UI_Customize
 				$plugin_slug = 'buddypress';
 				foreach( $this->Admin_bar as $node_id => $node ) {
 					if( strstr( $node_id , $plugin_slug ) or strstr( $node_id , 'bp-' ) ) {
+						$this->OtherPluginMenu["admin_bar"][$plugin_slug][$node_id] = 1;
+					}
+				}
+			}
+			
+			if( !empty( $this->ActivatedPlugin["post_edit_toolbar"] ) ) {
+				$plugin_slug = 'post_item_';
+				foreach( $this->Admin_bar as $node_id => $node ) {
+					if( strstr( $node_id , $plugin_slug ) ) {
+						$this->OtherPluginMenu["admin_bar"][$plugin_slug][$node_id] = 1;
+					}
+				}
+				$plugin_slug = 'page_item_';
+				foreach( $this->Admin_bar as $node_id => $node ) {
+					if( strstr( $node_id , $plugin_slug ) ) {
 						$this->OtherPluginMenu["admin_bar"][$plugin_slug][$node_id] = 1;
 					}
 				}
@@ -788,7 +807,7 @@ class WP_Admin_UI_Customize
 		if ( is_object( $menu_widget ) ) $menu_widget = (array) $menu_widget;
 		if( !isset( $menu_widget["group"] ) ) $menu_widget["group"] = 0;
 		if( !isset( $menu_widget["meta"]["class"] ) ) $menu_widget["meta"]["class"] = "";
-		$no_submenu = array( 'search' , 'bp-notifications' , 'menu-toggle' );
+		$no_submenu = array( 'search' , 'bp-notifications' , 'menu-toggle' , 'post_list' , 'page_list' );
 		$activated_plugin = $this->ActivatedPlugin;
 		$other_plugin = $this->OtherPluginMenu;
 
@@ -1905,6 +1924,42 @@ class WP_Admin_UI_Customize
 						foreach($nodes as $key => $node) {
 							if( !empty( $activated_plugin ) ) {
 								if( $node["id"] == 'bp-notifications' ) {
+									foreach($All_Nodes as $default_node_id => $default_node) {
+										if( $default_node->parent == $node["id"] ) {
+											$subnode_type = '';
+											if( $node_type == 'main' ) {
+												$subnode_type = 'sub';
+											} elseif( $node_type == 'sub' ) {
+												 $subnode_type = 'sub2';
+											} elseif( $node_type == 'sub2' ) {
+												$subnode_type = 'sub3';
+											} elseif( $node_type == 'sub3' ) {
+												$subnode_type = 'sub4';
+											}
+											if( !empty( $subnode_type ) ) {
+												$SettingNodes[$Boxtype][$subnode_type][] = (array) $default_node;
+											}
+										}
+									}
+								} elseif( $node["id"] == 'page_list' ) {
+									foreach($All_Nodes as $default_node_id => $default_node) {
+										if( $default_node->parent == $node["id"] ) {
+											$subnode_type = '';
+											if( $node_type == 'main' ) {
+												$subnode_type = 'sub';
+											} elseif( $node_type == 'sub' ) {
+												 $subnode_type = 'sub2';
+											} elseif( $node_type == 'sub2' ) {
+												$subnode_type = 'sub3';
+											} elseif( $node_type == 'sub3' ) {
+												$subnode_type = 'sub4';
+											}
+											if( !empty( $subnode_type ) ) {
+												$SettingNodes[$Boxtype][$subnode_type][] = (array) $default_node;
+											}
+										}
+									}
+								} elseif( $node["id"] == 'post_list' ) {
 									foreach($All_Nodes as $default_node_id => $default_node) {
 										if( $default_node->parent == $node["id"] ) {
 											$subnode_type = '';

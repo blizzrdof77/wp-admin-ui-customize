@@ -461,7 +461,6 @@ class WP_Admin_UI_Customize
 					}
 				}
 			}
-			
 		}
 	}
 
@@ -592,6 +591,25 @@ class WP_Admin_UI_Customize
 		$Filter_bar['left']['main']['view-post_type'] = new stdClass;
 		$Filter_bar['left']['main']['view-post_type'] = (object) array( 'id' => 'view-post_type' , 'title' => '' , 'href' => '' , 'group' => '' , 'meta' => array() );
 		$Filter_bar['left']['main']['view-post_type']->title = sprintf( '%1$s [post_type]' , __( 'View' ) );
+		
+		if( !empty( $this->ActivatedPlugin ) ) {
+
+			if( !empty( $this->ActivatedPlugin["post_edit_toolbar"] ) ) {
+				$plugin_slug = 'post_item_';
+				foreach( $Filter_bar['left']['sub'] as $node_id => $node ) {
+					if( strstr( $node_id , $plugin_slug ) ) {
+						unset( $Filter_bar['left']['sub'][$node_id] );
+					}
+				}
+				$plugin_slug = 'page_item_';
+				foreach( $Filter_bar['left']['sub'] as $node_id => $node ) {
+					if( strstr( $node_id , $plugin_slug ) ) {
+						unset( $Filter_bar['left']['sub'][$node_id] );
+					}
+				}
+			}
+
+		}
 	
 		return $Filter_bar;
 	}

@@ -1,10 +1,10 @@
 === WP Admin UI Customize ===
 Contributors: gqevu6bsiz
-Donate link: http://gqevu6bsiz.chicappa.jp/please-donation/?utm_source=wporg&utm_medium=donate&utm_content=wauc&utm_campaign=1_5_2_3-beta
+Donate link: http://gqevu6bsiz.chicappa.jp/please-donation/?utm_source=wporg&utm_medium=donate&utm_content=wauc&utm_campaign=1_5_2_3
 Tags: admin, post, posts, page, option, sitemenu, menu, custom, customize, dashboard, admin_bar, multisite, network, metabox
-Requires at least: 3.6.1
-Tested up to: 4.0
-Stable tag: 1.5.2.2
+Requires at least: 3.8
+Tested up to: 4.1
+Stable tag: 1.5.2.3
 License: GPL2
 
 Customize the management screen UI.
@@ -52,7 +52,7 @@ These to Customization is possible.
 
 = 1.5.2.3 =
 * Fixed: Priority change of loading meta boxes on Dashboard.
-* Fixed: Change the slug to Customize of Appearance.
+* Fixed: Customize of Appearance.
 * Added: Shortcode to order number count show of WooCommerce.
 * Added: Add View Post menu of Admin bar settings.
 * Added: Shortcode to Current post type name.

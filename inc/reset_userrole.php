@@ -1,19 +1,12 @@
 <?php
 
-global $wp_version;
-
 $Data = $this->get_data( 'user_role' );
 $UserRoles = $this->get_user_role();
 
 // include js css
 $ReadedJs = array( 'jquery' , 'jquery-ui-sortable' );
 wp_enqueue_script( $this->PageSlug ,  $this->Url . $this->PluginSlug . '.js', $ReadedJs , $this->Ver );
-
-if ( version_compare( $wp_version , '3.8' , '<' ) ) {
-	wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '-3.7.css', array() , $this->Ver );
-} else {
-	wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', array() , $this->Ver );
-}
+wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', array() , $this->Ver );
 
 ?>
 <div class="wrap">
@@ -37,9 +30,9 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 		</ul>
 		<br />
 
-		<p><?php _e( 'You want to reset the user roles?' , $this->ltd ); ?></p>
+		<p><?php printf( __( 'Reset the %s?' , $this->ltd ) , __( 'User Roles Settings' , $this->ltd ) ); ?></p>
 		<p class="submit">
-			<input type="submit" class="button-primary" name="reset" value="<?php _e( 'Reset Settings for User Roles Settings' , $this->ltd ); ?>" />
+			<input type="submit" class="button-primary" name="reset" value="<?php _e( 'Reset settings' , $this->ltd ); ?>" />
 		</p>
 
 	</form>
@@ -68,7 +61,7 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 
 		<p><?php _e( 'Are you sure you want to delete all settings?' , $this->ltd ); ?></p>
 		<p class="submit">
-			<input type="submit" class="button-primary" name="reset" value="<?php _e( 'Reset Settings of all' , $this->ltd ); ?>" />
+			<input type="submit" class="button-primary" name="reset" value="<?php _e( 'Reset settings of all' , $this->ltd ); ?>" />
 		</p>
 
 	</form>

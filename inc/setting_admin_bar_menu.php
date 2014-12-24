@@ -1,7 +1,5 @@
 <?php
 
-global $wp_version;
-
 $Data = $this->get_data( 'admin_bar_menu' );
 $AllDefaultNodes = $this->admin_bar_filter_load();
 $Place_types = $this->admin_bar_places();
@@ -10,12 +8,7 @@ $Place_types = $this->admin_bar_places();
 $ReadedJs = array( 'jquery' , 'jquery-ui-draggable' , 'jquery-ui-droppable' , 'jquery-ui-sortable' , 'thickbox' );
 wp_enqueue_script( $this->PageSlug ,  $this->Url . $this->PluginSlug . '.js', $ReadedJs , $this->Ver );
 wp_enqueue_style('thickbox');
-
-if ( version_compare( $wp_version , '3.8' , '<' ) ) {
-	wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '-3.7.css', array() , $this->Ver );
-} else {
-	wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', array() , $this->Ver );
-}
+wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', array() , $this->Ver );
 
 ?>
 
@@ -91,7 +84,7 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 		</p>
 
 		<p class="submit reset">
-			<span class="description"><?php _e( sprintf( 'Reset the %s?' , __( 'Admin Bar Menu' , $this->ltd ) . __( 'Settings' ) ) , $this->ltd ); ?></span>
+			<span class="description"><?php printf( __( 'Reset the %s?' , $this->ltd ) , __( 'Admin Bar Menu' , $this->ltd ) . __( 'Settings' ) ); ?></span>
 			<input type="submit" class="button-secondary" name="reset" value="<?php _e( 'Reset settings' , $this->ltd ); ?>" />
 		</p>
 
@@ -272,6 +265,7 @@ jQuery(document).ready(function($) {
 				if ( ui.item.hasClass('deleting') ) {
 					ui.item.remove();
 				}
+				ui.item.attr( 'style', '' ).removeClass('ui-draggable');
 				wauc_widget_each();
 			},
 		});

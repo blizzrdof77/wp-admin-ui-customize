@@ -1,19 +1,12 @@
 <?php
 
-global $wp_version;
-
 $Data = $this->get_data( 'loginscreen' );
 
 // include js css
 $ReadedJs = array( 'jquery' , 'jquery-ui-sortable' , 'thickbox' );
 wp_enqueue_script( $this->PageSlug ,  $this->Url . $this->PluginSlug . '.js', $ReadedJs , $this->Ver );
 wp_enqueue_style('thickbox');
-
-if ( version_compare( $wp_version , '3.8' , '<' ) ) {
-	wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '-3.7.css', array() , $this->Ver );
-} else {
-	wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', array() , $this->Ver );
-}
+wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', array() , $this->Ver );
 
 ?>
 
@@ -156,7 +149,7 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 		</p>
 
 		<p class="submit reset">
-			<span class="description"><?php _e( sprintf( 'Reset the %s?' , __( 'Login Screen Settings' , $this->ltd ) ) , $this->ltd ); ?></span>
+			<span class="description"><?php printf( __( 'Reset the %s?' , $this->ltd ) , __( 'Login Screen Settings' , $this->ltd ) ); ?></span>
 			<input type="submit" class="button-secondary" name="reset" value="<?php _e( 'Reset settings' , $this->ltd ); ?>" />
 		</p>
 

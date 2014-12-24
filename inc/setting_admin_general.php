@@ -1,19 +1,12 @@
 <?php
 
-global $wp_version;
-
 $Data = $this->get_data( 'admin_general' );
 
 // include js css
 $ReadedJs = array( 'jquery' , 'jquery-ui-sortable' , 'thickbox' );
 wp_enqueue_script( $this->PageSlug ,  $this->Url . $this->PluginSlug . '.js', $ReadedJs , $this->Ver );
 wp_enqueue_style('thickbox');
-
-if ( version_compare( $wp_version , '3.8' , '<' ) ) {
-	wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '-3.7.css', array() , $this->Ver );
-} else {
-	wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', array() , $this->Ver );
-}
+wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', array() , $this->Ver );
 
 ?>
 
@@ -166,19 +159,17 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 												<label><input type="checkbox" name="data[<?php echo $field; ?>]" value="1" <?php echo $Checked; ?> /> <?php _e ( 'Remove "Wordpress" from the title tag of the Admin screen' , $this->ltd ); ?></label>
 											</td>
 										</tr>
-										<?php if( version_compare( $wp_version , '3.8' , '>=' ) ) : ?>
-											<?php $field = 'resize_admin_bar'; ?>
-											<tr>
-												<th>
-													<label><?php _e( 'Resizing Admin bar' , $this->ltd ); ?></label>
-												</th>
-												<td>
-													<?php $Checked = ''; ?>
-													<?php if( !empty( $Data[$field] ) ) : $Checked = 'checked="checked"'; endif; ?>
-													<label><input type="checkbox" name="data[<?php echo $field; ?>]" value="1" <?php echo $Checked; ?> /> <?php _e ( 'Don\'t resize' , $this->ltd ); ?></label>
-												</td>
-											</tr>
-										<?php endif; ?>
+										<?php $field = 'resize_admin_bar'; ?>
+										<tr>
+											<th>
+												<label><?php _e( 'Resizing Admin bar' , $this->ltd ); ?></label>
+											</th>
+											<td>
+												<?php $Checked = ''; ?>
+												<?php if( !empty( $Data[$field] ) ) : $Checked = 'checked="checked"'; endif; ?>
+												<label><input type="checkbox" name="data[<?php echo $field; ?>]" value="1" <?php echo $Checked; ?> /> <?php _e ( 'Don\'t resize' , $this->ltd ); ?></label>
+											</td>
+										</tr>
 									</tbody>
 								</table>
 							</div>
@@ -197,7 +188,7 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 		</p>
 
 		<p class="submit reset">
-			<span class="description"><?php _e( sprintf( 'Reset the %s?' , sprintf( __( '%1$s %2$s' , $this->ltd ) , __( 'General' ) , __( 'Settings' ) ) ) , $this->ltd ); ?></span>
+			<span class="description"><?php printf( __( 'Reset the %s?' , $this->ltd ) , sprintf( __( '%1$s %2$s' , $this->ltd ) , __( 'General' ) , __( 'Settings' ) ) ); ?></span>
 			<input type="submit" class="button-secondary" name="reset" value="<?php _e( 'Reset settings' , $this->ltd ); ?>" />
 		</p>
 

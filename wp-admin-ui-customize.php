@@ -2,10 +2,10 @@
 /*
 Plugin Name: WP Admin UI Customize
 Description: An excellent plugin to customize the management screens.
-Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_5_2_3-beta
-Version: 1.5.2.3-beta
+Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_5_2_3
+Version: 1.5.2.3
 Author: gqevu6bsiz
-Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_5_2_3-beta
+Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_5_2_3
 Text Domain: wauc
 Domain Path: /languages
 */
@@ -58,7 +58,7 @@ class WP_Admin_UI_Customize
 
 
 	function __construct() {
-		$this->Ver = '1.5.2.3-beta';
+		$this->Ver = '1.5.2.3';
 		$this->Name = 'WP Admin UI Customize';
 		$this->Dir = plugin_dir_path( __FILE__ );
 		$this->Url = plugin_dir_url( __FILE__ );
@@ -384,7 +384,7 @@ class WP_Admin_UI_Customize
 	// SetList
 	function sidemenu_default_load() {
 		global $menu , $submenu;
-
+		
 		if ( !get_option( 'link_manager_enabled' ) ) {
 			foreach( $menu as $key => $val ) {
 				if( !empty( $val[1] ) && $val[1] == 'manage_links' ) {
@@ -392,6 +392,9 @@ class WP_Admin_UI_Customize
 				}
 			}
 		}
+		
+		$this->Menu = $menu;
+		$this->SubMenu = $submenu;
 		
 		if( !empty( $submenu ) ) {
 			
@@ -402,7 +405,7 @@ class WP_Admin_UI_Customize
 					foreach( $sm as $sm_key => $sm_set ) {
 						
 						if( preg_match("/^customize.php/", $sm_set[2] ) )
-							$submenu[$submenu_key][$sm_key][2] = 'customize.php';
+							$this->SubMenu[$submenu_key][$sm_key][2] = remove_query_arg( array( 'return' ) , $sm_set[2] );
 						
 					}
 					
@@ -411,9 +414,6 @@ class WP_Admin_UI_Customize
 			}
 			
 		}
-
-		$this->Menu = $menu;
-		$this->SubMenu = $submenu;
 		
 	}
 
@@ -1124,8 +1124,12 @@ class WP_Admin_UI_Customize
 					if( strstr( $str , '[woocommerce_order_process_count]') ) {
 						
 						$woocommerce_order_process_count = '';
-						if ( $order_count = wc_processing_order_count() ) {
-							$woocommerce_order_process_count = ' <span class="awaiting-mod update-plugins count-' . $order_count . '"><span class="processing-count">' . number_format_i18n( $order_count ) . '</span></span>';
+						if( function_exists( 'wc_processing_order_count' ) ) {
+							
+							$order_count = intval( wc_processing_order_count() );
+							if ( !empty( $order_count ) ) {
+								$woocommerce_order_process_count = ' <span class="awaiting-mod update-plugins count-' . $order_count . '"><span class="processing-count">' . number_format_i18n( $order_count ) . '</span></span>';
+							}
 						}
 						
 						$str = str_replace( '[woocommerce_order_process_count]' , $woocommerce_order_process_count , $str );
@@ -2257,7 +2261,7 @@ class WP_Admin_UI_Customize
 	function sidemenu() {
 		global $menu;
 		global $submenu;
-
+		
 		$GetData = $this->get_flit_data( 'sidemenu' );
 		$General = $this->get_flit_data( 'admin_general' );
 		
@@ -2269,6 +2273,75 @@ class WP_Admin_UI_Customize
 				$SetMain_submenu = array();
 				
 				$separator_menu = array( 0 => "" , 1 => 'read' , 2 => 'separator1' , 3 => "" , 4 => 'wp-menu-separator' );
+				$customize_url = add_query_arg( 'return', urlencode( wp_unslash( $_SERVER['REQUEST_URI'] ) ), 'customize.php' );
+				
+				if( !empty( $GetData["main"] ) ) {
+					
+					foreach( $GetData["main"] as $mm_pos => $mm ) {
+						
+						if( $mm["slug"] == 'customize.php' ) {
+							
+							$GetData["main"][$mm_pos]["slug"] = $customize_url;
+							
+						} elseif( strstr( $mm["slug"] , 'customize.php?autofocus') ) {
+
+							$controll = str_replace( 'customize.php?autofocus%5Bcontrol%5D=' , '' , $mm["slug"] );
+							
+							if( !empty( $controll ) )
+								$GetData["main"][$mm_pos]["slug"] = add_query_arg( 'autofocus[control]' , $controll , $customize_url );
+
+						}
+
+						if( strstr( $mm["title"] , '[comment_count]') ) {
+							$GetData["main"][$mm_pos]["title"] = str_replace( '[comment_count]' , '<span class="update-plugins count-[comment_count]"><span class="comment-count">[comment_count_format]</span></span>' , $mm["title"] );
+						}
+						if( strstr( $mm["title"] , '[update_total]') ) {
+							$GetData["main"][$mm_pos]["title"] = str_replace( '[update_total]' , '<span class="update-plugins count-[update_total]"><span class="update-count">[update_total_format]</span></span>' , $mm["title"] );
+						}
+						if( strstr( $mm["title"] , '[update_plugins]') ) {
+							$GetData["main"][$mm_pos]["title"] = str_replace( '[update_plugins]' , '<span class="update-plugins count-[update_plugins]"><span class="plugin-count">[update_plugins_format]</span></span>' , $mm["title"] );
+						}
+						if( strstr( $mm["title"] , '[update_themes]') ) {
+							$GetData["main"][$mm_pos]["title"] = str_replace( '[update_themes]' , '<span class="update-plugins count-[update_themes]"><span class="theme-count">[update_themes_format]</span></span>' , $mm["title"] );
+						}
+						
+					}
+					
+				}
+
+				if( !empty( $GetData["sub"] ) ) {
+					
+					foreach( $GetData["sub"] as $sm_pos => $sm ) {
+						
+						if( $sm["slug"] == 'customize.php' ) {
+							
+							$GetData["sub"][$sm_pos]["slug"] = $customize_url;
+							
+						} elseif( strstr( $sm["slug"] , 'customize.php?autofocus%5Bcontrol%5D=') ) {
+
+							$controll = str_replace( 'customize.php?autofocus%5Bcontrol%5D=' , '' , $sm["slug"] );
+							
+							if( !empty( $controll ) )
+								$GetData["sub"][$sm_pos]["slug"] = add_query_arg( 'autofocus[control]' , $controll , $customize_url );
+
+						}
+
+						if( strstr( $sm["title"] , '[comment_count]') ) {
+							$GetData["sub"][$sm_pos]["title"] = str_replace( '[comment_count]' , '<span class="update-plugins count-[comment_count]"><span class="comment-count">[comment_count_format]</span></span>' , $sm["title"] );
+						}
+						if( strstr( $sm["title"] , '[update_total]') ) {
+							$GetData["sub"][$sm_pos]["title"] = str_replace( '[update_total]' , '<span class="update-plugins count-[update_total]"><span class="update-count">[update_total_format]</span></span>' , $sm["title"] );
+						}
+						if( strstr( $sm["title"] , '[update_plugins]') ) {
+							$GetData["sub"][$sm_pos]["title"] = str_replace( '[update_plugins]' , '<span class="update-plugins count-[update_plugins]"><span class="plugin-count">[update_plugins_format]</span></span>' , $sm["title"] );
+						}
+						if( strstr( $sm["title"] , '[update_themes]') ) {
+							$GetData["sub"][$sm_pos]["title"] = str_replace( '[update_themes]' , '<span class="update-plugins count-[update_themes]"><span class="theme-count">[update_themes_format]</span></span>' , $sm["title"] );
+						}
+						
+					}
+					
+				}
 				
 				foreach($GetData["main"] as $mm_pos => $mm) {
 					if($mm["slug"] == 'separator') {
@@ -2277,18 +2350,6 @@ class WP_Admin_UI_Customize
 						$gm_search = false;
 						foreach($menu as $gm_pos => $gm) {
 							if($mm["slug"] == $gm[2]) {
-								if( strstr( $mm["title"] , '[comment_count]') ) {
-									$mm["title"] = str_replace( '[comment_count]' , '<span class="update-plugins count-[comment_count]"><span class="theme-count">[comment_count_format]</span></span>' , $mm["title"] );
-								}
-								if( strstr( $mm["title"] , '[update_total]') ) {
-									$mm["title"] = str_replace( '[update_total]' , '<span class="update-plugins count-[update_total]"><span class="update-count">[update_total_format]</span></span>' , $mm["title"] );
-								}
-								if( strstr( $mm["title"] , '[update_plugins]') ) {
-									$mm["title"] = str_replace( '[update_plugins]' , '<span class="update-plugins count-[update_plugins]"><span class="plugin-count">[update_plugins_format]</span></span>' , $mm["title"] );
-								}
-								if( strstr( $mm["title"] , '[update_themes]') ) {
-									$mm["title"] = str_replace( '[update_themes]' , '<span class="update-plugins count-[update_themes]"><span class="theme-count">[update_themes_format]</span></span>' , $mm["title"] );
-								}
 								$menu[$gm_pos][0] = $this->val_replace( $mm["title"] );
 								$SetMain_menu[] = $menu[$gm_pos];
 								$gm_search = true;
@@ -2305,18 +2366,6 @@ class WP_Admin_UI_Customize
 												$submenu[$gsm_parent_slug][$gsm_pos][4] = $tmp_m[4];
 												break;
 											}
-										}
-										if( strstr( $mm["title"] , '[comment_count]') ) {
-											$mm["title"] = str_replace( '[comment_count]' , '<span class="update-plugins count-[comment_count]"><span class="theme-count">[comment_count_format]</span></span>' , $mm["title"] );
-										}
-										if( strstr( $mm["title"] , '[update_total]') ) {
-											$mm["title"] = str_replace( '[update_total]' , '<span class="update-plugins count-[update_total]"><span class="update-count">[update_total_format]</span></span>' , $mm["title"] );
-										}
-										if( strstr( $mm["title"] , '[update_plugins]') ) {
-											$mm["title"] = str_replace( '[update_plugins]' , '<span class="update-plugins count-[update_plugins]"><span class="plugin-count">[update_plugins_format]</span></span>' , $mm["title"] );
-										}
-										if( strstr( $mm["title"] , '[update_themes]') ) {
-											$mm["title"] = str_replace( '[update_themes]' , '<span class="update-plugins count-[update_themes]"><span class="theme-count">[update_themes_format]</span></span>' , $mm["title"] );
 										}
 										$submenu[$gsm_parent_slug][$gsm_pos][0] = $this->val_replace( $mm["title"] );
 										$SetMain_menu[] = $submenu[$gsm_parent_slug][$gsm_pos];
@@ -2336,18 +2385,6 @@ class WP_Admin_UI_Customize
 							$gm_search = false;
 							foreach($menu as $gm_pos => $gm) {
 								if($sm["slug"] == $gm[2]) {
-									if( strstr( $sm["title"] , '[comment_count]') ) {
-										$sm["title"] = str_replace( '[comment_count]' , '<span class="update-plugins count-[comment_count]"><span class="theme-count">[comment_count_format]</span></span>' , $sm["title"] );
-									}
-									if( strstr( $sm["title"] , '[update_total]') ) {
-										$sm["title"] = str_replace( '[update_total]' , '<span class="update-plugins count-[update_total]"><span class="update-count">[update_total_format]</span></span>' , $sm["title"] );
-									}
-									if( strstr( $sm["title"] , '[update_plugins]') ) {
-										$sm["title"] = str_replace( '[update_plugins]' , '<span class="update-plugins count-[update_plugins]"><span class="plugin-count">[update_plugins_format]</span></span>' , $sm["title"] );
-									}
-									if( strstr( $sm["title"] , '[update_themes]') ) {
-										$sm["title"] = str_replace( '[update_themes]' , '<span class="update-plugins count-[update_themes]"><span class="theme-count">[update_themes_format]</span></span>' , $sm["title"] );
-									}
 									$menu[$gm_pos][0] = $this->val_replace( $sm["title"] );
 									$SetMain_submenu[$sm["parent_slug"]][] = $menu[$gm_pos];
 									$gm_search = true;
@@ -2358,19 +2395,6 @@ class WP_Admin_UI_Customize
 								foreach($submenu as $gsm_parent_slug => $v) {
 									foreach($v as $gsm_pos => $gsm) {
 										if($sm["slug"] == $gsm[2]) {
-	
-											if( strstr( $sm["title"] , '[comment_count]') ) {
-												$sm["title"] = str_replace( '[comment_count]' , '<span class="update-plugins count-[comment_count]"><span class="theme-count">[comment_count_format]</span></span>' , $sm["title"] );
-											}
-											if( strstr( $sm["title"] , '[update_total]') ) {
-												$sm["title"] = str_replace( '[update_total]' , '<span class="update-plugins count-[update_total]"><span class="update-count">[update_total_format]</span></span>' , $sm["title"] );
-											}
-											if( strstr( $sm["title"] , '[update_plugins]') ) {
-												$sm["title"] = str_replace( '[update_plugins]' , '<span class="update-plugins count-[update_plugins]"><span class="plugin-count">[update_plugins_format]</span></span>' , $sm["title"] );
-											}
-											if( strstr( $sm["title"] , '[update_themes]') ) {
-												$sm["title"] = str_replace( '[update_themes]' , '<span class="update-plugins count-[update_themes]"><span class="theme-count">[update_themes_format]</span></span>' , $sm["title"] );
-											}
 											$submenu[$gsm_parent_slug][$gsm_pos][0] = $this->val_replace( $sm["title"] );
 											$SetMain_submenu[$sm["parent_slug"]][] = $submenu[$gsm_parent_slug][$gsm_pos];
 										}
@@ -2401,6 +2425,7 @@ class WP_Admin_UI_Customize
 				$menu = array();
 			}
 		}
+		
 	}
 
 	// FilterStart
@@ -2481,10 +2506,9 @@ class WP_Admin_UI_Customize
 
 	// FilterStart
 	function admin_bar_resizing() {
-		global $wp_version;
 		$GetData = $this->get_flit_data( 'admin_general' );
 
-		if ( version_compare( $wp_version , '3.8' , '>=' ) && empty( $GetData["resize_admin_bar"] ) ) {
+		if ( empty( $GetData["resize_admin_bar"] ) ) {
 			wp_enqueue_style( $this->PageSlug . '-adminbar-resize' , $this->Url . 'css/adminbar/resize.css', array() , $this->Ver );
 			if( is_admin() ) {
 				wp_enqueue_script( $this->PageSlug . '-adminbar-resize' , $this->Url . 'js/adminbar/resize.js', array( 'jquery' ) , $this->Ver );

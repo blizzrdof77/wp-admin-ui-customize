@@ -1,19 +1,12 @@
 <?php
 
-global $wp_version;
-
 $Data = $this->get_data( 'user_role' );
 $UserRoles = $this->get_user_role();
 
 // include js css
 $ReadedJs = array( 'jquery' , 'jquery-ui-sortable' );
 wp_enqueue_script( $this->PageSlug ,  $this->Url . $this->PluginSlug . '.js', $ReadedJs , $this->Ver );
-
-if ( version_compare( $wp_version , '3.8' , '<' ) ) {
-	wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '-3.7.css', array() , $this->Ver );
-} else {
-	wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', array() , $this->Ver );
-}
+wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', array() , $this->Ver );
 
 ?>
 <div class="wrap">
@@ -62,7 +55,7 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 					<div class="stuffbox" id="aboutbox">
 						<h3><span class="hndle"><?php _e( 'About plugin' , $this->ltd ); ?></span></h3>
 						<div class="inside">
-							<p><?php _e( 'Version checked' , $this->ltd ); ?> : 3.6.1 - 4.0</p>
+							<p><?php _e( 'Version checked' , $this->ltd ); ?> : 3.8 - 4.1</p>
 							<ul>
 								<li><a href="<?php echo $this->Site; ?>?utm_source=use_plugin&utm_medium=side&utm_content=<?php echo $this->ltd; ?>&utm_campaign=<?php echo str_replace( '.' , '_' , $this->Ver ); ?>" target="_blank"><?php _e( 'Plugin\'s site' , $this->ltd ); ?></a></li>
 								<li><a href="<?php echo $this->AuthorUrl; ?>?utm_source=use_plugin&utm_medium=side&utm_content=<?php echo $this->ltd; ?>&utm_campaign=<?php echo str_replace( '.' , '_' , $this->Ver ); ?>" target="_blank"><?php _e( 'Developer\'s site' , $this->ltd ); ?></a></li>
@@ -128,7 +121,7 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 						</p>
 				
 						<p class="submit reset">
-							<span class="description"><?php _e( sprintf( 'Reset the %s?' , 'User Roles Settings' ) , $this->ltd ); ?></span>
+							<span class="description"><?php printf( __( 'Reset the %s?' , $this->ltd ) , __( 'User Roles Settings' , $this->ltd ) ); ?></span>
 							<input type="submit" class="button-secondary" name="reset" value="<?php _e( 'Reset settings' , $this->ltd ); ?>" />
 						</p>
 		

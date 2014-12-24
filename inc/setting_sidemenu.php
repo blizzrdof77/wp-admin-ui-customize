@@ -1,8 +1,5 @@
 <?php
 
-global $menu, $submenu;
-global $wp_version;
-
 $this->get_user_role();
 $Data = $this->get_data( 'sidemenu' );
 
@@ -10,12 +7,7 @@ $Data = $this->get_data( 'sidemenu' );
 $ReadedJs = array( 'jquery' , 'jquery-ui-draggable' , 'jquery-ui-droppable' , 'jquery-ui-sortable' , 'thickbox' );
 wp_enqueue_script( $this->PageSlug ,  $this->Url . $this->PluginSlug . '.js', $ReadedJs , $this->Ver );
 wp_enqueue_style('thickbox');
-
-if ( version_compare( $wp_version , '3.8' , '<' ) ) {
-	wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '-3.7.css', array() , $this->Ver );
-} else {
-	wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', array() , $this->Ver );
-}
+wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', array() , $this->Ver );
 
 ?>
 
@@ -125,7 +117,7 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 		
 								<?php if( empty( $Data ) ) : ?>
 		
-									<?php foreach($menu as $mm) : ?>
+									<?php foreach($this->Menu as $mm) : ?>
 		
 										<?php if( isset( $mm[2] ) && strstr( $mm[2] , 'separator' ) ) : ?>
 		
@@ -147,7 +139,7 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 											<?php endif; ?>
 		
 											<?php $mwsm = array(); ?>
-											<?php foreach($submenu as $parent_slug => $sub) : ?>
+											<?php foreach($this->SubMenu as $parent_slug => $sub) : ?>
 												<?php foreach($sub as $sm) : ?>
 													<?php if( $mm[2] == $parent_slug ) : ?>
 														<?php $submenu_title = $sm[0]; ?>
@@ -172,7 +164,7 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 									<?php if( !empty( $Data["main"] ) ) : ?>
 		
 										<?php foreach($Data["main"] as $mm) : ?>
-		
+										
 											<?php if( !empty( $mm["title"] ) ) : ?>
 		
 												<?php $mwsm = array(); ?>
@@ -180,7 +172,7 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 													<?php foreach($Data["sub"] as $sm) : ?>
 				
 														<?php if( $mm["slug"] == $sm["parent_slug"] ) : ?>
-														
+
 															<?php $cap = ""; ?>
 															<?php if( !empty( $submenu[$mm["slug"]] ) ) : ?>
 																<?php foreach( $submenu[$mm["slug"]] as $k => $tmp_sm ) : ?>
@@ -199,7 +191,7 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 												<?php endif; ?>
 												
 												<?php $cap = ""; ?>
-												<?php foreach( $menu as $tmp_m ) : ?>
+												<?php foreach( $this->Menu as $tmp_m ) : ?>
 													<?php if( $tmp_m[2] == $mm["slug"] ) : ?>
 														<?php $cap = $tmp_m[1]; ?>
 														<?php break; ?>
@@ -237,7 +229,7 @@ if ( version_compare( $wp_version , '3.8' , '<' ) ) {
 		</p>
 
 		<p class="submit reset">
-			<span class="description"><?php _e( sprintf( 'Reset the %s?' , __( 'Side Menu' , $this->ltd ) . __( 'Settings' ) ) , $this->ltd ); ?></span>
+			<span class="description"><?php printf( __( 'Reset the %s?' , $this->ltd ) , __( 'Side Menu' , $this->ltd ) . __( 'Settings' ) ); ?></span>
 			<input type="submit" class="button-secondary" name="reset" value="<?php _e( 'Reset settings' , $this->ltd ); ?>" />
 		</p>
 
@@ -319,6 +311,7 @@ jQuery(document).ready(function($) {
 				if ( ui.item.hasClass('deleting') ) {
 					ui.item.remove();
 				}
+				ui.item.attr( 'style', '' ).removeClass('ui-draggable');
 				wauc_widget_each();
 			},
 		});

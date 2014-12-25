@@ -1,6 +1,6 @@
 === WP Admin UI Customize ===
 Contributors: gqevu6bsiz
-Donate link: http://gqevu6bsiz.chicappa.jp/please-donation/?utm_source=wporg&utm_medium=donate&utm_content=wauc&utm_campaign=1_5_2_3
+Donate link: http://gqevu6bsiz.chicappa.jp/please-donation/?utm_source=wporg&utm_medium=donate&utm_content=wauc&utm_campaign=1_5_2_4
 Tags: admin, post, posts, page, option, sitemenu, menu, custom, customize, dashboard, admin_bar, multisite, network, metabox
 Requires at least: 3.8
 Tested up to: 4.1
@@ -49,6 +49,9 @@ These to Customization is possible.
 11. Plugin Capabilities Settings
 
 == Changelog ==
+
+= 1.5.2.4 =
+* Fixed: How to get the current user role.
 
 = 1.5.2.3 =
 * Fixed: Priority change of loading meta boxes on Dashboard.

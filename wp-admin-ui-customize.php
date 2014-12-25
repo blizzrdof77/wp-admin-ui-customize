@@ -2,10 +2,10 @@
 /*
 Plugin Name: WP Admin UI Customize
 Description: An excellent plugin to customize the management screens.
-Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_5_2_3
-Version: 1.5.2.3
+Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_5_2_4
+Version: 1.5.2.4
 Author: gqevu6bsiz
-Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_5_2_3
+Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_5_2_4
 Text Domain: wauc
 Domain Path: /languages
 */
@@ -58,7 +58,7 @@ class WP_Admin_UI_Customize
 
 
 	function __construct() {
-		$this->Ver = '1.5.2.3';
+		$this->Ver = '1.5.2.4';
 		$this->Name = 'WP Admin UI Customize';
 		$this->Dir = plugin_dir_path( __FILE__ );
 		$this->Url = plugin_dir_url( __FILE__ );
@@ -1149,7 +1149,8 @@ class WP_Admin_UI_Customize
 		$UserRole = '';
 		$User = wp_get_current_user();
 		if( !empty( $User->roles ) ) {
-			foreach( $User->roles as $role ) {
+			$current_roles = $User->roles;
+			foreach( $current_roles as $role ) {
 				$UserRole = $role;
 				break;
 			}
@@ -1159,7 +1160,8 @@ class WP_Admin_UI_Customize
 			switch_to_blog( $current_site->blog_id );
 			$User = wp_get_current_user();
 			if( !empty( $User->roles ) ) {
-				foreach( $User->roles as $role ) {
+				$current_roles = $User->roles;
+				foreach( $current_roles as $role ) {
 					$UserRole = $role;
 					break;
 				}

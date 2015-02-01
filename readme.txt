@@ -50,6 +50,9 @@ These to Customization is possible.
 
 == Changelog ==
 
+= 1.5.2.5 =
+* Fixed: Can be menu to parent menu of side menu settings.
+
 = 1.5.2.4 =
 * Fixed: How to get the current user role.
 

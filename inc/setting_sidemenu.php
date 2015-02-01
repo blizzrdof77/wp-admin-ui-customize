@@ -61,7 +61,7 @@ wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', arr
 
 										<?php if( empty( $this->SubMenu[$mm[2]] ) ) : ?>
 
-											<?php $menu_widget = array( 'title' => $menu_title , 'slug' => $sm[2] , 'parent_slug' => '' , 'new' => true , 'cap' => $mm[1] , 'submenu' => '' ); ?>
+											<?php $menu_widget = array( 'title' => $menu_title , 'slug' => $mm[2] , 'parent_slug' => '' , 'new' => true , 'cap' => $mm[1] , 'submenu' => '' ); ?>
 											<?php $this->sidebar_menu_widget( $menu_widget ); ?>
 
 										<?php else: ?>

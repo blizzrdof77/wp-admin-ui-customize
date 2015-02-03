@@ -2,10 +2,10 @@
 /*
 Plugin Name: WP Admin UI Customize
 Description: An excellent plugin to customize the management screens.
-Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_5_2_5
-Version: 1.5.2.5
+Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_5_2_6
+Version: 1.5.2.6
 Author: gqevu6bsiz
-Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_5_2_5
+Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_5_2_6
 Text Domain: wauc
 Domain Path: /languages
 */
@@ -58,7 +58,7 @@ class WP_Admin_UI_Customize
 
 
 	function __construct() {
-		$this->Ver = '1.5.2.5';
+		$this->Ver = '1.5.2.6';
 		$this->Name = 'WP Admin UI Customize';
 		$this->Dir = plugin_dir_path( __FILE__ );
 		$this->Url = plugin_dir_url( __FILE__ );
@@ -468,7 +468,7 @@ class WP_Admin_UI_Customize
 	function admin_bar_filter_load() {
 		$Default_bar = $this->Admin_bar;
 		
-		$Delete_bar = array( "top-secondary" , "my-sites-super-admin" );
+		$Delete_bar = array( "top-secondary" );
 		foreach( $Delete_bar as $del_name ) {
 			if( !empty( $Default_bar[$del_name] ) ) {
 				unset( $Default_bar[$del_name] );
@@ -477,7 +477,7 @@ class WP_Admin_UI_Customize
 
 		// front
 		$Default_bar["dashboard"] = (object) array( "id" => "dashboard" , "title" => __( 'Dashboard' ) , "parent" => "site-name" , "href" => admin_url() , "group" => false );
-		
+
 		foreach( $Default_bar as $node_id => $node ) {
 			if( $node->id == 'my-account' ) {
 				$Default_bar[$node_id]->title = sprintf( __( 'Howdy, %1$s' ) , '[user_name]' ) . '[user_avatar]';
@@ -610,7 +610,7 @@ class WP_Admin_UI_Customize
 			}
 
 		}
-	
+		
 		return $Filter_bar;
 	}
 
@@ -618,9 +618,9 @@ class WP_Admin_UI_Customize
 	function post_meta_boxes_dashboard_load() {
 		global $current_screen;
 
-		$UserRole = $this->current_user_role_group();
-
-		if( !empty( $current_screen ) && $current_screen->id == 'dashboard' && $UserRole == 'administrator' ) {
+		$capability = $this->get_plugin_cap();
+		
+		if( !empty( $current_screen ) && $current_screen->id == 'dashboard' && current_user_can( $capability ) ) {
 			global $wp_meta_boxes;
 
 			$post_type = 'dashboard';
@@ -653,9 +653,9 @@ class WP_Admin_UI_Customize
 	function post_meta_boxes_load() {
 		global $current_screen;
 
-		$UserRole = $this->current_user_role_group();
+		$capability = $this->get_plugin_cap();
 		
-		if( !empty( $current_screen ) && $current_screen->base == 'post' && $UserRole == 'administrator' ) {
+		if( !empty( $current_screen ) && $current_screen->base == 'post' && current_user_can( $capability ) ) {
 			global $wp_meta_boxes;
 			
 			$GetData = $this->get_data( "regist_metabox" );
@@ -885,16 +885,20 @@ class WP_Admin_UI_Customize
 								<input type="hidden" class="regular-text titletext" value="" name="data[][title]" />
 							<?php else : ?>
 								<?php _e( 'Title' ); ?> : 
+								
+								<?php $readonly_field = false; ?>
 								<?php if( in_array( $menu_widget["id"] , $no_submenu ) ) : ?>
-									<input type="text" class="regular-text titletext" value="<?php echo esc_html( $menu_widget["title"] ); ?>" name="data[][title]" readonly="readonly" /><br />
+									<?php $readonly_field = true; ?>
 								<?php elseif( !empty( $activated_plugin ) ) : ?>
 									<?php foreach( $activated_plugin as $plugin_slug => $v ) : ?>
 										<?php if( !empty( $other_plugin["admin_bar"][$plugin_slug] ) && array_key_exists( $menu_widget["id"] , $other_plugin["admin_bar"][$plugin_slug] ) ) : ?>
-											<input type="text" class="regular-text titletext" value="<?php echo esc_html( $menu_widget["title"] ); ?>" name="data[][title]" readonly="readonly" /><br />
-										<?php else : ?>
-											<input type="text" class="regular-text titletext" value="<?php echo esc_html( $menu_widget["title"] ); ?>" name="data[][title]" />
+											<?php $readonly_field = true; ?>
+											<?php break; ?>
 										<?php endif; ?>
 									<?php endforeach; ?>
+								<?php endif; ?>
+								<?php if( $readonly_field ) : ?>
+									<input type="text" class="regular-text titletext" value="<?php echo esc_html( $menu_widget["title"] ); ?>" name="data[][title]" readonly="readonly" /><br />
 								<?php else : ?>
 									<input type="text" class="regular-text titletext" value="<?php echo esc_html( $menu_widget["title"] ); ?>" name="data[][title]" />
 								<?php endif; ?>
@@ -1111,7 +1115,7 @@ class WP_Admin_UI_Customize
 					$str = str_replace( '[site_name]' , esc_attr( $current_site->site_name ) , $str );
 				}
 				if( strstr( $str , '[site_url]') ) {
-					$str = str_replace( '[site_url]' , $this->Schema . esc_attr( $current_site->domain ) , $str );
+					$str = str_replace( '[site_url]' , $this->Schema . esc_attr( $current_site->domain . $current_site->path ) , $str );
 				}
 			}
 			
@@ -1178,7 +1182,7 @@ class WP_Admin_UI_Customize
 	
 	// SetList
 	function get_plugin_cap() {
-		$capability = 'administrator';
+		$capability = 'manage_options';
 		
 		$Data = $this->get_data( 'plugin_cap' );
 		if( !empty( $Data["edit_cap"] ) ) {
@@ -1647,7 +1651,7 @@ class WP_Admin_UI_Customize
 					add_filter( 'admin_footer_text' , array( $this , 'admin_footer_text' ) );
 					add_action( 'admin_print_styles' , array( $this , 'load_css' ) );
 					add_action( 'wp_dashboard_setup' , array( $this , 'wp_dashboard_setup' ) , 10001 );
-					add_action( 'admin_head' , array( $this , 'manage_metabox' ) , 11 );
+					add_action( 'admin_head' , array( $this , 'manage_metabox' ) , 10001 );
 					add_filter( 'admin_head', array( $this , 'sidemenu' ) );
 					add_filter( 'get_sample_permalink_html' , array( $this , 'add_edit_post_change_permalink' ) );
 					add_filter( 'edit_form_after_title' , array( $this , 'allow_comments' ) );
@@ -2495,12 +2499,26 @@ class WP_Admin_UI_Customize
 		$GetData = $this->get_flit_data( 'appearance_menus' );
 		if( !empty( $GetData["UPFN"] ) ) {
 			unset( $GetData["UPFN"] );
+			
+			$nav_menus = wp_get_nav_menus();
 
 			if( !empty( $GetData["add_new_menu"] ) ) {
-				echo '<style>.wrap > .manage-menus, .locations-row-links .locations-add-menu-link { display: none; }</style>';
+
+				if( count( $nav_menus ) > 1 ) {
+
+					echo '<style>.wrap > .manage-menus .add-new-menu-action, .locations-row-links .locations-add-menu-link { display: none; }</style>';
+					
+				} else {
+					
+					echo '<style>.wrap > .manage-menus, .locations-row-links .locations-add-menu-link { display: none; }</style>';
+
+				}
 			}
+
 			if( !empty( $GetData["delete_menu"] ) ) {
+
 				echo '<style>.major-publishing-actions .delete-action { display: none; }</style>';
+
 			}
 
 		}

@@ -2,6 +2,7 @@
 
 $Data = $this->get_data( 'plugin_cap' );
 $UserRoles = $this->get_user_role();
+$current_user_role_group = $this->current_user_role_group();
 
 // include js css
 $ReadedJs = array( 'jquery' , 'jquery-ui-sortable' );
@@ -43,26 +44,21 @@ wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', arr
 											</th>
 											<td>
 												<select name="data[<?php echo $field; ?>]">
-													<?php $SelectedCap = false; ?>
+													<?php $SelectedCap = 'manage_options'; ?>
 													<?php if( !empty( $Data[$field] ) ) : ?>
 														<?php $SelectedCap = strip_tags( $Data[$field] ); ?>
 													<?php endif; ?>
-													<?php if( !empty( $SelectedCap ) ) : ?>
-														<option value=""><?php echo _x( 'Administrator' , 'User role' ); ?></option>
-													<?php else: ?>
-														<option value="" selected="selected"><?php echo _x( 'Administrator' , 'User role' ); ?></option>
-													<?php endif; ?>
-													<?php if( !empty( $UserRoles["administrator"]["capabilities"] ) ) : ?>
-														<?php foreach( $UserRoles["administrator"]["capabilities"] as $cap => $v ) : ?>
+													<?php if( !empty( $UserRoles[$current_user_role_group]["capabilities"] ) ) : ?>
+														<?php foreach( $UserRoles[$current_user_role_group]["capabilities"] as $cap => $v ) : ?>
 															<?php $Selected = false; ?>
 															<?php if( !empty( $SelectedCap ) ) : ?>
-																<?php if( $Data[$field] == $cap ) $Selected = 'selected="selected"'; ?>
+																<?php if( $SelectedCap == $cap ) $Selected = 'selected="selected"'; ?>
 															<?php endif; ?>
 															<option value="<?php echo $cap; ?>" <?php echo $Selected; ?>><?php echo $cap; ?></option>
 														<?php endforeach; ?>
 													<?php endif; ?>
 												</select>
-												<p class="description"><?php _e( 'Default' ); ?>: <?php echo _x( 'Administrator' , 'User role' ); ?></p>
+												<p class="description"><?php _e( 'Default' ); ?>: manage_options</p>
 											</td>
 										</tr>
 									</tbody>

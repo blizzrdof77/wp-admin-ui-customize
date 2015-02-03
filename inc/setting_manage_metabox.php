@@ -3,6 +3,7 @@
 $Data = $this->get_data( 'manage_metabox' );
 $Metaboxes = $this->get_data( "regist_metabox" );
 $CustomPosts = $this->get_custom_posts();
+$activated_plugin = $this->ActivatedPlugin;
 
 // include js css
 $ReadedJs = array( 'jquery' , 'jquery-ui-sortable' );
@@ -68,8 +69,10 @@ wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', arr
 											<tr>
 												<th>&nbsp;</th>
 												<td style="width: 15%;">
-													<input type="checkbox" name="" class="check_all" />
-													<strong><?php _e( 'Select All' ); ?></strong>
+													<label>
+														<input type="checkbox" name="" class="check_all" />
+														<strong><?php _e( 'Select All' ); ?></strong>
+													</label>
 												</td>
 												<td style="width: 15%;">
 													<strong><?php _e( 'Default Open' , $this->ltd ); ?></strong>
@@ -165,13 +168,15 @@ wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', arr
 											<tr>
 												<th>&nbsp;</th>
 												<td style="width: 15%;">
-													<input type="checkbox" name="" class="check_all" />
-													<strong><?php _e( 'Select All' ); ?></strong>
+													<label>
+														<input type="checkbox" name="" class="check_all" />
+														<strong><?php _e( 'Select All' ); ?></strong>
+													</label>
 												</td>
 												<td style="width: 15%;">
 													<strong><?php _e( 'Default Open' , $this->ltd ); ?></strong>
 												</td>
-												<td><strong><?php _e( 'Change metabox title to' ); ?></strong></td>
+												<td><strong><?php _e( 'Change metabox title to' , $this->ltd ); ?></strong></td>
 											</tr>
 										</thead>
 										<tbody>
@@ -240,8 +245,16 @@ wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', arr
 							<div class="inside">
 			
 								<?php if( empty( $Metaboxes["metaboxes"][$post_name] ) ) : ?>
-			
-									<?php $post = get_posts( array( 'post_type' => $post_name , 'order' => 'DESC' , 'orderby' => 'post_date' , 'numberposts' => 1 ) ); ?>
+
+									<?php $args = array( 'post_type' => $post_name , 'order' => 'DESC' , 'orderby' => 'post_date' , 'numberposts' => 1 ); ?>
+
+									<?php if( !empty( $activated_plugin['woocommerce'] ) && $post_name == 'shop_order' ) : ?>
+
+										<?php $args['post_status'] = array( 'wc-processing', 'wc-completed' ); ?>
+
+									<?php endif; ?>
+									
+									<?php $post = get_posts(  $args ); ?>
 									
 									<?php if( !empty( $post ) ) : ?>
 
@@ -270,13 +283,15 @@ wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', arr
 											<tr>
 												<th>&nbsp;</th>
 												<td style="width: 15%;">
-													<input type="checkbox" name="" class="check_all" />
-													<strong><?php _e( 'Select All' ); ?></strong>
+													<label>
+														<input type="checkbox" name="" class="check_all"  />
+														<strong><?php _e( 'Select All' ); ?></strong>
+													</label>
 												</td>
 												<td style="width: 15%;">
 													<strong><?php _e( 'Default Open' , $this->ltd ); ?></strong>
 												</td>
-												<td><strong><?php _e( 'Change metabox title to' ); ?></strong></td>
+												<td><strong><?php _e( 'Change metabox title to' , $this->ltd ); ?></strong></td>
 											</tr>
 										</thead>
 										<tbody>
@@ -354,11 +369,19 @@ wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', arr
 jQuery(document).ready(function($) {
 
 	var $Form = $("#wauc_setting_manage_metabox");
-	$("input.check_all", $Form).click(function() {
+	$(".check_all", $Form).click(function() {
 		var Checked = $(this).prop("checked");
-		$Table = $(this).parent().parent().parent().parent();
-		$Table.children("tbody").children("tr").each(function() {
-			$(this).find("input[type=checkbox]").prop("checked" , Checked);
+		$Table = $(this).parent().parent().parent().parent().parent();
+		$Table.children("tbody").children("tr").each(function( index, el ) {
+			var $Tr = $(el);
+			$Tr.find("input[type=checkbox]").prop("checked" , Checked);
+			if( Checked ) {
+				$Tr.find('.select_toggle').prop('disabled', true);
+				$Tr.find('.metabox_rename').prop('disabled', true).addClass('disabled');
+			} else {
+				$Tr.find('.select_toggle').prop('disabled', false);
+				$Tr.find('.metabox_rename').prop('disabled', false).removeClass('disabled');
+			}
 		});
 	});
 	

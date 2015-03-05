@@ -2,10 +2,10 @@
 /*
 Plugin Name: WP Admin UI Customize
 Description: An excellent plugin to customize the management screens.
-Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_5_2_6
-Version: 1.5.2.6
+Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_5_2_7
+Version: 1.5.2.7-beta
 Author: gqevu6bsiz
-Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_5_2_6
+Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_5_2_7
 Text Domain: wauc
 Domain Path: /languages
 */
@@ -58,7 +58,7 @@ class WP_Admin_UI_Customize
 
 
 	function __construct() {
-		$this->Ver = '1.5.2.6';
+		$this->Ver = '1.5.2.7 beta';
 		$this->Name = 'WP Admin UI Customize';
 		$this->Dir = plugin_dir_path( __FILE__ );
 		$this->Url = plugin_dir_url( __FILE__ );
@@ -199,6 +199,10 @@ class WP_Admin_UI_Customize
 			$this->ActivatedPlugin["post_edit_toolbar"] = true;
 		}
 
+		if( is_plugin_active( 'polylang/polylang.php' ) ) {
+			$this->ActivatedPlugin["polylang"] = true;
+		}
+		
 	}
 
 
@@ -449,6 +453,15 @@ class WP_Admin_UI_Customize
 					}
 				}
 			}
+
+			if( !empty( $this->ActivatedPlugin["polylang"] ) ) {
+				$plugin_slug = 'languages';
+				foreach( $this->Admin_bar as $node_id => $node ) {
+					if( strstr( $node_id , $plugin_slug ) or strstr( $node->id , $plugin_slug ) ) {
+						$this->OtherPluginMenu["admin_bar"]['polylang'][$node_id] = 1;
+					}
+				}
+			}
 			
 			if( !empty( $this->OtherPluginMenu["admin_bar"] ) ) {
 				for($i = 0; $i < 4; $i++) {
@@ -461,6 +474,7 @@ class WP_Admin_UI_Customize
 					}
 				}
 			}
+
 		}
 	}
 
@@ -604,6 +618,15 @@ class WP_Admin_UI_Customize
 				$plugin_slug = 'page_item_';
 				foreach( $Filter_bar['left']['sub'] as $node_id => $node ) {
 					if( strstr( $node_id , $plugin_slug ) ) {
+						unset( $Filter_bar['left']['sub'][$node_id] );
+					}
+				}
+			}
+
+			if( !empty( $this->ActivatedPlugin["polylang"] ) ) {
+				$plugin_slug = 'languages';
+				foreach( $Filter_bar['left']['sub'] as $node_id => $node ) {
+					if( strstr( $node->parent , $plugin_slug ) ) {
 						unset( $Filter_bar['left']['sub'][$node_id] );
 					}
 				}
@@ -825,7 +848,7 @@ class WP_Admin_UI_Customize
 		if ( is_object( $menu_widget ) ) $menu_widget = (array) $menu_widget;
 		if( !isset( $menu_widget["group"] ) ) $menu_widget["group"] = 0;
 		if( !isset( $menu_widget["meta"]["class"] ) ) $menu_widget["meta"]["class"] = "";
-		$no_submenu = array( 'search' , 'bp-notifications' , 'menu-toggle' , 'post_list' , 'page_list' );
+		$no_submenu = array( 'search' , 'bp-notifications' , 'languages' , 'menu-toggle' , 'post_list' , 'page_list' );
 		$activated_plugin = $this->ActivatedPlugin;
 		$other_plugin = $this->OtherPluginMenu;
 
@@ -1988,6 +2011,24 @@ class WP_Admin_UI_Customize
 										}
 									}
 								} elseif( $node["id"] == 'post_list' ) {
+									foreach($All_Nodes as $default_node_id => $default_node) {
+										if( $default_node->parent == $node["id"] ) {
+											$subnode_type = '';
+											if( $node_type == 'main' ) {
+												$subnode_type = 'sub';
+											} elseif( $node_type == 'sub' ) {
+												 $subnode_type = 'sub2';
+											} elseif( $node_type == 'sub2' ) {
+												$subnode_type = 'sub3';
+											} elseif( $node_type == 'sub3' ) {
+												$subnode_type = 'sub4';
+											}
+											if( !empty( $subnode_type ) ) {
+												$SettingNodes[$Boxtype][$subnode_type][] = (array) $default_node;
+											}
+										}
+									}
+								} elseif( $node["id"] == 'languages' ) {
 									foreach($All_Nodes as $default_node_id => $default_node) {
 										if( $default_node->parent == $node["id"] ) {
 											$subnode_type = '';

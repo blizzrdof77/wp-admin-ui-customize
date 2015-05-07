@@ -3,8 +3,8 @@ Contributors: gqevu6bsiz
 Donate link: http://gqevu6bsiz.chicappa.jp/please-donation/?utm_source=wporg&utm_medium=donate&utm_content=wauc&utm_campaign=1_5_2_7
 Tags: admin, post, posts, page, option, sitemenu, menu, custom, customize, dashboard, admin_bar, multisite, network, metabox
 Requires at least: 3.8
-Tested up to: 4.1.1
-Stable tag: 1.5.2.6
+Tested up to: 4.2.2
+Stable tag: 1.5.2.7
 License: GPL2
 
 Customize the management screen UI.
@@ -51,6 +51,7 @@ These to Customization is possible.
 == Changelog ==
 
 = 1.5.2.7 =
+* Fixed: URL escape to add_query_arg / remove_query_arg.
 * Supported: Compatible to [Polylang](https://wordpress.org/plugins/polylang/).
 
 = 1.5.2.6 =

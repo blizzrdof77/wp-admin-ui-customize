@@ -219,6 +219,7 @@ body.wp-admin-ui-customize_page_wp_admin_ui_customize_admin_bar .columns-1 .post
 #wauc_setting_manage_metabox .inside .loading .spinner,
 #wauc_setting_dashboard .inside .loading .spinner {
 	float: left;
+    visibility: visible;
 }
 
 

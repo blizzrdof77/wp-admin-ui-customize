@@ -21,7 +21,7 @@ wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', arr
 
 	<h3 id="wauc-apply-user-roles"><?php echo $this->get_apply_roles(); ?></h3>
 
-	<form id="wauc_setting_manage_metabox" class="wauc_form" method="post" action="<?php echo remove_query_arg( 'wauc_msg' , add_query_arg( array( 'page' => $this->PageSlug ) ) ); ?>">
+	<form id="wauc_setting_manage_metabox" class="wauc_form" method="post" action="<?php echo esc_url( remove_query_arg( 'wauc_msg' , add_query_arg( array( 'page' => $this->PageSlug ) ) ) ); ?>">
 		<input type="hidden" name="<?php echo $this->UPFN; ?>" value="Y" />
 		<?php wp_nonce_field( $this->Nonces["value"] , $this->Nonces["field"] ); ?>
 		<input type="hidden" name="record_field" value="manage_metabox" />
@@ -38,31 +38,7 @@ wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', arr
 							<h3 class="hndle"><span><?php _e( 'Posts' ); ?></span></h3>
 							<div class="inside">
 			
-								<?php if( empty( $Metaboxes["metaboxes"]["post"] ) ) : ?>
-			
-									<?php $post = get_posts( array( 'post_type' => 'post' , 'order' => 'DESC' , 'orderby' => 'post_date' , 'numberposts' => 1 ) ); ?>
-									
-									<?php if( !empty( $post ) ) : ?>
-
-										<?php $load_link = self_admin_url( 'post.php?post=' . $post[0]->ID . '&action=edit' ); ?>
-
-									<?php else: ?>
-
-										<?php $load_link = self_admin_url( 'post-new.php' ); ?>
-
-									<?php endif; ?>
-
-									<p>
-										<a href="<?php echo $load_link; ?>" class="button button-primary column_load">
-											<?php echo sprintf( __( 'Metaboxes loading for %s', $this->ltd ) , __( 'Posts' ) ); ?>
-										</a>
-									</p>
-									<p class="loading">
-										<span class="spinner"></span>
-										<?php _e( 'Loading&hellip;' ); ?>
-									</p>
-								
-								<?php else: ?>
+								<?php if( !empty( $Metaboxes["metaboxes"]["post"] ) ) : ?>
 								
 									<table class="form-table">
 										<thead>
@@ -126,9 +102,30 @@ wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', arr
 											<?php endforeach; ?>
 										</tbody>
 									</table>
-			
-			
+
 								<?php endif; ?>
+			
+									<?php $post = get_posts( array( 'post_type' => 'post' , 'order' => 'DESC' , 'orderby' => 'post_date' , 'numberposts' => 1 ) ); ?>
+									
+									<?php if( !empty( $post ) ) : ?>
+
+										<?php $load_link = self_admin_url( 'post.php?post=' . $post[0]->ID . '&action=edit' ); ?>
+
+									<?php else: ?>
+
+										<?php $load_link = self_admin_url( 'post-new.php' ); ?>
+
+									<?php endif; ?>
+
+									<p>
+										<a href="<?php echo $load_link; ?>" class="button button-primary column_load">
+											<?php echo sprintf( __( 'Metaboxes loading for %s', $this->ltd ) , __( 'Posts' ) ); ?>
+										</a>
+									</p>
+									<p class="loading">
+										<span class="spinner"></span>
+										<?php _e( 'Loading&hellip;' ); ?>
+									</p>
 							</div>
 						</div>
 
@@ -137,31 +134,7 @@ wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', arr
 							<h3 class="hndle"><span><?php _e( 'Pages' ); ?></span></h3>
 							<div class="inside">
 			
-								<?php if( empty( $Metaboxes["metaboxes"]["page"] ) ) : ?>
-			
-									<?php $post = get_posts( array( 'post_type' => 'page' , 'order' => 'DESC' , 'orderby' => 'post_date' , 'numberposts' => 1 ) ); ?>
-									
-									<?php if( !empty( $post ) ) : ?>
-
-										<?php $load_link = self_admin_url( 'post.php?post=' . $post[0]->ID . '&action=edit' ); ?>
-
-									<?php else: ?>
-
-										<?php $load_link = self_admin_url( 'post-new.php?post_type=page' ); ?>
-
-									<?php endif; ?>
-
-									<p>
-										<a href="<?php echo $load_link; ?>" class="button button-primary column_load">
-											<?php echo sprintf( __( 'Metaboxes loading for %s', $this->ltd ) , __( 'Pages' ) ); ?>
-										</a>
-									</p>
-									<p class="loading">
-										<span class="spinner"></span>
-										<?php _e( 'Loading&hellip;' ); ?>
-									</p>
-								
-								<?php else: ?>
+								<?php if( !empty( $Metaboxes["metaboxes"]["page"] ) ) : ?>
 			
 									<table class="form-table">
 										<thead>
@@ -227,6 +200,27 @@ wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', arr
 			
 								<?php endif; ?>
 			
+									<?php $post = get_posts( array( 'post_type' => 'page' , 'order' => 'DESC' , 'orderby' => 'post_date' , 'numberposts' => 1 ) ); ?>
+									
+									<?php if( !empty( $post ) ) : ?>
+
+										<?php $load_link = self_admin_url( 'post.php?post=' . $post[0]->ID . '&action=edit' ); ?>
+
+									<?php else: ?>
+
+										<?php $load_link = self_admin_url( 'post-new.php?post_type=page' ); ?>
+
+									<?php endif; ?>
+
+									<p>
+										<a href="<?php echo $load_link; ?>" class="button button-primary column_load">
+											<?php echo sprintf( __( 'Metaboxes loading for %s', $this->ltd ) , __( 'Pages' ) ); ?>
+										</a>
+									</p>
+									<p class="loading">
+										<span class="spinner"></span>
+										<?php _e( 'Loading&hellip;' ); ?>
+									</p>
 							</div>
 						</div>
 
@@ -244,40 +238,8 @@ wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', arr
 							<h3 class="hndle"><span><?php echo strip_tags( $cpt->labels->name ); ?></span></h3>
 							<div class="inside">
 			
-								<?php if( empty( $Metaboxes["metaboxes"][$post_name] ) ) : ?>
+								<?php if( !empty( $Metaboxes["metaboxes"][$post_name] ) ) : ?>
 
-									<?php $args = array( 'post_type' => $post_name , 'order' => 'DESC' , 'orderby' => 'post_date' , 'numberposts' => 1 ); ?>
-
-									<?php if( !empty( $activated_plugin['woocommerce'] ) && $post_name == 'shop_order' ) : ?>
-
-										<?php $args['post_status'] = array( 'wc-processing', 'wc-completed' ); ?>
-
-									<?php endif; ?>
-									
-									<?php $post = get_posts(  $args ); ?>
-									
-									<?php if( !empty( $post ) ) : ?>
-
-										<?php $load_link = self_admin_url( 'post.php?post=' . $post[0]->ID . '&action=edit' ); ?>
-
-									<?php else: ?>
-
-										<?php $load_link = self_admin_url( 'post-new.php?post_type=' . $post_name ); ?>
-
-									<?php endif; ?>
-
-									<p>
-										<a href="<?php echo $load_link; ?>" class="button button-primary column_load">
-											<?php echo sprintf( __( 'Metaboxes loading for %s', $this->ltd ) , $cpt->label ); ?>
-										</a>
-									</p>
-									<p class="loading">
-										<span class="spinner"></span>
-										<?php _e( 'Loading&hellip;' ); ?>
-									</p>
-
-								<?php else: ?>
-			
 									<table class="form-table">
 										<thead>
 											<tr>
@@ -337,6 +299,35 @@ wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', arr
 			
 								<?php endif; ?>
 			
+									<?php $args = array( 'post_type' => $post_name , 'order' => 'DESC' , 'orderby' => 'post_date' , 'numberposts' => 1 ); ?>
+
+									<?php if( !empty( $activated_plugin['woocommerce'] ) && $post_name == 'shop_order' ) : ?>
+
+										<?php $args['post_status'] = array( 'wc-processing', 'wc-completed' ); ?>
+
+									<?php endif; ?>
+									
+									<?php $post = get_posts(  $args ); ?>
+									
+									<?php if( !empty( $post ) ) : ?>
+
+										<?php $load_link = self_admin_url( 'post.php?post=' . $post[0]->ID . '&action=edit' ); ?>
+
+									<?php else: ?>
+
+										<?php $load_link = self_admin_url( 'post-new.php?post_type=' . $post_name ); ?>
+
+									<?php endif; ?>
+
+									<p>
+										<a href="<?php echo $load_link; ?>" class="button button-primary column_load">
+											<?php echo sprintf( __( 'Metaboxes loading for %s', $this->ltd ) , $cpt->label ); ?>
+										</a>
+									</p>
+									<p class="loading">
+										<span class="spinner"></span>
+										<?php _e( 'Loading&hellip;' ); ?>
+									</p>
 							</div>
 						</div>
 						<?php endforeach; ?>
@@ -417,7 +408,6 @@ jQuery(document).ready(function($) {
 				$(ev.target).parent().parent().find('.spinner').show();
 			}
 		}).done(function( data ) {
-			location.reload();
 		});
 		
 		return false;

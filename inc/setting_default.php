@@ -55,7 +55,7 @@ wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', arr
 					<div class="stuffbox" id="aboutbox">
 						<h3><span class="hndle"><?php _e( 'About plugin' , $this->ltd ); ?></span></h3>
 						<div class="inside">
-							<p><?php _e( 'Version checked' , $this->ltd ); ?> : 3.8 - 4.1.1</p>
+							<p><?php _e( 'Version checked' , $this->ltd ); ?> : 3.8 - 4.2.2</p>
 							<ul>
 								<li><a href="<?php echo $this->Site; ?>?utm_source=use_plugin&utm_medium=side&utm_content=<?php echo $this->ltd; ?>&utm_campaign=<?php echo str_replace( '.' , '_' , $this->Ver ); ?>" target="_blank"><?php _e( 'Plugin\'s site' , $this->ltd ); ?></a></li>
 								<li><a href="<?php echo $this->AuthorUrl; ?>?utm_source=use_plugin&utm_medium=side&utm_content=<?php echo $this->ltd; ?>&utm_campaign=<?php echo str_replace( '.' , '_' , $this->Ver ); ?>" target="_blank"><?php _e( 'Developer\'s site' , $this->ltd ); ?></a></li>
@@ -94,7 +94,7 @@ wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', arr
 
 				<div id="user_role">
 
-					<form id="wauc_setting_default" class="wauc_form" method="post" action="<?php echo remove_query_arg( 'wauc_msg' , add_query_arg( array( 'page' => $this->PageSlug ) ) ); ?>">
+					<form id="wauc_setting_default" class="wauc_form" method="post" action="<?php echo esc_url( remove_query_arg( 'wauc_msg' , add_query_arg( array( 'page' => $this->PageSlug ) ) ) ); ?>">
 						<input type="hidden" name="<?php echo $this->UPFN; ?>" value="Y" />
 						<?php wp_nonce_field( $this->Nonces["value"] , $this->Nonces["field"] ); ?>
 						<input type="hidden" name="record_field" value="user_role" />
@@ -129,7 +129,7 @@ wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', arr
 						
 					</form>
 
-					<form id="donation_form" class="wauc_form" method="post" action="<?php echo remove_query_arg( 'wauc_msg' , add_query_arg( array( 'page' => $this->PageSlug ) ) ); ?>">
+					<form id="donation_form" class="wauc_form" method="post" action="<?php echo esc_url( remove_query_arg( 'wauc_msg' , add_query_arg( array( 'page' => $this->PageSlug ) ) ) ); ?>">
 						<h3><?php _e( 'If you have already donated to.' , $this->ltd ); ?></h3>
 						<p><?php _e( 'Please enter the \'Donation Delete Key\' that was provided on the Line Break First and End download page.' , $this->ltd ); ?></p>
 						<input type="hidden" name="<?php echo $this->UPFN; ?>" value="Y" />

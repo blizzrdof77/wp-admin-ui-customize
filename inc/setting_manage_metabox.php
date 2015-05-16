@@ -400,17 +400,27 @@ jQuery(document).ready(function($) {
 
 	$('.wauc_form .column_load').on('click', function( ev ) {
 		var load_url = $(ev.target).prop('href');
-				
+		
+		load_url += '&<?php echo $this->ltd; ?>_metabox_load=1';
+		
 		$.ajax({
 			url: load_url,
 			beforeSend: function( xhr ) {
 				$(ev.target).parent().parent().find('.loading').show();
 				$(ev.target).parent().parent().find('.spinner').show();
 			}
-		}).done(function( data ) {
+		}).done(function( post_html_el ) {
+			
+			if( post_html_el.indexOf( "adminpage = 'post-php'" ) != -1 || post_html_el.indexOf( "adminpage = 'post-new-php'" ) != -1 ) {
+
+				location.reload();
+
+			}
+			
 		});
-		
+
 		return false;
+		
 	}).disableSelection();
 
 });

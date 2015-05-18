@@ -256,7 +256,6 @@ jQuery(document).ready(function($) {
 			handle: '> .widget-top > .widget-title',
 			cursor: 'move',
 			distance: 2,
-			containment: 'document',
 			change: function(e,ui) {
 				var $height = ui.helper.height();
 				$('#wauc_setting_admin_bar_menu #poststuff #post-body .postbox-container .postbox .inside .widget-placeholder').height($height);

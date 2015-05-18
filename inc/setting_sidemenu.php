@@ -302,7 +302,6 @@ jQuery(document).ready(function($) {
 			handle: '> .widget-top > .widget-title',
 			cursor: 'move',
 			distance: 2,
-			containment: 'document',
 			change: function(e,ui) {
 				var $height = ui.helper.height();
 				$('#wauc_setting_sidemenu #poststuff #post-body #postbox-container-2 #setting_menus .postbox .inside .widget-placeholder').height($height);

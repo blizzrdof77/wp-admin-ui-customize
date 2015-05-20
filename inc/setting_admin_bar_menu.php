@@ -191,6 +191,15 @@ body.wp-admin-ui-customize_page_wp_admin_ui_customize_admin_bar .postbox .inside
 body.wp-admin-ui-customize_page_wp_admin_ui_customize_admin_bar .postbox .inside .widget.comments .widget-top .widget-title h4 .ab-icon,
 body.wp-admin-ui-customize_page_wp_admin_ui_customize_admin_bar .postbox .inside .widget.new-content .widget-top .widget-title h4 .ab-icon
 { background-image: url(../wp-includes/images/admin-bar-sprite.png); }
+.widget h4 {
+    padding: 10px 15px;
+}
+.widget-top a.widget-action:after {
+    padding: 9px 12px;
+}
+.widget.ui-draggable-dragging {
+    min-width: 170px;
+}
 </style>
 
 <script type="text/javascript">
@@ -209,7 +218,6 @@ jQuery(document).ready(function($) {
 		distance: 2,
 		helper: 'clone',
 		zIndex: 5,
-		containment: 'document',
 		stop: function(e,ui) {
 			wauc_widget_each();
 			wauc_menu_sortable();

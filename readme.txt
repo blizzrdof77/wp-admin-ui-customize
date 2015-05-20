@@ -4,7 +4,7 @@ Donate link: http://gqevu6bsiz.chicappa.jp/please-donation/?utm_source=wporg&utm
 Tags: admin, post, posts, page, option, sitemenu, menu, custom, customize, dashboard, admin_bar, multisite, network, metabox
 Requires at least: 3.8
 Tested up to: 4.2.2
-Stable tag: 1.5.2.8
+Stable tag: 1.5.2.8.1
 License: GPL2
 
 Customize the management screen UI.
@@ -52,6 +52,7 @@ These to Customization is possible.
 
 = 1.5.2.8.1 =
 * Fixed: Do not working of Sortable of jQuery 1.11.4.
+* Fixed: Tweak CSS.
 * Add Language: Add language for Russian.
 
 = 1.5.2.8 =

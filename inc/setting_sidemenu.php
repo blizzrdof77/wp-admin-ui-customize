@@ -239,6 +239,14 @@ wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', arr
 
 <?php require_once( dirname( __FILE__ ) . '/list_variables.php' ); ?>
 
+<style>
+.widget h4 {
+    padding: 12px 15px;
+}
+.widget-top a.widget-action:after {
+    padding: 7px 12px;
+}
+</style>
 <script type="text/javascript">
 
 var wauc_widget_each, wauc_menu_sortable;
@@ -255,7 +263,6 @@ jQuery(document).ready(function($) {
 		distance: 2,
 		helper: 'clone',
 		zIndex: 5,
-		containment: 'document',
 		stop: function(e,ui) {
 			wauc_widget_each();
 			wauc_menu_sortable();

@@ -2,10 +2,10 @@
 /*
 Plugin Name: WP Admin UI Customize
 Description: An excellent plugin to customize the management screens.
-Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_5_2_8_1
-Version: 1.5.2.8.1
+Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_5_2_9
+Version: 1.5.2.9 beta
 Author: gqevu6bsiz
-Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_5_2_8_1
+Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_5_2_9
 Text Domain: wauc
 Domain Path: /languages
 */
@@ -58,7 +58,7 @@ class WP_Admin_UI_Customize
 
 
 	function __construct() {
-		$this->Ver = '1.5.2.8.1';
+		$this->Ver = '1.5.2.9 beta';
 		$this->Name = 'WP Admin UI Customize';
 		$this->Dir = plugin_dir_path( __FILE__ );
 		$this->Url = plugin_dir_url( __FILE__ );
@@ -1684,7 +1684,7 @@ class WP_Admin_UI_Customize
 					add_action( 'admin_print_styles' , array( $this , 'load_css' ) );
 					add_action( 'wp_dashboard_setup' , array( $this , 'wp_dashboard_setup' ) , 10001 );
 					add_action( 'admin_head' , array( $this , 'manage_metabox' ) , 10001 );
-					add_filter( 'admin_head', array( $this , 'sidemenu' ) );
+					add_filter( 'adminmenu', array( $this , 'sidemenu' ) , 10001 );
 					add_filter( 'get_sample_permalink_html' , array( $this , 'add_edit_post_change_permalink' ) );
 					add_filter( 'edit_form_after_title' , array( $this , 'allow_comments' ) );
 					add_action( 'admin_print_styles-nav-menus.php', array( $this , 'nav_menus' ) );

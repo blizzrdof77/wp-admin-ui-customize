@@ -13,7 +13,7 @@ wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', arr
 ?>
 
 <div class="wrap">
-	<div class="icon32" id="icon-tools"></div>
+
 	<?php echo $this->Msg; ?>
 	<h2><?php _e( 'Admin Bar Menu' , $this->ltd ); ?></h2>
 	<p><?php _e( 'Please change the menu by drag and drop.' , $this->ltd ); ?></p>
@@ -242,17 +242,18 @@ jQuery(document).ready(function($) {
 		}
 	});
 
-
-	var $AvailableAction = $('#poststuff #post-body .postbox-container .postbox .inside .widget .widget-top .widget-title-action a[href=#available]', $Form);
-	$AvailableAction.live( 'click', function() {
-		$(this).parent().parent().parent().children(".widget-inside").slideToggle();
+	$(document).on('click', '.widget .widget-top .widget-title-action a[href=#available]', function() {
+		
+		$(this).parent().parent().parent().children('.widget-inside').slideToggle();
 		return false;
+
 	});
 
-	var $RemoveAction = $('#poststuff #post-body .postbox-container .postbox .inside .widget .widget-inside .widget-control-actions .alignleft a[href=#remove]', $Form);
-	$RemoveAction.live( 'click', function() {
-		$(this).parent().parent().parent().parent().slideUp("normal", function() { $(this).remove(); } );
+	$(document).on('click', '.widget .widget-inside .widget-control-actions .alignleft a[href=#remove]', function() {
+		
+		$(this).parent().parent().parent().parent().slideUp('normal', function() { $(this).remove(); } );
 		return false;
+
 	});
 
 	wauc_menu_sortable = function menu_sortable() {

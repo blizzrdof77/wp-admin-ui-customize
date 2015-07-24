@@ -242,9 +242,9 @@ jQuery(document).ready(function($) {
 		}
 	});
 
-	$(document).on('click', '.widget .widget-top .widget-title-action a[href=#available]', function() {
+	$(document).on('click', '.widget .widget-top .widget-title-action', function() {
 		
-		$(this).parent().parent().parent().children('.widget-inside').slideToggle();
+		$(this).parent().parent().children('.widget-inside').slideToggle( 300 );
 		return false;
 
 	});

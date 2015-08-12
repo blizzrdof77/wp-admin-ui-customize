@@ -174,9 +174,10 @@ wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', arr
 														<?php if( $mm["slug"] == $sm["parent_slug"] ) : ?>
 
 															<?php $cap = ""; ?>
-															<?php if( !empty( $submenu[$mm["slug"]] ) ) : ?>
-																<?php foreach( $submenu[$mm["slug"]] as $k => $tmp_sm ) : ?>
-																	<?php if( $tmp_sm[2] == $sm["slug"] ) : ?>
+															<?php if( !empty( $this->SubMenu[$mm["slug"]] ) ) : ?>
+																<?php foreach( $this->SubMenu[$mm["slug"]] as $k => $tmp_sm ) : ?>
+																	<?php $sm_slug = htmlspecialchars_decode( $sm["slug"] ); ?>
+																	<?php if( $tmp_sm[2] == $sm_slug ) : ?>
 																		<?php $cap = $tmp_sm[1]; ?>
 																		<?php break; ?>
 																	<?php endif; ?>

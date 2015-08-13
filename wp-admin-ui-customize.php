@@ -2322,6 +2322,12 @@ class WP_Admin_UI_Customize
 		global $menu;
 		global $submenu;
 		
+		if( empty( $menu ) ) {
+			
+			return false;
+			
+		}
+
 		$GetData = $this->get_flit_data( 'sidemenu' );
 		$General = $this->get_flit_data( 'admin_general' );
 		
@@ -2408,8 +2414,9 @@ class WP_Admin_UI_Customize
 						$SetMain_menu[] = $separator_menu;
 					} else {
 						$gm_search = false;
+						$mm_slug = htmlspecialchars_decode( $mm["slug"] );
 						foreach($menu as $gm_pos => $gm) {
-							if($mm["slug"] == $gm[2]) {
+							if($mm_slug == $gm[2]) {
 								$menu[$gm_pos][0] = $this->val_replace( $mm["title"] );
 								$SetMain_menu[] = $menu[$gm_pos];
 								$gm_search = true;
@@ -2419,8 +2426,7 @@ class WP_Admin_UI_Customize
 						if( empty( $gm_search ) ) {
 							foreach($submenu as $gsm_parent_slug => $v) {
 								foreach($v as $gsm_pos => $gsm) {
-									if($mm["slug"] == $gsm[2]) {
-										
+									if($mm_slug == $gsm[2]) {
 										foreach($menu as $tmp_m) {
 											if( $tmp_m[2] == $gsm_parent_slug) {
 												$submenu[$gsm_parent_slug][$gsm_pos][4] = $tmp_m[4];

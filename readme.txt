@@ -51,7 +51,7 @@ These to Customization is possible.
 == Changelog ==
 
 = 1.5.6 =
-* Fixed: Check the sidemenu slug with htmlspecialchars_decode().
+* Fixed: Check the sidemenus slug with htmlspecialchars_decode().
 
 = 1.5.5 =
 * Fixed: Menu items can not expand with Google Chrome.

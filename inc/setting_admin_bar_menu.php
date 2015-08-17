@@ -194,6 +194,9 @@ body.wp-admin-ui-customize_page_wp_admin_ui_customize_admin_bar .postbox .inside
 .widget h4 {
     padding: 10px 15px;
 }
+.widget-top a.widget-action {
+    cursor: pointer;
+}
 .widget-top a.widget-action:after {
     padding: 9px 12px;
 }

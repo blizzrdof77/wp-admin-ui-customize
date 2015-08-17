@@ -248,6 +248,9 @@ wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', arr
 .widget h4 {
     padding: 12px 15px;
 }
+.widget-top a.widget-action {
+    cursor: pointer;
+}
 .widget-top a.widget-action:after {
     padding: 7px 12px;
 }

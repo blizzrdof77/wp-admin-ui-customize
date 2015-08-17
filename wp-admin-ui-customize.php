@@ -2,10 +2,10 @@
 /*
 Plugin Name: WP Admin UI Customize
 Description: An excellent plugin to customize the management screens.
-Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_5_6_beta
-Version: 1.5.6 beta
+Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_5_6
+Version: 1.5.6
 Author: gqevu6bsiz
-Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_5_6_beta
+Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_5_6
 Text Domain: wauc
 Domain Path: /languages
 */
@@ -58,7 +58,7 @@ class WP_Admin_UI_Customize
 
 
 	function __construct() {
-		$this->Ver = '1.5.6 beta';
+		$this->Ver = '1.5.6';
 		$this->Name = 'WP Admin UI Customize';
 		$this->Dir = plugin_dir_path( __FILE__ );
 		$this->Url = plugin_dir_url( __FILE__ );
@@ -1827,6 +1827,12 @@ class WP_Admin_UI_Customize
 	function admin_bar_menu() {
 		global $wp_admin_bar;
 		
+		if( empty( $wp_admin_bar ) ) {
+			
+			return false;
+			
+		}
+		
 		$GetData = $this->get_flit_data( 'admin_bar_menu' );
 		
 		if( !empty( $GetData["UPFN"] ) ) {
@@ -2221,6 +2227,12 @@ class WP_Admin_UI_Customize
 	// FilterStart
 	function wp_dashboard_setup() {
 		global $wp_meta_boxes;
+		
+		if( empty( $wp_meta_boxes ) ) {
+			
+			return false;
+			
+		}
 
 		$Data = $this->get_flit_data( 'dashboard' );
 
@@ -2257,6 +2269,12 @@ class WP_Admin_UI_Customize
 	// FilterStart
 	function manage_metabox() {
 		global $wp_meta_boxes, $current_screen, $post_type;
+		
+		if( empty( $current_screen ) or empty( $wp_meta_boxes ) or empty( $post_type ) ) {
+			
+			return false;
+			
+		}
 
 		$GetData = $this->get_flit_data( 'manage_metabox' );
 		
@@ -2414,9 +2432,9 @@ class WP_Admin_UI_Customize
 						$SetMain_menu[] = $separator_menu;
 					} else {
 						$gm_search = false;
-						$mm_slug = htmlspecialchars_decode( $mm["slug"] );
+						$mm_slug_decode = htmlspecialchars_decode( $mm["slug"] );
 						foreach($menu as $gm_pos => $gm) {
-							if($mm_slug == $gm[2]) {
+							if($mm["slug"] == $gm[2] or $mm_slug_decode == $gm[2]) {
 								$menu[$gm_pos][0] = $this->val_replace( $mm["title"] );
 								$SetMain_menu[] = $menu[$gm_pos];
 								$gm_search = true;
@@ -2426,7 +2444,7 @@ class WP_Admin_UI_Customize
 						if( empty( $gm_search ) ) {
 							foreach($submenu as $gsm_parent_slug => $v) {
 								foreach($v as $gsm_pos => $gsm) {
-									if($mm_slug == $gsm[2]) {
+									if($mm["slug"] == $gsm[2] or $mm_slug_decode == $gsm[2]) {
 										foreach($menu as $tmp_m) {
 											if( $tmp_m[2] == $gsm_parent_slug) {
 												$submenu[$gsm_parent_slug][$gsm_pos][4] = $tmp_m[4];
@@ -2445,12 +2463,13 @@ class WP_Admin_UI_Customize
 
 				if( !empty( $GetData["sub"] ) ) {
 					foreach($GetData["sub"] as $sm_pos => $sm) {
+						$sm_slug_decode = htmlspecialchars_decode( $sm["slug"] );
 						if($sm["slug"] == 'separator') {
 							$SetMain_submenu[$sm["parent_slug"]][] = $separator_menu;
 						} else {
 							$gm_search = false;
 							foreach($menu as $gm_pos => $gm) {
-								if($sm["slug"] == $gm[2]) {
+								if($sm["slug"] == $gm[2] or $sm_slug_decode == $gm[2]) {
 									$menu[$gm_pos][0] = $this->val_replace( $sm["title"] );
 									$SetMain_submenu[$sm["parent_slug"]][] = $menu[$gm_pos];
 									$gm_search = true;
@@ -2460,8 +2479,7 @@ class WP_Admin_UI_Customize
 							if( empty( $gm_search ) ) {
 								foreach($submenu as $gsm_parent_slug => $v) {
 									foreach($v as $gsm_pos => $gsm) {
-										$sm_slug = htmlspecialchars_decode( $sm["slug"] );
-										if($sm_slug == $gsm[2]) {
+										if($sm["slug"] == $gsm[2] or $sm_slug_decode == $gsm[2]) {
 											$submenu[$gsm_parent_slug][$gsm_pos][0] = $this->val_replace( $sm["title"] );
 											$SetMain_submenu[$sm["parent_slug"]][] = $submenu[$gsm_parent_slug][$gsm_pos];
 										}

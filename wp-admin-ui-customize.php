@@ -1652,7 +1652,7 @@ class WP_Admin_UI_Customize
 		if( !is_admin() ) {
 			add_action( 'wp_loaded' , array( $this , 'remove_action_front' ) ) ;
 			add_filter( 'login_headerurl' , array( $this , 'login_headerurl' ) );
-			add_filter( 'login_headertitle' , array( $this , 'login_headertitle' ) );
+			add_filter( 'login_headertext' , array( $this , 'login_headertext' ) );
 			add_action( 'login_head' , array( $this , 'login_head' ) );
 			add_action( 'login_footer' , array( $this , 'login_footer' ) );
 
@@ -1766,15 +1766,15 @@ class WP_Admin_UI_Customize
 	}
 
 	// FilterStart
-	function login_headertitle() {
+	function login_headertext() {
 		$GetData = get_option( $this->Record["loginscreen"] );
 
 		$title = __( 'Powered by WordPress' );
 		if( !empty( $GetData["UPFN"] ) ) {
 			unset( $GetData["UPFN"] );
 
-			if( !empty( $GetData["login_headertitle"] ) ) {
-				$title = strip_tags( $GetData["login_headertitle"] );
+			if( !empty( $GetData["login_headertext"] ) ) {
+				$title = strip_tags( $GetData["login_headertext"] );
 				$title = $this->val_replace( $title );
 			}
 		}

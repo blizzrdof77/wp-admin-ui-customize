@@ -65,7 +65,7 @@ wp_enqueue_style( $this->PageSlug , $this->Url . $this->PluginSlug . '.css', arr
 												
 											</td>
 										</tr>
-										<?php $field = 'login_headertitle'; ?>
+										<?php $field = 'login_headertext'; ?>
 										<tr>
 											<th>
 												<label><?php _e( 'Logo Title' , $this->ltd ); ?></label>

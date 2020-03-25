@@ -2,10 +2,10 @@
 /*
 Plugin Name: WP Admin UI Customize
 Description: An excellent plugin to customize the management screens.
-Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_5_6
-Version: 1.5.6
+Plugin URI: http://wpadminuicustomize.com/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_5_13
+Version: 1.5.13
 Author: gqevu6bsiz
-Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_5_6
+Author URI: http://gqevu6bsiz.chicappa.jp/?utm_source=use_plugin&utm_medium=list&utm_content=wauc&utm_campaign=1_5_13
 Text Domain: wauc
 Domain Path: /languages
 */
